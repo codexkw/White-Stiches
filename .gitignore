@@ -1,0 +1,54 @@
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio / Rider / VS Code
+.vs/
+.vscode/
+.idea/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.sln.docstates
+
+# Test results
+[Tt]est[Rr]esult*/
+*.trx
+*.coverage
+*.coveragexml
+
+# NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Node (if tooling is added later)
+node_modules/
+
+# Publish output
+[Pp]ublish/
+publish/
+*.pubxml.user
+*.publishsettings
+PublishScripts/
+
+# Local secrets — never commit real secrets beyond appsettings placeholders
+*.pfx
+*.key
+
+# OS cruft
+Thumbs.db
+Desktop.ini
+.DS_Store

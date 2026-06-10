@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Checkout · White Stitches</title>
+<meta name="description" content="Secure checkout — pay with KNET, Apple Pay, or your card via Tap Payments." />
+<link rel="icon" type="image/svg+xml" href="assets/logo-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter+Tight:wght@300;400;500;600&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<!-- Critical inline CSS — guarantees correct layout even if external CSS fails to load -->
+<style>
+  .ws-svg-defs {
+    position: absolute !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+  }
+  body { background: #0a0a0a; margin: 0; color: #e8e2d6; font-family: "Inter Tight", system-ui, sans-serif; }
+  .co-hdr {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: #0a0a0a;
+    border-bottom: 1px solid #2a2a2a;
+    height: 116px;
+  }
+  .co-hdr__inner {
+    max-width: 1400px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 24px;
+  }
+</style>
+
+<link rel="stylesheet" href="css/design-system.css?v=2.6" />
+<link rel="stylesheet" href="css/site.css?v=2.6" />
+</head>
+<body class="co-body">
+
+<!-- ============================ MINIMAL CHECKOUT HEADER ============================ -->
+<header class="co-hdr">
+  <div class="co-hdr__inner">
+    <a href="cart.html" class="co-hdr__back" aria-label="Back to bag">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg>
+      <span>Back to bag</span>
+    </a>
+    <a href="index.html" class="co-hdr__logo" aria-label="White Stitches home">
+      <img src="assets/logo-full.png" alt="White Stitches" class="co-hdr__logo-img" />
+    </a>
+    <div class="co-hdr__secure" aria-label="Secure checkout">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V8a5 5 0 0110 0v3"/></svg>
+      <span>Secure</span>
+    </div>
+  </div>
+</header>
+
+<!-- ============================ STEP INDICATOR ============================ -->
+<div class="co-steps">
+  <div class="co-steps__inner">
+    <ol>
+      <li class="is-done"><span class="co-steps__num">1</span> Bag</li>
+      <li class="is-active"><span class="co-steps__num">2</span> Checkout</li>
+      <li><span class="co-steps__num">3</span> Confirmation</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ============================ CHECKOUT GRID ============================ -->
+<main class="co" id="checkoutMain">
+  <div class="co__inner">
+
+    <!-- ── FORM column ─────────────────────────────────────────────── -->
+    <form class="co__form" id="checkoutForm" novalidate>
+
+      <!-- Express checkout row (top) -->
+      <div class="co-section co-section--express">
+        <span class="co-express__label">Express checkout</span>
+        <div class="co-express__row">
+          <button type="button" class="express-btn express-btn--apple" aria-label="Pay with Apple Pay">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.01-2.04 1.66-3.02 1.74-3.07-.95-1.39-2.42-1.58-2.94-1.6-1.24-.13-2.43.74-3.06.74-.64 0-1.61-.72-2.66-.7-1.36.02-2.63.79-3.33 2.01-1.42 2.47-.36 6.12 1.02 8.12.68.98 1.49 2.08 2.55 2.04 1.03-.04 1.42-.66 2.66-.66 1.24 0 1.59.66 2.67.64 1.1-.02 1.8-1 2.47-1.99.78-1.14 1.1-2.24 1.12-2.3-.02-.01-2.15-.83-2.17-3.23zM15.07 5.91c.56-.69.95-1.64.84-2.59-.81.04-1.81.55-2.4 1.23-.52.6-.98 1.58-.86 2.51.91.07 1.85-.46 2.42-1.15z"/></svg>
+            <span>Apple Pay</span>
+          </button>
+          <button type="button" class="express-btn express-btn--google"><span>G Pay</span></button>
+        </div>
+        <span class="co-express__divider"><em>or fill in your details</em></span>
+      </div>
+
+      <!-- ── 1 · CONTACT ───────────────────────────────────────────── -->
+      <section class="co-section">
+        <header class="co-section__head">
+          <span class="co-section__num">1</span>
+          <h2>Contact</h2>
+          <a href="#" class="co-section__link">Already have an account? <strong>Sign in</strong></a>
+        </header>
+
+        <div class="co-section__body">
+          <div class="co-field">
+            <input type="email" id="email" required autocomplete="email" placeholder=" " />
+            <label for="email">Email</label>
+            <span class="field__hint">For order confirmation &amp; tracking</span>
+          </div>
+
+          <div class="co-field co-field--phone">
+            <span class="field__prefix" id="phonePrefix">
+              <span class="flag flag--kw" aria-hidden="true"></span>
+              <select id="phoneCountry" aria-label="Country code">
+                <option value="+965" selected>+965</option>
+                <option value="+966">+966</option>
+                <option value="+971">+971</option>
+                <option value="+973">+973</option>
+                <option value="+974">+974</option>
+                <option value="+968">+968</option>
+              </select>
+            </span>
+            <input type="tel" id="phone" required autocomplete="tel" placeholder=" " inputmode="tel" />
+            <label for="phone">Mobile</label>
+            <span class="field__hint">We&rsquo;ll WhatsApp delivery updates</span>
+          </div>
+
+          <label class="check co-check">
+            <input type="checkbox" id="marketingOptIn" />
+            <span>Send me styling notes &amp; new arrivals · 1 email a week, never more</span>
+          </label>
+        </div>
+      </section>
+
+      <!-- ── 2 · DELIVERY ──────────────────────────────────────────── -->
+      <section class="co-section">
+        <header class="co-section__head">
+          <span class="co-section__num">2</span>
+          <h2>Delivery address</h2>
+        </header>
+
+        <div class="co-section__body">
+          <div class="co-field">
+            <select id="country" required>
+              <option value="KW" selected>Kuwait</option>
+              <option value="SA">Saudi Arabia</option>
+              <option value="AE">United Arab Emirates</option>
+              <option value="BH">Bahrain</option>
+              <option value="QA">Qatar</option>
+              <option value="OM">Oman</option>
+            </select>
+            <label for="country">Country / region</label>
+          </div>
+
+          <div class="co-field-row">
+            <div class="co-field">
+              <input type="text" id="firstName" required autocomplete="given-name" placeholder=" " />
+              <label for="firstName">First name</label>
+            </div>
+            <div class="co-field">
+              <input type="text" id="lastName" required autocomplete="family-name" placeholder=" " />
+              <label for="lastName">Last name</label>
+            </div>
+          </div>
+
+          <div class="co-field-row" id="kwAddressFields">
+            <div class="co-field">
+              <select id="governorate" required>
+                <option value="" disabled selected hidden></option>
+                <option>Al Asimah (Capital)</option>
+                <option>Hawalli</option>
+                <option>Al Farwaniyah</option>
+                <option>Mubarak Al-Kabeer</option>
+                <option>Al Ahmadi</option>
+                <option>Al Jahra</option>
+              </select>
+              <label for="governorate">Governorate</label>
+            </div>
+            <div class="co-field">
+              <input type="text" id="area" required autocomplete="address-level2" placeholder=" " />
+              <label for="area">Area</label>
+            </div>
+          </div>
+
+          <div class="co-field-row co-field-row--3">
+            <div class="co-field">
+              <input type="text" id="block" required placeholder=" " />
+              <label for="block">Block</label>
+            </div>
+            <div class="co-field">
+              <input type="text" id="street" required placeholder=" " />
+              <label for="street">Street</label>
+            </div>
+            <div class="co-field">
+              <input type="text" id="building" required placeholder=" " />
+              <label for="building">Building / house</label>
+            </div>
+          </div>
+
+          <div class="co-field-row">
+            <div class="co-field">
+              <input type="text" id="floor" placeholder=" " />
+              <label for="floor">Floor</label>
+              <span class="field__hint">Optional</span>
+            </div>
+            <div class="co-field">
+              <input type="text" id="apartment" placeholder=" " />
+              <label for="apartment">Apartment</label>
+              <span class="field__hint">Optional</span>
+            </div>
+          </div>
+
+          <div class="co-field">
+            <textarea id="directions" rows="2" placeholder=" "></textarea>
+            <label for="directions">Additional directions</label>
+            <span class="field__hint">e.g. landmark, gate code · optional</span>
+          </div>
+
+          <label class="check co-check">
+            <input type="checkbox" id="saveAddress" />
+            <span>Save this address for next time</span>
+          </label>
+
+          <label class="check co-check">
+            <input type="checkbox" id="billingSame" checked />
+            <span>Billing address is the same</span>
+          </label>
+        </div>
+      </section>
+
+      <!-- ── 3 · DELIVERY METHOD ───────────────────────────────────── -->
+      <section class="co-section">
+        <header class="co-section__head">
+          <span class="co-section__num">3</span>
+          <h2>Delivery method</h2>
+        </header>
+
+        <div class="co-section__body">
+          <label class="radio-card">
+            <input type="radio" name="shipping" value="standard" checked />
+            <span class="radio-card__inner">
+              <span class="radio-card__title">Complimentary standard</span>
+              <span class="radio-card__meta">2–3 working days · free over 50 KWD</span>
+              <span class="radio-card__price">Free</span>
+            </span>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="shipping" value="express" />
+            <span class="radio-card__inner">
+              <span class="radio-card__title">Express next-day</span>
+              <span class="radio-card__meta">Next working day · order by 2 PM</span>
+              <span class="radio-card__price">3.500 KWD</span>
+            </span>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="shipping" value="same-day" />
+            <span class="radio-card__inner">
+              <span class="radio-card__title">Same-day · Kuwait City</span>
+              <span class="radio-card__meta">Delivered today · order by 12 PM</span>
+              <span class="radio-card__price">5.000 KWD</span>
+            </span>
+          </label>
+          <label class="radio-card">
+            <input type="radio" name="shipping" value="pickup" />
+            <span class="radio-card__inner">
+              <span class="radio-card__title">Atelier pickup</span>
+              <span class="radio-card__meta">The Avenues, Phase 4 · ready in 2 hours</span>
+              <span class="radio-card__price">Free</span>
+            </span>
+          </label>
+        </div>
+      </section>
+
+      <!-- ── 4 · PAYMENT ───────────────────────────────────────────── -->
+      <section class="co-section">
+        <header class="co-section__head">
+          <span class="co-section__num">4</span>
+          <h2>Payment</h2>
+          <span class="co-section__secure">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V8a5 5 0 0110 0v3"/></svg>
+            All payments processed by Tap Payments
+          </span>
+        </header>
+
+        <div class="co-section__body">
+
+          <!-- KNET (default for Kuwait) -->
+          <label class="pay-card">
+            <input type="radio" name="payment" value="knet" checked />
+            <span class="pay-card__inner">
+              <span class="pay-card__head">
+                <span class="pay-card__brand pay-card__brand--knet">KNET</span>
+                <span class="pay-card__title">KNET</span>
+                <span class="pay-card__meta">Direct debit · most-used in Kuwait</span>
+              </span>
+              <span class="pay-card__body">
+                You will be redirected to KNET&rsquo;s secure page to authenticate this payment.
+              </span>
+            </span>
+          </label>
+
+          <!-- Card -->
+          <label class="pay-card">
+            <input type="radio" name="payment" value="card" />
+            <span class="pay-card__inner">
+              <span class="pay-card__head">
+                <span class="pay-card__brands">
+                  <span class="pay-card__brand pay-card__brand--visa">VISA</span>
+                  <span class="pay-card__brand pay-card__brand--mc"><i></i><i></i></span>
+                  <span class="pay-card__brand pay-card__brand--amex">AMEX</span>
+                </span>
+                <span class="pay-card__title">Credit / debit card</span>
+                <span class="pay-card__meta">Visa · Mastercard · AmEx · with 3D Secure</span>
+              </span>
+              <span class="pay-card__body pay-card__body--card">
+                <div class="co-field">
+                  <input type="text" id="cardNumber" placeholder=" " inputmode="numeric" autocomplete="cc-number" />
+                  <label for="cardNumber">Card number</label>
+                  <span class="field__icons" aria-hidden="true">
+                    <span class="pay-card__brand pay-card__brand--visa">VISA</span>
+                    <span class="pay-card__brand pay-card__brand--mc"><i></i><i></i></span>
+                  </span>
+                </div>
+                <div class="co-field-row">
+                  <div class="co-field">
+                    <input type="text" id="cardExp" placeholder=" " inputmode="numeric" autocomplete="cc-exp" maxlength="5" />
+                    <label for="cardExp">MM / YY</label>
+                  </div>
+                  <div class="co-field">
+                    <input type="text" id="cardCvc" placeholder=" " inputmode="numeric" autocomplete="cc-csc" maxlength="4" />
+                    <label for="cardCvc">CVC</label>
+                  </div>
+                </div>
+                <div class="co-field">
+                  <input type="text" id="cardName" placeholder=" " autocomplete="cc-name" />
+                  <label for="cardName">Name on card</label>
+                </div>
+                <label class="check co-check">
+                  <input type="checkbox" id="saveCard" />
+                  <span>Save card securely for next time (tokenised by Tap, never stored by us)</span>
+                </label>
+              </span>
+            </span>
+          </label>
+
+          <!-- Apple Pay -->
+          <label class="pay-card">
+            <input type="radio" name="payment" value="applepay" />
+            <span class="pay-card__inner">
+              <span class="pay-card__head">
+                <span class="pay-card__brand pay-card__brand--apple">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.04c-.01-2.04 1.66-3.02 1.74-3.07-.95-1.39-2.42-1.58-2.94-1.6-1.24-.13-2.43.74-3.06.74-.64 0-1.61-.72-2.66-.7-1.36.02-2.63.79-3.33 2.01-1.42 2.47-.36 6.12 1.02 8.12.68.98 1.49 2.08 2.55 2.04 1.03-.04 1.42-.66 2.66-.66 1.24 0 1.59.66 2.67.64 1.1-.02 1.8-1 2.47-1.99.78-1.14 1.1-2.24 1.12-2.3-.02-.01-2.15-.83-2.17-3.23zM15.07 5.91c.56-.69.95-1.64.84-2.59-.81.04-1.81.55-2.4 1.23-.52.6-.98 1.58-.86 2.51.91.07 1.85-.46 2.42-1.15z"/></svg>
+                </span>
+                <span class="pay-card__title">Apple Pay</span>
+                <span class="pay-card__meta">Confirm with Face ID or Touch ID</span>
+              </span>
+            </span>
+          </label>
+
+          <!-- BNPL · Tabby -->
+          <label class="pay-card">
+            <input type="radio" name="payment" value="tabby" />
+            <span class="pay-card__inner">
+              <span class="pay-card__head">
+                <span class="pay-card__brand pay-card__brand--tabby">tabby</span>
+                <span class="pay-card__title">Pay in 4 with Tabby</span>
+                <span class="pay-card__meta">4 interest-free payments · 4 × <strong>46.625 KWD</strong></span>
+              </span>
+            </span>
+          </label>
+
+          <!-- BNPL · Tamara -->
+          <label class="pay-card">
+            <input type="radio" name="payment" value="tamara" />
+            <span class="pay-card__inner">
+              <span class="pay-card__head">
+                <span class="pay-card__brand pay-card__brand--tamara">tamara</span>
+                <span class="pay-card__title">Split in 3 with Tamara</span>
+                <span class="pay-card__meta">3 interest-free payments · 3 × <strong>62.166 KWD</strong></span>
+              </span>
+            </span>
+          </label>
+
+          <!-- COD -->
+          <label class="pay-card">
+            <input type="radio" name="payment" value="cod" />
+            <span class="pay-card__inner">
+              <span class="pay-card__head">
+                <span class="pay-card__brand pay-card__brand--cod">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="6" width="18" height="13" rx="1"/><path d="M3 10h18"/><path d="M7 15h3"/></svg>
+                </span>
+                <span class="pay-card__title">Cash on delivery</span>
+                <span class="pay-card__meta">Pay the courier in KWD on arrival · + 1.500 KWD fee</span>
+              </span>
+            </span>
+          </label>
+
+        </div>
+      </section>
+
+      <!-- ── Terms + Place order -->
+      <section class="co-section co-section--final">
+        <label class="check co-check co-check--required">
+          <input type="checkbox" id="termsAccept" required />
+          <span>
+            I&rsquo;ve read and agree to the <a href="#" class="link-inline">Terms of Sale</a>, <a href="#" class="link-inline">Privacy Policy</a>, and <a href="#" class="link-inline">Returns Policy</a>.
+          </span>
+        </label>
+
+        <button type="submit" class="btn btn--primary co-place" id="placeOrderBtn">
+          <span>Place order · <strong id="coPlaceTotal">186.500 KWD</strong></span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+
+        <p class="co-disclaimer">
+          By placing this order you authorise White Stitches via Tap Payments to charge the amount above. Your card details are tokenised; we never store them.
+        </p>
+      </section>
+
+    </form>
+
+    <!-- ── SUMMARY column ─────────────────────────────────────────── -->
+    <aside class="co__summary" aria-label="Order summary">
+
+      <!-- Mobile-only collapsible header -->
+      <button type="button" class="co-summary-toggle" id="coSummaryToggle" aria-expanded="false" aria-controls="coSummaryBody">
+        <span class="co-summary-toggle__left">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h13v9H3zM16 10h3l2 3v3h-5zM7 19a2 2 0 100-4 2 2 0 000 4zM18 19a2 2 0 100-4 2 2 0 000 4z"/></svg>
+          <span>Show order summary</span>
+          <svg class="co-summary-toggle__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+        </span>
+        <strong>186.500 KWD</strong>
+      </button>
+
+      <div class="co-summary" id="coSummaryBody">
+        <h2 class="co-summary__title">Order Summary</h2>
+
+        <ul class="co-items">
+          <li>
+            <a href="product.html" class="co-item__media">
+              <img src="assets/products/product-1.jpg" alt="Mira Draped Midi" />
+              <span class="co-item__qty">1</span>
+            </a>
+            <div class="co-item__body">
+              <h3 class="co-item__title">Mira Draped Midi</h3>
+              <p class="co-item__meta">Oat · S</p>
+            </div>
+            <span class="co-item__price">42.500 KWD</span>
+          </li>
+          <li>
+            <a href="product.html" class="co-item__media">
+              <img src="assets/products/product-2.jpg" alt="Atelier Tailored Blazer" />
+              <span class="co-item__qty">1</span>
+            </a>
+            <div class="co-item__body">
+              <h3 class="co-item__title">Atelier Tailored Blazer</h3>
+              <p class="co-item__meta">Stone · M</p>
+            </div>
+            <span class="co-item__price">68.000 KWD</span>
+          </li>
+          <li>
+            <a href="product.html" class="co-item__media">
+              <img src="assets/products/product-3.jpg" alt="Lina Silk Slip Dress" />
+              <span class="co-item__qty">1</span>
+            </a>
+            <div class="co-item__body">
+              <h3 class="co-item__title">Lina Silk Slip Dress</h3>
+              <p class="co-item__meta">Champagne · S</p>
+            </div>
+            <span class="co-item__price">76.000 KWD</span>
+          </li>
+        </ul>
+
+        <!-- Discount code -->
+        <form class="cart-discount" id="coDiscountForm" onsubmit="event.preventDefault(); window.coApplyDiscount && window.coApplyDiscount();">
+          <div class="cart-discount__row">
+            <input type="text" id="coDiscountInput" class="cart-discount__input" placeholder="Promo or gift code" autocomplete="off" />
+            <button type="submit" class="cart-discount__btn">Apply</button>
+          </div>
+          <div class="cart-discount__msg" id="coDiscountMsg" hidden></div>
+        </form>
+
+        <ul class="cart-totals">
+          <li>
+            <span>Subtotal</span>
+            <span class="cart-totals__val" id="coSubtotal">186.500 KWD</span>
+          </li>
+          <li class="cart-totals__discount" id="coDiscountRow" hidden>
+            <span>Promo · <em id="coDiscountCode"></em></span>
+            <span class="cart-totals__val cart-totals__val--accent" id="coDiscountAmt">−0.000 KWD</span>
+          </li>
+          <li>
+            <span>Delivery</span>
+            <span class="cart-totals__val cart-totals__val--accent" id="coShipping">Free</span>
+          </li>
+          <li>
+            <span>VAT</span>
+            <span class="cart-totals__val">Included</span>
+          </li>
+        </ul>
+
+        <div class="cart-totals__grand">
+          <span>Total</span>
+          <span id="coGrandTotal">186.500 <span class="cart-totals__currency">KWD</span></span>
+        </div>
+
+        <ul class="cart-trust">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V8a5 5 0 0110 0v3"/></svg>
+            <span>Encrypted &amp; PCI DSS Level 1</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 11-9-9"/><path d="M21 4v5h-5"/></svg>
+            <span>14-day easy returns</span>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+  </div>
+</main>
+
+<!-- ============================ MINIMAL FOOTER ============================ -->
+<footer class="co-footer">
+  <div class="co-footer__inner">
+    <span>© 2026 White Stitches Kuwait</span>
+    <nav>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="returns-policy.html">Returns</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="js/site.js?v=2.6"></script>
+</body>
+</html>

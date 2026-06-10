@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Account · White Stitches</title>
+<meta name="description" content="Your account overview — orders, addresses, wishlist." />
+
+<link rel="icon" type="image/svg+xml" href="assets/logo-mark.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter+Tight:wght@300;400;500;600&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     CRITICAL INLINE CSS — guarantees correct layout even if external CSS
+     is cached, fails to load, or is replaced by an old version. Do not
+     remove these rules — they are the safety net for the entire site.
+     ═══════════════════════════════════════════════════════════════════════ -->
+<style>
+  /* Hide the hidden SVG <symbol> defs block at the bottom of the page —
+     belt-and-braces because some browsers/configs render symbols visibly */
+  .ws-svg-defs {
+    position: absolute !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Critical header layout — guarantees the 3-column header even if
+     site.css fails to load */
+  .hdr {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: #0a0a0a;
+    border-bottom: 1px solid #2a2a2a;
+    height: 132px;
+  }
+  .hdr__inner {
+    max-width: 1400px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 24px;
+  }
+  .hdr__nav { display: flex; align-items: center; gap: 32px; }
+  .hdr__nav--right { justify-content: flex-end; }
+  .hdr__logo { display: flex; align-items: center; justify-content: center; margin: -10px 0; }
+  .hdr__logo-img { height: 150px; width: auto; display: block; }
+  body { background: #0a0a0a; margin: 0; }
+
+  /* Mobile header layout — burger left, logo center, icons right */
+  @media (max-width: 900px) {
+    .hdr { height: 92px; }
+    .hdr__nav--left { display: none; }
+    .hdr__inner { grid-template-columns: auto 1fr auto; padding: 0 16px; }
+    .hdr__logo-img { height: 108px; }
+    .hdr__burger { display: inline-flex !important; }
+  }
+</style>
+
+<link rel="stylesheet" href="css/design-system.css?v=2.6" />
+<link rel="stylesheet" href="css/site.css?v=2.6" />
+</head>
+
+
+<body>
+
+<!-- ============================ ANNOUNCEMENT BAR ============================ -->
+<div class="announce" role="region" aria-label="Promotional announcement">
+  <div class="announce__track">
+    <span>Complimentary delivery on orders over 50 KWD</span>
+    <span class="announce__dot" aria-hidden="true">◆</span>
+    <span>New Spring Edit — now in stores</span>
+    <span class="announce__dot" aria-hidden="true">◆</span>
+    <span>Pay with KNET, Apple Pay & Tabby</span>
+    <span class="announce__dot" aria-hidden="true">◆</span>
+    <span>Shipping across the GCC</span>
+    <span class="announce__dot" aria-hidden="true">◆</span>
+    <span>Complimentary delivery on orders over 50 KWD</span>
+    <span class="announce__dot" aria-hidden="true">◆</span>
+    <span>New Spring Edit — now in stores</span>
+    <span class="announce__dot" aria-hidden="true">◆</span>
+    <span>Pay with KNET, Apple Pay & Tabby</span>
+    <span class="announce__dot" aria-hidden="true">◆</span>
+    <span>Shipping across the GCC</span>
+  </div>
+</div>
+
+<!-- ============================ HEADER + MEGA MENU ============================ -->
+<header class="hdr" id="hdr">
+  <div class="hdr__inner">
+
+    <button class="hdr__burger" id="hdr-burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-drawer">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="hdr__nav hdr__nav--left" aria-label="Primary">
+      <a href="collection.html" class="hdr__link" data-menu="jackets">Jackets</a>
+      <a href="collection.html" class="hdr__link" data-menu="dresses">Dresses</a>
+      <a href="collection.html" class="hdr__link" data-menu="suits">Suits</a>
+      <a href="collection.html" class="hdr__link" data-menu="tops">Tops</a>
+      <a href="collection.html" class="hdr__link hdr__link--accent">Sale</a>
+    </nav>
+
+    <a href="index.html" class="hdr__logo" aria-label="White Stitches home">
+      <img src="assets/logo-full.png" alt="White Stitches" class="hdr__logo-img" />
+    </a>
+
+    <nav class="hdr__nav hdr__nav--right" aria-label="Utility">
+      <button type="button" class="hdr__icon" id="hdrSearchBtn" aria-label="Open search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      </button>
+      <button class="hdr__lang" aria-label="Switch language">AR</button>
+      <button class="hdr__icon" aria-label="Account">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+      </button>
+      <button class="hdr__icon" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </button>
+      <button type="button" class="hdr__cart" id="hdrCartBtn" aria-label="Open cart, 3 items">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 7h14l-1.4 11.2a2 2 0 0 1-2 1.8h-7.2a2 2 0 0 1-2-1.8L5 7Z"/><path d="M9 7V5a3 3 0 1 1 6 0v2"/></svg>
+        <span class="hdr__cart-count">3</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <!-- ── MEGA MENU: WOMEN ────────────────────────────────────────────── -->
+  <div class="megamenu" data-menu-panel="women" role="region" aria-label="Women menu">
+    <div class="megamenu__inner">
+      <div class="megamenu__col">
+        <h6>Clothing</h6>
+        <a href="#">Dresses</a>
+        <a href="#">Tops & Blouses</a>
+        <a href="#">Trousers</a>
+        <a href="#">Skirts</a>
+        <a href="#">Knitwear</a>
+        <a href="#">Outerwear</a>
+        <a href="#">Abayas & Kaftans</a>
+      </div>
+      <div class="megamenu__col">
+        <h6>Occasion</h6>
+        <a href="#">Evening</a>
+        <a href="#">Workwear</a>
+        <a href="#">Resort & Vacation</a>
+        <a href="#">Ramadan & Eid</a>
+        <a href="#">Wedding Guest</a>
+        <a href="#">Everyday</a>
+      </div>
+      <div class="megamenu__col">
+        <h6>Edits</h6>
+        <a href="#">SS26 Lookbook</a>
+        <a href="#">A Study in Linen</a>
+        <a href="#">The Black Edit</a>
+        <a href="#">Best Sellers</a>
+        <a href="#">Just Landed</a>
+        <a href="#">Last Pieces</a>
+      </div>
+      <a href="#" class="megamenu__feature">
+        <img src="assets/products/product-1.jpg" alt="The Mira Collection — Spring 2026">
+        <div class="megamenu__feature-overlay">
+          <span>Featured</span>
+          <h4>The Mira Collection</h4>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── MEGA MENU: MEN ──────────────────────────────────────────────── -->
+  <div class="megamenu" data-menu-panel="men" role="region" aria-label="Men menu">
+    <div class="megamenu__inner">
+      <div class="megamenu__col">
+        <h6>Clothing</h6>
+        <a href="#">Shirts</a>
+        <a href="#">Polos & Tees</a>
+        <a href="#">Trousers</a>
+        <a href="#">Knitwear</a>
+        <a href="#">Suits & Blazers</a>
+        <a href="#">Outerwear</a>
+        <a href="#">Dishdasha</a>
+      </div>
+      <div class="megamenu__col">
+        <h6>Occasion</h6>
+        <a href="#">Tailoring</a>
+        <a href="#">Smart Casual</a>
+        <a href="#">Resort</a>
+        <a href="#">Diwaniya</a>
+        <a href="#">Workwear</a>
+        <a href="#">Weekend</a>
+      </div>
+      <div class="megamenu__col">
+        <h6>Edits</h6>
+        <a href="#">SS26 Lookbook</a>
+        <a href="#">The Linen Edit</a>
+        <a href="#">Black & Stone</a>
+        <a href="#">Best Sellers</a>
+        <a href="#">Just Landed</a>
+      </div>
+      <a href="#" class="megamenu__feature">
+        <img src="assets/products/product-2.jpg" alt="The Tailoring Edit">
+        <div class="megamenu__feature-overlay">
+          <span>Featured</span>
+          <h4>The Tailoring Edit</h4>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── MEGA MENU: ACCESSORIES ──────────────────────────────────────── -->
+  <div class="megamenu" data-menu-panel="accessories" role="region" aria-label="Accessories menu">
+    <div class="megamenu__inner">
+      <div class="megamenu__col">
+        <h6>Bags</h6>
+        <a href="#">Tote Bags</a>
+        <a href="#">Shoulder Bags</a>
+        <a href="#">Crossbody</a>
+        <a href="#">Clutches</a>
+        <a href="#">Backpacks</a>
+        <a href="#">Travel</a>
+      </div>
+      <div class="megamenu__col">
+        <h6>Jewellery</h6>
+        <a href="#">Necklaces</a>
+        <a href="#">Earrings</a>
+        <a href="#">Bracelets</a>
+        <a href="#">Rings</a>
+        <a href="#">Sets</a>
+      </div>
+      <div class="megamenu__col">
+        <h6>Other</h6>
+        <a href="#">Scarves & Shawls</a>
+        <a href="#">Belts</a>
+        <a href="#">Sunglasses</a>
+        <a href="#">Hair Accessories</a>
+        <a href="#">Gift Cards</a>
+      </div>
+      <a href="#" class="megamenu__feature">
+        <img src="assets/products/product-3.jpg" alt="Heritage Silk Scarves">
+        <div class="megamenu__feature-overlay">
+          <span>New In</span>
+          <h4>Heritage Silk Scarves</h4>
+        </div>
+      </a>
+    </div>
+  </div>
+
+</header>
+
+<!-- ── MOBILE DRAWER (outside header so position:fixed isn't constrained by sticky header) ── -->
+<div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+<aside class="drawer" id="mobile-drawer" aria-label="Mobile navigation" aria-hidden="true">
+  <div class="drawer__head">
+    <a href="index.html" class="drawer__logo" aria-label="White Stitches home">
+        <img src="assets/logo-full.png" alt="White Stitches" />
+      </a>
+      <button class="drawer__close" id="drawer-close" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+
+    <nav class="drawer__nav" aria-label="Mobile primary">
+
+      <div class="drawer__group">
+        <button type="button" class="drawer__top drawer__toggle" aria-expanded="false">
+          <span>Jackets</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="drawer__sub">
+          <h6>Styles</h6>
+          <a href="collection.html">Tailored Blazers</a>
+          <a href="collection.html">Cropped Jackets</a>
+          <a href="collection.html">Trench Coats</a>
+          <a href="collection.html">Safari Jackets</a>
+          <a href="collection.html">Leather Pieces</a>
+          <h6>Occasion</h6>
+          <a href="collection.html">Workwear</a>
+          <a href="collection.html">Evening</a>
+          <a href="collection.html">Resort</a>
+        </div>
+      </div>
+
+      <div class="drawer__group">
+        <button type="button" class="drawer__top drawer__toggle" aria-expanded="false">
+          <span>Dresses</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="drawer__sub">
+          <h6>Styles</h6>
+          <a href="collection.html">Double-Breasted</a>
+          <a href="collection.html">Evening Gowns</a>
+          <a href="collection.html">Midi Dresses</a>
+          <a href="collection.html">Maxi Dresses</a>
+          <a href="collection.html">Wrap Dresses</a>
+          <a href="collection.html">Abayas &amp; Kaftans</a>
+          <h6>Occasion</h6>
+          <a href="collection.html">Wedding Guest</a>
+          <a href="collection.html">Evening</a>
+          <a href="collection.html">Ramadan &amp; Eid</a>
+        </div>
+      </div>
+
+      <div class="drawer__group">
+        <button type="button" class="drawer__top drawer__toggle" aria-expanded="false">
+          <span>Suits</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="drawer__sub">
+          <h6>Styles</h6>
+          <a href="collection.html">Two-Piece Suits</a>
+          <a href="collection.html">Three-Piece Suits</a>
+          <a href="collection.html">Safari Suits</a>
+          <a href="collection.html">Linen Co-ords</a>
+          <a href="collection.html">Wide-Leg Sets</a>
+          <h6>Occasion</h6>
+          <a href="collection.html">Workwear</a>
+          <a href="collection.html">Smart Casual</a>
+          <a href="collection.html">Resort</a>
+        </div>
+      </div>
+
+      <div class="drawer__group">
+        <button type="button" class="drawer__top drawer__toggle" aria-expanded="false">
+          <span>Tops</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="drawer__sub">
+          <h6>Styles</h6>
+          <a href="collection.html">Blouses</a>
+          <a href="collection.html">Shirts</a>
+          <a href="collection.html">Sheer-Collar Tops</a>
+          <a href="collection.html">Knitwear</a>
+          <a href="collection.html">Bodysuits</a>
+          <h6>Occasion</h6>
+          <a href="collection.html">Workwear</a>
+          <a href="collection.html">Evening</a>
+          <a href="collection.html">Everyday</a>
+        </div>
+      </div>
+
+      <a href="collection.html" class="drawer__top drawer__top--solo drawer__top--accent">Sale</a>
+
+    </nav>
+
+    <div class="drawer__foot">
+      <a href="#" class="drawer__util">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+        Account
+      </a>
+      <a href="#" class="drawer__util">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Wishlist
+      </a>
+      <a href="#" class="drawer__util">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        Search
+      </a>
+      <div class="drawer__lang-row">
+        <button class="drawer__lang">English</button>
+        <span>|</span>
+        <button class="drawer__lang">العربية</button>
+      </div>
+    </div>
+  </aside>
+
+
+
+<!-- ============================ ACCOUNT PAGE HEAD ============================ -->
+<section class="acct-head">
+  <div class="acct-head__inner">
+    <span class="eyebrow">My Account</span>
+    <h1 class="acct-head__title">Hello, <em>Anas</em>.</h1>
+    <p class="acct-head__sub">Member since March 2025 · Kuwait City</p>
+  </div>
+</section>
+
+<!-- ============================ ACCOUNT GRID ============================ -->
+<section class="acct">
+  <div class="acct__inner">
+
+    <aside class="acct-nav" aria-label="Account navigation">
+  <div class="acct-nav__head">
+    <span class="eyebrow">Account</span>
+    <strong class="acct-nav__name">Anas Al-Mutairi</strong>
+    <span class="acct-nav__email">anas@whitestiches.kw</span>
+  </div>
+  <nav class="acct-nav__list">
+    <a href="account.html" class="acct-nav__link is-active" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg><span>Overview</span></a>
+    <a href="account-orders.html" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h18l-2 13H5z"/><path d="M8 7V5a4 4 0 018 0v2"/></svg><span>Orders</span></a>
+    <a href="account-addresses.html" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg><span>Addresses</span></a>
+    <a href="account-wishlist.html" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>Wishlist</span></a>
+    <a href="account-profile.html" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg><span>Profile</span></a>
+    <a href="account-returns.html" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 11-9-9"/><path d="M21 4v5h-5"/></svg><span>Returns</span></a>
+  </nav>
+  <a href="account-login.html" class="acct-nav__signout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span>Sign out</span></a>
+</aside>
+
+    <main class="acct__main">
+
+      <!-- Snapshot cards row -->
+      <div class="acct-stats">
+        <div class="acct-stat">
+          <span class="acct-stat__label">Open orders</span>
+          <strong class="acct-stat__value">1</strong>
+          <span class="acct-stat__hint">Arriving Tuesday</span>
+        </div>
+        <div class="acct-stat">
+          <span class="acct-stat__label">Wishlist</span>
+          <strong class="acct-stat__value">7</strong>
+          <span class="acct-stat__hint">2 on sale</span>
+        </div>
+        <div class="acct-stat">
+          <span class="acct-stat__label">Member tier</span>
+          <strong class="acct-stat__value acct-stat__value--accent">Atelier</strong>
+          <span class="acct-stat__hint">12 orders all-time</span>
+        </div>
+        <div class="acct-stat">
+          <span class="acct-stat__label">Store credit</span>
+          <strong class="acct-stat__value">15.000 <em>KWD</em></strong>
+          <span class="acct-stat__hint">Expires 31 Dec 2026</span>
+        </div>
+      </div>
+
+      <!-- Recent orders -->
+      <section class="acct-section">
+        <header class="acct-section__head">
+          <h2>Recent orders</h2>
+          <a href="account-orders.html" class="link-arrow">View all <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </header>
+        <ul class="acct-orders">
+          <li>
+            <div class="acct-order__main">
+              <span class="acct-order__num">#WS-2026-08412</span>
+              <span class="acct-order__date">18 May 2026</span>
+            </div>
+            <div class="acct-order__thumbs">
+              <img src="assets/products/product-4.jpg" alt="" />
+              <img src="assets/products/product-1.jpg" alt="" />
+              <img src="assets/products/product-2.jpg" alt="" />
+              <span class="acct-order__more">+0</span>
+            </div>
+            <span class="status-badge status-badge--in-transit">In transit</span>
+            <span class="acct-order__total">186.500 KWD</span>
+            <a href="account-order-detail.html" class="acct-order__action">View</a>
+          </li>
+          <li>
+            <div class="acct-order__main">
+              <span class="acct-order__num">#WS-2026-08197</span>
+              <span class="acct-order__date">2 May 2026</span>
+            </div>
+            <div class="acct-order__thumbs">
+              <img src="assets/products/product-3.jpg" alt="" />
+              <img src="assets/products/product-4.jpg" alt="" />
+            </div>
+            <span class="status-badge status-badge--delivered">Delivered</span>
+            <span class="acct-order__total">50.500 KWD</span>
+            <a href="account-order-detail.html" class="acct-order__action">View</a>
+          </li>
+          <li>
+            <div class="acct-order__main">
+              <span class="acct-order__num">#WS-2026-07842</span>
+              <span class="acct-order__date">14 April 2026</span>
+            </div>
+            <div class="acct-order__thumbs">
+              <img src="assets/products/product-1.jpg" alt="" />
+            </div>
+            <span class="status-badge status-badge--delivered">Delivered</span>
+            <span class="acct-order__total">38.500 KWD</span>
+            <a href="account-order-detail.html" class="acct-order__action">View</a>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Address + wishlist preview row -->
+      <div class="acct-preview-row">
+        <section class="acct-section acct-section--card">
+          <header class="acct-section__head">
+            <h2>Default address</h2>
+            <a href="account-addresses.html" class="link-arrow">Manage <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </header>
+          <address class="oc-address">
+            <strong>Anas Al-Mutairi</strong><br>
+            Block 4, Street 12, Building 8 · Floor 3, Apt 11<br>
+            Salmiya, Hawalli<br>
+            Kuwait
+          </address>
+        </section>
+
+        <section class="acct-section acct-section--card">
+          <header class="acct-section__head">
+            <h2>Wishlist preview</h2>
+            <a href="account-wishlist.html" class="link-arrow">View all 7 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </header>
+          <div class="acct-wishpreview">
+            <a href="product.html"><img src="assets/products/product-2.jpg" alt="" /></a>
+            <a href="product.html"><img src="assets/products/product-3.jpg" alt="" /></a>
+            <a href="product.html"><img src="assets/products/product-4.jpg" alt="" /></a>
+            <a href="product.html"><img src="assets/products/product-1.jpg" alt="" /></a>
+          </div>
+        </section>
+      </div>
+
+    </main>
+  </div>
+</section>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="ftr">
+  <div class="ftr__inner">
+
+    <div class="ftr__brand">
+      <img src="assets/logo-full.png" alt="White Stitches" class="ftr__logo-img" />
+      <p class="ftr__tagline">A Kuwait fashion house.<br>Designed for the GCC, finished by hand.</p>
+      <div class="ftr__social">
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c0 2.5 2 4.5 4.5 4.5"/></svg></a>
+        <a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 11.5a8.4 8.4 0 0 1-8.4 8.4 8.4 8.4 0 0 1-4-1L3 20l1.1-5.6a8.4 8.4 0 0 1-1-4A8.4 8.4 0 0 1 11.5 2 8.4 8.4 0 0 1 21 11.5z"/></svg></a>
+        <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M11 22c.5-3 .8-4 1.2-5.5"/><path d="M8 9.5C8 7 10 5 12.5 5S17 7 17 9.5c0 3-2 5-4 5-1 0-1.7-.5-2-1.2"/></svg></a>
+      </div>
+    </div>
+
+    <div class="ftr__col">
+      <h5>Shop</h5>
+      <a href="collection.html">Jackets</a>
+      <a href="collection.html">Dresses</a>
+      <a href="collection.html">Suits</a>
+      <a href="collection.html">Tops</a>
+      <a href="collection.html">New Arrivals</a>
+      <a href="collection.html">Sale</a>
+      <a href="#">Gift Cards</a>
+    </div>
+
+    <div class="ftr__col">
+      <h5>Help</h5>
+      <a href="contact.html">Contact</a>
+      <a href="size-guide.html">Size Guide</a>
+      <a href="shipping.html">Shipping &amp; Delivery</a>
+      <a href="returns-policy.html">Returns &amp; Exchanges</a>
+      <a href="track.html">Track Order</a>
+      <a href="faq.html">FAQ</a>
+    </div>
+
+    <div class="ftr__col">
+      <h5>About</h5>
+      <a href="about.html">Our Story</a>
+      <a href="about.html#atelier">Atelier</a>
+      <a href="#">Sustainability</a>
+      <a href="journal.html">Journal</a>
+      <a href="#">Careers</a>
+    </div>
+
+    <div class="ftr__col ftr__col--prefs">
+      <h5>Preferences</h5>
+      <div class="ftr__pref">
+        <span class="ftr__pref-lbl">Country</span>
+        <select aria-label="Select country">
+          <option>Kuwait (KWD)</option>
+          <option>Saudi Arabia (SAR)</option>
+          <option>UAE (AED)</option>
+          <option>Bahrain (BHD)</option>
+          <option>Qatar (QAR)</option>
+          <option>Oman (OMR)</option>
+        </select>
+      </div>
+      <div class="ftr__pref">
+        <span class="ftr__pref-lbl">Language</span>
+        <select aria-label="Select language">
+          <option>English</option>
+          <option>العربية</option>
+        </select>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ftr__bottom">
+    <span>© 2026 White Stitches Fashion W.L.L · CR 123456</span>
+    <div class="ftr__pay">
+      <span>KNET</span><span>VISA</span><span>MC</span><span>APPLE PAY</span><span>TABBY</span><span>TAMARA</span>
+    </div>
+    <div class="ftr__legal">
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="cookies.html">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+<a href="#" class="wa-float" aria-label="Chat with us on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 11.5a8.4 8.4 0 0 1-8.4 8.4 8.4 8.4 0 0 1-4-1L3 20l1.1-5.6a8.4 8.4 0 0 1-1-4A8.4 8.4 0 0 1 11.5 2 8.4 8.4 0 0 1 21 11.5z"/></svg>
+</a>
+
+<!-- ============================ SVG SYMBOLS (LOGO MARK) ============================ -->
+<svg class="ws-svg-defs" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden;visibility:hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="ws-mark" viewBox="0 0 200 200">
+      <g fill="currentColor" fill-rule="evenodd">
+        <path d="M40 20 L80 20 L60 60 Z"/>
+        <path d="M120 20 L160 20 L140 60 Z"/>
+        <path d="M85 30 L100 50 L85 65 Z"/>
+        <path d="M115 30 L100 50 L115 65 Z"/>
+        <path d="M20 50 L40 70 L40 130 L20 150 Z"/>
+        <path d="M180 50 L160 70 L160 130 L180 150 Z"/>
+        <path d="M100 60 L130 100 L100 140 L70 100 Z"/>
+        <path d="M100 80 L115 100 L100 120 L85 100 Z" fill="#0a0a0a"/>
+        <path d="M40 180 L80 180 L60 140 Z"/>
+        <path d="M120 180 L160 180 L140 140 Z"/>
+        <path d="M85 170 L100 150 L85 135 Z"/>
+        <path d="M115 170 L100 150 L115 135 Z"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<script src="js/site.js?v=2.6"></script>
+
+<!-- ============================ MINI-CART DRAWER (global) ============================ -->
+<aside class="mc-drawer" id="miniCart" aria-label="Cart" aria-hidden="true">
+  <button type="button" class="mc-drawer__backdrop" id="miniCartBackdrop" aria-label="Close cart"></button>
+  <div class="mc-drawer__panel" role="dialog" aria-modal="true" aria-labelledby="miniCartTitle">
+    <header class="mc-drawer__head">
+      <h2 id="miniCartTitle">Your bag <em>(<span id="miniCartCount">3</span>)</em></h2>
+      <button type="button" class="mc-drawer__close" id="miniCartClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </header>
+
+    <!-- Free-shipping progress -->
+    <div class="mc-progress" id="mcProgress">
+      <span class="mc-progress__msg">You’re <strong>5.500 KWD</strong> away from complimentary delivery.</span>
+      <div class="mc-progress__bar"><span style="width: 89%"></span></div>
+    </div>
+
+    <!-- Items -->
+    <ul class="mc-items" id="miniCartItems">
+      <li class="mc-item">
+        <a href="product.html" class="mc-item__media"><img src="assets/products/product-2.jpg" alt="Mira Draped Midi" /></a>
+        <div class="mc-item__body">
+          <h3 class="mc-item__title"><a href="product.html">Mira Draped Midi</a></h3>
+          <p class="mc-item__meta">Oat · S</p>
+          <div class="mc-item__row">
+            <div class="qty-stepper qty-stepper--sm" data-qty="1">
+              <button type="button" class="qty-stepper__btn" aria-label="Decrease">−</button>
+              <span class="qty-stepper__value">1</span>
+              <button type="button" class="qty-stepper__btn" aria-label="Increase">+</button>
+            </div>
+            <span class="mc-item__price">42.500 KWD</span>
+          </div>
+          <button type="button" class="mc-item__remove">Remove</button>
+        </div>
+      </li>
+      <li class="mc-item">
+        <a href="product.html" class="mc-item__media"><img src="assets/products/product-3.jpg" alt="Atelier Tailored Blazer" /></a>
+        <div class="mc-item__body">
+          <h3 class="mc-item__title"><a href="product.html">Atelier Tailored Blazer</a></h3>
+          <p class="mc-item__meta">Stone · M</p>
+          <div class="mc-item__row">
+            <div class="qty-stepper qty-stepper--sm" data-qty="1">
+              <button type="button" class="qty-stepper__btn" aria-label="Decrease">−</button>
+              <span class="qty-stepper__value">1</span>
+              <button type="button" class="qty-stepper__btn" aria-label="Increase">+</button>
+            </div>
+            <span class="mc-item__price">68.000 KWD</span>
+          </div>
+          <button type="button" class="mc-item__remove">Remove</button>
+        </div>
+      </li>
+      <li class="mc-item">
+        <a href="product.html" class="mc-item__media"><img src="assets/products/product-4.jpg" alt="Lina Silk Slip Dress" /></a>
+        <div class="mc-item__body">
+          <h3 class="mc-item__title"><a href="product.html">Lina Silk Slip Dress</a></h3>
+          <p class="mc-item__meta">Champagne · S</p>
+          <div class="mc-item__row">
+            <div class="qty-stepper qty-stepper--sm" data-qty="1">
+              <button type="button" class="qty-stepper__btn" aria-label="Decrease">−</button>
+              <span class="qty-stepper__value">1</span>
+              <button type="button" class="qty-stepper__btn" aria-label="Increase">+</button>
+            </div>
+            <span class="mc-item__price">76.000 KWD</span>
+          </div>
+          <button type="button" class="mc-item__remove">Remove</button>
+        </div>
+      </li>
+    </ul>
+
+    <!-- Empty state -->
+    <div class="mc-empty" id="miniCartEmpty" hidden>
+      <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M14 18h36l-3.6 30.4a4 4 0 0 1-4 3.6H21.6a4 4 0 0 1-4-3.6L14 18Z"/><path d="M24 18v-4a8 8 0 0 1 16 0v4"/></svg>
+      <h3>Your bag is empty.</h3>
+      <p>Start exploring — the SS26 edit is waiting.</p>
+      <a href="index.html" class="btn btn--primary">Shop new arrivals</a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mc-foot">
+      <div class="mc-foot__totals">
+        <span>Subtotal</span>
+        <strong>186.500 <em>KWD</em></strong>
+      </div>
+      <p class="mc-foot__hint">Delivery and taxes calculated at checkout.</p>
+      <div class="mc-foot__actions">
+        <a href="cart.html" class="btn btn--ghost btn--block">View bag</a>
+        <a href="checkout.html" class="btn btn--primary btn--block">Checkout securely</a>
+      </div>
+      <div class="mc-foot__express">
+        <button type="button" class="express-btn express-btn--apple"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.04c-.01-2.04 1.66-3.02 1.74-3.07-.95-1.39-2.42-1.58-2.94-1.6-1.24-.13-2.43.74-3.06.74-.64 0-1.61-.72-2.66-.7-1.36.02-2.63.79-3.33 2.01-1.42 2.47-.36 6.12 1.02 8.12.68.98 1.49 2.08 2.55 2.04 1.03-.04 1.42-.66 2.66-.66 1.24 0 1.59.66 2.67.64 1.1-.02 1.8-1 2.47-1.99.78-1.14 1.1-2.24 1.12-2.3-.02-.01-2.15-.83-2.17-3.23zM15.07 5.91c.56-.69.95-1.64.84-2.59-.81.04-1.81.55-2.4 1.23-.52.6-.98 1.58-.86 2.51.91.07 1.85-.46 2.42-1.15z"/></svg> Apple Pay</button>
+        <button type="button" class="express-btn express-btn--google"><span>G Pay</span></button>
+      </div>
+    </footer>
+  </div>
+</aside>
+
+<!-- ============================ SEARCH OVERLAY (global) ============================ -->
+<div class="search-overlay" id="searchOverlay" aria-hidden="true">
+  <button type="button" class="search-overlay__backdrop" id="searchOverlayBackdrop" aria-label="Close search"></button>
+  <div class="search-overlay__panel" role="dialog" aria-modal="true" aria-labelledby="searchOverlayTitle">
+    <header class="search-overlay__head">
+      <div class="search-overlay__input-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" class="search-overlay__icon"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="search" id="searchOverlayInput" class="search-overlay__input" placeholder="Search pieces, collections, journal…" autocomplete="off" />
+        <button type="button" class="search-overlay__clear" id="searchOverlayClear" aria-label="Clear" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
+        </button>
+      </div>
+      <button type="button" class="search-overlay__close" id="searchOverlayClose">
+        <span>Close</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </header>
+
+    <div class="search-overlay__body">
+
+      <!-- Idle state (when nothing typed) -->
+      <div class="search-overlay__idle" id="searchOverlayIdle">
+        <div class="so-col">
+          <span class="eyebrow">Popular searches</span>
+          <ul class="so-chips">
+            <li><button type="button">Silk dresses</button></li>
+            <li><button type="button">Linen trousers</button></li>
+            <li><button type="button">Eid edit</button></li>
+            <li><button type="button">Black-tie</button></li>
+            <li><button type="button">Atelier blazer</button></li>
+            <li><button type="button">Heritage scarves</button></li>
+          </ul>
+        </div>
+        <div class="so-col">
+          <span class="eyebrow">Recent searches</span>
+          <ul class="so-recent">
+            <li><button type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Mira draped midi</button></li>
+            <li><button type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Wide-leg trouser</button></li>
+            <li><button type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Crescent earrings</button></li>
+          </ul>
+        </div>
+        <div class="so-col so-col--featured">
+          <span class="eyebrow">Trending right now</span>
+          <a href="product.html" class="so-feature">
+            <img src="assets/products/product-1.jpg" alt="Lina Silk Slip Dress" />
+            <div>
+              <strong>Lina Silk Slip Dress</strong>
+              <span>76.000 KWD · 4 colours</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Live results (typing state) -->
+      <div class="search-overlay__results" id="searchOverlayResults" hidden>
+        <div class="so-col">
+          <span class="eyebrow">Pieces · <em id="soProductCount">4</em></span>
+          <ul class="so-results">
+            <li><a href="product.html">
+              <img src="assets/products/product-2.jpg" alt="" />
+              <div><strong>Mira Draped Midi</strong><span>Oat · 42.500 KWD</span></div>
+            </a></li>
+            <li><a href="product.html">
+              <img src="assets/products/product-3.jpg" alt="" />
+              <div><strong>Lina Silk Slip Dress</strong><span>Champagne · 76.000 KWD</span></div>
+            </a></li>
+            <li><a href="product.html">
+              <img src="assets/products/product-4.jpg" alt="" />
+              <div><strong>Atelier Tailored Blazer</strong><span>Stone · 68.000 KWD</span></div>
+            </a></li>
+            <li><a href="product.html">
+              <img src="assets/products/product-1.jpg" alt="" />
+              <div><strong>Sahar Wide-Leg Trouser</strong><span>Black · 38.500 KWD</span></div>
+            </a></li>
+          </ul>
+        </div>
+        <div class="so-col">
+          <span class="eyebrow">Collections</span>
+          <ul class="so-results so-results--compact">
+            <li><a href="collection.html"><strong>SS26 Edit</strong><span>32 pieces</span></a></li>
+            <li><a href="collection.html"><strong>Atelier essentials</strong><span>18 pieces</span></a></li>
+          </ul>
+          <span class="eyebrow" style="margin-top: var(--s-3); display: block;">Journal</span>
+          <ul class="so-results so-results--compact">
+            <li><a href="journal.html"><strong>The Mira Draped Midi, three ways</strong><span>Styling · 4 min read</span></a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Empty/no results -->
+      <div class="search-overlay__noresults" id="searchOverlayNoResults" hidden>
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="28" cy="28" r="20"/><path d="m44 44 12 12"/></svg>
+        <h3>No results.</h3>
+        <p>Try a different word, or <button type="button" class="link-arrow link-arrow--inline">WhatsApp the atelier</button> — we’ll find it.</p>
+      </div>
+
+    </div>
+
+    <footer class="search-overlay__foot">
+      <span class="search-overlay__hint">Press <kbd>Esc</kbd> to close · <kbd>↵</kbd> for full results</span>
+      <a href="search.html" class="link-arrow" id="searchOverlayAll">View all results <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </footer>
+  </div>
+</div>
+
+<!-- ============================ COOKIE CONSENT BANNER (global) ============================ -->
+<div class="cookie-banner" id="cookieBanner" aria-label="Cookie consent" hidden>
+  <div class="cookie-banner__inner">
+    <div class="cookie-banner__copy">
+      <strong>We use cookies to deliver this site.</strong>
+      <p>Essential cookies keep checkout and sign-in working. Analytics and marketing cookies are optional. See our <a href="cookies.html">Cookies Policy</a>.</p>
+    </div>
+    <div class="cookie-banner__actions">
+      <button type="button" class="btn btn--ghost btn--sm" id="cookieCustomize">Customize</button>
+      <button type="button" class="btn btn--ghost btn--sm" id="cookieReject">Reject all</button>
+      <button type="button" class="btn btn--primary btn--sm" id="cookieAccept">Accept all</button>
+    </div>
+  </div>
+</div>
+
+<!-- Cookie customize modal -->
+<div class="cookie-modal" id="cookieModal" aria-hidden="true">
+  <button type="button" class="cookie-modal__backdrop" id="cookieModalBackdrop" aria-label="Close"></button>
+  <div class="cookie-modal__panel" role="dialog" aria-modal="true">
+    <header class="cookie-modal__head">
+      <h2>Cookie preferences</h2>
+      <button type="button" class="cookie-modal__close" id="cookieModalClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </header>
+    <div class="cookie-modal__body">
+      <p class="cookie-modal__lede">Choose which cookies you’re happy for us to use. Essential cookies are always on; you can toggle the rest. See <a href="cookies.html">Cookies Policy</a> for details.</p>
+
+      <div class="cookie-row">
+        <div>
+          <strong>Strictly necessary</strong>
+          <span>Sign-in, cart, checkout, security. Cannot be disabled.</span>
+        </div>
+        <label class="toggle"><input type="checkbox" checked disabled /><span></span></label>
+      </div>
+      <div class="cookie-row">
+        <div>
+          <strong>Functional</strong>
+          <span>Remember language, currency, recently viewed.</span>
+        </div>
+        <label class="toggle"><input type="checkbox" checked data-cookie="functional" /><span></span></label>
+      </div>
+      <div class="cookie-row">
+        <div>
+          <strong>Analytics</strong>
+          <span>Help us understand what works — anonymised.</span>
+        </div>
+        <label class="toggle"><input type="checkbox" data-cookie="analytics" /><span></span></label>
+      </div>
+      <div class="cookie-row">
+        <div>
+          <strong>Marketing</strong>
+          <span>Show relevant pieces on Instagram and Google.</span>
+        </div>
+        <label class="toggle"><input type="checkbox" data-cookie="marketing" /><span></span></label>
+      </div>
+    </div>
+    <footer class="cookie-modal__foot">
+      <button type="button" class="btn btn--ghost" id="cookieModalReject">Reject all</button>
+      <button type="button" class="btn btn--primary" id="cookieModalSave">Save preferences</button>
+    </footer>
+  </div>
+</div>
+
+<!-- Small re-open button (bottom-left, after consent is set) -->
+<button type="button" class="cookie-reopen" id="cookieReopen" aria-label="Manage cookie preferences" hidden>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="0.7" fill="currentColor"/><circle cx="14" cy="9" r="0.7" fill="currentColor"/><circle cx="15" cy="14" r="0.7" fill="currentColor"/><circle cx="10" cy="15" r="0.7" fill="currentColor"/></svg>
+</button>
+
+</body>
+</html>

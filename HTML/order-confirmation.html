@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Order Confirmed · White Stitches</title>
+<meta name="description" content="Your order is confirmed. Thank you." />
+<link rel="icon" type="image/svg+xml" href="assets/logo-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter+Tight:wght@300;400;500;600&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  .ws-svg-defs { position: absolute !important; width: 0 !important; height: 0 !important; overflow: hidden !important; pointer-events: none !important; visibility: hidden !important; }
+  body { background: #0a0a0a; margin: 0; color: #e8e2d6; font-family: "Inter Tight", system-ui, sans-serif; }
+  .co-hdr { position: sticky; top: 0; z-index: 200; background: #0a0a0a; border-bottom: 1px solid #2a2a2a; height: 116px; }
+  .co-hdr__inner { max-width: 1400px; height: 100%; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 24px; }
+</style>
+<link rel="stylesheet" href="css/design-system.css?v=2.6" />
+<link rel="stylesheet" href="css/site.css?v=2.6" />
+</head>
+<body class="co-body">
+
+<!-- ============================ MINIMAL HEADER ============================ -->
+<header class="co-hdr">
+  <div class="co-hdr__inner">
+    <a href="index.html" class="co-hdr__back" aria-label="Continue shopping">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg>
+      <span>Continue shopping</span>
+    </a>
+    <a href="index.html" class="co-hdr__logo" aria-label="White Stitches home">
+      <img src="assets/logo-full.png" alt="White Stitches" class="co-hdr__logo-img" />
+    </a>
+    <a href="#" class="co-hdr__secure" aria-label="Account">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+      <span>Account</span>
+    </a>
+  </div>
+</header>
+
+<!-- ============================ STEP INDICATOR ============================ -->
+<div class="co-steps">
+  <div class="co-steps__inner">
+    <ol>
+      <li class="is-done"><span class="co-steps__num">1</span> Bag</li>
+      <li class="is-done"><span class="co-steps__num">2</span> Checkout</li>
+      <li class="is-active"><span class="co-steps__num">3</span> Confirmation</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ============================ CONFIRMATION HERO ============================ -->
+<section class="oc-hero">
+  <div class="oc-hero__inner">
+    <div class="oc-hero__mark" aria-hidden="true">
+      <svg viewBox="0 0 80 80" fill="none">
+        <circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+        <circle cx="40" cy="40" r="30" stroke="currentColor" stroke-width="1" opacity="0.2"/>
+        <path d="M28 40l9 9 17-19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <span class="eyebrow">Thank you, <span id="ocFirstName">Anas</span></span>
+    <h1 class="oc-hero__title">Your order is confirmed.</h1>
+    <p class="oc-hero__sub">
+      Order <strong>#WS-2026-08412</strong> · placed Saturday, 18 May 2026 at 11:14 AM
+    </p>
+    <p class="oc-hero__meta">
+      A confirmation is on its way to <strong id="ocEmail">anas@whitestiches.kw</strong>. We&rsquo;ve also sent you a WhatsApp update on <strong>+965 5xx xxxxx</strong>.
+    </p>
+  </div>
+</section>
+
+<!-- ============================ TWO-COL GRID ============================ -->
+<main class="oc">
+  <div class="oc__inner">
+
+    <!-- ── LEFT column: order details ──────────────────────────── -->
+    <div class="oc__main">
+
+      <!-- ETA card -->
+      <section class="oc-card oc-card--eta">
+        <div class="oc-card__head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+            <path d="M3 7h13v9H3zM16 10h3l2 3v3h-5zM7 19a2 2 0 100-4 2 2 0 000 4zM18 19a2 2 0 100-4 2 2 0 000 4z"/>
+          </svg>
+          <h2>Arriving <strong>Tuesday 21 May</strong></h2>
+          <span class="oc-card__chip">Standard · Free</span>
+        </div>
+        <div class="oc-card__body">
+          <p>
+            Your pieces will leave our Kuwait atelier within 24 hours, hand-folded in our signature tissue with the wax-marked closure. Tracking arrives by WhatsApp once they&rsquo;re on the way.
+          </p>
+          <div class="oc-tracker">
+            <div class="oc-tracker__bar"><span style="width: 25%"></span></div>
+            <ol class="oc-tracker__steps">
+              <li class="is-done"><span></span>Confirmed</li>
+              <li><span></span>Atelier</li>
+              <li><span></span>In transit</li>
+              <li><span></span>Delivered</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- Delivery address -->
+      <section class="oc-card">
+        <div class="oc-card__head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+            <path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/>
+            <circle cx="12" cy="9" r="2.5"/>
+          </svg>
+          <h2>Delivery address</h2>
+        </div>
+        <div class="oc-card__body">
+          <address class="oc-address">
+            <strong>Anas Al-Mutairi</strong><br>
+            Block 4, Street 12, Building 8 · Floor 3, Apt 11<br>
+            Salmiya, Hawalli<br>
+            Kuwait<br>
+            +965 5xx xxxxx
+          </address>
+        </div>
+      </section>
+
+      <!-- Payment summary -->
+      <section class="oc-card">
+        <div class="oc-card__head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+            <rect x="3" y="6" width="18" height="13" rx="1"/>
+            <path d="M3 10h18"/>
+          </svg>
+          <h2>Payment</h2>
+        </div>
+        <div class="oc-card__body">
+          <div class="oc-pay">
+            <span class="pay-card__brand pay-card__brand--knet">KNET</span>
+            <div>
+              <strong>KNET · debit card ending 4421</strong>
+              <span class="oc-pay__meta">Authorised by Tap Payments · 186.500 KWD</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pending payment notice — hidden by default; shown if state=pending -->
+      <section class="oc-card oc-card--pending" hidden id="ocPending">
+        <div class="oc-card__head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <h2>Payment pending confirmation</h2>
+        </div>
+        <div class="oc-card__body">
+          <p>
+            We&rsquo;re still waiting for your bank to confirm the transaction. This usually takes a few seconds, but can take up to 30 minutes. We&rsquo;ll email and WhatsApp you the moment it&rsquo;s confirmed.
+          </p>
+        </div>
+      </section>
+
+      <!-- Items detail -->
+      <section class="oc-card oc-card--items">
+        <div class="oc-card__head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+            <path d="M3 7h18l-2 13H5z"/>
+            <path d="M8 7V5a4 4 0 018 0v2"/>
+          </svg>
+          <h2>Your pieces</h2>
+          <span class="oc-card__chip">3 items</span>
+        </div>
+        <div class="oc-card__body">
+          <ul class="oc-items">
+            <li>
+              <a href="product.html" class="oc-item__media">
+                <img src="assets/products/product-1.jpg" alt="Mira Draped Midi" />
+              </a>
+              <div class="oc-item__body">
+                <h3 class="oc-item__title"><a href="product.html">Mira Draped Midi</a></h3>
+                <ul class="oc-item__meta">
+                  <li><span>Colour</span> Oat</li>
+                  <li><span>Size</span> S</li>
+                  <li><span>Qty</span> 1</li>
+                </ul>
+              </div>
+              <span class="oc-item__price">42.500 KWD</span>
+            </li>
+            <li>
+              <a href="product.html" class="oc-item__media">
+                <img src="assets/products/product-2.jpg" alt="Atelier Tailored Blazer" />
+              </a>
+              <div class="oc-item__body">
+                <h3 class="oc-item__title"><a href="product.html">Atelier Tailored Blazer</a></h3>
+                <ul class="oc-item__meta">
+                  <li><span>Colour</span> Stone</li>
+                  <li><span>Size</span> M</li>
+                  <li><span>Qty</span> 1</li>
+                </ul>
+              </div>
+              <span class="oc-item__price">68.000 KWD</span>
+            </li>
+            <li>
+              <a href="product.html" class="oc-item__media">
+                <img src="assets/products/product-3.jpg" alt="Lina Silk Slip Dress" />
+              </a>
+              <div class="oc-item__body">
+                <h3 class="oc-item__title"><a href="product.html">Lina Silk Slip Dress</a></h3>
+                <ul class="oc-item__meta">
+                  <li><span>Colour</span> Champagne</li>
+                  <li><span>Size</span> S</li>
+                  <li><span>Qty</span> 1</li>
+                </ul>
+              </div>
+              <span class="oc-item__price">76.000 KWD</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Help / support strip -->
+      <section class="oc-help">
+        <div class="oc-help__col">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 11.5a8.4 8.4 0 0 1-8.4 8.4 8.4 8.4 0 0 1-4-1L3 20l1.1-5.6a8.4 8.4 0 0 1-1-4A8.4 8.4 0 0 1 11.5 2 8.4 8.4 0 0 1 21 11.5z"/></svg>
+          <strong>WhatsApp the atelier</strong>
+          <span>Sat–Thu · 9 AM – 9 PM Kuwait</span>
+          <a href="#" class="btn btn--ghost btn--sm">Open WhatsApp</a>
+        </div>
+        <div class="oc-help__col">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7l9 6 9-6"/><rect x="3" y="5" width="18" height="14" rx="1"/></svg>
+          <strong>Need to change something?</strong>
+          <span>You have 1 hour to update size, address, or cancel.</span>
+          <a href="#" class="btn btn--ghost btn--sm">Manage order</a>
+        </div>
+      </section>
+
+      <!-- Create-account prompt (shown only to guest checkouts) -->
+      <section class="oc-card oc-card--account" id="ocCreateAccount">
+        <div class="oc-card__head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+          <h2>Create your account</h2>
+          <span class="oc-card__chip">Optional · 30 seconds</span>
+        </div>
+        <div class="oc-card__body">
+          <p>Save this address, track future orders, and unlock early access to lookbooks &amp; private sales.</p>
+          <form class="oc-account" onsubmit="event.preventDefault();">
+            <div class="co-field">
+              <input type="password" id="ocPassword" placeholder=" " minlength="8" autocomplete="new-password" />
+              <label for="ocPassword">Choose a password</label>
+              <span class="field__hint">8+ characters · we&rsquo;ll use the email from your order</span>
+            </div>
+            <button type="submit" class="btn btn--primary">Create account</button>
+          </form>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ── RIGHT column: totals ──────────────────────────────── -->
+    <aside class="oc__totals">
+      <div class="oc-totals">
+        <h2 class="oc-totals__title">Order Summary</h2>
+        <ul class="cart-totals">
+          <li><span>Subtotal · 3 items</span><span class="cart-totals__val">186.500 KWD</span></li>
+          <li><span>Delivery · Standard</span><span class="cart-totals__val cart-totals__val--accent">Free</span></li>
+          <li><span>VAT</span><span class="cart-totals__val">Included</span></li>
+        </ul>
+        <div class="cart-totals__grand">
+          <span>Total paid</span>
+          <span>186.500 <span class="cart-totals__currency">KWD</span></span>
+        </div>
+
+        <div class="oc-totals__actions">
+          <a href="#" class="btn btn--ghost btn--sm btn--block">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 4v16M4 12h16"/></svg>
+            <span>Download invoice (PDF)</span>
+          </a>
+          <a href="#" class="btn btn--ghost btn--sm btn--block">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12h18M15 6l6 6-6 6"/></svg>
+            <span>Track order</span>
+          </a>
+        </div>
+
+        <ul class="cart-trust">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V8a5 5 0 0110 0v3"/></svg><span>Paid securely via Tap Payments</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 11-9-9"/><path d="M21 4v5h-5"/></svg><span>14-day easy returns</span></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<!-- ============================ CROSS-SELL ============================ -->
+<section class="products products--oc">
+  <div class="section-head section-head--center">
+    <span class="eyebrow">While you wait</span>
+    <h2 class="section-title">You may also like.</h2>
+  </div>
+  <div class="products__grid">
+    <article class="product">
+      <a href="product.html" class="product__media">
+        <img src="assets/products/product-4.jpg" alt="Heritage Silk Scarf" class="product__img product__img--front" />
+        <img src="assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
+      </a>
+      <div class="product__info">
+        <h3 class="product__title"><a href="product.html">Heritage Silk Scarf</a></h3>
+        <div class="product__price"><span>22.000 KWD</span></div>
+      </div>
+    </article>
+    <article class="product">
+      <a href="product.html" class="product__media">
+        <img src="assets/products/product-2.jpg" alt="Crescent Drop Earrings" class="product__img product__img--front" />
+        <img src="assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
+      </a>
+      <div class="product__info">
+        <h3 class="product__title"><a href="product.html">Crescent Drop Earrings</a></h3>
+        <div class="product__price"><span>28.500 KWD</span></div>
+      </div>
+    </article>
+    <article class="product">
+      <a href="product.html" class="product__media">
+        <img src="assets/products/product-4.jpg" alt="Saddle Crossbody Bag" class="product__img product__img--front" />
+        <img src="assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
+      </a>
+      <div class="product__info">
+        <h3 class="product__title"><a href="product.html">Saddle Crossbody Bag</a></h3>
+        <div class="product__price"><span>54.000 KWD</span></div>
+      </div>
+    </article>
+    <article class="product">
+      <a href="product.html" class="product__media">
+        <img src="assets/products/product-2.jpg" alt="Sahar Wide-Leg Trouser" class="product__img product__img--front" />
+        <img src="assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
+      </a>
+      <div class="product__info">
+        <h3 class="product__title"><a href="product.html">Sahar Wide-Leg Trouser</a></h3>
+        <div class="product__price"><span>38.500 KWD</span></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============================ MINIMAL FOOTER ============================ -->
+<footer class="co-footer">
+  <div class="co-footer__inner">
+    <span>© 2026 White Stitches Kuwait</span>
+    <nav>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="returns-policy.html">Returns</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="js/site.js?v=2.6"></script>
+</body>
+</html>

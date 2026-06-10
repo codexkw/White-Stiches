@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0a0a0a" />
+<meta name="description" content="White Stitches — Kuwait fashion house. Designed for the GCC, finished by hand." />
+<title>White Stitches</title>
+
+<!-- Preload assets so the animation runs smooth on first paint -->
+<link rel="preload" href="assets/pattern-triangles.png" as="image" />
+<link rel="preload" href="assets/logo-full.png" as="image" />
+<link rel="preload" href="index.html" as="document" />
+
+<link rel="stylesheet" href="css/design-system.css?v=2.6" />
+
+<style>
+  /* ============================================================================
+     INTRO / SPLASH — fully self-contained styles, runs without site.css
+     so it's fast on first paint and won't conflict with the main app theme.
+     ============================================================================ */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%;
+    background: #0a0a0a;
+    color: #ffffff;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Safe-area for iOS notches */
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+
+  /* Stage that holds everything — flex-centered, full viewport */
+  .splash {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at center, #1a1a1a 0%, #0a0a0a 70%);
+    overflow: hidden;
+    cursor: pointer;
+    z-index: 1;
+  }
+  /* The whole splash fades out once the animation completes */
+  .splash.is-leaving {
+    opacity: 0;
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
+
+  /* ── PATTERN LAYERS ───────────────────────────────────────────
+     Two mirrored vertical bands of triangles. They drift slowly to
+     give the background subtle ambient motion. */
+  .splash__pattern {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 420px;
+    background-image: url('assets/pattern-triangles.png');
+    background-repeat: repeat-y;
+    background-size: contain;
+    background-position: top center;
+    opacity: 0;
+    z-index: 1;
+    animation: patternIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards,
+               patternDrift 22s linear 1.4s infinite;
+  }
+  .splash__pattern--left  { left: -120px;  }
+  .splash__pattern--right {
+    right: -120px;
+    transform: scaleX(-1);
+    animation: patternIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.35s forwards,
+               patternDriftReverse 26s linear 1.55s infinite;
+  }
+  @keyframes patternIn {
+    from { opacity: 0; }
+    to   { opacity: 0.18; }
+  }
+  @keyframes patternDrift {
+    from { background-position: top center; }
+    to   { background-position: bottom center; }
+  }
+  @keyframes patternDriftReverse {
+    from { background-position: bottom center; }
+    to   { background-position: top center; }
+  }
+
+  /* ── PARTICLE FIELD ───────────────────────────────────────────
+     A scatter of CSS-drawn triangles that float in from the edges
+     during the intro phase. They give the splash extra dimension. */
+  .splash__particles {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .particle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    animation: particleFloat 4.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .particle--down {
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 12px solid #ffffff;
+  }
+  .particle--up {
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 12px solid #ffffff;
+  }
+  .particle--small { transform: scale(0.5); }
+  .particle--tiny  { transform: scale(0.3); }
+  @keyframes particleFloat {
+    0%   { opacity: 0; transform: translate(var(--from-x, 0), var(--from-y, 0)) rotate(var(--rot, 0deg)) scale(var(--scale, 1)); }
+    25%  { opacity: 0.6; }
+    100% { opacity: 0; transform: translate(var(--to-x, 0), var(--to-y, 0)) rotate(var(--rot-end, 0deg)) scale(var(--scale, 1)); }
+  }
+
+  /* ── STAGE: LOGO + WORDMARK ───────────────────────────────── */
+  .splash__stage {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+  }
+
+  /* Logo SVG — 12 triangle paths animate in sequence, radiating
+     from the center outward. */
+  .splash__logo {
+    width: 180px;
+    height: 180px;
+    overflow: visible;
+  }
+  @media (max-width: 600px) { .splash__logo { width: 140px; height: 140px; } }
+
+  .logo-path {
+    fill: #ffffff;
+    transform-origin: 100px 100px; /* center of the 200×200 viewBox */
+    transform-box: fill-box;
+    opacity: 0;
+    transform: scale(0);
+    animation: logoIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+  .logo-path--center {
+    fill: #0a0a0a;
+    animation-delay: 1.4s;
+  }
+  /* Stagger order: outer corners first, then inner pieces, then center */
+  .logo-path:nth-child(1) { animation-delay: 0.6s; }   /* top-left big triangle */
+  .logo-path:nth-child(2) { animation-delay: 0.6s; }   /* top-right big triangle */
+  .logo-path:nth-child(3) { animation-delay: 0.85s; }  /* upper inner left */
+  .logo-path:nth-child(4) { animation-delay: 0.85s; }  /* upper inner right */
+  .logo-path:nth-child(5) { animation-delay: 1.0s; }   /* left side bar */
+  .logo-path:nth-child(6) { animation-delay: 1.0s; }   /* right side bar */
+  .logo-path:nth-child(7) { animation-delay: 1.2s; }   /* main central diamond */
+  .logo-path:nth-child(8) { animation-delay: 1.4s; }   /* center black cutout */
+  .logo-path:nth-child(9)  { animation-delay: 0.7s; }  /* bottom-left big triangle */
+  .logo-path:nth-child(10) { animation-delay: 0.7s; }  /* bottom-right big triangle */
+  .logo-path:nth-child(11) { animation-delay: 0.95s; } /* lower inner left */
+  .logo-path:nth-child(12) { animation-delay: 0.95s; } /* lower inner right */
+
+  @keyframes logoIn {
+    from { opacity: 0; transform: scale(0) rotate(-12deg); }
+    to   { opacity: 1; transform: scale(1) rotate(0deg); }
+  }
+
+  /* Wordmark — letter-by-letter reveal */
+  .splash__wordmark {
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    font-weight: 200;
+    letter-spacing: 0.6em;
+    color: #ffffff;
+    text-indent: 0.6em; /* visual compensation for letter-spacing */
+    overflow: hidden;
+    display: flex;
+    gap: 0;
+  }
+  .splash__wordmark span {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: letterIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  @keyframes letterIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  /* Stagger each letter — base delay starts after logo completes (~1.8s) */
+  .splash__wordmark span:nth-child(1)  { animation-delay: 1.9s;  }
+  .splash__wordmark span:nth-child(2)  { animation-delay: 1.95s; }
+  .splash__wordmark span:nth-child(3)  { animation-delay: 2.0s;  }
+  .splash__wordmark span:nth-child(4)  { animation-delay: 2.05s; }
+  .splash__wordmark span:nth-child(5)  { animation-delay: 2.10s; }
+  .splash__wordmark span:nth-child(6)  { animation-delay: 2.15s; }
+  .splash__wordmark span:nth-child(7)  { animation-delay: 2.20s; }
+  .splash__wordmark span:nth-child(8)  { animation-delay: 2.25s; }
+  .splash__wordmark span:nth-child(9)  { animation-delay: 2.30s; }
+  .splash__wordmark span:nth-child(10) { animation-delay: 2.35s; }
+  .splash__wordmark span:nth-child(11) { animation-delay: 2.40s; }
+  .splash__wordmark span:nth-child(12) { animation-delay: 2.45s; }
+  .splash__wordmark span:nth-child(13) { animation-delay: 2.50s; }
+  .splash__wordmark span:nth-child(14) { animation-delay: 2.55s; }
+  .splash__wordmark span:nth-child(15) { animation-delay: 2.60s; }
+
+  @media (max-width: 600px) {
+    .splash__wordmark { font-size: 16px; letter-spacing: 0.4em; }
+  }
+
+  /* Tagline beneath */
+  .splash__tagline {
+    margin-top: 6px;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    opacity: 0;
+    animation: fadeUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 2.8s forwards;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @media (max-width: 600px) {
+    .splash__tagline { font-size: 9px; letter-spacing: 0.3em; }
+  }
+
+  /* ── PROGRESS BAR ─────────────────────────────────────────── */
+  .splash__progress {
+    position: absolute;
+    bottom: 11vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(280px, 60vw);
+    height: 1px;
+    background: rgba(255,255,255,0.12);
+    z-index: 3;
+    opacity: 0;
+    animation: fadeUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 2.6s forwards;
+  }
+  .splash__progress-bar {
+    position: absolute;
+    inset: 0 100% 0 0;
+    background: linear-gradient(90deg, rgba(255,255,255,0.4) 0%, #ffffff 50%, rgba(255,255,255,0.4) 100%);
+    animation: progressFill 2.6s cubic-bezier(0.4, 0, 0.2, 1) 2.6s forwards;
+  }
+  @keyframes progressFill {
+    to { inset: 0 0 0 0; }
+  }
+
+  /* ── ENTER HINT ───────────────────────────────────────────── */
+  .splash__enter {
+    position: absolute;
+    bottom: 5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    opacity: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 12px 24px;
+    font-family: inherit;
+    animation: hintPulse 1.8s ease-in-out 3.4s infinite;
+  }
+  .splash__enter:hover { color: #ffffff; }
+  @keyframes hintPulse {
+    0%, 100% { opacity: 0.4; }
+    50%      { opacity: 1; }
+  }
+
+  /* ── CORNER ACCENTS (small triangles at the four corners) ─── */
+  .corner-mark {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    opacity: 0;
+    z-index: 2;
+    animation: cornerIn 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
+  }
+  .corner-mark--tl { top: 28px; left: 28px; }
+  .corner-mark--tr { top: 28px; right: 28px; transform: scaleX(-1); }
+  .corner-mark--bl { bottom: 28px; left: 28px; transform: scaleY(-1); }
+  .corner-mark--br { bottom: 28px; right: 28px; transform: scale(-1, -1); }
+  .corner-mark::before,
+  .corner-mark::after {
+    content: "";
+    position: absolute;
+    background: rgba(255,255,255,0.3);
+  }
+  .corner-mark::before { top: 0; left: 0; width: 14px; height: 1px; }
+  .corner-mark::after  { top: 0; left: 0; width: 1px; height: 14px; }
+  @keyframes cornerIn {
+    to { opacity: 1; }
+  }
+  @media (max-width: 600px) {
+    .corner-mark { width: 18px; height: 18px; }
+    .corner-mark--tl { top: 16px; left: 16px; }
+    .corner-mark--tr { top: 16px; right: 16px; }
+    .corner-mark--bl { bottom: 16px; left: 16px; }
+    .corner-mark--br { bottom: 16px; right: 16px; }
+    .corner-mark::before { width: 10px; }
+    .corner-mark::after  { height: 10px; }
+  }
+
+  /* ── REDUCED MOTION ──────────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .logo-path,
+    .splash__wordmark span,
+    .splash__tagline,
+    .splash__progress,
+    .splash__enter,
+    .corner-mark,
+    .splash__pattern,
+    .particle {
+      animation: none !important;
+      opacity: 1;
+      transform: none;
+    }
+    .logo-path--center { fill: #0a0a0a; }
+    .splash__pattern { opacity: 0.15; }
+    .splash__progress-bar { inset: 0 30% 0 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="splash" id="splash" role="region" aria-label="White Stitches intro">
+
+  <!-- Corner marks for editorial framing -->
+  <span class="corner-mark corner-mark--tl" aria-hidden="true"></span>
+  <span class="corner-mark corner-mark--tr" aria-hidden="true"></span>
+  <span class="corner-mark corner-mark--bl" aria-hidden="true"></span>
+  <span class="corner-mark corner-mark--br" aria-hidden="true"></span>
+
+  <!-- Triangle pattern bands -->
+  <div class="splash__pattern splash__pattern--left" aria-hidden="true"></div>
+  <div class="splash__pattern splash__pattern--right" aria-hidden="true"></div>
+
+  <!-- Particle field, filled by JS at load -->
+  <div class="splash__particles" id="particles" aria-hidden="true"></div>
+
+  <!-- Stage -->
+  <div class="splash__stage">
+
+    <!-- Animated logo SVG (12 paths) -->
+    <svg class="splash__logo" viewBox="0 0 200 200" aria-label="White Stitches logo">
+      <path class="logo-path" d="M40 20 L80 20 L60 60 Z"/>
+      <path class="logo-path" d="M120 20 L160 20 L140 60 Z"/>
+      <path class="logo-path" d="M85 30 L100 50 L85 65 Z"/>
+      <path class="logo-path" d="M115 30 L100 50 L115 65 Z"/>
+      <path class="logo-path" d="M20 50 L40 70 L40 130 L20 150 Z"/>
+      <path class="logo-path" d="M180 50 L160 70 L160 130 L180 150 Z"/>
+      <path class="logo-path" d="M100 60 L130 100 L100 140 L70 100 Z"/>
+      <path class="logo-path logo-path--center" d="M100 80 L115 100 L100 120 L85 100 Z"/>
+      <path class="logo-path" d="M40 180 L80 180 L60 140 Z"/>
+      <path class="logo-path" d="M120 180 L160 180 L140 140 Z"/>
+      <path class="logo-path" d="M85 170 L100 150 L85 135 Z"/>
+      <path class="logo-path" d="M115 170 L100 150 L115 135 Z"/>
+    </svg>
+
+    <!-- Wordmark (letter-by-letter) -->
+    <div class="splash__wordmark" aria-label="White Stitches KW">
+      <span>W</span><span>H</span><span>I</span><span>T</span><span>E</span><span>&nbsp;</span><span>S</span><span>T</span><span>I</span><span>T</span><span>C</span><span>H</span><span>E</span><span>S</span><span>.</span><span>K</span><span>W</span>
+    </div>
+
+    <!-- Tagline -->
+    <div class="splash__tagline">Fashion Atelier · Kuwait</div>
+  </div>
+
+  <!-- Progress bar that fills over the auto-advance duration -->
+  <div class="splash__progress" aria-hidden="true">
+    <div class="splash__progress-bar"></div>
+  </div>
+
+  <!-- Manual enter button -->
+  <button class="splash__enter" id="enterBtn" type="button" aria-label="Enter the site">
+    Tap to enter
+  </button>
+
+</div>
+
+<script>
+  (function() {
+    'use strict';
+    const splash = document.getElementById('splash');
+    const enterBtn = document.getElementById('enterBtn');
+    const particles = document.getElementById('particles');
+    const NEXT_PAGE = 'index.html';
+    const AUTO_ADVANCE_MS = 5200; // total animation duration
+
+    // ── Generate floating triangle particles ─────────────────
+    // Create 14 particles with randomized origin, destination, rotation
+    function rand(min, max) { return Math.random() * (max - min) + min; }
+    function makeParticles() {
+      if (!particles) return;
+      const count = window.matchMedia('(max-width: 600px)').matches ? 8 : 14;
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        const isDown = Math.random() > 0.5;
+        const sizeClass = Math.random() > 0.6 ? '' : (Math.random() > 0.5 ? 'particle--small' : 'particle--tiny');
+        p.className = 'particle ' + (isDown ? 'particle--down' : 'particle--up') + ' ' + sizeClass;
+
+        // Random screen position
+        const startX = rand(0, 100);
+        const startY = rand(0, 100);
+        const driftX = rand(-30, 30);
+        const driftY = rand(-15, 15);
+
+        p.style.left = startX + 'vw';
+        p.style.top  = startY + 'vh';
+        p.style.setProperty('--from-x', '0');
+        p.style.setProperty('--from-y', '0');
+        p.style.setProperty('--to-x', driftX + 'vw');
+        p.style.setProperty('--to-y', driftY + 'vh');
+        p.style.setProperty('--rot', rand(-15, 15) + 'deg');
+        p.style.setProperty('--rot-end', rand(-45, 45) + 'deg');
+        p.style.animationDelay = rand(0.4, 2.8) + 's';
+
+        particles.appendChild(p);
+      }
+    }
+
+    // ── Transition out and proceed to the site ──────────────
+    let exited = false;
+    function exitSplash() {
+      if (exited) return;
+      exited = true;
+      // Set a session flag so we don't show the splash again
+      // on subsequent navigation within the same browsing session
+      try { sessionStorage.setItem('ws_splash_seen', '1'); } catch (e) {}
+      splash.classList.add('is-leaving');
+      // Wait for the fade-out, then navigate
+      setTimeout(function() {
+        window.location.href = NEXT_PAGE;
+      }, 600);
+    }
+
+    // ── Skip splash if already seen this session ────────────
+    // (Comment out the next 5 lines if you want the splash on EVERY visit)
+    try {
+      if (sessionStorage.getItem('ws_splash_seen') === '1') {
+        window.location.replace(NEXT_PAGE);
+        return;
+      }
+    } catch (e) {}
+
+    // ── Wire up interactions ────────────────────────────────
+    splash.addEventListener('click', exitSplash);
+    enterBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      exitSplash();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
+        exitSplash();
+      }
+    });
+
+    // ── Auto-advance after the animation completes ──────────
+    makeParticles();
+    setTimeout(exitSplash, AUTO_ADVANCE_MS);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>White Stitches — Design System v1.0</title>
+<link rel="icon" type="image/svg+xml" href="assets/logo-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter+Tight:wght@300;400;500;600&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/design-system.css?v=2.6" />
+<style>
+  .doc { max-width: 1200px; margin: 0 auto; padding: var(--s-7) var(--gutter) var(--s-9); }
+  .doc__intro { border-bottom: 1px solid var(--c-line); padding-bottom: var(--s-7); margin-bottom: var(--s-9); display: grid; grid-template-columns: 1fr 2fr; gap: var(--s-7); align-items: end; }
+  .doc__meta { font-size: var(--t-xs); letter-spacing: var(--tr-widest); text-transform: uppercase; color: var(--c-text-fade); line-height: 2; }
+  .doc__h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(var(--t-3xl), 7vw, 7rem); line-height: 0.95; letter-spacing: var(--tr-tight); margin: 0; }
+  .doc__h1 em { font-style: italic; color: var(--c-accent); }
+  .doc__section { margin-bottom: var(--s-9); }
+  .doc__section-head { display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid var(--c-line); padding-bottom: var(--s-3); margin-bottom: var(--s-6); }
+  .doc__h2 { font-family: var(--font-display); font-weight: 400; font-size: var(--t-3xl); margin: 0; }
+  .doc__num { font-family: var(--font-display); font-style: italic; font-size: var(--t-md); color: var(--c-accent); }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--s-3); }
+  .sw { background: var(--c-ink-2); border: 1px solid var(--c-line); }
+  .sw__chip { height: 100px; }
+  .sw__body { padding: var(--s-3); border-top: 1px solid var(--c-line); }
+  .sw__name { font-size: var(--t-sm); font-weight: 500; color: var(--c-text); margin: 0 0 4px 0; }
+  .sw__token { font-family: 'Courier New', monospace; font-size: 11px; color: var(--c-text-muted); display: block; }
+  .sw__hex { font-family: 'Courier New', monospace; font-size: 11px; color: var(--c-accent); display: block; margin-top: 2px; }
+  .type-sample { display: grid; grid-template-columns: 200px 1fr 120px; gap: var(--s-5); padding: var(--s-4) 0; border-bottom: 1px solid var(--c-line); align-items: baseline; }
+  .type-sample__token { font-family: 'Courier New', monospace; font-size: 11px; color: var(--c-text-muted); letter-spacing: 0; text-transform: none; }
+  .type-sample__example { color: var(--c-text); }
+  .type-sample__size { text-align: right; font-family: 'Courier New', monospace; font-size: 11px; color: var(--c-text-fade); }
+  .spacing-scale { display: flex; flex-direction: column; gap: var(--s-3); }
+  .spc { display: grid; grid-template-columns: 80px 1fr 100px; align-items: center; gap: var(--s-3); padding: var(--s-3) 0; border-bottom: 1px solid var(--c-line); }
+  .spc__token { font-family: 'Courier New', monospace; font-size: var(--t-xs); color: var(--c-accent); }
+  .spc__bar { height: 12px; background: var(--c-paper); }
+  .spc__val { text-align: right; font-family: 'Courier New', monospace; font-size: var(--t-xs); color: var(--c-text-fade); }
+  .comp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--s-3); }
+  .comp { background: var(--c-ink-2); border: 1px solid var(--c-line); padding: var(--s-5); }
+  .comp__name { font-size: var(--t-xs); letter-spacing: var(--tr-widest); text-transform: uppercase; color: var(--c-text-fade); margin: 0 0 var(--s-3) 0; }
+  .comp__demo { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: var(--s-3); min-height: 100px; padding: var(--s-4); background: var(--c-ink); margin-bottom: var(--s-3); border: 1px dashed var(--c-line); }
+  .comp__notes { font-size: var(--t-xs); color: var(--c-text-muted); line-height: 1.6; }
+  .pattern-demo { height: 280px; border: 1px solid var(--c-line); background: var(--c-ink); position: relative; overflow: hidden; }
+  .pattern-demo__inner { position: absolute; inset: 0; }
+  .pattern-demo__caption { position: absolute; bottom: var(--s-3); left: var(--s-3); background: var(--c-ink); padding: 6px 12px; font-family: 'Courier New', monospace; font-size: 11px; color: var(--c-accent); border: 1px solid var(--c-line); }
+  .logo-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--s-3); }
+  .logo-card { border: 1px solid var(--c-line); aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: var(--s-3); }
+  .logo-card--dark { background: var(--c-ink); }
+  .logo-card--light { background: var(--c-paper); color: var(--c-ink); }
+  .logo-card--ink { background: var(--c-ink-2); }
+  .logo-card .logo-mark { color: inherit; }
+  .logo-card__label { font-size: 9px; letter-spacing: var(--tr-widest); text-transform: uppercase; opacity: 0.5; }
+  .principles { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--s-5); }
+  .principle { border-left: 1px solid var(--c-accent); padding-left: var(--s-4); }
+  .principle__num { font-family: var(--font-display); font-style: italic; font-size: var(--t-md); color: var(--c-accent); }
+  .principle__title { font-family: var(--font-display); font-size: var(--t-xl); font-weight: 400; margin: var(--s-2) 0 var(--s-2) 0; }
+  .principle__body { font-size: var(--t-sm); color: var(--c-text-soft); line-height: 1.6; margin: 0; }
+  .doc-nav { position: fixed; top: var(--s-4); right: var(--s-4); z-index: var(--z-header); background: var(--c-paper); color: var(--c-ink); padding: 10px 18px; font-size: var(--t-xs); font-weight: 600; letter-spacing: var(--tr-wider); text-transform: uppercase; }
+  .doc-nav:hover { background: var(--c-accent); }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="doc-nav">← View Homepage</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="ws-mark" viewBox="0 0 200 200">
+      <g fill="currentColor" fill-rule="evenodd">
+        <path d="M40 20 L80 20 L60 60 Z"/><path d="M120 20 L160 20 L140 60 Z"/>
+        <path d="M85 30 L100 50 L85 65 Z"/><path d="M115 30 L100 50 L115 65 Z"/>
+        <path d="M20 50 L40 70 L40 130 L20 150 Z"/><path d="M180 50 L160 70 L160 130 L180 150 Z"/>
+        <path d="M100 60 L130 100 L100 140 L70 100 Z"/>
+        <path d="M100 80 L115 100 L100 120 L85 100 Z" fill="#0a0a0a"/>
+        <path d="M40 180 L80 180 L60 140 Z"/><path d="M120 180 L160 180 L140 140 Z"/>
+        <path d="M85 170 L100 150 L85 135 Z"/><path d="M115 170 L100 150 L115 135 Z"/>
+      </g>
+    </symbol>
+    <symbol id="ws-mark-light" viewBox="0 0 200 200">
+      <g fill="currentColor" fill-rule="evenodd">
+        <path d="M40 20 L80 20 L60 60 Z"/><path d="M120 20 L160 20 L140 60 Z"/>
+        <path d="M85 30 L100 50 L85 65 Z"/><path d="M115 30 L100 50 L115 65 Z"/>
+        <path d="M20 50 L40 70 L40 130 L20 150 Z"/><path d="M180 50 L160 70 L160 130 L180 150 Z"/>
+        <path d="M100 60 L130 100 L100 140 L70 100 Z"/>
+        <path d="M100 80 L115 100 L100 120 L85 100 Z" fill="#f5f1ea"/>
+        <path d="M40 180 L80 180 L60 140 Z"/><path d="M120 180 L160 180 L140 140 Z"/>
+        <path d="M85 170 L100 150 L85 135 Z"/><path d="M115 170 L100 150 L115 135 Z"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="doc">
+
+  <header class="doc__intro">
+    <div class="doc__meta">
+      <div>White Stitches Fashion</div>
+      <div>Design System</div>
+      <div>Version 1.0 — April 2026</div>
+    </div>
+    <h1 class="doc__h1">A system for <em>quiet</em><br>luxury.</h1>
+  </header>
+
+  <section class="doc__section">
+    <div class="doc__section-head">
+      <h2 class="doc__h2">Design Principles</h2>
+      <span class="doc__num">01</span>
+    </div>
+    <div class="principles">
+      <div class="principle">
+        <span class="principle__num">i.</span>
+        <h3 class="principle__title">Black is the canvas.</h3>
+        <p class="principle__body">The store lives on near-black (#0A0A0A) — not pure black, but a soft, warm void. The gallery wall against which every garment becomes the subject.</p>
+      </div>
+      <div class="principle">
+        <span class="principle__num">ii.</span>
+        <h3 class="principle__title">The stitch is the brand.</h3>
+        <p class="principle__body">The geometric mark drawn from embroidery is used as a textural pattern — never as decoration. It appears subtly on hero, editorial and newsletter sections — a quiet wallpaper of identity.</p>
+      </div>
+      <div class="principle">
+        <span class="principle__num">iii.</span>
+        <h3 class="principle__title">Italic carries emotion.</h3>
+        <p class="principle__body">Cormorant Garamond italics handle every emotional moment — taglines, editorial captions, callouts. Roman is for clarity; italics whisper.</p>
+      </div>
+      <div class="principle">
+        <span class="principle__num">iv.</span>
+        <h3 class="principle__title">Gold, but never bright.</h3>
+        <p class="principle__body">A muted, dusty gold (#C8A96A) is our only accent. It marks sale, hovers, and the cart count — used so sparingly that when it appears, it earns attention.</p>
+      </div>
+      <div class="principle">
+        <span class="principle__num">v.</span>
+        <h3 class="principle__title">Bilingual from the start.</h3>
+        <p class="principle__body">Every component is built with logical CSS so the entire interface mirrors flawlessly to RTL. Tajawal stands in for Arabic; the same hierarchy holds.</p>
+      </div>
+      <div class="principle">
+        <span class="principle__num">vi.</span>
+        <h3 class="principle__title">Hard edges, soft motion.</h3>
+        <p class="principle__body">No rounded corners on cards or buttons — luxury demands precision. But every transition is eased, every reveal staggered, every hover soft.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc__section">
+    <div class="doc__section-head">
+      <h2 class="doc__h2">Logo &amp; Mark</h2>
+      <span class="doc__num">02</span>
+    </div>
+    <div class="logo-row">
+      <div class="logo-card logo-card--dark">
+        <svg class="logo-mark" style="width:80px;height:80px;color:var(--c-paper)" viewBox="0 0 200 200"><use href="#ws-mark"/></svg>
+        <div style="font-family:var(--font-sans);font-size:11px;font-weight:500;letter-spacing:0.32em;color:var(--c-paper)">WHITESTICHES<span style="color:var(--c-accent)">.KW</span></div>
+        <div style="font-size:8px;letter-spacing:0.4em;opacity:0.6;color:var(--c-paper)">FASHION</div>
+        <div class="logo-card__label" style="color: var(--c-text-fade);margin-top:auto">Primary · on dark</div>
+      </div>
+      <div class="logo-card logo-card--light">
+        <svg class="logo-mark" style="width:80px;height:80px;color:var(--c-ink)" viewBox="0 0 200 200"><use href="#ws-mark-light"/></svg>
+        <div style="font-family:var(--font-sans);font-size:11px;font-weight:500;letter-spacing:0.32em">WHITESTICHES<span style="color:var(--c-accent-soft)">.KW</span></div>
+        <div style="font-size:8px;letter-spacing:0.4em;opacity:0.6">FASHION</div>
+        <div class="logo-card__label" style="margin-top:auto">Inverse · on ivory</div>
+      </div>
+      <div class="logo-card logo-card--ink">
+        <div style="display:flex;align-items:center;gap:14px;color:var(--c-paper)">
+          <svg class="logo-mark" style="width:48px;height:48px" viewBox="0 0 200 200"><use href="#ws-mark"/></svg>
+          <div style="font-family:var(--font-sans);font-size:14px;font-weight:500;letter-spacing:0.32em">WHITESTICHES<span style="color:var(--c-accent)">.KW</span></div>
+        </div>
+        <div class="logo-card__label" style="color: var(--c-text-fade);margin-top:auto">Horizontal · navigation</div>
+      </div>
+      <div class="logo-card logo-card--dark">
+        <svg class="logo-mark" style="width:120px;height:120px;color:var(--c-paper)" viewBox="0 0 200 200"><use href="#ws-mark"/></svg>
+        <div class="logo-card__label" style="color: var(--c-text-fade);margin-top:auto">Mark only · favicon</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc__section">
+    <div class="doc__section-head">
+      <h2 class="doc__h2">Color Tokens</h2>
+      <span class="doc__num">03</span>
+    </div>
+
+    <h3 style="font-family:var(--font-display);font-weight:400;font-size:var(--t-xl);margin:0 0 var(--s-3) 0;color:var(--c-text-soft)">Core surfaces</h3>
+    <div class="swatches" style="margin-bottom: var(--s-6)">
+      <div class="sw"><div class="sw__chip" style="background:#0a0a0a"></div><div class="sw__body"><div class="sw__name">Ink</div><span class="sw__token">--c-ink</span><span class="sw__hex">#0A0A0A</span></div></div>
+      <div class="sw"><div class="sw__chip" style="background:#131313"></div><div class="sw__body"><div class="sw__name">Ink 2</div><span class="sw__token">--c-ink-2</span><span class="sw__hex">#131313</span></div></div>
+      <div class="sw"><div class="sw__chip" style="background:#1c1c1c"></div><div class="sw__body"><div class="sw__name">Ink 3</div><span class="sw__token">--c-ink-3</span><span class="sw__hex">#1C1C1C</span></div></div>
+      <div class="sw"><div class="sw__chip" style="background:#2a2a2a"></div><div class="sw__body"><div class="sw__name">Line</div><span class="sw__token">--c-line</span><span class="sw__hex">#2A2A2A</span></div></div>
+      <div class="sw"><div class="sw__chip" style="background:#f5f1ea"></div><div class="sw__body"><div class="sw__name">Paper</div><span class="sw__token">--c-paper</span><span class="sw__hex">#F5F1EA</span></div></div>
+      <div class="sw"><div class="sw__chip" style="background:#ebe5d9"></div><div class="sw__body"><div class="sw__name">Paper 2</div><span class="sw__token">--c-paper-2</span><span class="sw__hex">#EBE5D9</span></div></div>
+    </div>
+
+    <h3 style="font-family:var(--font-display);font-weight:400;font-size:var(--t-xl);margin:0 0 var(--s-3) 0;color:var(--c-text-soft)">Accents &amp; states</h3>
+    <div class="swatches">
+      <div class="sw"><div class="sw__chip" style="background:#c8a96a"></div><div class="sw__body"><div class="sw__name">Accent · Gold</div><span class="sw__token">--c-accent</span><span class="sw__hex">#C8A96A</span></div></div>
+      <div class="sw"><div class="sw__chip" style="background:#a48851"></div><div class="sw__body"><div class="sw__name">Accent Soft</div><span class="sw__token">--c-accent-soft</span><span class="sw__hex">#A48851</span></div></div>
+      <div class="sw"><div class="sw__chip" style="background:#5a2a2a"></div><div class="sw__body"><div class="sw__name">Burgundy</div><span class="sw__token">--c-burgundy</span><span class="sw__hex">#5A2A2A</span></div></div>
+      <div class="sw"><div class="sw__chip" style="background:#7a8a76"></div><div class="sw__body"><div class="sw__name">Sage</div><span class="sw__token">--c-sage</span><span class="sw__hex">#7A8A76</span></div></div>
+      <div class="sw"><div class="sw__chip" style="background:#6f8a5c"></div><div class="sw__body"><div class="sw__name">Success</div><span class="sw__token">--c-success</span><span class="sw__hex">#6F8A5C</span></div></div>
+      <div class="sw"><div class="sw__chip" style="background:#b85547"></div><div class="sw__body"><div class="sw__name">Danger</div><span class="sw__token">--c-danger</span><span class="sw__hex">#B85547</span></div></div>
+    </div>
+  </section>
+
+  <section class="doc__section">
+    <div class="doc__section-head">
+      <h2 class="doc__h2">Typography</h2>
+      <span class="doc__num">04</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s-5);margin-bottom:var(--s-7)">
+      <div style="border:1px solid var(--c-line);padding:var(--s-5)">
+        <div style="font-size:11px;letter-spacing:var(--tr-widest);text-transform:uppercase;color:var(--c-text-fade);margin-bottom:var(--s-3)">Display</div>
+        <div style="font-family:var(--font-display);font-size:64px;line-height:1;font-weight:300">Cormorant<br><em style="color:var(--c-accent)">Garamond</em></div>
+        <div style="margin-top:var(--s-3);font-family:'Courier New',monospace;font-size:11px;color:var(--c-text-muted)">--font-display · 300 / 400 / 500</div>
+      </div>
+      <div style="border:1px solid var(--c-line);padding:var(--s-5)">
+        <div style="font-size:11px;letter-spacing:var(--tr-widest);text-transform:uppercase;color:var(--c-text-fade);margin-bottom:var(--s-3)">UI / Body</div>
+        <div style="font-family:var(--font-sans);font-size:48px;line-height:1.05;font-weight:400">Inter Tight<br><span style="font-weight:500">UI &amp; controls</span></div>
+        <div style="margin-top:var(--s-3);font-family:'Courier New',monospace;font-size:11px;color:var(--c-text-muted)">--font-sans · 300 / 400 / 500 / 600</div>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--font-display);font-weight:400;font-size:var(--t-xl);margin:0 0 var(--s-4) 0;color:var(--c-text-soft)">Type Scale</h3>
+    <div class="type-sample"><div class="type-sample__token">--t-5xl</div><div class="type-sample__example" style="font-family:var(--font-display);font-size:var(--t-5xl);font-weight:300;line-height:1">Hero display</div><div class="type-sample__size">96px</div></div>
+    <div class="type-sample"><div class="type-sample__token">--t-4xl</div><div class="type-sample__example" style="font-family:var(--font-display);font-size:var(--t-4xl);font-weight:400">Section title</div><div class="type-sample__size">68px</div></div>
+    <div class="type-sample"><div class="type-sample__token">--t-3xl</div><div class="type-sample__example" style="font-family:var(--font-display);font-size:var(--t-3xl);font-weight:400">Page heading</div><div class="type-sample__size">48px</div></div>
+    <div class="type-sample"><div class="type-sample__token">--t-2xl</div><div class="type-sample__example" style="font-family:var(--font-display);font-size:var(--t-2xl)">Subsection</div><div class="type-sample__size">34px</div></div>
+    <div class="type-sample"><div class="type-sample__token">--t-xl</div><div class="type-sample__example" style="font-family:var(--font-display);font-size:var(--t-xl)">Card title</div><div class="type-sample__size">26px</div></div>
+    <div class="type-sample"><div class="type-sample__token">--t-lg</div><div class="type-sample__example" style="font-size:var(--t-lg)">Lead paragraph</div><div class="type-sample__size">20px</div></div>
+    <div class="type-sample"><div class="type-sample__token">--t-md</div><div class="type-sample__example" style="font-size:var(--t-md)">Body large</div><div class="type-sample__size">17px</div></div>
+    <div class="type-sample"><div class="type-sample__token">--t-base</div><div class="type-sample__example" style="font-size:var(--t-base)">Body — default reading size for product descriptions, paragraphs and most UI labels.</div><div class="type-sample__size">15px</div></div>
+    <div class="type-sample"><div class="type-sample__token">--t-sm</div><div class="type-sample__example" style="font-size:var(--t-sm)">Small · captions</div><div class="type-sample__size">13px</div></div>
+    <div class="type-sample"><div class="type-sample__token">--t-xs</div><div class="type-sample__example" style="font-size:var(--t-xs);letter-spacing:var(--tr-widest);text-transform:uppercase">Eyebrow / micro</div><div class="type-sample__size">11px</div></div>
+  </section>
+
+  <section class="doc__section">
+    <div class="doc__section-head">
+      <h2 class="doc__h2">Spacing Scale</h2>
+      <span class="doc__num">05</span>
+    </div>
+    <div class="spacing-scale">
+      <div class="spc"><span class="spc__token">--s-1</span><div class="spc__bar" style="width:4px"></div><span class="spc__val">4px</span></div>
+      <div class="spc"><span class="spc__token">--s-2</span><div class="spc__bar" style="width:8px"></div><span class="spc__val">8px</span></div>
+      <div class="spc"><span class="spc__token">--s-3</span><div class="spc__bar" style="width:12px"></div><span class="spc__val">12px</span></div>
+      <div class="spc"><span class="spc__token">--s-4</span><div class="spc__bar" style="width:16px"></div><span class="spc__val">16px</span></div>
+      <div class="spc"><span class="spc__token">--s-5</span><div class="spc__bar" style="width:24px"></div><span class="spc__val">24px</span></div>
+      <div class="spc"><span class="spc__token">--s-6</span><div class="spc__bar" style="width:32px"></div><span class="spc__val">32px</span></div>
+      <div class="spc"><span class="spc__token">--s-7</span><div class="spc__bar" style="width:48px"></div><span class="spc__val">48px</span></div>
+      <div class="spc"><span class="spc__token">--s-8</span><div class="spc__bar" style="width:64px"></div><span class="spc__val">64px</span></div>
+      <div class="spc"><span class="spc__token">--s-9</span><div class="spc__bar" style="width:96px"></div><span class="spc__val">96px</span></div>
+      <div class="spc"><span class="spc__token">--s-10</span><div class="spc__bar" style="width:128px"></div><span class="spc__val">128px</span></div>
+    </div>
+  </section>
+
+  <section class="doc__section">
+    <div class="doc__section-head">
+      <h2 class="doc__h2">Brand Pattern</h2>
+      <span class="doc__num">06</span>
+    </div>
+    <p style="color:var(--c-text-soft);max-width:600px;margin:0 0 var(--s-5) 0;font-size:var(--t-md);line-height:1.6">The logo's geometric motif tiles into a textural background — used at low opacity (3–5% of paper color) on hero sections, editorials, and the newsletter band. Never used as a primary visual.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s-3)">
+      <div class="pattern-demo">
+        <div class="pattern-demo__inner" style="background-image:url(&quot;data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' width='160' height='160'><g fill='rgba(245,241,234,0.06)' fill-rule='evenodd'><path d='M40 20 L80 20 L60 60 Z'/><path d='M120 20 L160 20 L140 60 Z'/><path d='M85 30 L100 50 L85 65 Z'/><path d='M115 30 L100 50 L115 65 Z'/><path d='M100 60 L130 100 L100 140 L70 100 Z'/><path d='M40 180 L80 180 L60 140 Z'/><path d='M120 180 L160 180 L140 140 Z'/><path d='M85 170 L100 150 L85 135 Z'/><path d='M115 170 L100 150 L115 135 Z'/></g></svg>&quot;);background-size:160px 160px"></div>
+        <div class="pattern-demo__caption">pattern · paper @ 6%</div>
+      </div>
+      <div class="pattern-demo">
+        <div class="pattern-demo__inner" style="background-image:url(&quot;data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' width='200' height='200'><g fill='rgba(200,169,106,0.08)' fill-rule='evenodd'><path d='M40 20 L80 20 L60 60 Z'/><path d='M120 20 L160 20 L140 60 Z'/><path d='M85 30 L100 50 L85 65 Z'/><path d='M115 30 L100 50 L115 65 Z'/><path d='M100 60 L130 100 L100 140 L70 100 Z'/><path d='M40 180 L80 180 L60 140 Z'/><path d='M120 180 L160 180 L140 140 Z'/><path d='M85 170 L100 150 L85 135 Z'/><path d='M115 170 L100 150 L115 135 Z'/></g></svg>&quot;);background-size:200px 200px"></div>
+        <div class="pattern-demo__caption">pattern · gold @ 8%</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc__section">
+    <div class="doc__section-head">
+      <h2 class="doc__h2">Components</h2>
+      <span class="doc__num">07</span>
+    </div>
+    <div class="comp-grid">
+      <div class="comp">
+        <div class="comp__name">Buttons · Primary</div>
+        <div class="comp__demo">
+          <button class="btn btn--primary">Shop the Edit
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+        <div class="comp__notes">Ivory on ink, hover→gold. The single primary CTA per section.</div>
+      </div>
+      <div class="comp">
+        <div class="comp__name">Buttons · Ghost</div>
+        <div class="comp__demo">
+          <button class="btn btn--ghost">Watch the Film</button>
+        </div>
+        <div class="comp__notes">Bordered ghost button for secondary actions.</div>
+      </div>
+      <div class="comp">
+        <div class="comp__name">Eyebrow Label</div>
+        <div class="comp__demo">
+          <span class="eyebrow">Spring · Summer 26</span>
+        </div>
+        <div class="comp__notes">Section preludes. Always uppercase, with leading rule.</div>
+      </div>
+      <div class="comp">
+        <div class="comp__name">Link · Arrow</div>
+        <div class="comp__demo">
+          <a href="#" class="link-arrow">View all 28 →</a>
+        </div>
+        <div class="comp__notes">Underline shifts to gold on hover.</div>
+      </div>
+      <div class="comp">
+        <div class="comp__name">Input Field</div>
+        <div class="comp__demo">
+          <div class="field" style="width:100%">
+            <input type="email" placeholder="Your email address" />
+          </div>
+        </div>
+        <div class="comp__notes">Hairline border. Focus brightens to paper.</div>
+      </div>
+      <div class="comp">
+        <div class="comp__name">Color Swatches</div>
+        <div class="comp__demo">
+          <div style="display:flex;gap:6px">
+            <span class="swatch" style="width:18px;height:18px;background:#e8e0d0"></span>
+            <span class="swatch" style="width:18px;height:18px;background:#0f0f0f"></span>
+            <span class="swatch" style="width:18px;height:18px;background:#7a3a2c"></span>
+            <span class="swatch" style="width:18px;height:18px;background:#5a4a3a"></span>
+            <span class="swatch" style="width:18px;height:18px;background:#9a8a7a"></span>
+          </div>
+        </div>
+        <div class="comp__notes">Variant chips — 12px on listing, 18–24px on PDP.</div>
+      </div>
+      <div class="comp">
+        <div class="comp__name">Badges</div>
+        <div class="comp__demo">
+          <span style="padding:4px 10px;background:var(--c-paper);color:var(--c-ink);font-size:10px;letter-spacing:var(--tr-widest);text-transform:uppercase;font-weight:600">New</span>
+          <span style="padding:4px 10px;background:var(--c-accent);color:var(--c-ink);font-size:10px;letter-spacing:var(--tr-widest);text-transform:uppercase;font-weight:600">−20%</span>
+          <span style="padding:4px 10px;background:var(--c-burgundy);color:var(--c-paper);font-size:10px;letter-spacing:var(--tr-widest);text-transform:uppercase;font-weight:600">Sold Out</span>
+        </div>
+        <div class="comp__notes">Square edges. Reserved palette: paper, gold, burgundy.</div>
+      </div>
+      <div class="comp">
+        <div class="comp__name">Checkbox</div>
+        <div class="comp__demo">
+          <label class="checkbox" style="margin-top:0">
+            <input type="checkbox" checked />
+            <span>WhatsApp updates</span>
+          </label>
+        </div>
+        <div class="comp__notes">Checked = paper fill, ink check.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc__section">
+    <div class="doc__section-head">
+      <h2 class="doc__h2">Motion Tokens</h2>
+      <span class="doc__num">08</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--s-3)">
+      <div class="comp"><div class="comp__name">Fast</div><div style="font-family:'Courier New',monospace;font-size:var(--t-md);color:var(--c-accent)">--d-fast</div><div style="font-size:var(--t-sm);color:var(--c-text-soft);margin-top:8px">140ms · hover, focus, ripple</div></div>
+      <div class="comp"><div class="comp__name">Base</div><div style="font-family:'Courier New',monospace;font-size:var(--t-md);color:var(--c-accent)">--d-base</div><div style="font-size:var(--t-sm);color:var(--c-text-soft);margin-top:8px">220ms · buttons, badges, swatches</div></div>
+      <div class="comp"><div class="comp__name">Slow</div><div style="font-family:'Courier New',monospace;font-size:var(--t-md);color:var(--c-accent)">--d-slow</div><div style="font-size:var(--t-sm);color:var(--c-text-soft);margin-top:8px">400ms · image swaps, modal entrance</div></div>
+      <div class="comp"><div class="comp__name">Slower</div><div style="font-family:'Courier New',monospace;font-size:var(--t-md);color:var(--c-accent)">--d-slower</div><div style="font-size:var(--t-sm);color:var(--c-text-soft);margin-top:8px">650ms · hero stagger, page reveals</div></div>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>
