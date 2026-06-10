@@ -44,9 +44,18 @@ $script:productId = $null
 $script:variantId = $null
 $script:orderNumber = $null
 
-Step 'home renders' {
+Step 'first visit redirects to intro splash' {
     $r = Get-Page '/'
     if ($r.StatusCode -ne 200) { throw "status $($r.StatusCode)" }
+    if ($r.BaseResponse.ResponseUri.AbsolutePath -ne '/intro') { throw "expected /intro, got $($r.BaseResponse.ResponseUri.AbsolutePath)" }
+    if ($r.Content -notmatch 'id="splash"') { throw 'splash markup missing on intro page' }
+}
+
+Step 'home renders after intro seen (ws_intro cookie)' {
+    $r = Get-Page '/'
+    if ($r.StatusCode -ne 200) { throw "status $($r.StatusCode)" }
+    if ($r.BaseResponse.ResponseUri.AbsolutePath -ne '/') { throw "still redirected away from home: $($r.BaseResponse.ResponseUri.AbsolutePath)" }
+    if ($r.Content -match 'id="splash"') { throw 'intro splash rendered instead of home' }
 }
 
 Step 'collection lists seeded products' {

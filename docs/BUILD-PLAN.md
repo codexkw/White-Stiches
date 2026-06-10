@@ -24,6 +24,7 @@ Verified end-to-end by `scripts/smoke-e2e.ps1` (20-step scripted customer journe
 - [x] Account suite: dashboard, orders list + `/account/orders/{number}` detail with status stepper, addresses CRUD + default, profile + password + marketing prefs, wishlist (add/remove/move-to-bag), returns wizard for delivered orders (SF-ACC-02..07, SF-ACC-09)
 - [x] Content: journal index/post from DB, contact form persists, newsletter endpoint, public order tracking by number + email/phone (SF-JRN-01/02, SF-STA-02/06)
 - [x] Demo catalog seeder (`SampleDataSeeder`, opt-in via `SeedSampleData` config): 16 products with options/variants/images, Spring Edit collection, 4 journal categories + posts, demo discount codes (WELCOME10/SS26/EID2026)
+- [x] Entry flow: first visit to `/` shows the intro splash once per browsing session (`ws_intro` session cookie set when `/intro` is served), then auto-advances/taps into home; deep links are never gated; no-JS fallback via real enter link + `<noscript>` refresh
 
 **Phase 1A leftovers (carried forward):**
 - Cart page "Complete the bag" row and the layout's search-overlay suggestions are still static demo markup (live data follow-up)

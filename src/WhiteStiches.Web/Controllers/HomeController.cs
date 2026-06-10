@@ -6,10 +6,33 @@ namespace WhiteStiches.Web.Controllers;
 
 public class HomeController : Controller
 {
-    public IActionResult Index() => View();
+    // Session cookie (no expiry): the splash greets each browsing session once,
+    // then every entry point behaves normally. Deep links are never gated.
+    private const string IntroSeenCookie = "ws_intro";
+
+    public IActionResult Index()
+    {
+        if (!Request.Cookies.ContainsKey(IntroSeenCookie))
+        {
+            return RedirectToAction(nameof(Intro));
+        }
+
+        return View();
+    }
 
     [Route("intro")]
-    public IActionResult Intro() => View();
+    public IActionResult Intro()
+    {
+        // Set on serve, not on exit — the gate must open even if JS never runs.
+        Response.Cookies.Append(IntroSeenCookie, "1", new CookieOptions
+        {
+            HttpOnly = true,
+            IsEssential = true,
+            SameSite = SameSiteMode.Lax
+        });
+
+        return View();
+    }
 
     [Route("not-found")]
     public IActionResult PageNotFound()

@@ -17,6 +17,8 @@
 
 <link rel="stylesheet" href="~/css/design-system.css?v=2.6" />
 
+<noscript><meta http-equiv="refresh" content="6;url=/" /></noscript>
+
 <style>
   /* ============================================================================
      INTRO / SPLASH — fully self-contained styles, runs without site.css
@@ -277,6 +279,8 @@
     cursor: pointer;
     padding: 12px 24px;
     font-family: inherit;
+    text-decoration: none;
+    display: inline-block;
     animation: hintPulse 1.8s ease-in-out 3.4s infinite;
   }
   .splash__enter:hover { color: #ffffff; }
@@ -389,10 +393,10 @@
     <div class="splash__progress-bar"></div>
   </div>
 
-  <!-- Manual enter button -->
-  <button class="splash__enter" id="enterBtn" type="button" aria-label="Enter the site">
+  <!-- Manual enter control — a real link so it works without JS -->
+  <a class="splash__enter" id="enterBtn" href="/" aria-label="Enter the site">
     Tap to enter
-  </button>
+  </a>
 
 </div>
 
@@ -464,6 +468,7 @@
     // ── Wire up interactions ────────────────────────────────
     splash.addEventListener('click', exitSplash);
     enterBtn.addEventListener('click', function(e) {
+      e.preventDefault();
       e.stopPropagation();
       exitSplash();
     });
