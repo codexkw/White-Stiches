@@ -62,11 +62,42 @@ the storefront `scripts/smoke-e2e.ps1` (21-step — all pass, no service-layer r
 
 | # | Work | Requirements |
 | --- | --- | --- |
-| 1 | **Tap Payments**: hosted checkout, webhooks (signature + idempotency), refunds from Admin | INT-PAY-01..05, SF-CHK-03 |
+| 1 | ✅ **Tap Payments**: hosted checkout, webhooks (signature + idempotency), refunds from Admin | INT-PAY-01..05, SF-CHK-03 |
 | 2 | Delivery partner behind provider-agnostic interface (partner TBD — open question in PRD §12) | INT-DLV-01/02 |
 | 3 | SMTP transactional email (bilingual templates) | INT-EML-01..03 |
 | 4 | WhatsApp transactional templates (order confirmed/shipped/delivered) | INT-WAP-01..03 |
 | 5 | GA4 + Consent Mode v2 wired to the cookie-consent state already in the front end | INT-GA4-01/02 |
+
+### ✅ 1C-1 Tap Payments (DONE · 2026-06-11)
+
+Provider-agnostic gateway (`IPaymentGateway` → `TapPaymentService`, typed `HttpClient`) + order-aware
+orchestration (`IPaymentService` → `PaymentService`). Tap v2 Charges API: hosted redirect via
+`source.id="src_all"` + `redirect.url`; confirmed by GET retrieve **and** the `post.url` webhook
+(HMAC-SHA256 `hashstring`). KWD sent as 3-decimal major units. All three API contracts validated
+against the live sandbox; a full card+3DS purchase was captured and finalized end-to-end, and an
+Admin → Tap partial refund was issued.
+
+- knet/card/applepay → Tap hosted page; **COD stays synchronous**; if no Tap key is configured,
+  checkout falls back to the manual flow (so dev/CI still completes).
+- Order is created `Pending`; **stock is decremented + cart cleared only once payment is confirmed**
+  (return or webhook). Finalization is idempotent + race-safe: an atomic `ExecuteUpdate` claim on the
+  payment row (return vs webhook) and an atomic `Stock = Stock - qty` (cross-order). Captured amount is
+  reconciled against the order total before marking paid (mismatch → held for review).
+- Re-submitting checkout **resumes** the in-flight order via a `ws_pay` cookie instead of duplicating.
+- Admin refunds call Tap for `Provider="Tap"` payments (store `GatewayRefundId`); `"Manual"` stay local.
+- Keys: the `Tap` section lives in `appsettings.json` (committed) but `Tap:SecretKey` is left **empty** —
+  set the real key on the server (GitHub push-protection blocks the `sk_test_`/`sk_live_` value, and a live
+  key must never be committed). `Tap:MerchantId` = 599424.
+
+**1C-1 leftovers / before go-live:**
+- Set `Tap:PublicBaseUrl` to the public https origin in production so the webhook/return URLs are
+  always https (the webhook needs a public HTTPS endpoint Tap can reach — configure the post URL /
+  dashboard webhook). Rotate `Tap:SecretKey` to the `sk_live_` key for production.
+- No background sweep yet for abandoned `Pending` Tap orders (hosted-page TTL ~30 min) — they linger in
+  the admin order list. Add an `IHostedService` to expire/cancel them (and/or filter Pending+Initiated
+  Tap orders out of the default admin list).
+- Webhook signature verified by code review against the documented algorithm; exercise it against a real
+  Tap delivery once a public HTTPS endpoint exists (can't reach localhost).
 
 ## Phase 1D — Localization & launch QA
 

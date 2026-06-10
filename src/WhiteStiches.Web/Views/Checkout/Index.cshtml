@@ -55,6 +55,11 @@
     <!-- ── FORM column ─────────────────────────────────────────────── -->
     <form class="co__form" method="post" asp-controller="Checkout" asp-action="Place">
 
+      @if (TempData["CheckoutError"] is string checkoutError)
+      {
+        <div class="co-errors" role="alert"><ul><li>@checkoutError</li></ul></div>
+      }
+
       <!-- Express checkout row (top) — placeholders until Tap Payments (Phase 1C) -->
       <div class="co-section co-section--express">
         <span class="co-express__label">Express checkout</span>
@@ -293,7 +298,7 @@
             </span>
           </label>
 
-          <p class="co-note-muted">Payment is completed after order review while Tap Payments integration is finalized.</p>
+          <p class="co-note-muted">KNET, card &amp; Apple Pay are processed securely by Tap Payments — you’ll be redirected to complete your payment. Cash on delivery is paid to the courier on arrival.</p>
 
         </div>
       </section>

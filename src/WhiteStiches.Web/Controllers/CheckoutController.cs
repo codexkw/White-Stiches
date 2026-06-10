@@ -17,11 +17,17 @@ public class CheckoutController(
     ISettingsService settingsService,
     ICatalogService catalogService,
     IOrderService orderService,
+    IPaymentGateway paymentGateway,
+    IPaymentService paymentService,
     ICustomerService customerService,
+    IConfiguration configuration,
     UserManager<ApplicationUser> userManager) : Controller
 {
     /// <summary>Cash-on-delivery surcharge added to shipping. TODO Phase 1C: move to a settings key.</summary>
     private const decimal CodFee = 1.500m;
+
+    /// <summary>Points the browser at its in-flight Tap order so a re-submit resumes it instead of duplicating.</summary>
+    private const string PendingPayCookie = "ws_pay";
 
     [HttpGet("checkout")]
     public async Task<IActionResult> Index(CancellationToken ct)
@@ -139,6 +145,52 @@ public class CheckoutController(
             });
         }
 
+        // knet/card/applepay go through Tap (hosted redirect); COD is pay-on-delivery and stays
+        // synchronous. If Tap has no key configured, fall back to the manual flow so local/dev
+        // checkout still completes.
+        var payViaTap = form.PaymentMethod != "cod" && paymentGateway.IsConfigured;
+
+        if (payViaTap)
+        {
+            // Resume the browser's in-flight Tap order (same amount, still unpaid) instead of
+            // spawning a new order + charge on every re-submit (back button / abandoned page).
+            var tapOrder = await ResolveResumableTapOrderAsync(total, ct);
+            if (tapOrder is null)
+            {
+                order.Payments.Add(new Payment
+                {
+                    Provider = "Tap",
+                    Method = form.PaymentMethod,
+                    Status = TransactionStatus.Initiated,
+                    Amount = total,
+                    Currency = "KWD"
+                });
+                await orderService.CreateOrderAsync(order, ct);
+                tapOrder = order;
+            }
+
+            // Remember the in-flight order so a re-submit resumes it. Stock is decremented and the
+            // cart cleared only once payment is confirmed (TapReturn/TapWebhook), so an abandoned
+            // hosted page leaves no stock impact and the customer keeps their bag to retry.
+            Response.Cookies.Append(PendingPayCookie, tapOrder.OrderNumber, PendingPayCookieOptions());
+
+            var charge = await paymentService.StartChargeForOrderAsync(
+                tapOrder.Id,
+                CallbackUrl(nameof(PaymentsController.TapReturn)),
+                CallbackUrl(nameof(PaymentsController.TapWebhook)), ct);
+
+            if (charge.Success && !string.IsNullOrEmpty(charge.HostedPaymentUrl))
+            {
+                return Redirect(charge.HostedPaymentUrl);
+            }
+
+            ModelState.AddModelError(string.Empty,
+                "We couldn't start your payment. Please try again, or choose Cash on Delivery.");
+            var failedVm = await BuildViewModelAsync(cart, form, ct);
+            return View("Index", failedVm);
+        }
+
+        // COD / manual fallback: confirm immediately.
         order.Payments.Add(new Payment
         {
             Provider = "Manual",
@@ -147,7 +199,6 @@ public class CheckoutController(
             Amount = total,
             Currency = "KWD"
         });
-
         await orderService.CreateOrderAsync(order, ct);
 
         // Decrement stock per line, recording an immutable adjustment row
@@ -163,10 +214,52 @@ public class CheckoutController(
         }
 
         await cartService.ClearAsync(cart.Id, ct);
+        Response.Cookies.Delete(PendingPayCookie);
 
         TempData["LastOrderNumber"] = order.OrderNumber;
         return Redirect($"/checkout/confirmation/{order.OrderNumber}");
     }
+
+    /// <summary>
+    /// Returns the browser's in-flight Tap order (from the <c>ws_pay</c> cookie) when it is still
+    /// resumable — ours, placed-and-unpaid, with an Initiated Tap payment, and for the same amount —
+    /// so a re-submit continues that order instead of creating a duplicate order + charge.
+    /// </summary>
+    private async Task<Order?> ResolveResumableTapOrderAsync(decimal total, CancellationToken ct)
+    {
+        if (!Request.Cookies.TryGetValue(PendingPayCookie, out var orderNumber) || string.IsNullOrWhiteSpace(orderNumber))
+            return null;
+
+        var order = await orderService.GetByNumberAsync(orderNumber, ct);
+        if (order is null || order.IsDraft) return null;
+        if (order.Status != OrderStatus.Placed || order.PaymentStatus != PaymentStatus.Pending) return null;
+        if (order.UserId != User.GetUserId()) return null;                  // ownership (both null for a guest)
+        if (Math.Round(order.Total, 3) != Math.Round(total, 3)) return null; // the bag changed since
+        if (!order.Payments.Any(p => p.Provider == "Tap" && p.Status == TransactionStatus.Initiated)) return null;
+
+        return order;
+    }
+
+    /// <summary>
+    /// Absolute URL for a Payments callback. Uses Tap:PublicBaseUrl when configured (so the webhook
+    /// and return are always https in production, even behind a TLS-terminating proxy); otherwise
+    /// falls back to the current request scheme/host.
+    /// </summary>
+    private string CallbackUrl(string action)
+    {
+        var publicBase = configuration["Tap:PublicBaseUrl"];
+        return string.IsNullOrWhiteSpace(publicBase)
+            ? Url.Action(action, "Payments", null, Request.Scheme)!
+            : new Uri(new Uri(publicBase), Url.Action(action, "Payments")!).ToString();
+    }
+
+    private static CookieOptions PendingPayCookieOptions() => new()
+    {
+        HttpOnly = true,
+        IsEssential = true,
+        SameSite = SameSiteMode.Lax,
+        MaxAge = TimeSpan.FromHours(1)
+    };
 
     [HttpGet("checkout/confirmation")]
     public IActionResult ConfirmationIndex() => Redirect("/");

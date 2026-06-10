@@ -6,11 +6,12 @@ using WhiteStiches.Core.Interfaces;
 using WhiteStiches.Core.Interfaces.Admin;
 using WhiteStiches.Core.Models;
 using WhiteStiches.Core.Models.Admin;
+using WhiteStiches.Core.Models.Payments;
 using WhiteStiches.Infrastructure.Data;
 
 namespace WhiteStiches.Infrastructure.Services.Admin;
 
-public class OrderAdminService(WhiteStichesDbContext db, IOrderService orders) : IOrderAdminService
+public class OrderAdminService(WhiteStichesDbContext db, IOrderService orders, IPaymentGateway gateway) : IOrderAdminService
 {
     public async Task<PagedResult<Order>> GetOrdersAdminAsync(OrderStatus? status, PaymentStatus? paymentStatus,
         OrderChannel? channel, string? search, bool isDraft = false,
@@ -167,6 +168,34 @@ public class OrderAdminService(WhiteStichesDbContext db, IOrderService orders) :
             .OrderByDescending(p => p.ProcessedAtUtc ?? p.CreatedAtUtc)
             .FirstOrDefault();
 
+        // Issue the refund at the gateway for Tap-captured payments before recording it.
+        // Manual ("Manual" provider) payments are recorded locally only, as before.
+        string? gatewayRefundId = null;
+        if (lastPayment is { Provider: "Tap", GatewayTransactionId: { Length: > 0 } chargeId })
+        {
+            if (!gateway.IsConfigured)
+            {
+                throw new InvalidOperationException(
+                    "Tap is not configured on the Admin app — set Tap:SecretKey before refunding gateway payments.");
+            }
+
+            var refundResult = await gateway.CreateRefundAsync(new PaymentRefundRequest
+            {
+                ChargeId = chargeId,
+                Amount = amount,
+                Currency = order.Currency,
+                Reason = string.IsNullOrWhiteSpace(reason) ? "requested_by_customer" : reason.Trim(),
+                Description = $"Refund for order {order.OrderNumber}"
+            }, ct);
+
+            if (!refundResult.Success)
+            {
+                throw new InvalidOperationException($"Tap refund failed: {refundResult.Error ?? "unknown error"}.");
+            }
+
+            gatewayRefundId = refundResult.RefundId;
+        }
+
         var refund = new Refund
         {
             OrderId = order.Id,
@@ -174,6 +203,7 @@ public class OrderAdminService(WhiteStichesDbContext db, IOrderService orders) :
             Amount = amount,
             Reason = string.IsNullOrWhiteSpace(reason) ? null : reason.Trim(),
             Status = RefundStatus.Completed,
+            GatewayRefundId = gatewayRefundId,
             StaffUserId = staffUserId,
             ProcessedAtUtc = DateTime.UtcNow
         };
