@@ -1,13 +1,20 @@
-﻿@{
+@using WhiteStiches.Web.Models.Account
+@model WishlistViewModel
+@{
     ViewData["Title"] = "Your wishlist · White Stitches";
     ViewData["MetaDescription"] = "Your saved pieces — moves to bag in a tap.";
+
+    var count = Model.Products.Count;
+    var sub = count == 0
+        ? "Nothing saved yet."
+        : $"{count} {(count == 1 ? "piece" : "pieces")}" + (Model.OnSaleCount > 0 ? $" · {Model.OnSaleCount} on sale right now" : "");
 }
 
 <section class="acct-head">
   <div class="acct-head__inner">
     <span class="eyebrow">Account · Wishlist</span>
     <h1 class="acct-head__title">Saved pieces.</h1>
-    <p class="acct-head__sub">7 pieces · 2 on sale right now</p>
+    <p class="acct-head__sub">@sub</p>
   </div>
 </section>
 
@@ -16,8 +23,8 @@
     <aside class="acct-nav" aria-label="Account navigation">
   <div class="acct-nav__head">
     <span class="eyebrow">Account</span>
-    <strong class="acct-nav__name">Anas Al-Mutairi</strong>
-    <span class="acct-nav__email">anas@@whitestiches.kw</span>
+    <strong class="acct-nav__name">@Model.FullName</strong>
+    <span class="acct-nav__email">@Model.Email</span>
   </div>
   <nav class="acct-nav__list">
     <a href="/account" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg><span>Overview</span></a>
@@ -27,138 +34,122 @@
     <a href="/account/profile" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg><span>Profile</span></a>
     <a href="/account/returns" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 11-9-9"/><path d="M21 4v5h-5"/></svg><span>Returns</span></a>
   </nav>
-  <a href="/account/login" class="acct-nav__signout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span>Sign out</span></a>
+  <form method="post" action="/account/logout" style="margin: 0;">
+    @Html.AntiForgeryToken()
+    <button type="submit" class="acct-nav__signout" style="background: none; border: 0; border-top: 1px solid var(--c-line); width: 100%; cursor: pointer; font-family: inherit; text-align: left;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span>Sign out</span></button>
+  </form>
 </aside>
 
     <main class="acct__main">
 
-      <!-- Toolbar -->
-      <div class="acct-wish-toolbar">
-        <div class="acct-wish-toolbar__share">
-          <button type="button" class="btn btn--ghost btn--sm">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-            Share wishlist
-          </button>
-          <button type="button" class="btn btn--ghost btn--sm">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h18l-2 13H5z"/><path d="M8 7V5a4 4 0 018 0v2"/></svg>
-            Move all to bag
-          </button>
-        </div>
-        <div class="acct-wish-toolbar__sort">
-          <select aria-label="Sort wishlist">
-            <option>Recently added</option>
-            <option>Price · low to high</option>
-            <option>Price · high to low</option>
-            <option>On sale first</option>
-          </select>
-        </div>
-      </div>
+      @if (TempData["AccountMessage"] is string flashOk)
+      {
+        <div role="status" style="padding: 12px 16px; border: 1px solid var(--c-line); border-left: 2px solid var(--c-accent); background: var(--c-ink-2); color: var(--c-paper); font-size: var(--t-sm); letter-spacing: var(--tr-wide);">@flashOk</div>
+      }
+      @if (TempData["AccountError"] is string flashErr)
+      {
+        <div role="alert" style="padding: 12px 16px; border: 1px solid var(--c-line); border-left: 2px solid #c87a3a; background: var(--c-ink-2); color: var(--c-paper); font-size: var(--t-sm); letter-spacing: var(--tr-wide);">@flashErr</div>
+      }
 
-      <!-- Wishlist grid -->
-      <div class="acct-wish-grid">
-        <article class="product wish-product">
-      <button class="wish-product__remove" type="button" aria-label="Remove from wishlist">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-4.jpg" alt="Mira Draped Midi" class="product__img product__img--front" />
-        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
-        
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Mira Draped Midi</a></h3>
-        <div class="product__price"><span>42.500 KWD</span></div>
-        <button type="button" class="btn btn--ghost btn--sm wish-product__add">Move to bag</button>
-      </div>
-    </article><article class="product wish-product">
-      <button class="wish-product__remove" type="button" aria-label="Remove from wishlist">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-2.jpg" alt="Lina Silk Slip Dress" class="product__img product__img--front" />
-        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
-        <span class="product__badge product__badge--sale">−20%</span>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Lina Silk Slip Dress</a></h3>
-        <div class="product__price"><span class="product__price-was">95.000</span><span class="product__price-now">76.000 KWD</span></div>
-        <button type="button" class="btn btn--ghost btn--sm wish-product__add">Move to bag</button>
-      </div>
-    </article><article class="product wish-product">
-      <button class="wish-product__remove" type="button" aria-label="Remove from wishlist">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-4.jpg" alt="Cashmere Wrap Coat" class="product__img product__img--front" />
-        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
-        
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Cashmere Wrap Coat</a></h3>
-        <div class="product__price"><span>118.000 KWD</span></div>
-        <button type="button" class="btn btn--ghost btn--sm wish-product__add">Move to bag</button>
-      </div>
-    </article><article class="product wish-product">
-      <button class="wish-product__remove" type="button" aria-label="Remove from wishlist">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-2.jpg" alt="Heritage Silk Scarf" class="product__img product__img--front" />
-        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
-        
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Heritage Silk Scarf</a></h3>
-        <div class="product__price"><span>22.000 KWD</span></div>
-        <button type="button" class="btn btn--ghost btn--sm wish-product__add">Move to bag</button>
-      </div>
-    </article><article class="product wish-product">
-      <button class="wish-product__remove" type="button" aria-label="Remove from wishlist">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-4.jpg" alt="Crescent Drop Earrings" class="product__img product__img--front" />
-        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
-        <span class="product__badge ">New</span>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Crescent Drop Earrings</a></h3>
-        <div class="product__price"><span>28.500 KWD</span></div>
-        <button type="button" class="btn btn--ghost btn--sm wish-product__add">Move to bag</button>
-      </div>
-    </article><article class="product wish-product">
-      <button class="wish-product__remove" type="button" aria-label="Remove from wishlist">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-2.jpg" alt="Atelier Linen Trouser" class="product__img product__img--front" />
-        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
-        
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Atelier Linen Trouser</a></h3>
-        <div class="product__price"><span>42.000 KWD</span></div>
-        <button type="button" class="btn btn--ghost btn--sm wish-product__add">Move to bag</button>
-      </div>
-    </article><article class="product wish-product">
-      <button class="wish-product__remove" type="button" aria-label="Remove from wishlist">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-4.jpg" alt="Saddle Crossbody Bag" class="product__img product__img--front" />
-        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
-        
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Saddle Crossbody Bag</a></h3>
-        <div class="product__price"><span>54.000 KWD</span></div>
-        <button type="button" class="btn btn--ghost btn--sm wish-product__add">Move to bag</button>
-      </div>
-    </article>
-      </div>
+      @if (count == 0)
+      {
+        <section class="acct-section acct-section--card">
+          <header class="acct-section__head">
+            <h2>Your wishlist is empty</h2>
+          </header>
+          <p class="acct-section__meta">Tap the heart on any piece to keep it here. <a href="/collection" class="link-arrow link-arrow--inline">Shop new arrivals</a></p>
+        </section>
+      }
+      else
+      {
+        <!-- Toolbar -->
+        <div class="acct-wish-toolbar">
+          <div class="acct-wish-toolbar__share">
+            <button type="button" class="btn btn--ghost btn--sm">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+              Share wishlist
+            </button>
+          </div>
+          <div class="acct-wish-toolbar__sort">
+            <select aria-label="Sort wishlist">
+              <option>Recently added</option>
+              <option>Price · low to high</option>
+              <option>Price · high to low</option>
+              <option>On sale first</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Wishlist grid -->
+        <div class="acct-wish-grid">
+          @foreach (var product in Model.Products)
+          {
+            var images = product.Images.OrderBy(i => i.SortOrder).ToList();
+            var front = images.ElementAtOrDefault(0);
+            var back = images.ElementAtOrDefault(1) ?? front;
+            var activeVariants = product.Variants.Where(v => v.IsActive).OrderBy(v => v.Position).ToList();
+            var priced = activeVariants.OrderBy(v => v.Price).FirstOrDefault();
+            var saleVariant = activeVariants.FirstOrDefault(v => v.CompareAtPrice > v.Price);
+            var inStock = activeVariants.Any(v => v.StockQuantity > 0 || v.AllowOversell);
+
+            <article class="product wish-product">
+              <form asp-controller="Account" asp-action="WishlistRemove" method="post" style="margin: 0;">
+                <input type="hidden" name="productId" value="@product.Id" />
+                <button class="wish-product__remove" type="submit" aria-label="Remove from wishlist">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                </button>
+              </form>
+              <a href="/products/@product.Slug" class="product__media">
+                <img src="@front?.Url" alt="@(front?.AltEn ?? product.TitleEn)" class="product__img product__img--front" />
+                <img src="@back?.Url" alt="" class="product__img product__img--back" />
+                @if (saleVariant?.CompareAtPrice is decimal compare && compare > 0)
+                {
+                  var pct = (int)Math.Round((1 - saleVariant.Price / compare) * 100);
+                  <span class="product__badge product__badge--sale">−@(pct)%</span>
+                }
+              </a>
+              <div class="product__info">
+                <h3 class="product__title"><a href="/products/@product.Slug">@product.TitleEn</a></h3>
+                @if (saleVariant?.CompareAtPrice is decimal was)
+                {
+                  <div class="product__price"><span class="product__price-was">@was.ToString("0.000", System.Globalization.CultureInfo.InvariantCulture)</span><span class="product__price-now">@AccountFormat.Money(saleVariant.Price)</span></div>
+                }
+                else
+                {
+                  <div class="product__price"><span>@AccountFormat.Money(priced?.Price ?? 0)</span></div>
+                }
+                @if (inStock)
+                {
+                  <form asp-controller="Account" asp-action="WishlistToBag" method="post" style="margin: 0;">
+                    <input type="hidden" name="productId" value="@product.Id" />
+                    <button type="submit" class="btn btn--ghost btn--sm wish-product__add">Move to bag</button>
+                  </form>
+                }
+                else
+                {
+                  <button type="button" class="btn btn--ghost btn--sm wish-product__add" disabled>Out of stock</button>
+                }
+              </div>
+            </article>
+          }
+        </div>
+      }
 
     </main>
   </div>
 </section>
 
 <!-- ============================ FOOTER ============================ -->
+
+@section Scripts {
+<script>
+  // The demo WISHLIST module in site.js fakes remove / move-to-bag on these
+  // buttons. The server forms above replace that behaviour, so strip the
+  // demo listeners (this handler registers after site.js, so it runs last).
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.wish-product__remove, .wish-product__add').forEach(function (btn) {
+      btn.replaceWith(btn.cloneNode(true));
+    });
+  });
+</script>
+}

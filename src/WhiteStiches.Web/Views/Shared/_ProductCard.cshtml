@@ -1,0 +1,107 @@
+@model WhiteStiches.Core.Entities.Catalog.Product
+@using System.Globalization
+@{
+    var images = Model.Images.OrderBy(i => i.SortOrder).ThenBy(i => i.Id).ToList();
+    var front = images.FirstOrDefault();
+    var back = images.Skip(1).FirstOrDefault();
+    var frontUrl = front?.Url ?? "/assets/products/product-1.jpg";
+    var frontAlt = front?.AltEn ?? Model.TitleEn;
+
+    var variants = Model.Variants.Where(v => v.IsActive).OrderBy(v => v.Position).ThenBy(v => v.Id).ToList();
+    var priced = variants.OrderBy(v => v.Price).FirstOrDefault();
+    var quickVariant = variants.FirstOrDefault(v => v.StockQuantity > 0 || v.AllowOversell);
+
+    var onSale = priced?.CompareAtPrice is not null && priced.CompareAtPrice.Value > priced.Price;
+    var salePct = onSale ? (int)Math.Round((1m - priced!.Price / priced.CompareAtPrice!.Value) * 100m) : 0;
+    var isNew = Model.IsFeatured || Model.CreatedAtUtc >= DateTime.UtcNow.AddDays(-30);
+
+    var colors = variants
+        .Select(v => v.Option2)
+        .Where(c => !string.IsNullOrWhiteSpace(c))
+        .Select(c => c!.Trim())
+        .Distinct(StringComparer.OrdinalIgnoreCase)
+        .ToList();
+    var knownSwatches = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+    {
+        "oat", "black", "sand", "olive", "burgundy", "gold", "silver", "ivory", "stone",
+        "white", "champagne", "ink", "bone", "tan", "forest", "camel", "charcoal"
+    };
+
+    var request = ViewContext.HttpContext.Request;
+    var returnUrl = $"{request.Path}{request.QueryString}";
+    var pdpUrl = $"/products/{Model.Slug}";
+    var quickFormId = $"quickAdd-{Model.Id}";
+}
+<article class="product">
+  <a href="@pdpUrl" class="product__media">
+    <img src="@frontUrl" alt="@frontAlt" class="product__img product__img--front" />
+    @if (back is not null)
+    {
+      <img src="@back.Url" alt="" class="product__img product__img--back" />
+    }
+    @if (onSale)
+    {
+      <span class="product__badge product__badge--sale">−@(salePct)%</span>
+    }
+    else if (isNew)
+    {
+      <span class="product__badge">New</span>
+    }
+    @if (quickVariant is not null)
+    {
+      <button class="product__quick" type="submit" form="@quickFormId">Quick Add</button>
+    }
+  </a>
+  <form method="post" action="/account/wishlist/add">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="productId" value="@Model.Id" />
+    <input type="hidden" name="returnUrl" value="@returnUrl" />
+    <button type="submit" class="product__wish" aria-label="Add to wishlist">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </button>
+  </form>
+  @if (quickVariant is not null)
+  {
+    <form method="post" action="/cart/items" id="@quickFormId" hidden>
+      @Html.AntiForgeryToken()
+      <input type="hidden" name="variantId" value="@quickVariant.Id" />
+      <input type="hidden" name="quantity" value="1" />
+      <input type="hidden" name="returnUrl" value="@returnUrl" />
+    </form>
+  }
+  <div class="product__info">
+    <h3 class="product__title"><a href="@pdpUrl">@Model.TitleEn</a></h3>
+    @if (colors.Count > 0)
+    {
+      <div class="product__swatches" aria-label="Available colours">
+        @foreach (var color in colors)
+        {
+          var key = color.ToLowerInvariant();
+          if (knownSwatches.Contains(key))
+          {
+            <span class="swatch swatch--@key" title="@color"></span>
+          }
+          else
+          {
+            <span class="swatch" style="background:#b8aa97" title="@color"></span>
+          }
+        }
+      </div>
+    }
+    <div class="product__price">
+      @if (onSale)
+      {
+        <span class="product__price-was">@priced!.CompareAtPrice!.Value.ToString("0.000", CultureInfo.InvariantCulture)</span>
+        <span class="product__price-now">@priced.Price.ToString("0.000", CultureInfo.InvariantCulture) KWD</span>
+      }
+      else if (priced is not null)
+      {
+        <span>@priced.Price.ToString("0.000", CultureInfo.InvariantCulture) KWD</span>
+      }
+      else
+      {
+        <span>Coming soon</span>
+      }
+    </div>
+  </div>
+</article>

@@ -95,5 +95,11 @@ public static class DbSeeder
         }
 
         await db.SaveChangesAsync();
+
+        // ---- Optional demo catalog (set "SeedSampleData": "true") ----
+        if (configuration["SeedSampleData"] == "true")
+        {
+            await SampleDataSeeder.SeedAsync(db, logger);
+        }
     }
 }

@@ -1,6 +1,17 @@
-﻿@{
+@using System.Globalization
+@model WhiteStiches.Web.Models.Content.JournalIndexViewModel
+@{
     ViewData["Title"] = "Journal · White Stitches";
     ViewData["MetaDescription"] = "Styling notes, atelier stories and behind the seams.";
+
+    string CategoryUrl(string? slug) => slug is null ? "/journal" : $"/journal?category={Uri.EscapeDataString(slug)}";
+    string PageUrl(int page) => Model.ActiveCategorySlug is null
+        ? $"/journal?page={page}"
+        : $"/journal?category={Uri.EscapeDataString(Model.ActiveCategorySlug)}&page={page}";
+    string PostDate(JournalPost p) => (p.PublishAtUtc ?? p.CreatedAtUtc).ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+    string PostImage(JournalPost p) => string.IsNullOrWhiteSpace(p.HeroImageUrl)
+        ? Url.Content("~/assets/products/product-4.jpg")
+        : Url.Content(p.HeroImageUrl);
 }
 
 <section class="page-hero">
@@ -11,124 +22,114 @@
   </div>
 </section>
 
+@if (Model.Featured is not null)
+{
 <!-- Featured article -->
 <section class="journal-featured">
   <div class="journal-featured__inner">
-    <a href="/journal/post" class="journal-featured__card">
+    <a href="/journal/@Model.Featured.Slug" class="journal-featured__card">
       <div class="journal-featured__media">
-        <img src="~/assets/products/product-4.jpg" alt="" />
+        <img src="@PostImage(Model.Featured)" alt="@Model.Featured.TitleEn" />
         <div class="journal-featured__overlay"></div>
       </div>
       <div class="journal-featured__copy">
-        <span class="journal-tag">Featured · Styling</span>
-        <h2 class="journal-featured__title">The Mira Draped Midi, three ways.</h2>
-        <p class="journal-featured__excerpt">From day to dinner — styling notes for the piece we can’t stop wearing.</p>
-        <span class="journal-meta"><span>Layla Al-Sabah</span> · <time>15 May 2026</time> · 4 min read</span>
+        <span class="journal-tag">Featured@(Model.Featured.Category is null ? "" : $" · {Model.Featured.Category.NameEn}")</span>
+        <h2 class="journal-featured__title">@Model.Featured.TitleEn</h2>
+        <p class="journal-featured__excerpt">@Model.Featured.ExcerptEn</p>
+        <span class="journal-meta"><span>@Model.Featured.AuthorName</span> · <time>@PostDate(Model.Featured)</time>@(Model.Featured.ReadingTimeMinutes is int fm ? $" · {fm} min read" : "")</span>
       </div>
     </a>
   </div>
 </section>
+}
 
 <!-- Filter chips -->
 <section class="journal-filters">
   <div class="journal-filters__inner">
     <div class="acct-orders-toolbar__filters">
-      <button class="filter-chip is-active" type="button">All</button>
-      <button class="filter-chip" type="button">Styling</button>
-      <button class="filter-chip" type="button">Atelier</button>
-      <button class="filter-chip" type="button">Conversations</button>
-      <button class="filter-chip" type="button">Behind the seams</button>
+      <a href="/journal" class="filter-chip@(Model.ActiveCategorySlug is null ? " is-active" : "")">All</a>
+      @foreach (var cat in Model.Categories)
+      {
+        <a href="@CategoryUrl(cat.Slug)" class="filter-chip@(string.Equals(Model.ActiveCategorySlug, cat.Slug, StringComparison.OrdinalIgnoreCase) ? " is-active" : "")">@cat.NameEn</a>
+      }
     </div>
   </div>
 </section>
 
 <!-- Article grid -->
 <section class="journal-grid">
+  @if (Model.IsEmpty)
+  {
+    <div class="coll__empty" style="display: flex;">
+      <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+        <circle cx="28" cy="28" r="14"/>
+        <path d="m48 48-10-10"/>
+        <path d="M22 28h12M28 22v12" opacity="0"/>
+      </svg>
+      <h3>Nothing here yet.</h3>
+      <p>We haven&rsquo;t published any journal entries under this filter. Check back soon — or browse the full journal.</p>
+      <a href="/journal" class="btn btn--ghost">View all articles</a>
+    </div>
+  }
+  else
+  {
   <div class="journal-grid__inner">
 
+    @foreach (var post in Model.GridPosts)
+    {
     <article class="journal-card">
-      <a href="/journal/post" class="journal-card__media">
-        <img src="~/assets/products/product-1.jpg" alt="" />
+      <a href="/journal/@post.Slug" class="journal-card__media">
+        <img src="@PostImage(post)" alt="@post.TitleEn" />
       </a>
       <div class="journal-card__body">
-        <span class="journal-tag">Atelier</span>
-        <h3 class="journal-card__title"><a href="/journal/post">A morning in our Sharq workshop.</a></h3>
-        <p class="journal-card__excerpt">Where every piece begins — with tea, a kettle, and 14 pairs of hands.</p>
-        <span class="journal-meta"><time>8 May 2026</time> · 6 min read</span>
+        @if (post.Category is not null)
+        {
+          <span class="journal-tag">@post.Category.NameEn</span>
+        }
+        <h3 class="journal-card__title"><a href="/journal/@post.Slug">@post.TitleEn</a></h3>
+        <p class="journal-card__excerpt">@post.ExcerptEn</p>
+        <span class="journal-meta"><time>@PostDate(post)</time>@(post.ReadingTimeMinutes is int m ? $" · {m} min read" : "")</span>
       </div>
     </article>
-
-    <article class="journal-card">
-      <a href="/journal/post" class="journal-card__media">
-        <img src="~/assets/products/product-2.jpg" alt="" />
-      </a>
-      <div class="journal-card__body">
-        <span class="journal-tag">Conversations</span>
-        <h3 class="journal-card__title"><a href="/journal/post">In conversation with our pattern cutter, Reem.</a></h3>
-        <p class="journal-card__excerpt">After 18 years of drafting patterns by hand, Reem still works from intuition more than measurement.</p>
-        <span class="journal-meta"><time>30 April 2026</time> · 8 min read</span>
-      </div>
-    </article>
-
-    <article class="journal-card">
-      <a href="/journal/post" class="journal-card__media">
-        <img src="~/assets/products/product-3.jpg" alt="" />
-      </a>
-      <div class="journal-card__body">
-        <span class="journal-tag">Styling</span>
-        <h3 class="journal-card__title"><a href="/journal/post">Building a capsule for the Ramadan season.</a></h3>
-        <p class="journal-card__excerpt">Six pieces that work as a sehoor kaftan as easily as an iftar dinner outfit.</p>
-        <span class="journal-meta"><time>20 April 2026</time> · 5 min read</span>
-      </div>
-    </article>
-
-    <article class="journal-card">
-      <a href="/journal/post" class="journal-card__media">
-        <img src="~/assets/products/product-4.jpg" alt="" />
-      </a>
-      <div class="journal-card__body">
-        <span class="journal-tag">Behind the seams</span>
-        <h3 class="journal-card__title"><a href="/journal/post">Why we make our earrings by hand.</a></h3>
-        <p class="journal-card__excerpt">Our jewellery comes from a small studio in Old Kuwait — the goldsmith works on commission only.</p>
-        <span class="journal-meta"><time>14 April 2026</time> · 4 min read</span>
-      </div>
-    </article>
-
-    <article class="journal-card">
-      <a href="/journal/post" class="journal-card__media">
-        <img src="~/assets/products/product-1.jpg" alt="" />
-      </a>
-      <div class="journal-card__body">
-        <span class="journal-tag">Styling</span>
-        <h3 class="journal-card__title"><a href="/journal/post">Dressing for Kuwait’s 45° summer.</a></h3>
-        <p class="journal-card__excerpt">The fabrics, cuts and tricks our team relies on to look pulled-together when it’s unbearable outside.</p>
-        <span class="journal-meta"><time>2 April 2026</time> · 6 min read</span>
-      </div>
-    </article>
-
-    <article class="journal-card">
-      <a href="/journal/post" class="journal-card__media">
-        <img src="~/assets/products/product-2.jpg" alt="" />
-      </a>
-      <div class="journal-card__body">
-        <span class="journal-tag">Behind the seams</span>
-        <h3 class="journal-card__title"><a href="/journal/post">Sourcing fabrics: a year in Como.</a></h3>
-        <p class="journal-card__excerpt">A visit to our Italian silk mill — and what we learned about getting fabrics right for our climate.</p>
-        <span class="journal-meta"><time>25 March 2026</time> · 7 min read</span>
-      </div>
-    </article>
+    }
 
   </div>
+  }
 
+  @if (Model.TotalPages > 1)
+  {
   <nav class="pagination" aria-label="Pagination" style="margin-top: var(--s-5);">
-    <button class="pagination__btn pagination__btn--prev" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg></button>
+    @if (Model.HasPrevious)
+    {
+      <a class="pagination__btn pagination__btn--prev" href="@PageUrl(Model.Page - 1)" aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg></a>
+    }
+    else
+    {
+      <button class="pagination__btn pagination__btn--prev" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg></button>
+    }
     <ol class="pagination__nums">
-      <li><a href="#" class="is-active" aria-current="page">1</a></li>
-      <li><a href="#">2</a></li>
-      <li><a href="#">3</a></li>
+      @for (var i = 1; i <= Model.TotalPages; i++)
+      {
+        if (i == Model.Page)
+        {
+          <li><a href="@PageUrl(i)" class="is-active" aria-current="page">@i</a></li>
+        }
+        else
+        {
+          <li><a href="@PageUrl(i)">@i</a></li>
+        }
+      }
     </ol>
-    <button class="pagination__btn pagination__btn--next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 6l6 6-6 6"/></svg></button>
+    @if (Model.HasNext)
+    {
+      <a class="pagination__btn pagination__btn--next" href="@PageUrl(Model.Page + 1)" aria-label="Next page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 6l6 6-6 6"/></svg></a>
+    }
+    else
+    {
+      <button class="pagination__btn pagination__btn--next" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 6l6 6-6 6"/></svg></button>
+    }
   </nav>
+  }
 </section>
 
 <!-- ============================ FOOTER ============================ -->

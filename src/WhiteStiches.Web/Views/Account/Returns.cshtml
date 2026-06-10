@@ -1,6 +1,13 @@
-﻿@{
+@using WhiteStiches.Web.Models.Account
+@model ReturnsViewModel
+@{
     ViewData["Title"] = "Returns & exchanges · White Stitches";
     ViewData["MetaDescription"] = "Initiate and track returns at White Stitches.";
+
+    var wizardOrder = Model.NewReturnOrder;
+    var pendingCount = Model.Returns.Count(r => r.Status == ReturnStatus.Pending);
+    var approvedCount = Model.Returns.Count(r => r.Status is ReturnStatus.Approved or ReturnStatus.Received);
+    var refundedCount = Model.Returns.Count(r => r.Status == ReturnStatus.Refunded);
 }
 
 <section class="acct-head">
@@ -16,8 +23,8 @@
     <aside class="acct-nav" aria-label="Account navigation">
   <div class="acct-nav__head">
     <span class="eyebrow">Account</span>
-    <strong class="acct-nav__name">Anas Al-Mutairi</strong>
-    <span class="acct-nav__email">anas@@whitestiches.kw</span>
+    <strong class="acct-nav__name">@Model.FullName</strong>
+    <span class="acct-nav__email">@Model.Email</span>
   </div>
   <nav class="acct-nav__list">
     <a href="/account" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg><span>Overview</span></a>
@@ -27,102 +34,205 @@
     <a href="/account/profile" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg><span>Profile</span></a>
     <a href="/account/returns" class="acct-nav__link is-active" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 11-9-9"/><path d="M21 4v5h-5"/></svg><span>Returns</span></a>
   </nav>
-  <a href="/account/login" class="acct-nav__signout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span>Sign out</span></a>
+  <form method="post" action="/account/logout" style="margin: 0;">
+    @Html.AntiForgeryToken()
+    <button type="submit" class="acct-nav__signout" style="background: none; border: 0; border-top: 1px solid var(--c-line); width: 100%; cursor: pointer; font-family: inherit; text-align: left;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span>Sign out</span></button>
+  </form>
 </aside>
 
     <main class="acct__main">
 
-      <!-- Start a return CTA -->
-      <section class="acct-section acct-section--card acct-section--cta">
-        <div class="acct-return-cta">
-          <div>
-            <h2>Start a return</h2>
-            <p>Select an eligible order to begin. Most refunds land in 3–5 working days.</p>
-          </div>
-          <button type="button" class="btn btn--primary" id="startReturnBtn">Start a return</button>
-        </div>
-      </section>
+      @if (TempData["AccountMessage"] is string flashOk)
+      {
+        <div role="status" style="padding: 12px 16px; border: 1px solid var(--c-line); border-left: 2px solid var(--c-accent); background: var(--c-ink-2); color: var(--c-paper); font-size: var(--t-sm); letter-spacing: var(--tr-wide);">@flashOk</div>
+      }
+      @if (TempData["AccountError"] is string flashErr)
+      {
+        <div role="alert" style="padding: 12px 16px; border: 1px solid var(--c-line); border-left: 2px solid #c87a3a; background: var(--c-ink-2); color: var(--c-paper); font-size: var(--t-sm); letter-spacing: var(--tr-wide);">@flashErr</div>
+      }
 
-      <!-- Filter chips -->
+      @if (wizardOrder is not null)
+      {
+        <!-- New return wizard -->
+        <section class="acct-section acct-section--card" id="returnWizard">
+          <header class="acct-section__head">
+            <h2>Return items · #@wizardOrder.OrderNumber</h2>
+            <a class="link-btn" href="/account/returns">Cancel</a>
+          </header>
+          <form class="auth-form" asp-controller="Account" asp-action="ReturnCreate" method="post">
+            <input type="hidden" name="OrderNumber" value="@wizardOrder.OrderNumber" />
+
+            <ul class="oc-items">
+              @{ var wizardItems = wizardOrder.Items.ToList(); }
+              @for (var idx = 0; idx < wizardItems.Count; idx++)
+              {
+                var item = wizardItems[idx];
+                <li>
+                  <span class="oc-item__media"><img src="@item.ImageUrl" alt="@item.TitleEn" /></span>
+                  <div class="oc-item__body">
+                    <h3 class="oc-item__title">@item.TitleEn</h3>
+                    <ul class="oc-item__meta">
+                      @if (!string.IsNullOrEmpty(item.VariantDescription))
+                      {
+                        <li><span>Variant</span> @item.VariantDescription</li>
+                      }
+                      <li><span>Qty</span> @item.Quantity</li>
+                    </ul>
+                    <input type="hidden" name="Items[@idx].OrderItemId" value="@item.Id" />
+                    <div class="co-field-row" style="margin-top: 8px;">
+                      <div class="co-field">
+                        <select name="Items[@idx].Quantity" id="retQty_@idx">
+                          <option value="0" selected>Don&rsquo;t return</option>
+                          @for (var q = 1; q <= item.Quantity; q++)
+                          {
+                            <option value="@q">@q</option>
+                          }
+                        </select>
+                        <label for="retQty_@idx">Return qty</label>
+                      </div>
+                      <div class="co-field">
+                        <select name="Items[@idx].Reason" id="retReason_@idx">
+                          @foreach (var reason in AccountFormat.ReturnReasons)
+                          {
+                            <option value="@reason">@reason</option>
+                          }
+                        </select>
+                        <label for="retReason_@idx">Reason</label>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="oc-item__price">@AccountFormat.Money(item.LineTotal)</span>
+                </li>
+              }
+
+            </ul>
+
+            <label class="radio-card">
+              <input type="radio" name="Method" value="pickup" checked />
+              <span class="radio-card__inner">
+                <span class="radio-card__title">Courier pickup</span>
+                <span class="radio-card__meta">We collect from your address · 1–2 working days</span>
+                <span class="radio-card__price">Free</span>
+              </span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="Method" value="dropoff" />
+              <span class="radio-card__inner">
+                <span class="radio-card__title">Atelier drop-off</span>
+                <span class="radio-card__meta">The Avenues, Phase 4 · any day, 10 AM – 10 PM</span>
+                <span class="radio-card__price">Free</span>
+              </span>
+            </label>
+
+            <div class="co-field">
+              <textarea id="retNote" name="CustomerReason" rows="2" placeholder=" "></textarea>
+              <label for="retNote">Anything else we should know</label>
+              <span class="field__hint">Optional</span>
+            </div>
+
+            <button type="submit" class="btn btn--primary">Submit return request</button>
+          </form>
+        </section>
+      }
+      else
+      {
+        <!-- Start a return CTA -->
+        <section class="acct-section acct-section--card acct-section--cta">
+          <div class="acct-return-cta">
+            <div>
+              <h2>Start a return</h2>
+              <p>Select an eligible order to begin. Most refunds land in 3–5 working days.</p>
+            </div>
+            @if (Model.EligibleOrders.Count > 0)
+            {
+              <form method="get" action="/account/returns/new" style="margin: 0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <div class="co-field" style="margin: 0; min-width: 220px;">
+                  <select name="order" id="startReturnOrder">
+                    @foreach (var order in Model.EligibleOrders)
+                    {
+                      <option value="@order.OrderNumber">#@order.OrderNumber · @AccountFormat.Date(order.PlacedAtUtc ?? order.CreatedAtUtc)</option>
+                    }
+                  </select>
+                  <label for="startReturnOrder">Eligible order</label>
+                </div>
+                <button type="submit" class="btn btn--primary" id="startReturnBtn">Start a return</button>
+              </form>
+            }
+            else
+            {
+              <a href="/account/orders" class="btn btn--primary" id="startReturnBtn">View orders</a>
+            }
+          </div>
+        </section>
+      }
+
+      <!-- Filter chips (visual filtering only) -->
       <div class="acct-orders-toolbar">
         <div class="acct-orders-toolbar__filters">
-          <button class="filter-chip is-active" type="button">All <em>3</em></button>
-          <button class="filter-chip" type="button">Pending <em>1</em></button>
-          <button class="filter-chip" type="button">Approved <em>1</em></button>
-          <button class="filter-chip" type="button">Refunded <em>1</em></button>
+          <button class="filter-chip is-active" type="button">All <em>@Model.Returns.Count</em></button>
+          <button class="filter-chip" type="button">Pending <em>@pendingCount</em></button>
+          <button class="filter-chip" type="button">Approved <em>@approvedCount</em></button>
+          <button class="filter-chip" type="button">Refunded <em>@refundedCount</em></button>
         </div>
       </div>
 
       <!-- Returns list -->
-      <ul class="acct-returns">
-        <li>
-          <div class="acct-return__head">
-            <div>
-              <span class="acct-return__num">#RT-2026-0193</span>
-              <span class="acct-return__date">Initiated 17 May 2026 · for order #WS-2026-08197</span>
-            </div>
-            <span class="status-badge status-badge--pending">Pending review</span>
-          </div>
-          <div class="acct-return__body">
-            <a href="/product" class="acct-return__media"><img src="~/assets/products/product-4.jpg" alt="" /></a>
-            <div class="acct-return__info">
-              <strong>Heritage Silk Scarf</strong>
-              <span class="acct-return__meta">Reason: Wrong size</span>
-              <span class="acct-return__refund">Refund: 22.000 KWD to KNET · debit ending 4421</span>
-            </div>
-            <div class="acct-return__actions">
-              <a href="#" class="btn btn--ghost btn--sm">View detail</a>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="acct-return__head">
-            <div>
-              <span class="acct-return__num">#RT-2026-0181</span>
-              <span class="acct-return__date">Initiated 10 May 2026 · for order #WS-2026-07842</span>
-            </div>
-            <span class="status-badge status-badge--approved">Approved · ship to us</span>
-          </div>
-          <div class="acct-return__body">
-            <a href="/product" class="acct-return__media"><img src="~/assets/products/product-1.jpg" alt="" /></a>
-            <div class="acct-return__info">
-              <strong>Sahar Wide-Leg Trouser</strong>
-              <span class="acct-return__meta">Reason: Didn&rsquo;t fit · exchange for size M</span>
-              <span class="acct-return__refund">Refund: 38.500 KWD pending receipt</span>
-            </div>
-            <div class="acct-return__actions">
-              <a href="#" class="btn btn--ghost btn--sm">Print label</a>
-              <a href="#" class="btn btn--ghost btn--sm">View detail</a>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div class="acct-return__head">
-            <div>
-              <span class="acct-return__num">#RT-2026-0149</span>
-              <span class="acct-return__date">Initiated 20 April 2026 · for order #WS-2026-07621</span>
-            </div>
-            <span class="status-badge status-badge--delivered">Refunded</span>
-          </div>
-          <div class="acct-return__body">
-            <a href="/product" class="acct-return__media"><img src="~/assets/products/product-2.jpg" alt="" /></a>
-            <div class="acct-return__info">
-              <strong>Atelier Tailored Blazer</strong>
-              <span class="acct-return__meta">Reason: Defective · pulled thread</span>
-              <span class="acct-return__refund">Refunded 68.000 KWD · 22 April 2026</span>
-            </div>
-            <div class="acct-return__actions">
-              <a href="#" class="btn btn--ghost btn--sm">View detail</a>
-            </div>
-          </div>
-        </li>
-      </ul>
+      @if (Model.Returns.Count == 0)
+      {
+        <section class="acct-section acct-section--card">
+          <p class="acct-section__meta">No returns yet — start one from a delivered order above.</p>
+        </section>
+      }
+      else
+      {
+        <ul class="acct-returns">
+          @foreach (var request in Model.Returns)
+          {
+            var (badgeCss, badgeLabel) = AccountFormat.ReturnBadge(request.Status);
+            var firstItem = request.Items.FirstOrDefault();
+            var amount = request.Items.Sum(i => (i.OrderItem?.UnitPrice ?? 0) * i.Quantity);
+            var reason = firstItem?.Reason ?? request.CustomerReason ?? "—";
+            var extraCount = request.Items.Count - 1;
+            <li>
+              <div class="acct-return__head">
+                <div>
+                  <span class="acct-return__num">#@request.RmaNumber</span>
+                  <span class="acct-return__date">Initiated @AccountFormat.Date(request.CreatedAtUtc) · for order #@request.Order.OrderNumber</span>
+                </div>
+                <span class="status-badge @badgeCss">@badgeLabel</span>
+              </div>
+              <div class="acct-return__body">
+                <a href="/account/orders/@request.Order.OrderNumber" class="acct-return__media"><img src="@firstItem?.OrderItem?.ImageUrl" alt="" /></a>
+                <div class="acct-return__info">
+                  <strong>@(firstItem?.OrderItem?.TitleEn ?? "Return request")@(extraCount > 0 ? $" + {extraCount} more" : "")</strong>
+                  <span class="acct-return__meta">Reason: @reason</span>
+                  @if (request.Status == ReturnStatus.Refunded)
+                  {
+                    <span class="acct-return__refund">Refunded @AccountFormat.Money(amount) · @AccountFormat.Date(request.ResolvedAtUtc ?? request.UpdatedAtUtc ?? request.CreatedAtUtc)</span>
+                  }
+                  else if (request.Status == ReturnStatus.Rejected)
+                  {
+                    <span class="acct-return__refund">Not eligible for refund</span>
+                  }
+                  else
+                  {
+                    <span class="acct-return__refund">Refund: @AccountFormat.Money(amount) @(request.Status == ReturnStatus.Pending ? "pending review" : "pending receipt")</span>
+                  }
+                </div>
+                <div class="acct-return__actions">
+                  <a href="/account/orders/@request.Order.OrderNumber" class="btn btn--ghost btn--sm">View order</a>
+                </div>
+              </div>
+            </li>
+          }
+        </ul>
+      }
 
       <!-- Policy reminder -->
       <section class="acct-section acct-section--card acct-section--policy">
         <header class="acct-section__head">
           <h2>Our returns policy in brief</h2>
-          <a href="#" class="link-arrow">Read full policy <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a href="/returns-policy" class="link-arrow">Read full policy <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </header>
         <ul class="acct-policy">
           <li><strong>14 days</strong> from the day you receive the order</li>

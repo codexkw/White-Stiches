@@ -1,6 +1,22 @@
-﻿@{
-    ViewData["Title"] = "Order #WS-2026-08412 · White Stitches";
+@using WhiteStiches.Web.Models.Account
+@model OrderDetailViewModel
+@{
+    var order = Model.Order;
+    ViewData["Title"] = $"Order #{order.OrderNumber} · White Stitches";
     ViewData["MetaDescription"] = "Detail view for your order at White Stitches.";
+
+    var pieceCount = order.Items.Sum(i => i.Quantity);
+    var (badgeCss, badgeLabel) = AccountFormat.OrderBadge(order.Status);
+
+    var shipment = order.Shipments.OrderByDescending(s => s.CreatedAtUtc).FirstOrDefault();
+    var payment = order.Payments.OrderByDescending(p => p.CreatedAtUtc).FirstOrDefault();
+    var trackingUrl = order.Shipments.Select(s => s.TrackingUrl).FirstOrDefault(u => !string.IsNullOrEmpty(u));
+
+    var isCancelled = order.Status == OrderStatus.Cancelled;
+    var isRefunded = order.Status == OrderStatus.Refunded;
+    var stepIndex = (int)order.Status;
+    var barWidth = stepIndex * 25;
+    string[] steps = ["Placed", "Paid", "Fulfilled", "Shipped", "Delivered"];
 }
 
 <section class="acct-head acct-head--with-back">
@@ -10,8 +26,8 @@
       <span>Back to orders</span>
     </a>
     <span class="eyebrow">Order detail</span>
-    <h1 class="acct-head__title">#WS-2026-08412</h1>
-    <p class="acct-head__sub">Placed 18 May 2026 · 3 pieces · 186.500 KWD</p>
+    <h1 class="acct-head__title">#@order.OrderNumber</h1>
+    <p class="acct-head__sub">Placed @AccountFormat.Date(order.PlacedAtUtc ?? order.CreatedAtUtc) · @pieceCount @(pieceCount == 1 ? "piece" : "pieces") · @AccountFormat.Money(order.Total)</p>
   </div>
 </section>
 
@@ -20,8 +36,8 @@
     <aside class="acct-nav" aria-label="Account navigation">
   <div class="acct-nav__head">
     <span class="eyebrow">Account</span>
-    <strong class="acct-nav__name">Anas Al-Mutairi</strong>
-    <span class="acct-nav__email">anas@@whitestiches.kw</span>
+    <strong class="acct-nav__name">@Model.FullName</strong>
+    <span class="acct-nav__email">@Model.Email</span>
   </div>
   <nav class="acct-nav__list">
     <a href="/account" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg><span>Overview</span></a>
@@ -31,77 +47,142 @@
     <a href="/account/profile" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg><span>Profile</span></a>
     <a href="/account/returns" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 11-9-9"/><path d="M21 4v5h-5"/></svg><span>Returns</span></a>
   </nav>
-  <a href="/account/login" class="acct-nav__signout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span>Sign out</span></a>
+  <form method="post" action="/account/logout" style="margin: 0;">
+    @Html.AntiForgeryToken()
+    <button type="submit" class="acct-nav__signout" style="background: none; border: 0; border-top: 1px solid var(--c-line); width: 100%; cursor: pointer; font-family: inherit; text-align: left;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span>Sign out</span></button>
+  </form>
 </aside>
 
     <main class="acct__main">
 
-      <!-- Status stepper (re-used from order-confirmation) -->
-      <section class="oc-card oc-card--eta">
-        <div class="oc-card__head">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h13v9H3zM16 10h3l2 3v3h-5zM7 19a2 2 0 100-4 2 2 0 000 4zM18 19a2 2 0 100-4 2 2 0 000 4z"/></svg>
-          <h2>Arriving <strong>Tuesday 21 May</strong></h2>
-          <span class="oc-card__chip">AWB 1Z 999 AA1 234 5678</span>
-        </div>
-        <div class="oc-card__body">
-          <p>Your order left our Kuwait atelier at 4:18 PM yesterday. The courier will WhatsApp before delivery.</p>
-          <div class="oc-tracker">
-            <div class="oc-tracker__bar"><span style="width: 50%"></span></div>
-            <ol class="oc-tracker__steps">
-              <li class="is-done"><span></span>Confirmed</li>
-              <li class="is-done"><span></span>Atelier</li>
-              <li class="is-active"><span></span>In transit</li>
-              <li><span></span>Delivered</li>
-            </ol>
+      @if (TempData["AccountMessage"] is string flashOk)
+      {
+        <div role="status" style="padding: 12px 16px; border: 1px solid var(--c-line); border-left: 2px solid var(--c-accent); background: var(--c-ink-2); color: var(--c-paper); font-size: var(--t-sm); letter-spacing: var(--tr-wide);">@flashOk</div>
+      }
+      @if (TempData["AccountError"] is string flashErr)
+      {
+        <div role="alert" style="padding: 12px 16px; border: 1px solid var(--c-line); border-left: 2px solid #c87a3a; background: var(--c-ink-2); color: var(--c-paper); font-size: var(--t-sm); letter-spacing: var(--tr-wide);">@flashErr</div>
+      }
+
+      <!-- Status card -->
+      @if (isCancelled)
+      {
+        <section class="oc-card oc-card--eta">
+          <div class="oc-card__head">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
+            <h2>Order <strong>cancelled</strong></h2>
+            <span class="status-badge status-badge--cancelled">Cancelled</span>
           </div>
-        </div>
-      </section>
+          <div class="oc-card__body">
+            <p>This order was cancelled@(string.IsNullOrEmpty(order.CancelReason) ? "" : $" — {order.CancelReason}"). Any captured payment is returned to the original payment method within 3–5 working days.</p>
+          </div>
+        </section>
+      }
+      else if (isRefunded)
+      {
+        <section class="oc-card oc-card--eta">
+          <div class="oc-card__head">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 11-9-9"/><path d="M21 4v5h-5"/></svg>
+            <h2>Order <strong>refunded</strong></h2>
+            <span class="status-badge status-badge--delivered">Refunded</span>
+          </div>
+          <div class="oc-card__body">
+            <p>@(order.Refunds.Count > 0 ? $"{AccountFormat.Money(order.Refunds.Sum(r => r.Amount))} was refunded to your original payment method." : "This order was refunded to your original payment method.") Refunds land in 3–5 working days.</p>
+          </div>
+        </section>
+      }
+      else
+      {
+        <section class="oc-card oc-card--eta">
+          <div class="oc-card__head">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h13v9H3zM16 10h3l2 3v3h-5zM7 19a2 2 0 100-4 2 2 0 000 4zM18 19a2 2 0 100-4 2 2 0 000 4z"/></svg>
+            @switch (order.Status)
+            {
+              case OrderStatus.Placed:
+                <h2>Order <strong>placed</strong></h2>
+                break;
+              case OrderStatus.Paid:
+                <h2>Payment <strong>confirmed</strong></h2>
+                break;
+              case OrderStatus.Fulfilled:
+                <h2>Prepared at the <strong>atelier</strong></h2>
+                break;
+              case OrderStatus.Shipped:
+                <h2>Your order is <strong>in transit</strong></h2>
+                break;
+              default:
+                <h2>Delivered@(shipment?.DeliveredAtUtc is not null ? Html.Raw($" <strong>{AccountFormat.Date(shipment.DeliveredAtUtc)}</strong>") : null)</h2>
+                break;
+            }
+            @if (!string.IsNullOrEmpty(shipment?.AwbNumber))
+            {
+              <span class="oc-card__chip">AWB @shipment.AwbNumber</span>
+            }
+          </div>
+          <div class="oc-card__body">
+            @switch (order.Status)
+            {
+              case OrderStatus.Placed:
+                <p>We&rsquo;ve received your order and emailed a confirmation to @order.Email. We&rsquo;ll let you know the moment it&rsquo;s on the move.</p>
+                break;
+              case OrderStatus.Paid:
+                <p>Your payment is confirmed — the atelier is preparing your pieces now.</p>
+                break;
+              case OrderStatus.Fulfilled:
+                <p>Your pieces are packed at our Kuwait atelier and ready for the courier.</p>
+                break;
+              case OrderStatus.Shipped:
+                <p>Your order left our Kuwait atelier. The courier will WhatsApp before delivery.</p>
+                break;
+              default:
+                <p>Your order was delivered. We hope you love it — returns stay open for 14 days.</p>
+                break;
+            }
+            <div class="oc-tracker">
+              <div class="oc-tracker__bar"><span style="width: @barWidth%"></span></div>
+              <ol class="oc-tracker__steps">
+                @for (var i = 0; i < steps.Length; i++)
+                {
+                  <li class="@(i < stepIndex ? "is-done" : i == stepIndex ? "is-active" : "")"><span></span>@steps[i]</li>
+                }
+              </ol>
+            </div>
+          </div>
+        </section>
+      }
 
       <!-- Items + addresses two-col -->
       <div class="acct-od-grid">
         <section class="oc-card oc-card--items">
           <div class="oc-card__head">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h18l-2 13H5z"/><path d="M8 7V5a4 4 0 018 0v2"/></svg>
-            <h2>3 pieces</h2>
+            <h2>@pieceCount @(pieceCount == 1 ? "piece" : "pieces")</h2>
           </div>
           <div class="oc-card__body">
             <ul class="oc-items">
-              <li>
-                <a href="/product" class="oc-item__media"><img src="~/assets/products/product-4.jpg" alt="" /></a>
-                <div class="oc-item__body">
-                  <h3 class="oc-item__title"><a href="/product">Mira Draped Midi</a></h3>
-                  <ul class="oc-item__meta"><li><span>Colour</span> Oat</li><li><span>Size</span> S</li><li><span>Qty</span> 1</li></ul>
-                  <div class="acct-od-item__links">
-                    <a href="#" class="link-arrow link-arrow--inline">Buy again</a>
-                    <a href="#" class="link-arrow link-arrow--inline">Return this</a>
+              @foreach (var item in order.Items)
+              {
+                <li>
+                  <span class="oc-item__media"><img src="@item.ImageUrl" alt="@item.TitleEn" /></span>
+                  <div class="oc-item__body">
+                    <h3 class="oc-item__title">@item.TitleEn</h3>
+                    <ul class="oc-item__meta">
+                      @if (!string.IsNullOrEmpty(item.VariantDescription))
+                      {
+                        <li><span>Variant</span> @item.VariantDescription</li>
+                      }
+                      <li><span>Qty</span> @item.Quantity</li>
+                    </ul>
+                    @if (order.Status == OrderStatus.Delivered)
+                    {
+                      <div class="acct-od-item__links">
+                        <a href="/account/returns/new?order=@order.OrderNumber" class="link-arrow link-arrow--inline">Return this</a>
+                      </div>
+                    }
                   </div>
-                </div>
-                <span class="oc-item__price">42.500 KWD</span>
-              </li>
-              <li>
-                <a href="/product" class="oc-item__media"><img src="~/assets/products/product-1.jpg" alt="" /></a>
-                <div class="oc-item__body">
-                  <h3 class="oc-item__title"><a href="/product">Atelier Tailored Blazer</a></h3>
-                  <ul class="oc-item__meta"><li><span>Colour</span> Stone</li><li><span>Size</span> M</li><li><span>Qty</span> 1</li></ul>
-                  <div class="acct-od-item__links">
-                    <a href="#" class="link-arrow link-arrow--inline">Buy again</a>
-                    <a href="#" class="link-arrow link-arrow--inline">Return this</a>
-                  </div>
-                </div>
-                <span class="oc-item__price">68.000 KWD</span>
-              </li>
-              <li>
-                <a href="/product" class="oc-item__media"><img src="~/assets/products/product-2.jpg" alt="" /></a>
-                <div class="oc-item__body">
-                  <h3 class="oc-item__title"><a href="/product">Lina Silk Slip Dress</a></h3>
-                  <ul class="oc-item__meta"><li><span>Colour</span> Champagne</li><li><span>Size</span> S</li><li><span>Qty</span> 1</li></ul>
-                  <div class="acct-od-item__links">
-                    <a href="#" class="link-arrow link-arrow--inline">Buy again</a>
-                    <a href="#" class="link-arrow link-arrow--inline">Return this</a>
-                  </div>
-                </div>
-                <span class="oc-item__price">76.000 KWD</span>
-              </li>
+                  <span class="oc-item__price">@AccountFormat.Money(item.LineTotal)</span>
+                </li>
+              }
             </ul>
           </div>
         </section>
@@ -115,11 +196,11 @@
             </div>
             <div class="oc-card__body">
               <address class="oc-address">
-                <strong>Anas Al-Mutairi</strong><br>
-                Block 4, Street 12, Building 8<br>
-                Salmiya, Hawalli<br>
-                Kuwait<br>
-                +965 5xx xxxxx
+                <strong>@order.ShipFirstName @order.ShipLastName</strong><br>
+                Block @order.ShipBlock, Street @order.ShipStreet, Building @order.ShipBuilding@(string.IsNullOrEmpty(order.ShipFloor) ? "" : $" · Floor {order.ShipFloor}")@(string.IsNullOrEmpty(order.ShipApartment) ? "" : $", Apt {order.ShipApartment}")<br>
+                @order.ShipArea, @order.ShipGovernorate<br>
+                @(order.ShipCountry == "KW" ? "Kuwait" : order.ShipCountry)<br>
+                @order.ShipPhone
               </address>
             </div>
           </section>
@@ -131,16 +212,40 @@
               <h2>Payment</h2>
             </div>
             <div class="oc-card__body">
-              <div class="oc-pay">
-                <span class="pay-card__brand pay-card__brand--knet">KNET</span>
-                <div><strong>KNET · debit ending 4421</strong><span class="oc-pay__meta">Captured · 186.500 KWD</span></div>
-              </div>
+              @if (payment is not null)
+              {
+                <div class="oc-pay">
+                  <span class="pay-card__brand @(payment.Method.ToLowerInvariant() == "knet" ? "pay-card__brand--knet" : "")">@AccountFormat.PaymentMethod(payment.Method)</span>
+                  <div><strong>@AccountFormat.PaymentMethod(payment.Method) · @payment.Provider</strong><span class="oc-pay__meta">@AccountFormat.TransactionLabel(payment.Status) · @AccountFormat.Money(payment.Amount)</span></div>
+                </div>
+              }
+              else
+              {
+                <p class="acct-section__meta">No payment recorded yet.</p>
+              }
               <ul class="cart-totals" style="margin-top: var(--s-3); padding-top: var(--s-3); border-top: 1px solid var(--c-line);">
-                <li><span>Subtotal</span><span class="cart-totals__val">186.500 KWD</span></li>
-                <li><span>Delivery</span><span class="cart-totals__val cart-totals__val--accent">Free</span></li>
-                <li><span>VAT</span><span class="cart-totals__val">Included</span></li>
+                <li><span>Subtotal</span><span class="cart-totals__val">@AccountFormat.Money(order.Subtotal)</span></li>
+                @if (order.DiscountAmount > 0)
+                {
+                  <li><span>Discount@(string.IsNullOrEmpty(order.DiscountCodeSnapshot) ? "" : $" · {order.DiscountCodeSnapshot}")</span><span class="cart-totals__val cart-totals__val--accent">−@AccountFormat.Money(order.DiscountAmount)</span></li>
+                }
+                @if (order.GiftWrap && order.GiftWrapFee > 0)
+                {
+                  <li><span>Gift wrap</span><span class="cart-totals__val">@AccountFormat.Money(order.GiftWrapFee)</span></li>
+                }
+                <li><span>Delivery</span>@(order.ShippingAmount == 0 ? Html.Raw("<span class=\"cart-totals__val cart-totals__val--accent\">Free</span>") : Html.Raw($"<span class=\"cart-totals__val\">{AccountFormat.Money(order.ShippingAmount)}</span>"))</li>
+                <li><span>VAT</span><span class="cart-totals__val">@(order.TaxAmount == 0 ? "Included" : AccountFormat.Money(order.TaxAmount))</span></li>
               </ul>
-              <div class="cart-totals__grand"><span>Total paid</span><span>186.500 <span class="cart-totals__currency">KWD</span></span></div>
+              <div class="cart-totals__grand"><span>Total @(order.PaymentStatus == PaymentStatus.Paid ? "paid" : "")</span><span>@order.Total.ToString("0.000", System.Globalization.CultureInfo.InvariantCulture) <span class="cart-totals__currency">KWD</span></span></div>
+              @if (order.Refunds.Count > 0)
+              {
+                <ul class="cart-totals" style="margin-top: var(--s-2); padding-top: var(--s-2); border-top: 1px solid var(--c-line);">
+                  @foreach (var refund in order.Refunds.OrderBy(r => r.CreatedAtUtc))
+                  {
+                    <li><span>Refund · @AccountFormat.Date(refund.ProcessedAtUtc ?? refund.CreatedAtUtc)</span><span class="cart-totals__val cart-totals__val--accent">−@AccountFormat.Money(refund.Amount)</span></li>
+                  }
+                </ul>
+              }
             </div>
           </section>
         </div>
@@ -148,10 +253,15 @@
 
       <!-- Action buttons row -->
       <div class="acct-od-actions">
-        <a href="#" class="btn btn--ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 4v16M4 12h16"/></svg> Download invoice</a>
-        <a href="#" class="btn btn--ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12h18M15 6l6 6-6 6"/></svg> Track shipment</a>
+        @if (!string.IsNullOrEmpty(trackingUrl))
+        {
+          <a href="@trackingUrl" target="_blank" rel="noopener" class="btn btn--ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12h18M15 6l6 6-6 6"/></svg> Track shipment</a>
+        }
         <a href="#" class="btn btn--ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 11.5a8.4 8.4 0 0 1-8.4 8.4 8.4 8.4 0 0 1-4-1L3 20l1.1-5.6a8.4 8.4 0 0 1-1-4A8.4 8.4 0 0 1 11.5 2 8.4 8.4 0 0 1 21 11.5z"/></svg> WhatsApp support</a>
-        <a href="/account/returns" class="btn btn--ghost">Request a return</a>
+        @if (order.Status == OrderStatus.Delivered)
+        {
+          <a href="/account/returns/new?order=@order.OrderNumber" class="btn btn--ghost">Request a return</a>
+        }
       </div>
 
     </main>

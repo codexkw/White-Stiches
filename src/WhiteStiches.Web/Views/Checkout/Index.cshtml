@@ -1,8 +1,26 @@
-﻿@{
+@model WhiteStiches.Web.Models.Checkout.CheckoutViewModel
+@{
     Layout = "_CheckoutLayout";
     ViewData["Title"] = "Checkout · White Stitches";
     ViewData["MetaDescription"] = "Secure checkout — pay with KNET, Apple Pay, or your card via Tap Payments.";
+    var governorates = new[] { "Al Asimah (Capital)", "Hawalli", "Al Farwaniyah", "Mubarak Al-Kabeer", "Al Ahmadi", "Al Jahra" };
 }
+@functions {
+    private string Err(string key) =>
+        ViewData.ModelState.TryGetValue(key, out var entry) && entry.Errors.Count > 0 ? "is-invalid" : "";
+}
+
+<style>
+  .co-field input.is-invalid,
+  .co-field select.is-invalid,
+  .co-field textarea.is-invalid { border-color: #c87a3a; }
+  .co-check.is-invalid span { color: #c87a3a; }
+  .co-errors { border: 1px solid #c87a3a; padding: 14px 16px; margin-bottom: 18px; font-size: 0.85rem; color: #c87a3a; }
+  .co-errors ul { margin: 0; padding-left: 18px; }
+  .co-errors li + li { margin-top: 4px; }
+  .co-note-muted { font-size: 0.8rem; opacity: 0.65; margin: 10px 0 0; }
+  .express-btn[disabled] { opacity: 0.45; cursor: not-allowed; }
+</style>
 
 <header class="co-hdr">  <div class="co-hdr__inner">
     <a href="/cart" class="co-hdr__back" aria-label="Back to bag">
@@ -31,21 +49,21 @@
 </div>
 
 <!-- ============================ CHECKOUT GRID ============================ -->
-<main class="co" id="checkoutMain">
+<main class="co">
   <div class="co__inner">
 
     <!-- ── FORM column ─────────────────────────────────────────────── -->
-    <form class="co__form" id="checkoutForm" novalidate>
+    <form class="co__form" method="post" asp-controller="Checkout" asp-action="Place">
 
-      <!-- Express checkout row (top) -->
+      <!-- Express checkout row (top) — placeholders until Tap Payments (Phase 1C) -->
       <div class="co-section co-section--express">
         <span class="co-express__label">Express checkout</span>
         <div class="co-express__row">
-          <button type="button" class="express-btn express-btn--apple" aria-label="Pay with Apple Pay">
+          <button type="button" class="express-btn express-btn--apple" aria-label="Pay with Apple Pay" disabled>
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.01-2.04 1.66-3.02 1.74-3.07-.95-1.39-2.42-1.58-2.94-1.6-1.24-.13-2.43.74-3.06.74-.64 0-1.61-.72-2.66-.7-1.36.02-2.63.79-3.33 2.01-1.42 2.47-.36 6.12 1.02 8.12.68.98 1.49 2.08 2.55 2.04 1.03-.04 1.42-.66 2.66-.66 1.24 0 1.59.66 2.67.64 1.1-.02 1.8-1 2.47-1.99.78-1.14 1.1-2.24 1.12-2.3-.02-.01-2.15-.83-2.17-3.23zM15.07 5.91c.56-.69.95-1.64.84-2.59-.81.04-1.81.55-2.4 1.23-.52.6-.98 1.58-.86 2.51.91.07 1.85-.46 2.42-1.15z"/></svg>
             <span>Apple Pay</span>
           </button>
-          <button type="button" class="express-btn express-btn--google"><span>G Pay</span></button>
+          <button type="button" class="express-btn express-btn--google" disabled><span>G Pay</span></button>
         </div>
         <span class="co-express__divider"><em>or fill in your details</em></span>
       </div>
@@ -55,12 +73,15 @@
         <header class="co-section__head">
           <span class="co-section__num">1</span>
           <h2>Contact</h2>
-          <a href="#" class="co-section__link">Already have an account? <strong>Sign in</strong></a>
+          @if (!(User.Identity?.IsAuthenticated ?? false))
+          {
+            <a href="/account/login" class="co-section__link">Already have an account? <strong>Sign in</strong></a>
+          }
         </header>
 
         <div class="co-section__body">
           <div class="co-field">
-            <input type="email" id="email" required autocomplete="email" placeholder=" " />
+            <input type="email" id="email" name="email" value="@Model.Form.Email" required autocomplete="email" placeholder=" " class="@Err("Email")" />
             <label for="email">Email</label>
             <span class="field__hint">For order confirmation &amp; tracking</span>
           </div>
@@ -77,7 +98,7 @@
                 <option value="+968">+968</option>
               </select>
             </span>
-            <input type="tel" id="phone" required autocomplete="tel" placeholder=" " inputmode="tel" />
+            <input type="tel" id="phone" name="phone" value="@Model.Form.Phone" required autocomplete="tel" placeholder=" " inputmode="tel" class="@Err("Phone")" />
             <label for="phone">Mobile</label>
             <span class="field__hint">We&rsquo;ll WhatsApp delivery updates</span>
           </div>
@@ -100,75 +121,68 @@
           <div class="co-field">
             <select id="country" required>
               <option value="KW" selected>Kuwait</option>
-              <option value="SA">Saudi Arabia</option>
-              <option value="AE">United Arab Emirates</option>
-              <option value="BH">Bahrain</option>
-              <option value="QA">Qatar</option>
-              <option value="OM">Oman</option>
             </select>
             <label for="country">Country / region</label>
           </div>
 
           <div class="co-field-row">
             <div class="co-field">
-              <input type="text" id="firstName" required autocomplete="given-name" placeholder=" " />
+              <input type="text" id="firstName" name="firstName" value="@Model.Form.FirstName" required autocomplete="given-name" placeholder=" " class="@Err("FirstName")" />
               <label for="firstName">First name</label>
             </div>
             <div class="co-field">
-              <input type="text" id="lastName" required autocomplete="family-name" placeholder=" " />
+              <input type="text" id="lastName" name="lastName" value="@Model.Form.LastName" required autocomplete="family-name" placeholder=" " class="@Err("LastName")" />
               <label for="lastName">Last name</label>
             </div>
           </div>
 
           <div class="co-field-row" id="kwAddressFields">
             <div class="co-field">
-              <select id="governorate" required>
-                <option value="" disabled selected hidden></option>
-                <option>Al Asimah (Capital)</option>
-                <option>Hawalli</option>
-                <option>Al Farwaniyah</option>
-                <option>Mubarak Al-Kabeer</option>
-                <option>Al Ahmadi</option>
-                <option>Al Jahra</option>
+              <select id="governorate" name="governorate" required class="@Err("Governorate")">
+                <option value="" disabled hidden selected="@(string.IsNullOrEmpty(Model.Form.Governorate))"></option>
+                @foreach (var gov in governorates)
+                {
+                  <option selected="@(Model.Form.Governorate == gov)">@gov</option>
+                }
               </select>
               <label for="governorate">Governorate</label>
             </div>
             <div class="co-field">
-              <input type="text" id="area" required autocomplete="address-level2" placeholder=" " />
+              <input type="text" id="area" name="area" value="@Model.Form.Area" required autocomplete="address-level2" placeholder=" " class="@Err("Area")" />
               <label for="area">Area</label>
             </div>
           </div>
 
           <div class="co-field-row co-field-row--3">
             <div class="co-field">
-              <input type="text" id="block" required placeholder=" " />
+              <input type="text" id="block" name="block" value="@Model.Form.Block" required placeholder=" " class="@Err("Block")" />
               <label for="block">Block</label>
             </div>
             <div class="co-field">
-              <input type="text" id="street" required placeholder=" " />
+              <input type="text" id="street" name="street" value="@Model.Form.Street" required placeholder=" " class="@Err("Street")" />
               <label for="street">Street</label>
             </div>
             <div class="co-field">
-              <input type="text" id="building" required placeholder=" " />
+              <input type="text" id="building" name="building" value="@Model.Form.Building" required placeholder=" " class="@Err("Building")" />
               <label for="building">Building / house</label>
             </div>
           </div>
 
           <div class="co-field-row">
             <div class="co-field">
-              <input type="text" id="floor" placeholder=" " />
+              <input type="text" id="floor" name="floor" value="@Model.Form.Floor" placeholder=" " />
               <label for="floor">Floor</label>
               <span class="field__hint">Optional</span>
             </div>
             <div class="co-field">
-              <input type="text" id="apartment" placeholder=" " />
+              <input type="text" id="apartment" name="apartment" value="@Model.Form.Apartment" placeholder=" " />
               <label for="apartment">Apartment</label>
               <span class="field__hint">Optional</span>
             </div>
           </div>
 
           <div class="co-field">
-            <textarea id="directions" rows="2" placeholder=" "></textarea>
+            <textarea id="directions" name="directions" rows="2" placeholder=" ">@Model.Form.Directions</textarea>
             <label for="directions">Additional directions</label>
             <span class="field__hint">e.g. landmark, gate code · optional</span>
           </div>
@@ -193,38 +207,17 @@
         </header>
 
         <div class="co-section__body">
-          <label class="radio-card">
-            <input type="radio" name="shipping" value="standard" checked />
-            <span class="radio-card__inner">
-              <span class="radio-card__title">Complimentary standard</span>
-              <span class="radio-card__meta">2–3 working days · free over 50 KWD</span>
-              <span class="radio-card__price">Free</span>
-            </span>
-          </label>
-          <label class="radio-card">
-            <input type="radio" name="shipping" value="express" />
-            <span class="radio-card__inner">
-              <span class="radio-card__title">Express next-day</span>
-              <span class="radio-card__meta">Next working day · order by 2 PM</span>
-              <span class="radio-card__price">3.500 KWD</span>
-            </span>
-          </label>
-          <label class="radio-card">
-            <input type="radio" name="shipping" value="same-day" />
-            <span class="radio-card__inner">
-              <span class="radio-card__title">Same-day · Kuwait City</span>
-              <span class="radio-card__meta">Delivered today · order by 12 PM</span>
-              <span class="radio-card__price">5.000 KWD</span>
-            </span>
-          </label>
-          <label class="radio-card">
-            <input type="radio" name="shipping" value="pickup" />
-            <span class="radio-card__inner">
-              <span class="radio-card__title">Atelier pickup</span>
-              <span class="radio-card__meta">The Avenues, Phase 4 · ready in 2 hours</span>
-              <span class="radio-card__price">Free</span>
-            </span>
-          </label>
+          @foreach (var method in Model.ShippingMethods)
+          {
+            <label class="radio-card">
+              <input type="radio" name="shippingMethod" value="@method.Value" checked="@(Model.Form.ShippingMethod == method.Value)" />
+              <span class="radio-card__inner">
+                <span class="radio-card__title">@method.Title</span>
+                <span class="radio-card__meta">@method.Meta</span>
+                <span class="radio-card__price">@(method.IsFree ? "Free" : method.Price.ToString("0.000") + " KWD")</span>
+              </span>
+            </label>
+          }
         </div>
       </section>
 
@@ -243,7 +236,7 @@
 
           <!-- KNET (default for Kuwait) -->
           <label class="pay-card">
-            <input type="radio" name="payment" value="knet" checked />
+            <input type="radio" name="paymentMethod" value="knet" checked="@(Model.Form.PaymentMethod == "knet")" />
             <span class="pay-card__inner">
               <span class="pay-card__head">
                 <span class="pay-card__brand pay-card__brand--knet">KNET</span>
@@ -258,7 +251,7 @@
 
           <!-- Card -->
           <label class="pay-card">
-            <input type="radio" name="payment" value="card" />
+            <input type="radio" name="paymentMethod" value="card" checked="@(Model.Form.PaymentMethod == "card")" />
             <span class="pay-card__inner">
               <span class="pay-card__head">
                 <span class="pay-card__brands">
@@ -269,40 +262,12 @@
                 <span class="pay-card__title">Credit / debit card</span>
                 <span class="pay-card__meta">Visa · Mastercard · AmEx · with 3D Secure</span>
               </span>
-              <span class="pay-card__body pay-card__body--card">
-                <div class="co-field">
-                  <input type="text" id="cardNumber" placeholder=" " inputmode="numeric" autocomplete="cc-number" />
-                  <label for="cardNumber">Card number</label>
-                  <span class="field__icons" aria-hidden="true">
-                    <span class="pay-card__brand pay-card__brand--visa">VISA</span>
-                    <span class="pay-card__brand pay-card__brand--mc"><i></i><i></i></span>
-                  </span>
-                </div>
-                <div class="co-field-row">
-                  <div class="co-field">
-                    <input type="text" id="cardExp" placeholder=" " inputmode="numeric" autocomplete="cc-exp" maxlength="5" />
-                    <label for="cardExp">MM / YY</label>
-                  </div>
-                  <div class="co-field">
-                    <input type="text" id="cardCvc" placeholder=" " inputmode="numeric" autocomplete="cc-csc" maxlength="4" />
-                    <label for="cardCvc">CVC</label>
-                  </div>
-                </div>
-                <div class="co-field">
-                  <input type="text" id="cardName" placeholder=" " autocomplete="cc-name" />
-                  <label for="cardName">Name on card</label>
-                </div>
-                <label class="check co-check">
-                  <input type="checkbox" id="saveCard" />
-                  <span>Save card securely for next time (tokenised by Tap, never stored by us)</span>
-                </label>
-              </span>
             </span>
           </label>
 
           <!-- Apple Pay -->
           <label class="pay-card">
-            <input type="radio" name="payment" value="applepay" />
+            <input type="radio" name="paymentMethod" value="applepay" checked="@(Model.Form.PaymentMethod == "applepay")" />
             <span class="pay-card__inner">
               <span class="pay-card__head">
                 <span class="pay-card__brand pay-card__brand--apple">
@@ -314,33 +279,9 @@
             </span>
           </label>
 
-          <!-- BNPL · Tabby -->
-          <label class="pay-card">
-            <input type="radio" name="payment" value="tabby" />
-            <span class="pay-card__inner">
-              <span class="pay-card__head">
-                <span class="pay-card__brand pay-card__brand--tabby">tabby</span>
-                <span class="pay-card__title">Pay in 4 with Tabby</span>
-                <span class="pay-card__meta">4 interest-free payments · 4 × <strong>46.625 KWD</strong></span>
-              </span>
-            </span>
-          </label>
-
-          <!-- BNPL · Tamara -->
-          <label class="pay-card">
-            <input type="radio" name="payment" value="tamara" />
-            <span class="pay-card__inner">
-              <span class="pay-card__head">
-                <span class="pay-card__brand pay-card__brand--tamara">tamara</span>
-                <span class="pay-card__title">Split in 3 with Tamara</span>
-                <span class="pay-card__meta">3 interest-free payments · 3 × <strong>62.166 KWD</strong></span>
-              </span>
-            </span>
-          </label>
-
           <!-- COD -->
           <label class="pay-card">
-            <input type="radio" name="payment" value="cod" />
+            <input type="radio" name="paymentMethod" value="cod" checked="@(Model.Form.PaymentMethod == "cod")" />
             <span class="pay-card__inner">
               <span class="pay-card__head">
                 <span class="pay-card__brand pay-card__brand--cod">
@@ -352,20 +293,34 @@
             </span>
           </label>
 
+          <p class="co-note-muted">Payment is completed after order review while Tap Payments integration is finalized.</p>
+
         </div>
       </section>
 
       <!-- ── Terms + Place order -->
       <section class="co-section co-section--final">
-        <label class="check co-check co-check--required">
-          <input type="checkbox" id="termsAccept" required />
+        <label class="check co-check co-check--required @Err("TermsAccepted")">
+          <input type="checkbox" id="termsAccept" name="termsAccepted" value="true" checked="@Model.Form.TermsAccepted" required />
           <span>
-            I&rsquo;ve read and agree to the <a href="#" class="link-inline">Terms of Sale</a>, <a href="#" class="link-inline">Privacy Policy</a>, and <a href="#" class="link-inline">Returns Policy</a>.
+            I&rsquo;ve read and agree to the <a href="/terms" class="link-inline">Terms of Sale</a>, <a href="/privacy" class="link-inline">Privacy Policy</a>, and <a href="/returns-policy" class="link-inline">Returns Policy</a>.
           </span>
         </label>
 
-        <button type="submit" class="btn btn--primary co-place" id="placeOrderBtn">
-          <span>Place order · <strong id="coPlaceTotal">186.500 KWD</strong></span>
+        @if (!ViewData.ModelState.IsValid)
+        {
+          <div class="co-errors" role="alert">
+            <ul>
+              @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+              {
+                <li>@error.ErrorMessage</li>
+              }
+            </ul>
+          </div>
+        }
+
+        <button type="submit" class="btn btn--primary co-place">
+          <span>Place order · <strong>@Model.Summary.Total.ToString("0.000") KWD</strong></span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </button>
 
@@ -386,69 +341,85 @@
           <span>Show order summary</span>
           <svg class="co-summary-toggle__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
         </span>
-        <strong>186.500 KWD</strong>
+        <strong>@Model.Summary.Total.ToString("0.000") KWD</strong>
       </button>
 
       <div class="co-summary" id="coSummaryBody">
         <h2 class="co-summary__title">Order Summary</h2>
 
         <ul class="co-items">
-          <li>
-            <a href="/product" class="co-item__media">
-              <img src="~/assets/products/product-1.jpg" alt="Mira Draped Midi" />
-              <span class="co-item__qty">1</span>
-            </a>
-            <div class="co-item__body">
-              <h3 class="co-item__title">Mira Draped Midi</h3>
-              <p class="co-item__meta">Oat · S</p>
-            </div>
-            <span class="co-item__price">42.500 KWD</span>
-          </li>
-          <li>
-            <a href="/product" class="co-item__media">
-              <img src="~/assets/products/product-2.jpg" alt="Atelier Tailored Blazer" />
-              <span class="co-item__qty">1</span>
-            </a>
-            <div class="co-item__body">
-              <h3 class="co-item__title">Atelier Tailored Blazer</h3>
-              <p class="co-item__meta">Stone · M</p>
-            </div>
-            <span class="co-item__price">68.000 KWD</span>
-          </li>
-          <li>
-            <a href="/product" class="co-item__media">
-              <img src="~/assets/products/product-3.jpg" alt="Lina Silk Slip Dress" />
-              <span class="co-item__qty">1</span>
-            </a>
-            <div class="co-item__body">
-              <h3 class="co-item__title">Lina Silk Slip Dress</h3>
-              <p class="co-item__meta">Champagne · S</p>
-            </div>
-            <span class="co-item__price">76.000 KWD</span>
-          </li>
+          @foreach (var item in Model.Items)
+          {
+            <li>
+              <a href="/products/@item.Slug" class="co-item__media">
+                @if (!string.IsNullOrEmpty(item.ImageUrl))
+                {
+                  <img src="@item.ImageUrl" alt="@item.ImageAlt" />
+                }
+                <span class="co-item__qty">@item.Quantity</span>
+              </a>
+              <div class="co-item__body">
+                <h3 class="co-item__title">@item.Title</h3>
+                @if (!string.IsNullOrEmpty(item.VariantLabel))
+                {
+                  <p class="co-item__meta">@item.VariantLabel</p>
+                }
+              </div>
+              <span class="co-item__price">@item.LineTotal.ToString("0.000") KWD</span>
+            </li>
+          }
         </ul>
 
-        <!-- Discount code -->
-        <form class="cart-discount" id="coDiscountForm" onsubmit="event.preventDefault(); window.coApplyDiscount && window.coApplyDiscount();">
+        <!-- Discount code — posts to Unit B's cart discount endpoint -->
+        <form class="cart-discount" method="post" action="/cart/discount">
+          @Html.AntiForgeryToken()
+          <input type="hidden" name="returnUrl" value="/checkout" />
           <div class="cart-discount__row">
-            <input type="text" id="coDiscountInput" class="cart-discount__input" placeholder="Promo or gift code" autocomplete="off" />
+            <input type="text" name="code" class="cart-discount__input" placeholder="Promo or gift code" autocomplete="off" />
             <button type="submit" class="cart-discount__btn">Apply</button>
           </div>
-          <div class="cart-discount__msg" id="coDiscountMsg" hidden></div>
+          @if (Model.Summary.DiscountAmount > 0 && Model.DiscountCode is not null)
+          {
+            <div class="cart-discount__msg is-success">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width:14px;height:14px"><polyline points="20 6 9 17 4 12"/></svg>
+              @Model.DiscountCode applied · @Model.Summary.DiscountAmount.ToString("0.000") KWD off
+            </div>
+          }
+          else if (TempData["DiscountError"] is string discountError)
+          {
+            <div class="cart-discount__msg is-error">@discountError</div>
+          }
         </form>
 
         <ul class="cart-totals">
           <li>
             <span>Subtotal</span>
-            <span class="cart-totals__val" id="coSubtotal">186.500 KWD</span>
+            <span class="cart-totals__val">@Model.Summary.Subtotal.ToString("0.000") KWD</span>
           </li>
-          <li class="cart-totals__discount" id="coDiscountRow" hidden>
-            <span>Promo · <em id="coDiscountCode"></em></span>
-            <span class="cart-totals__val cart-totals__val--accent" id="coDiscountAmt">−0.000 KWD</span>
-          </li>
+          @if (Model.Summary.DiscountAmount > 0)
+          {
+            <li class="cart-totals__discount">
+              <span>Promo · <em>@Model.DiscountCode</em></span>
+              <span class="cart-totals__val cart-totals__val--accent">−@Model.Summary.DiscountAmount.ToString("0.000") KWD</span>
+            </li>
+          }
+          @if (Model.Summary.GiftWrapFee > 0)
+          {
+            <li>
+              <span>Gift wrap</span>
+              <span class="cart-totals__val">@Model.Summary.GiftWrapFee.ToString("0.000") KWD</span>
+            </li>
+          }
           <li>
             <span>Delivery</span>
-            <span class="cart-totals__val cart-totals__val--accent" id="coShipping">Free</span>
+            @if (Model.Summary.EstimatedShipping == 0)
+            {
+              <span class="cart-totals__val cart-totals__val--accent">Free</span>
+            }
+            else
+            {
+              <span class="cart-totals__val">@Model.Summary.EstimatedShipping.ToString("0.000") KWD</span>
+            }
           </li>
           <li>
             <span>VAT</span>
@@ -458,7 +429,7 @@
 
         <div class="cart-totals__grand">
           <span>Total</span>
-          <span id="coGrandTotal">186.500 <span class="cart-totals__currency">KWD</span></span>
+          <span>@Model.Summary.Total.ToString("0.000") <span class="cart-totals__currency">KWD</span></span>
         </div>
 
         <ul class="cart-trust">
@@ -478,3 +449,21 @@
 </main>
 
 <!-- ============================ MINIMAL FOOTER ============================ -->
+
+@section Scripts {
+<script>
+  // Mobile order-summary toggle (pure UI — re-bound here because the demo
+  // checkout module in site.js is intentionally disabled on this page).
+  (function () {
+    var toggle = document.getElementById('coSummaryToggle');
+    var wrap = document.querySelector('.co__summary');
+    if (!toggle || !wrap) return;
+    toggle.addEventListener('click', function () {
+      var open = wrap.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      var label = toggle.querySelector('span:nth-child(1) span:nth-child(2)');
+      if (label) label.textContent = open ? 'Hide order summary' : 'Show order summary';
+    });
+  })();
+</script>
+}

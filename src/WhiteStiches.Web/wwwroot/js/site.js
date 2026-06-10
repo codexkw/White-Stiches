@@ -562,7 +562,8 @@ document.addEventListener('DOMContentLoaded', function() {
 ============================================================================ */
 document.addEventListener('DOMContentLoaded', function() {
   const cart = document.querySelector('.cart');
-  if (!cart) return;
+  // Server-rendered cart owns totals now — demo module needs its #subtotal hook to run.
+  if (!cart || !document.getElementById('subtotal')) return;
 
   const FREE_SHIP_THRESHOLD = 50;
 

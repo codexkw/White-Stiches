@@ -1,6 +1,66 @@
-﻿@{
-    ViewData["Title"] = "Women · Spring/Summer 2026 · White Stitches";
-    ViewData["MetaDescription"] = "Discover the Women's SS26 edit from White Stitches — handcrafted dresses, trousers, knits and outerwear, finished in our Kuwait atelier.";
+@model WhiteStiches.Web.Models.Shop.CollectionViewModel
+@using System.Globalization
+@using WhiteStiches.Web.Models.Shop
+@{
+    ViewData["Title"] = $"{Model.BannerTitle} · Spring/Summer 2026 · White Stitches";
+    ViewData["MetaDescription"] = $"Discover the {Model.BannerTitle} edit from White Stitches — handcrafted pieces designed and finished in our Kuwait atelier.";
+
+    var total = Model.Products.TotalCount;
+    var isEmpty = total == 0;
+
+    static IEnumerable<WhiteStiches.Core.Entities.Catalog.Category> Flatten(IEnumerable<WhiteStiches.Core.Entities.Catalog.Category> categories) =>
+        categories.SelectMany(c => new[] { c }.Concat(Flatten(c.Children)));
+    var allCategories = Flatten(Model.Categories).ToList();
+
+    var sizes = new[] { "XS", "S", "M", "L", "XL", "XXL" };
+    var colors = new (string Value, string Label, string Hex)[]
+    {
+        ("black", "Black", "#0a0a0a"),
+        ("oat", "Oat", "#d4cdbc"),
+        ("ivory", "Ivory", "#f5f1ea"),
+        ("sand", "Sand", "#c2a98a"),
+        ("olive", "Olive", "#7a8a76"),
+        ("burgundy", "Burgundy", "#5a2a2a"),
+        ("gold", "Gold", "#c8a96a"),
+        ("charcoal", "Charcoal", "#3a3a3a")
+    };
+    var quickRanges = new (decimal? Min, decimal? Max, string Label)[]
+    {
+        (null, 30m, "Under 30 KWD"),
+        (30m, 60m, "30 – 60 KWD"),
+        (60m, 100m, "60 – 100 KWD"),
+        (100m, null, "Over 100 KWD")
+    };
+
+    var sortOptions = new (string Value, string Label)[]
+    {
+        ("featured", "Featured"),
+        ("newest", "Newest"),
+        ("bestselling", "Best-selling"),
+        ("price-asc", "Price · low to high"),
+        ("price-desc", "Price · high to low"),
+        ("alpha", "Alphabetical")
+    };
+
+    // Pagination tokens (-1 = ellipsis)
+    var totalPages = Model.Products.TotalPages;
+    var current = Model.Products.Page;
+    var pageTokens = new List<int>();
+    if (totalPages > 1)
+    {
+        var shown = new SortedSet<int> { 1, totalPages };
+        for (var i = current - 1; i <= current + 1; i++)
+        {
+            if (i >= 1 && i <= totalPages) shown.Add(i);
+        }
+        int? prev = null;
+        foreach (var n in shown)
+        {
+            if (prev is not null && n - prev.Value > 1) { pageTokens.Add(-1); }
+            pageTokens.Add(n);
+            prev = n;
+        }
+    }
 }
 
 <!-- ============================ COLLECTION BANNER ============================ -->
@@ -8,7 +68,7 @@
   <div class="coll-banner__bg" aria-hidden="true"></div>
   <div class="coll-banner__inner">
     <span class="eyebrow">Spring · Summer 2026</span>
-    <h1 class="coll-banner__title">Women</h1>
+    <h1 class="coll-banner__title">@Model.BannerTitle</h1>
     <p class="coll-banner__intro">
       A curated edit of cuts, fabrics and silhouettes — designed for the woman who measures luxury in stitches, not labels.
     </p>
@@ -20,7 +80,7 @@
   <div class="breadcrumb__inner">
     <a href="/">Home</a>
     <span class="breadcrumb__sep">/</span>
-    <span class="breadcrumb__current">Women</span>
+    <span class="breadcrumb__current">@Model.BannerTitle</span>
   </div>
 </nav>
 
@@ -30,18 +90,16 @@
     <button class="coll-toolbar__filter-btn" id="filterToggle" type="button" aria-controls="filterSidebar" aria-expanded="false">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
       <span>Filter</span>
-      <span class="coll-toolbar__filter-count" id="activeFilterCount" hidden>0</span>
+      <span class="coll-toolbar__filter-count" id="activeFilterCount" hidden="@(Model.ActiveFilterCount == 0)">@Model.ActiveFilterCount</span>
     </button>
-    <div class="coll-toolbar__count" id="resultCount">128 pieces</div>
+    <div class="coll-toolbar__count" id="resultCount">@total @(total == 1 ? "piece" : "pieces")</div>
     <div class="coll-toolbar__sort">
       <label for="sortSelect" class="visually-hidden">Sort by</label>
-      <select id="sortSelect" class="sort-select">
-        <option value="featured">Featured</option>
-        <option value="newest">Newest</option>
-        <option value="bestselling">Best-selling</option>
-        <option value="price-asc">Price · low to high</option>
-        <option value="price-desc">Price · high to low</option>
-        <option value="alpha">Alphabetical</option>
+      <select id="sortSelect" class="sort-select" name="sort" form="filterForm" onchange="this.form && this.form.submit()">
+        @foreach (var option in sortOptions)
+        {
+          <option value="@option.Value" selected="@(string.Equals(Model.Sort, option.Value, StringComparison.OrdinalIgnoreCase))">@option.Label</option>
+        }
       </select>
       <svg class="sort-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
     </div>
@@ -61,145 +119,118 @@
         </button>
       </div>
 
-      <!-- Active filter chips -->
-      <div class="filter__chips" id="filterChips" hidden>
-        <!-- JS injects chips here -->
-      </div>
-
-      <!-- Category -->
-      <details class="filter-group" open>
-        <summary class="filter-group__head">
-          <span>Category</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
-        </summary>
-        <div class="filter-group__body">
-          <label class="check"><input type="checkbox" name="category" value="dresses" /><span>Dresses <em>32</em></span></label>
-          <label class="check"><input type="checkbox" name="category" value="tops" /><span>Tops &amp; Blouses <em>28</em></span></label>
-          <label class="check"><input type="checkbox" name="category" value="trousers" /><span>Trousers <em>21</em></span></label>
-          <label class="check"><input type="checkbox" name="category" value="knitwear" /><span>Knitwear <em>14</em></span></label>
-          <label class="check"><input type="checkbox" name="category" value="outerwear" /><span>Outerwear <em>11</em></span></label>
-          <label class="check"><input type="checkbox" name="category" value="skirts" /><span>Skirts <em>9</em></span></label>
-          <label class="check"><input type="checkbox" name="category" value="kaftans" /><span>Abayas &amp; Kaftans <em>13</em></span></label>
+      <!-- Active filter chips (server-rendered) -->
+      @if (Model.Chips.Count > 0)
+      {
+        <div class="filter__chips">
+          @foreach (var chip in Model.Chips)
+          {
+            <span class="chip">
+              <span>@chip.Label</span>
+              <a class="chip__remove" href="@chip.RemoveUrl" aria-label="Remove @chip.Label filter">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg>
+              </a>
+            </span>
+          }
         </div>
-      </details>
+      }
+      <!-- Inert stub keeps the legacy demo chip module from touching the page -->
+      <div class="filter__chips" id="filterChips" style="display:none" hidden></div>
 
-      <!-- Size -->
-      <details class="filter-group" open>
-        <summary class="filter-group__head">
-          <span>Size</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
-        </summary>
-        <div class="filter-group__body">
-          <div class="filter-sizes">
-            <label class="size-pill"><input type="checkbox" name="size" value="XS" /><span>XS</span></label>
-            <label class="size-pill"><input type="checkbox" name="size" value="S" /><span>S</span></label>
-            <label class="size-pill"><input type="checkbox" name="size" value="M" /><span>M</span></label>
-            <label class="size-pill"><input type="checkbox" name="size" value="L" /><span>L</span></label>
-            <label class="size-pill"><input type="checkbox" name="size" value="XL" /><span>XL</span></label>
-            <label class="size-pill"><input type="checkbox" name="size" value="XXL" /><span>XXL</span></label>
+      <form id="filterForm" method="get" action="/collection" style="display:flex;flex-direction:column;gap:var(--s-2)">
+
+        <!-- Category -->
+        <details class="filter-group" open>
+          <summary class="filter-group__head">
+            <span>Category</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+          </summary>
+          <div class="filter-group__body">
+            @foreach (var category in allCategories)
+            {
+              <label class="check"><input type="checkbox" name="category" value="@category.Slug" checked="@(string.Equals(Model.Category, category.Slug, StringComparison.OrdinalIgnoreCase))" /><span>@category.NameEn</span></label>
+            }
           </div>
-        </div>
-      </details>
+        </details>
 
-      <!-- Colour -->
-      <details class="filter-group" open>
-        <summary class="filter-group__head">
-          <span>Colour</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
-        </summary>
-        <div class="filter-group__body">
-          <div class="filter-colors">
-            <label class="color-dot" title="Black"><input type="checkbox" name="color" value="black" /><span style="background:#0a0a0a"></span><em>Black</em></label>
-            <label class="color-dot" title="Oat"><input type="checkbox" name="color" value="oat" /><span style="background:#d4cdbc"></span><em>Oat</em></label>
-            <label class="color-dot" title="Ivory"><input type="checkbox" name="color" value="ivory" /><span style="background:#f5f1ea"></span><em>Ivory</em></label>
-            <label class="color-dot" title="Sand"><input type="checkbox" name="color" value="sand" /><span style="background:#c2a98a"></span><em>Sand</em></label>
-            <label class="color-dot" title="Olive"><input type="checkbox" name="color" value="olive" /><span style="background:#7a8a76"></span><em>Olive</em></label>
-            <label class="color-dot" title="Burgundy"><input type="checkbox" name="color" value="burgundy" /><span style="background:#5a2a2a"></span><em>Burgundy</em></label>
-            <label class="color-dot" title="Gold"><input type="checkbox" name="color" value="gold" /><span style="background:#c8a96a"></span><em>Gold</em></label>
-            <label class="color-dot" title="Charcoal"><input type="checkbox" name="color" value="charcoal" /><span style="background:#3a3a3a"></span><em>Charcoal</em></label>
-          </div>
-        </div>
-      </details>
-
-      <!-- Price -->
-      <details class="filter-group" open>
-        <summary class="filter-group__head">
-          <span>Price (KWD)</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
-        </summary>
-        <div class="filter-group__body">
-          <div class="filter-price">
-            <div class="filter-price__inputs">
-              <input type="number" id="priceMin" placeholder="From" min="0" aria-label="Minimum price" />
-              <span>—</span>
-              <input type="number" id="priceMax" placeholder="To" min="0" aria-label="Maximum price" />
-            </div>
-            <div class="filter-price__quick">
-              <label class="check"><input type="checkbox" name="price" value="0-30" /><span>Under 30 KWD</span></label>
-              <label class="check"><input type="checkbox" name="price" value="30-60" /><span>30 – 60 KWD</span></label>
-              <label class="check"><input type="checkbox" name="price" value="60-100" /><span>60 – 100 KWD</span></label>
-              <label class="check"><input type="checkbox" name="price" value="100+" /><span>Over 100 KWD</span></label>
+        <!-- Size -->
+        <details class="filter-group" open>
+          <summary class="filter-group__head">
+            <span>Size</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+          </summary>
+          <div class="filter-group__body">
+            <div class="filter-sizes">
+              @foreach (var size in sizes)
+              {
+                <label class="size-pill"><input type="checkbox" name="size" value="@size" checked="@(string.Equals(Model.Size, size, StringComparison.OrdinalIgnoreCase))" /><span>@size</span></label>
+              }
             </div>
           </div>
-        </div>
-      </details>
+        </details>
 
-      <!-- Fabric -->
-      <details class="filter-group">
-        <summary class="filter-group__head">
-          <span>Fabric</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
-        </summary>
-        <div class="filter-group__body">
-          <label class="check"><input type="checkbox" name="fabric" value="linen" /><span>Linen <em>34</em></span></label>
-          <label class="check"><input type="checkbox" name="fabric" value="silk" /><span>Silk <em>18</em></span></label>
-          <label class="check"><input type="checkbox" name="fabric" value="cotton" /><span>Cotton <em>26</em></span></label>
-          <label class="check"><input type="checkbox" name="fabric" value="cashmere" /><span>Cashmere <em>8</em></span></label>
-          <label class="check"><input type="checkbox" name="fabric" value="wool" /><span>Wool <em>12</em></span></label>
-          <label class="check"><input type="checkbox" name="fabric" value="viscose" /><span>Viscose <em>15</em></span></label>
-        </div>
-      </details>
+        <!-- Colour -->
+        <details class="filter-group" open>
+          <summary class="filter-group__head">
+            <span>Colour</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+          </summary>
+          <div class="filter-group__body">
+            <div class="filter-colors">
+              @foreach (var color in colors)
+              {
+                <label class="color-dot" title="@color.Label"><input type="checkbox" name="color" value="@color.Value" checked="@(string.Equals(Model.Color, color.Value, StringComparison.OrdinalIgnoreCase))" /><span style="background:@color.Hex"></span><em>@color.Label</em></label>
+              }
+            </div>
+          </div>
+        </details>
 
-      <!-- Occasion -->
-      <details class="filter-group">
-        <summary class="filter-group__head">
-          <span>Occasion</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
-        </summary>
-        <div class="filter-group__body">
-          <label class="check"><input type="checkbox" name="occasion" value="everyday" /><span>Everyday</span></label>
-          <label class="check"><input type="checkbox" name="occasion" value="workwear" /><span>Workwear</span></label>
-          <label class="check"><input type="checkbox" name="occasion" value="evening" /><span>Evening</span></label>
-          <label class="check"><input type="checkbox" name="occasion" value="resort" /><span>Resort</span></label>
-          <label class="check"><input type="checkbox" name="occasion" value="ramadan" /><span>Ramadan &amp; Eid</span></label>
-          <label class="check"><input type="checkbox" name="occasion" value="wedding-guest" /><span>Wedding Guest</span></label>
-        </div>
-      </details>
+        <!-- Price -->
+        <details class="filter-group" open>
+          <summary class="filter-group__head">
+            <span>Price (KWD)</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+          </summary>
+          <div class="filter-group__body">
+            <div class="filter-price">
+              <div class="filter-price__inputs">
+                <input type="number" id="priceMin" name="min" value="@(Model.Min?.ToString("0.###", CultureInfo.InvariantCulture))" placeholder="From" min="0" step="any" aria-label="Minimum price" />
+                <span>—</span>
+                <input type="number" id="priceMax" name="max" value="@(Model.Max?.ToString("0.###", CultureInfo.InvariantCulture))" placeholder="To" min="0" step="any" aria-label="Maximum price" />
+              </div>
+              <div class="filter-price__quick">
+                @foreach (var range in quickRanges)
+                {
+                  <label class="check"><input type="checkbox" data-price-quick data-min="@(range.Min?.ToString("0.###", CultureInfo.InvariantCulture))" data-max="@(range.Max?.ToString("0.###", CultureInfo.InvariantCulture))" checked="@(Model.Min == range.Min && Model.Max == range.Max && (Model.Min is not null || Model.Max is not null))" /><span>@range.Label</span></label>
+                }
+              </div>
+            </div>
+          </div>
+        </details>
 
-      <!-- Availability -->
-      <details class="filter-group">
-        <summary class="filter-group__head">
-          <span>Availability</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
-        </summary>
-        <div class="filter-group__body">
-          <label class="check"><input type="checkbox" name="availability" value="in-stock" /><span>In stock</span></label>
-          <label class="check"><input type="checkbox" name="availability" value="on-sale" /><span>On sale</span></label>
-          <label class="check"><input type="checkbox" name="availability" value="new" /><span>New arrivals</span></label>
-        </div>
-      </details>
+        <!-- Availability -->
+        <details class="filter-group">
+          <summary class="filter-group__head">
+            <span>Availability</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+          </summary>
+          <div class="filter-group__body">
+            <label class="check"><input type="checkbox" name="instock" value="true" checked="@Model.InStock" /><span>In stock</span></label>
+          </div>
+        </details>
 
-      <div class="filter__foot">
-        <button type="button" class="btn btn--ghost filter__clear" id="filterClear">Clear all</button>
-        <button type="button" class="btn btn--primary filter__apply" id="filterApply">Show results</button>
-      </div>
+        <div class="filter__foot">
+          <a class="btn btn--ghost filter__clear" id="filterClear" href="/collection">Clear all</a>
+          <button type="submit" class="btn btn--primary filter__apply" id="filterApply">Show results</button>
+        </div>
+      </form>
     </aside>
 
     <!-- Filter overlay (mobile only) -->
     <div class="filter-overlay" id="filterOverlay" aria-hidden="true"></div>
 
     <!-- ── PRODUCT GRID ─────────────────────────────────────────────── -->
-    <div class="coll__main">
+    <div class="coll__main @(isEmpty ? "is-empty" : null)">
 
       <!-- Skeleton loading state (hidden by default — toggle .is-loading on .coll__main to show) -->
       <div class="coll__skeleton" aria-hidden="true">
@@ -208,258 +239,124 @@
         <div class="skel-card"></div><div class="skel-card"></div><div class="skel-card"></div>
       </div>
 
-      <!-- Empty state (hidden by default — toggle .is-empty on .coll__main to show) -->
-      <div class="coll__empty">
-        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
-          <circle cx="28" cy="28" r="14"/>
-          <path d="m48 48-10-10"/>
-          <path d="M22 28h12M28 22v12" opacity="0"/>
-        </svg>
-        <h3>No pieces match those filters.</h3>
-        <p>Try widening one of your selections or clearing the filters to see the full edit.</p>
-        <button type="button" class="btn btn--ghost" id="emptyClear">Clear all filters</button>
-      </div>
-
-      <!-- Product grid (default state) -->
-      <div class="coll__grid">
-
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-4.jpg" alt="Noor Double-Breasted Dress" class="product__img product__img--front" />
-        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
-        
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Noor Double-Breasted Dress</a></h3>
-        <div class="product__swatches" aria-label="Available colours">
-          <span class="swatch swatch--oat" title="Oat"></span>
-        <span class="swatch swatch--black" title="Black"></span>
-        <span class="swatch swatch--sand" title="Sand"></span>
+      @if (isEmpty)
+      {
+        <!-- Empty state -->
+        <div class="coll__empty">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+            <circle cx="28" cy="28" r="14"/>
+            <path d="m48 48-10-10"/>
+            <path d="M22 28h12M28 22v12" opacity="0"/>
+          </svg>
+          <h3>No pieces match those filters.</h3>
+          <p>Try widening one of your selections or clearing the filters to see the full edit.</p>
+          <a class="btn btn--ghost" id="emptyClear" href="/collection">Clear all filters</a>
         </div>
-        <div class="product__price"><span>42.500 KWD</span></div>
-      </div>
-    </article>
-
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-2.jpg" alt="Sahara Safari Suit" class="product__img product__img--front" />
-        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
-        
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Sahara Safari Suit</a></h3>
-        <div class="product__swatches" aria-label="Available colours">
-          <span class="swatch swatch--stone" title="Stone"></span>
-        <span class="swatch swatch--black" title="Black"></span>
+      }
+      else
+      {
+        <!-- Product grid (default state) -->
+        <div class="coll__grid">
+          @foreach (var product in Model.Products.Items)
+          {
+            <partial name="_ProductCard" model="product" />
+          }
         </div>
-        <div class="product__price"><span>68.000 KWD</span></div>
-      </div>
-    </article>
+      }
 
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-4.jpg" alt="Layla Evening Dress" class="product__img product__img--front" />
-        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
-        <span class="product__badge product__badge--sale">−20%</span>
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Layla Evening Dress</a></h3>
-        <div class="product__swatches" aria-label="Available colours">
-          <span class="swatch swatch--champagne" title="Champagne"></span>
-        <span class="swatch swatch--ink" title="Ink"></span>
-        </div>
-        <div class="product__price"><span class="product__price-was">95.000</span>
-          <span class="product__price-now">76.000 KWD</span></div>
-      </div>
-    </article>
-
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-2.jpg" alt="Hala Cropped Jacket" class="product__img product__img--front" />
-        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
-        
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Hala Cropped Jacket</a></h3>
-        <div class="product__swatches" aria-label="Available colours">
-          <span class="swatch swatch--oat" title="Oat"></span>
-        <span class="swatch swatch--olive" title="Olive"></span>
-        <span class="swatch swatch--black" title="Black"></span>
-        </div>
-        <div class="product__price"><span>38.500 KWD</span></div>
-      </div>
-    </article>
-
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-4.jpg" alt="Yasmeen Sheer-Collar Top" class="product__img product__img--front" />
-        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
-        <span class="product__badge ">New</span>
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Yasmeen Sheer-Collar Top</a></h3>
-        <div class="product__swatches" aria-label="Available colours">
-          <span class="swatch swatch--white" title="White"></span>
-        <span class="swatch swatch--sand" title="Sand"></span>
-        </div>
-        <div class="product__price"><span>34.000 KWD</span></div>
-      </div>
-    </article>
-
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-2.jpg" alt="Reem Pearl-Button Top" class="product__img product__img--front" />
-        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
-        
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Reem Pearl-Button Top</a></h3>
-        <div class="product__swatches" aria-label="Available colours">
-          <span class="swatch swatch--gold" title="Gold"></span>
-        <span class="swatch swatch--silver" title="Silver"></span>
-        </div>
-        <div class="product__price"><span>28.500 KWD</span></div>
-      </div>
-    </article>
-
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-4.jpg" alt="Dima Three-Piece Suit" class="product__img product__img--front" />
-        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
-        
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Dima Three-Piece Suit</a></h3>
-        <div class="product__swatches" aria-label="Available colours">
-          <span class="swatch swatch--bone" title="Bone"></span>
-        <span class="swatch swatch--olive" title="Olive"></span>
-        <span class="swatch swatch--burgundy" title="Burgundy"></span>
-        </div>
-        <div class="product__price"><span>22.000 KWD</span></div>
-      </div>
-    </article>
-
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-2.jpg" alt="Mariam Tuxedo Dress" class="product__img product__img--front" />
-        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
-        
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Mariam Tuxedo Dress</a></h3>
-        <div class="product__swatches" aria-label="Available colours">
-          <span class="swatch swatch--tan" title="Tan"></span>
-        <span class="swatch swatch--black" title="Black"></span>
-        </div>
-        <div class="product__price"><span>54.000 KWD</span></div>
-      </div>
-    </article>
-
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-4.jpg" alt="Salma Linen Co-ord" class="product__img product__img--front" />
-        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
-        <span class="product__badge ">New</span>
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Salma Linen Co-ord</a></h3>
-        <div class="product__swatches" aria-label="Available colours">
-          <span class="swatch swatch--stone" title="Stone"></span>
-        <span class="swatch swatch--black" title="Black"></span>
-        </div>
-        <div class="product__price"><span>42.000 KWD</span></div>
-      </div>
-    </article>
-
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-2.jpg" alt="Latifa Sequin Jacket" class="product__img product__img--front" />
-        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
-        
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Latifa Sequin Jacket</a></h3>
-        <div class="product__swatches" aria-label="Available colours">
-          <span class="swatch swatch--camel" title="Camel"></span>
-        <span class="swatch swatch--charcoal" title="Charcoal"></span>
-        </div>
-        <div class="product__price"><span>118.000 KWD</span></div>
-      </div>
-    </article>
-
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-4.jpg" alt="Aisha Wrap Dress" class="product__img product__img--front" />
-        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
-        <span class="product__badge product__badge--sale">−18%</span>
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Aisha Wrap Dress</a></h3>
-        <div class="product__swatches" aria-label="Available colours">
-          <span class="swatch swatch--ivory" title="Ivory"></span>
-        <span class="swatch swatch--black" title="Black"></span>
-        </div>
-        <div class="product__price"><span class="product__price-was">55.000</span>
-          <span class="product__price-now">44.500 KWD</span></div>
-      </div>
-    </article>
-
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-2.jpg" alt="Farah Tailored Jacket" class="product__img product__img--front" />
-        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
-        
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Farah Tailored Jacket</a></h3>
-        <div class="product__swatches" aria-label="Available colours">
-          <span class="swatch swatch--oat" title="Oat"></span>
-        <span class="swatch swatch--forest" title="Forest"></span>
-        </div>
-        <div class="product__price"><span>48.000 KWD</span></div>
-      </div>
-    </article>
-
-      </div>
-
-      <!-- ── PAGINATION ──────────────────────────────────────────────── -->
-      <nav class="pagination" aria-label="Pagination">
-        <button class="pagination__btn pagination__btn--prev" disabled aria-label="Previous page">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg>
-        </button>
-        <ol class="pagination__nums">
-          <li><a href="#" class="is-active" aria-current="page">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li class="pagination__ellipsis" aria-hidden="true">…</li>
-          <li><a href="#">11</a></li>
-        </ol>
-        <button class="pagination__btn pagination__btn--next" aria-label="Next page">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 6l6 6-6 6"/></svg>
-        </button>
-      </nav>
+      @if (totalPages > 1)
+      {
+        <!-- ── PAGINATION ──────────────────────────────────────────────── -->
+        <nav class="pagination" aria-label="Pagination">
+          @if (Model.Products.HasPrevious)
+          {
+            <a class="pagination__btn pagination__btn--prev" href="@Model.PageUrl(current - 1)" aria-label="Previous page">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg>
+            </a>
+          }
+          else
+          {
+            <button class="pagination__btn pagination__btn--prev" disabled aria-label="Previous page">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg>
+            </button>
+          }
+          <ol class="pagination__nums">
+            @foreach (var token in pageTokens)
+            {
+              if (token == -1)
+              {
+                <li class="pagination__ellipsis" aria-hidden="true">…</li>
+              }
+              else if (token == current)
+              {
+                <li><a href="@Model.PageUrl(token)" class="is-active" aria-current="page">@token</a></li>
+              }
+              else
+              {
+                <li><a href="@Model.PageUrl(token)">@token</a></li>
+              }
+            }
+          </ol>
+          @if (Model.Products.HasNext)
+          {
+            <a class="pagination__btn pagination__btn--next" href="@Model.PageUrl(current + 1)" aria-label="Next page">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 6l6 6-6 6"/></svg>
+            </a>
+          }
+          else
+          {
+            <button class="pagination__btn pagination__btn--next" disabled aria-label="Next page">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
+          }
+        </nav>
+      }
 
       <!-- SEO copy block (optional, helps category page rank) -->
       <div class="coll__seo">
-        <h2>The Women's Edit · Spring/Summer 2026</h2>
-        <p>The SS26 women's collection from White Stitches is a study in quiet luxury — natural fibers, weightless drape, and a palette borrowed from desert mornings. Every piece is designed and hand-finished in our Kuwait atelier, then shipped across the GCC.</p>
-        <p>Browse linen midi dresses, tailored linen-viscose trousers, hand-knit cashmere, and editorial silk pieces — all built for the woman who measures luxury in stitches, not labels. Looking for something specific? Use the filter to narrow by size, colour, fabric, or occasion.</p>
+        <h2>The @Model.BannerTitle Edit · Spring/Summer 2026</h2>
+        <p>The SS26 collection from White Stitches is a study in quiet luxury — natural fibers, weightless drape, and a palette borrowed from desert mornings. Every piece is designed and hand-finished in our Kuwait atelier, then shipped across the GCC.</p>
+        <p>Browse linen midi dresses, tailored linen-viscose trousers, hand-knit cashmere, and editorial silk pieces — all built for the woman who measures luxury in stitches, not labels. Looking for something specific? Use the filter to narrow by size, colour, or price.</p>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- ============================ FOOTER ============================ -->
+@section Scripts {
+<script>
+  (function () {
+    var form = document.getElementById('filterForm');
+    if (!form) return;
+
+    // Radio-like behavior: a single selection per filter group
+    ['category', 'size', 'color'].forEach(function (group) {
+      var boxes = form.querySelectorAll('input[type="checkbox"][name="' + group + '"]');
+      boxes.forEach(function (box) {
+        box.addEventListener('change', function () {
+          if (box.checked) {
+            boxes.forEach(function (other) { if (other !== box) other.checked = false; });
+          }
+        });
+      });
+    });
+
+    // Quick price ranges fill the min/max inputs (single selection)
+    var minInput = document.getElementById('priceMin');
+    var maxInput = document.getElementById('priceMax');
+    var quicks = form.querySelectorAll('input[type="checkbox"][data-price-quick]');
+    quicks.forEach(function (box) {
+      box.addEventListener('change', function () {
+        if (box.checked) {
+          quicks.forEach(function (other) { if (other !== box) other.checked = false; });
+          if (minInput) minInput.value = box.dataset.min || '';
+          if (maxInput) maxInput.value = box.dataset.max || '';
+        } else {
+          if (minInput) minInput.value = '';
+          if (maxInput) maxInput.value = '';
+        }
+      });
+    });
+  })();
+</script>
+}

@@ -81,15 +81,30 @@ public class CustomerService(WhiteStichesDbContext db) : ICustomerService
         await db.SaveChangesAsync(ct);
     }
 
-    public async Task<IReadOnlyList<Product>> GetWishlistAsync(Guid userId, CancellationToken ct = default) =>
-        await db.WishlistItems
+    public async Task<IReadOnlyList<Product>> GetWishlistAsync(Guid userId, CancellationToken ct = default)
+    {
+        // Include cannot follow Select — fetch ids first, then load products with their graphs.
+        var productIds = await db.WishlistItems
             .AsNoTracking()
             .Where(w => w.UserId == userId)
             .OrderByDescending(w => w.CreatedAtUtc)
-            .Select(w => w.Product)
+            .Select(w => w.ProductId)
+            .ToListAsync(ct);
+
+        if (productIds.Count == 0) return [];
+
+        var products = await db.Products
+            .AsNoTracking()
+            .Where(p => productIds.Contains(p.Id))
             .Include(p => p.Images.OrderBy(i => i.SortOrder))
             .Include(p => p.Variants.Where(v => v.IsActive))
-            .ToListAsync(ct);
+            .ToDictionaryAsync(p => p.Id, ct);
+
+        return productIds
+            .Where(products.ContainsKey)
+            .Select(id => products[id])
+            .ToList();
+    }
 
     public async Task AddToWishlistAsync(Guid userId, int productId, CancellationToken ct = default)
     {

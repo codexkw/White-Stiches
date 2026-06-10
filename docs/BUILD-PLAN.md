@@ -13,16 +13,24 @@ Phases map to PRD v1.0 priorities (P0 = Phase 1 MVP). Requirement IDs reference 
 - [x] Admin shell: brand login + dashboard with live counts
 - [x] Repo: github.com/codexkw/White-Stiches
 
-## Phase 1A — Storefront goes dynamic
+## ✅ Phase 1A — Storefront goes dynamic (DONE · 2026-06-10)
 
-| # | Work | Requirements |
-| --- | --- | --- |
-| 1 | Customer auth: register/login/forgot views → Identity; guest wishlist/cart merge at login | SF-ACC-01, SF-CRT-06 |
-| 2 | Catalog binding: home featured products, collection grid + filters/sort from `ProductQuery` URL params, PDP from slug (`/products/{handle}`), search | SF-HOM-03/04, SF-COL-01..07, SF-PDP-01..08/12 |
-| 3 | Cart: server cart via cookie token, add/update/remove endpoints, mini-cart partial, discount application | SF-CRT-01..06 |
-| 4 | Checkout (pre-payment): address capture, shipping methods from settings, order creation + confirmation page, stock decrement | SF-CHK-01/02/05/06/08 |
-| 5 | Account suite: orders, order detail (status stepper), addresses CRUD, wishlist, profile, returns wizard | SF-ACC-02..09 |
-| 6 | Content from DB: journal index/post, policy pages via `StaticPage`, contact form → `ContactMessage`, newsletter band → subscribers | SF-JRN-01/02, SF-STA-01..06 |
+Verified end-to-end by `scripts/smoke-e2e.ps1` (20-step scripted customer journey — all pass).
+
+- [x] Customer auth: register/login/forgot bound to Identity; guest cart merged at login; logout (SF-ACC-01, SF-CRT-06)
+- [x] Catalog: home featured grid (ViewComponent), `/collection` with category/size/color/price/in-stock filters + sort + paging via URL params, `/products/{slug}` PDP with variant selection/stock states/related products, `/search` (SF-HOM-03/04, SF-COL-01..05, SF-PDP-01/02/03/05/07/08)
+- [x] Cart: server cart (guest cookie token `ws_cart` + user carts), add/update/remove/discount/options endpoints, mini-cart drawer + header badge as ViewComponents, free-shipping progress (SF-CRT-01..06)
+- [x] Checkout: address capture (Kuwait structure), shipping methods from settings, order creation with snapshots + stock decrement + cart clear, confirmation page at `/checkout/confirmation/{orderNumber}` (SF-CHK-01/02/05/06/08 — payment itself is a Manual/COD placeholder until Tap, Phase 1C)
+- [x] Account suite: dashboard, orders list + `/account/orders/{number}` detail with status stepper, addresses CRUD + default, profile + password + marketing prefs, wishlist (add/remove/move-to-bag), returns wizard for delivered orders (SF-ACC-02..07, SF-ACC-09)
+- [x] Content: journal index/post from DB, contact form persists, newsletter endpoint, public order tracking by number + email/phone (SF-JRN-01/02, SF-STA-02/06)
+- [x] Demo catalog seeder (`SampleDataSeeder`, opt-in via `SeedSampleData` config): 16 products with options/variants/images, Spring Edit collection, 4 journal categories + posts, demo discount codes (WELCOME10/SS26/EID2026)
+
+**Phase 1A leftovers (carried forward):**
+- Cart page "Complete the bag" row and the layout's search-overlay suggestions are still static demo markup (live data follow-up)
+- Policy/static pages still render their converted static content (not yet `StaticPage`-driven) — pairs with the Admin pages editor in 1B
+- PDP reviews/Q&A and product video are P1 (no models yet); collection fabric/occasion filters need product fields
+- `DiscountCode.TimesUsed` is not incremented at order placement yet
+- Forgot-password generates a token but cannot email it until SMTP (1C)
 
 ## Phase 1B — Admin modules
 

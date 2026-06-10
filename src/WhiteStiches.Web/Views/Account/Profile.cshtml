@@ -1,6 +1,10 @@
-﻿@{
+@using WhiteStiches.Web.Models.Account
+@model ProfileViewModel
+@{
     ViewData["Title"] = "Profile · White Stitches";
     ViewData["MetaDescription"] = "Manage your profile, preferences and privacy.";
+
+    var passwordErrors = ViewData.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
 }
 
 <section class="acct-head">
@@ -16,8 +20,8 @@
     <aside class="acct-nav" aria-label="Account navigation">
   <div class="acct-nav__head">
     <span class="eyebrow">Account</span>
-    <strong class="acct-nav__name">Anas Al-Mutairi</strong>
-    <span class="acct-nav__email">anas@@whitestiches.kw</span>
+    <strong class="acct-nav__name">@Model.FullName</strong>
+    <span class="acct-nav__email">@Model.Email</span>
   </div>
   <nav class="acct-nav__list">
     <a href="/account" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg><span>Overview</span></a>
@@ -27,125 +31,156 @@
     <a href="/account/profile" class="acct-nav__link is-active" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg><span>Profile</span></a>
     <a href="/account/returns" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 11-9-9"/><path d="M21 4v5h-5"/></svg><span>Returns</span></a>
   </nav>
-  <a href="/account/login" class="acct-nav__signout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span>Sign out</span></a>
+  <form method="post" action="/account/logout" style="margin: 0;">
+    @Html.AntiForgeryToken()
+    <button type="submit" class="acct-nav__signout" style="background: none; border: 0; border-top: 1px solid var(--c-line); width: 100%; cursor: pointer; font-family: inherit; text-align: left;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span>Sign out</span></button>
+  </form>
 </aside>
 
     <main class="acct__main">
 
-      <!-- Personal info -->
-      <section class="acct-section acct-section--card">
-        <header class="acct-section__head">
-          <h2>Personal information</h2>
-        </header>
-        <form class="auth-form" onsubmit="event.preventDefault();">
-          <div class="co-field-row">
-            <div class="co-field"><input type="text" value="Anas" placeholder=" " /><label>First name</label></div>
-            <div class="co-field"><input type="text" value="Al-Mutairi" placeholder=" " /><label>Last name</label></div>
-          </div>
-          <div class="co-field-row">
-            <div class="co-field"><input type="date" value="1994-08-15" placeholder=" " /><label>Date of birth</label><span class="field__hint">For birthday gifts &amp; access</span></div>
-            <div class="co-field"><select><option>Prefer not to say</option><option>Female</option><option>Male</option><option>Non-binary</option></select><label>Gender</label></div>
-          </div>
-          <button type="submit" class="btn btn--primary">Save changes</button>
-        </form>
-      </section>
+      @if (TempData["AccountMessage"] is string flashOk)
+      {
+        <div role="status" style="padding: 12px 16px; border: 1px solid var(--c-line); border-left: 2px solid var(--c-accent); background: var(--c-ink-2); color: var(--c-paper); font-size: var(--t-sm); letter-spacing: var(--tr-wide);">@flashOk</div>
+      }
+      @if (TempData["AccountError"] is string flashErr)
+      {
+        <div role="alert" style="padding: 12px 16px; border: 1px solid var(--c-line); border-left: 2px solid #c87a3a; background: var(--c-ink-2); color: var(--c-paper); font-size: var(--t-sm); letter-spacing: var(--tr-wide);">@flashErr</div>
+      }
 
-      <!-- Email + phone -->
-      <section class="acct-section acct-section--card">
-        <header class="acct-section__head">
-          <h2>Contact</h2>
-        </header>
-        <form class="auth-form" onsubmit="event.preventDefault();">
-          <div class="co-field co-field--with-action">
-            <input type="email" value="anas@@whitestiches.kw" placeholder=" " />
-            <label>Email</label>
-            <span class="acct-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="20 6 9 17 4 12"/></svg> Verified</span>
+      <!-- Personal info + contact + preferences (one save) -->
+      <form asp-controller="Account" asp-action="ProfileSave" method="post" style="display: flex; flex-direction: column; gap: var(--s-4);">
+
+        <section class="acct-section acct-section--card">
+          <header class="acct-section__head">
+            <h2>Personal information</h2>
+          </header>
+          <div class="auth-form">
+            <div class="co-field-row">
+              <div class="co-field"><input type="text" id="profFirst" name="FirstName" value="@Model.FirstName" placeholder=" " required /><label for="profFirst">First name</label></div>
+              <div class="co-field"><input type="text" id="profLast" name="LastName" value="@Model.LastName" placeholder=" " required /><label for="profLast">Last name</label></div>
+            </div>
+            <button type="submit" class="btn btn--primary">Save changes</button>
           </div>
-          <div class="co-field co-field--phone">
-            <span class="field__prefix"><span class="flag flag--kw"></span><span style="padding: 0 8px 0 4px; color: var(--c-text);">+965</span></span>
-            <input type="tel" value="5xx xxxxx" placeholder=" " />
-            <label>Mobile</label>
+        </section>
+
+        <!-- Email + phone -->
+        <section class="acct-section acct-section--card">
+          <header class="acct-section__head">
+            <h2>Contact</h2>
+          </header>
+          <div class="auth-form">
+            <div class="co-field co-field--with-action">
+              <input type="email" value="@Model.Email" placeholder=" " readonly />
+              <label>Email</label>
+              @if (Model.EmailConfirmed)
+              {
+                <span class="acct-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="20 6 9 17 4 12"/></svg> Verified</span>
+              }
+            </div>
+            <div class="co-field co-field--phone">
+              <span class="field__prefix"><span class="flag flag--kw" aria-hidden="true"></span><span style="padding: 0 8px 0 4px; color: var(--c-text);">+965</span></span>
+              <input type="tel" id="profPhone" name="Phone" value="@Model.Phone" placeholder=" " inputmode="tel" />
+              <label for="profPhone">Mobile</label>
+            </div>
+            <button type="submit" class="btn btn--primary">Update contact</button>
           </div>
-          <button type="submit" class="btn btn--primary">Update contact</button>
-        </form>
-      </section>
+        </section>
+
+        <!-- Communication preferences -->
+        <section class="acct-section acct-section--card">
+          <header class="acct-section__head">
+            <h2>Communication preferences</h2>
+            <span class="acct-section__meta">You can unsubscribe any time</span>
+          </header>
+          <div class="acct-comms">
+            <table class="acct-comms__table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Email</th>
+                  <th>WhatsApp</th>
+                  <th>SMS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Order updates</strong><span>Confirmations, shipping, delivery</span></td>
+                  <td><label class="toggle"><input type="checkbox" checked disabled /><span></span></label></td>
+                  <td><label class="toggle"><input type="checkbox" disabled /><span></span></label></td>
+                  <td><label class="toggle"><input type="checkbox" disabled /><span></span></label></td>
+                </tr>
+                <tr>
+                  <td><strong>News, sales &amp; lookbooks</strong><span>New arrivals &amp; member early access</span></td>
+                  <td><label class="toggle"><input type="checkbox" name="MarketingEmailOptIn" value="true" checked="@Model.MarketingEmailOptIn" /><span></span></label></td>
+                  <td><label class="toggle"><input type="checkbox" name="MarketingWhatsAppOptIn" value="true" checked="@Model.MarketingWhatsAppOptIn" /><span></span></label></td>
+                  <td><label class="toggle"><input type="checkbox" name="MarketingSmsOptIn" value="true" checked="@Model.MarketingSmsOptIn" /><span></span></label></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Language & currency -->
+        <section class="acct-section acct-section--card">
+          <header class="acct-section__head">
+            <h2>Language &amp; currency</h2>
+          </header>
+          <div class="auth-form">
+            <div class="co-field-row">
+              <div class="co-field">
+                <select id="profLang" name="PreferredLanguage">
+                  <option value="en" selected="@(Model.PreferredLanguage != "ar")">English</option>
+                  <option value="ar" selected="@(Model.PreferredLanguage == "ar")">العربية (Arabic)</option>
+                </select>
+                <label for="profLang">Language</label>
+              </div>
+              <div class="co-field">
+                <select id="profCurrency" name="PreferredCurrency">
+                  <option value="KWD" selected="@(Model.PreferredCurrency == "KWD")">KWD · Kuwaiti Dinar</option>
+                  <option value="SAR" selected="@(Model.PreferredCurrency == "SAR")">SAR · Saudi Riyal</option>
+                  <option value="AED" selected="@(Model.PreferredCurrency == "AED")">AED · UAE Dirham</option>
+                  <option value="BHD" selected="@(Model.PreferredCurrency == "BHD")">BHD · Bahraini Dinar</option>
+                  <option value="QAR" selected="@(Model.PreferredCurrency == "QAR")">QAR · Qatari Riyal</option>
+                  <option value="OMR" selected="@(Model.PreferredCurrency == "OMR")">OMR · Omani Rial</option>
+                </select>
+                <label for="profCurrency">Currency</label>
+              </div>
+            </div>
+            <button type="submit" class="btn btn--primary">Save preferences</button>
+          </div>
+        </section>
+
+      </form>
 
       <!-- Password -->
       <section class="acct-section acct-section--card">
         <header class="acct-section__head">
           <h2>Password</h2>
         </header>
-        <form class="auth-form" onsubmit="event.preventDefault();">
-          <div class="co-field co-field--with-action">
-            <input type="password" placeholder=" " />
-            <label>Current password</label>
-            <button type="button" class="co-field__action" aria-label="Show"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
+        @if (passwordErrors.Count > 0)
+        {
+          <ul role="alert" style="margin: 0; padding: 12px 16px; list-style: none; border: 1px solid var(--c-line); border-left: 2px solid #c87a3a; background: var(--c-ink-3); color: var(--c-paper); font-size: var(--t-sm); letter-spacing: var(--tr-wide); display: flex; flex-direction: column; gap: 4px;">
+            @foreach (var error in passwordErrors)
+            {
+              <li>@error</li>
+            }
+          </ul>
+        }
+        <form class="auth-form" asp-controller="Account" asp-action="ProfilePassword" method="post">
+          <div class="co-field">
+            <input type="password" id="pwCurrent" name="CurrentPassword" placeholder=" " required autocomplete="current-password" />
+            <label for="pwCurrent">Current password</label>
           </div>
-          <div class="co-field co-field--with-action">
-            <input type="password" placeholder=" " />
-            <label>New password</label>
-            <button type="button" class="co-field__action" aria-label="Show"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
+          <div class="co-field">
+            <input type="password" id="pwNew" name="NewPassword" placeholder=" " required autocomplete="new-password" />
+            <label for="pwNew">New password</label>
+          </div>
+          <div class="co-field">
+            <input type="password" id="pwConfirm" name="ConfirmPassword" placeholder=" " required autocomplete="new-password" />
+            <label for="pwConfirm">Confirm new password</label>
           </div>
           <button type="submit" class="btn btn--primary">Change password</button>
-        </form>
-      </section>
-
-      <!-- Communication preferences -->
-      <section class="acct-section acct-section--card">
-        <header class="acct-section__head">
-          <h2>Communication preferences</h2>
-          <span class="acct-section__meta">You can unsubscribe any time</span>
-        </header>
-        <div class="acct-comms">
-          <table class="acct-comms__table">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Email</th>
-                <th>WhatsApp</th>
-                <th>SMS</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Order updates</strong><span>Confirmations, shipping, delivery</span></td>
-                <td><label class="toggle"><input type="checkbox" checked disabled /><span></span></label></td>
-                <td><label class="toggle"><input type="checkbox" checked /><span></span></label></td>
-                <td><label class="toggle"><input type="checkbox" /><span></span></label></td>
-              </tr>
-              <tr>
-                <td><strong>New arrivals</strong><span>1 a week, never more</span></td>
-                <td><label class="toggle"><input type="checkbox" checked /><span></span></label></td>
-                <td><label class="toggle"><input type="checkbox" /><span></span></label></td>
-                <td><label class="toggle"><input type="checkbox" /><span></span></label></td>
-              </tr>
-              <tr>
-                <td><strong>Private sales &amp; lookbooks</strong><span>Early access for members</span></td>
-                <td><label class="toggle"><input type="checkbox" checked /><span></span></label></td>
-                <td><label class="toggle"><input type="checkbox" checked /><span></span></label></td>
-                <td><label class="toggle"><input type="checkbox" /><span></span></label></td>
-              </tr>
-              <tr>
-                <td><strong>Wishlist alerts</strong><span>Restock &amp; sale notifications</span></td>
-                <td><label class="toggle"><input type="checkbox" /><span></span></label></td>
-                <td><label class="toggle"><input type="checkbox" checked /><span></span></label></td>
-                <td><label class="toggle"><input type="checkbox" /><span></span></label></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- Language & currency -->
-      <section class="acct-section acct-section--card">
-        <header class="acct-section__head">
-          <h2>Language &amp; currency</h2>
-        </header>
-        <form class="auth-form" onsubmit="event.preventDefault();">
-          <div class="co-field-row">
-            <div class="co-field"><select><option>English</option><option>العربية (Arabic)</option></select><label>Language</label></div>
-            <div class="co-field"><select><option>KWD · Kuwaiti Dinar</option><option>SAR · Saudi Riyal</option><option>AED · UAE Dirham</option><option>BHD · Bahraini Dinar</option><option>QAR · Qatari Riyal</option><option>OMR · Omani Rial</option></select><label>Currency</label></div>
-          </div>
         </form>
       </section>
 

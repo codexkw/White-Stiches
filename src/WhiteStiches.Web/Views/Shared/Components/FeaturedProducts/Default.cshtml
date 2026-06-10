@@ -1,0 +1,7 @@
+@model IReadOnlyList<WhiteStiches.Core.Entities.Catalog.Product>
+<div class="products__grid">
+  @foreach (var product in Model)
+  {
+    <partial name="_ProductCard" model="product" />
+  }
+</div>

@@ -1,0 +1,89 @@
+@model WhiteStiches.Web.Models.Cart.MiniCartViewModel
+@{
+    var hasItems = Model.Items.Count > 0;
+    var progressPct = Model.Summary.FreeShippingThreshold <= 0
+        ? 100m
+        : Math.Min(100m, Model.Summary.Subtotal / Model.Summary.FreeShippingThreshold * 100m);
+}
+<header class="mc-drawer__head">
+  <h2 id="miniCartTitle">Your bag <em>(@Model.Summary.ItemCount)</em></h2>
+  <button type="button" class="mc-drawer__close" id="miniCartClose" aria-label="Close">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+</header>
+
+@if (hasItems)
+{
+  <!-- Free-shipping progress -->
+  <div class="mc-progress">
+    @if (Model.Summary.QualifiesForFreeShipping)
+    {
+      <span class="mc-progress__msg">You&rsquo;ve unlocked <strong>complimentary delivery</strong> within Kuwait.</span>
+    }
+    else
+    {
+      <span class="mc-progress__msg">You&rsquo;re <strong>@(Model.Summary.AmountToFreeShipping.ToString("0.000")) KWD</strong> away from complimentary delivery.</span>
+    }
+    <div class="mc-progress__bar"><span style="width: @(progressPct.ToString("0", System.Globalization.CultureInfo.InvariantCulture))%"></span></div>
+  </div>
+
+  <!-- Items -->
+  <ul class="mc-items">
+    @foreach (var item in Model.Items)
+    {
+      var variant = item.ProductVariant;
+      var product = variant.Product;
+      var image = product.Images.OrderBy(i => i.SortOrder).FirstOrDefault();
+      var pdpUrl = $"/products/{product.Slug}";
+      var metaParts = new[] { variant.Option2, variant.Option1 }
+          .Where(v => !string.IsNullOrWhiteSpace(v))
+          .ToArray();
+      <li class="mc-item">
+        <a href="@pdpUrl" class="mc-item__media">
+          @if (image is not null)
+          {
+            <img src="@image.Url" alt="@(image.AltEn ?? product.TitleEn)" />
+          }
+        </a>
+        <div class="mc-item__body">
+          <h3 class="mc-item__title"><a href="@pdpUrl">@product.TitleEn</a></h3>
+          @if (metaParts.Length > 0)
+          {
+            <p class="mc-item__meta">@string.Join(" · ", metaParts)</p>
+          }
+          <div class="mc-item__row">
+            <span class="mc-item__meta">Qty @item.Quantity</span>
+            <span class="mc-item__price">@((variant.Price * item.Quantity).ToString("0.000")) KWD</span>
+          </div>
+        </div>
+      </li>
+    }
+  </ul>
+
+  <!-- Footer -->
+  <footer class="mc-foot">
+    <div class="mc-foot__totals">
+      <span>Subtotal</span>
+      <strong>@Model.Summary.Subtotal.ToString("0.000") <em>KWD</em></strong>
+    </div>
+    <p class="mc-foot__hint">Delivery and taxes calculated at checkout.</p>
+    <div class="mc-foot__actions">
+      <a href="/cart" class="btn btn--ghost btn--block">View bag</a>
+      <a href="/checkout" class="btn btn--primary btn--block">Checkout securely</a>
+    </div>
+    <div class="mc-foot__express">
+      <button type="button" class="express-btn express-btn--apple"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.04c-.01-2.04 1.66-3.02 1.74-3.07-.95-1.39-2.42-1.58-2.94-1.6-1.24-.13-2.43.74-3.06.74-.64 0-1.61-.72-2.66-.7-1.36.02-2.63.79-3.33 2.01-1.42 2.47-.36 6.12 1.02 8.12.68.98 1.49 2.08 2.55 2.04 1.03-.04 1.42-.66 2.66-.66 1.24 0 1.59.66 2.67.64 1.1-.02 1.8-1 2.47-1.99.78-1.14 1.1-2.24 1.12-2.3-.02-.01-2.15-.83-2.17-3.23zM15.07 5.91c.56-.69.95-1.64.84-2.59-.81.04-1.81.55-2.4 1.23-.52.6-.98 1.58-.86 2.51.91.07 1.85-.46 2.42-1.15z"/></svg> Apple Pay</button>
+      <button type="button" class="express-btn express-btn--google"><span>G Pay</span></button>
+    </div>
+  </footer>
+}
+else
+{
+  <!-- Empty state -->
+  <div class="mc-empty">
+    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M14 18h36l-3.6 30.4a4 4 0 0 1-4 3.6H21.6a4 4 0 0 1-4-3.6L14 18Z"/><path d="M24 18v-4a8 8 0 0 1 16 0v4"/></svg>
+    <h3>Your bag is empty.</h3>
+    <p>Start exploring &mdash; the SS26 edit is waiting.</p>
+    <a href="/" class="btn btn--primary">Shop new arrivals</a>
+  </div>
+}

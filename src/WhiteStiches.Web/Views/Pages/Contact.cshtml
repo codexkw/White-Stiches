@@ -1,6 +1,9 @@
-﻿@{
+@{
     ViewData["Title"] = "Contact · White Stitches";
     ViewData["MetaDescription"] = "Get in touch — WhatsApp, email or visit our atelier in Kuwait City.";
+
+    var sentName = TempData["ContactSentName"] as string;
+    var contactError = TempData["ContactError"] as string;
 }
 
 <section class="page-hero">
@@ -52,14 +55,27 @@
           <p>For everything else — we&rsquo;ll come back to you within 24 hours.</p>
         </header>
 
-        <form class="auth-form" id="contactForm" novalidate onsubmit="event.preventDefault(); window.handleContact && window.handleContact();">
+        @if (sentName is not null)
+        {
+        <div class="auth-form">
+          <!-- Success state -->
+          <div class="auth-success">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="32" cy="32" r="28"/><path d="M22 32l8 8 14-16"/></svg>
+            <h2>Message sent.</h2>
+            <p>Thanks <strong>@sentName</strong> — we&rsquo;ve received your enquiry and will reply within 24 hours.</p>
+          </div>
+        </div>
+        }
+        else
+        {
+        <form class="auth-form" method="post" asp-controller="Pages" asp-action="Contact">
           <div class="co-field-row">
             <div class="co-field">
-              <input type="text" id="contactName" required placeholder=" " autocomplete="name" />
+              <input type="text" id="contactName" name="name" required placeholder=" " autocomplete="name" />
               <label for="contactName">Full name</label>
             </div>
             <div class="co-field">
-              <input type="email" id="contactEmail" required placeholder=" " autocomplete="email" />
+              <input type="email" id="contactEmail" name="email" required placeholder=" " autocomplete="email" />
               <label for="contactEmail">Email</label>
             </div>
           </div>
@@ -67,7 +83,7 @@
           <div class="co-field co-field--phone">
             <span class="field__prefix">
               <span class="flag flag--kw"></span>
-              <select aria-label="Country code">
+              <select name="phoneCode" aria-label="Country code">
                 <option value="+965" selected>+965</option>
                 <option value="+966">+966</option>
                 <option value="+971">+971</option>
@@ -76,12 +92,12 @@
                 <option value="+968">+968</option>
               </select>
             </span>
-            <input type="tel" id="contactPhone" placeholder=" " autocomplete="tel" />
+            <input type="tel" id="contactPhone" name="phone" placeholder=" " autocomplete="tel" />
             <label for="contactPhone">Mobile (optional)</label>
           </div>
 
           <div class="co-field">
-            <select id="contactReason" required>
+            <select id="contactReason" name="subject" required>
               <option value="" disabled selected hidden></option>
               <option>Order enquiry</option>
               <option>Sizing or fit help</option>
@@ -94,13 +110,13 @@
           </div>
 
           <div class="co-field">
-            <input type="text" id="contactOrder" placeholder=" " />
+            <input type="text" id="contactOrder" name="orderNumber" placeholder=" " />
             <label for="contactOrder">Order number (if relevant)</label>
             <span class="field__hint">e.g. #WS-2026-08412</span>
           </div>
 
           <div class="co-field">
-            <textarea id="contactMessage" rows="4" required placeholder=" "></textarea>
+            <textarea id="contactMessage" name="message" rows="4" required placeholder=" "></textarea>
             <label for="contactMessage">Your message</label>
           </div>
 
@@ -109,15 +125,14 @@
             <span>I consent to White Stitches contacting me by email and WhatsApp regarding this enquiry. See our <a href="/privacy" class="link-inline">Privacy Policy</a>.</span>
           </label>
 
-          <button type="submit" class="btn btn--primary">Send message</button>
+          @if (contactError is not null)
+          {
+            <p class="field__hint" style="color: #c87a3a;">@contactError</p>
+          }
 
-          <!-- Success state -->
-          <div class="auth-success" id="contactSuccess" hidden>
-            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="32" cy="32" r="28"/><path d="M22 32l8 8 14-16"/></svg>
-            <h2>Message sent.</h2>
-            <p>Thanks <strong id="contactSentName"></strong> — we&rsquo;ve received your enquiry and will reply within 24 hours.</p>
-          </div>
+          <button type="submit" class="btn btn--primary">Send message</button>
         </form>
+        }
       </div>
 
       <aside class="contact__aside">

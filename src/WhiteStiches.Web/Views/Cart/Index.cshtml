@@ -1,358 +1,413 @@
-﻿@{
+@model WhiteStiches.Web.Models.Cart.CartIndexViewModel
+@{
     ViewData["Title"] = "Your Bag · White Stitches";
     ViewData["MetaDescription"] = "Review your selections before checkout. Free delivery in Kuwait over 50 KWD.";
+
+    var items = Model.Cart.Items.OrderBy(i => i.Id).ToList();
+    var hasItems = items.Count > 0;
+    var summary = Model.Summary;
+
+    var cartError = TempData["CartError"] as string;
+    var cartMessage = (TempData["CartMessage"] as string) switch
+    {
+        null => null,
+        "added" => "Added to your bag.",
+        "updated" => "Bag updated.",
+        "removed" => "Removed from your bag.",
+        "discount_applied" => "Code applied to your bag.",
+        "discount_removed" => "Code removed.",
+        "saved" => "Bag preferences saved.",
+        _ => "Bag updated."
+    };
+
+    var progressPct = summary.FreeShippingThreshold <= 0
+        ? 100m
+        : Math.Min(100m, summary.Subtotal / summary.FreeShippingThreshold * 100m);
+    var progressWidth = progressPct.ToString("0", System.Globalization.CultureInfo.InvariantCulture);
 }
 
-<!-- ============================ CART PAGE HEAD ============================ -->
-<section class="cart-head">
-  <div class="cart-head__inner">
-    <span class="eyebrow">Step 1 of 3</span>
-    <h1 class="cart-head__title">Your Bag</h1>
-    <p class="cart-head__sub" id="cartItemCount">3 pieces · 158.500 KWD</p>
-  </div>
-</section>
-
-<!-- ============================ FREE SHIPPING PROGRESS ============================ -->
-<section class="ship-progress">
-  <div class="ship-progress__inner">
-    <div class="ship-progress__row">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
-        <path d="M3 7h13v9H3zM16 10h3l2 3v3h-5zM7 19a2 2 0 100-4 2 2 0 000 4zM18 19a2 2 0 100-4 2 2 0 000 4z"/>
-      </svg>
-      <span class="ship-progress__msg" id="shipMsg">You've unlocked <strong>complimentary delivery</strong> within Kuwait.</span>
-    </div>
-    <div class="ship-progress__bar" aria-hidden="true">
-      <div class="ship-progress__fill" id="shipFill" style="width: 100%;"></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ CART GRID ============================ -->
-<section class="cart">
-  <div class="cart__inner">
-
-    <!-- ── LINE ITEMS column ───────────────────────────────────────── -->
-    <div class="cart__items" id="cartItems">
-
-      <!-- Item 1 -->
-      <article class="cart-item">
-        <a href="/product" class="cart-item__media">
-          <img src="~/assets/products/product-4.jpg" alt="Mira Draped Midi" />
-        </a>
-        <div class="cart-item__body">
-          <div class="cart-item__top">
-            <div>
-              <h3 class="cart-item__title"><a href="/product">Mira Draped Midi</a></h3>
-              <ul class="cart-item__meta">
-                <li><span class="cart-item__meta-label">Colour</span> Oat</li>
-                <li><span class="cart-item__meta-label">Size</span> S</li>
-                <li><span class="cart-item__meta-label">SKU</span> WS-MIRA-OAT-S</li>
-              </ul>
-            </div>
-            <div class="cart-item__price">
-              <span class="cart-item__price-each">42.500 KWD each</span>
-              <span class="cart-item__price-line" data-line-total>42.500 KWD</span>
-            </div>
-          </div>
-          <div class="cart-item__actions">
-            <div class="qty cart-item__qty">
-              <button type="button" class="qty__btn" data-qty="minus" aria-label="Decrease quantity">−</button>
-              <input type="number" class="qty__input" value="1" min="1" max="10" data-unit-price="42.500" aria-label="Quantity" />
-              <button type="button" class="qty__btn" data-qty="plus" aria-label="Increase quantity">+</button>
-            </div>
-            <div class="cart-item__links">
-              <button type="button" class="link-btn" data-action="wishlist">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                <span>Save for later</span>
-              </button>
-              <button type="button" class="link-btn link-btn--danger" data-action="remove">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 7h16M10 11v6M14 11v6M5 7l1 13a2 2 0 002 2h8a2 2 0 002-2l1-13M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3"/></svg>
-                <span>Remove</span>
-              </button>
-            </div>
-          </div>
+@if (!hasItems)
+{
+    <!-- ============================ EMPTY CART ============================ -->
+    <section class="cart-empty">
+      <div class="cart-empty__inner">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+          <path d="M14 16h36l-3 28a4 4 0 0 1-4 4H21a4 4 0 0 1-4-4z"/>
+          <path d="M22 16v-3a10 10 0 0 1 20 0v3"/>
+        </svg>
+        <h2>Your bag is empty.</h2>
+        <p>Begin with the new arrivals, or pick up where you left off in your wishlist.</p>
+        @if (cartMessage is not null || cartError is not null)
+        {
+          <p>@(cartError ?? cartMessage)</p>
+        }
+        <div class="cart-empty__cta">
+          <a href="/collection" class="btn btn--primary">Shop the new edit</a>
+          <a href="/account/wishlist" class="btn btn--ghost">Open wishlist</a>
         </div>
-      </article>
+      </div>
+    </section>
+}
+else
+{
+    <!-- ============================ CART PAGE HEAD ============================ -->
+    <section class="cart-head">
+      <div class="cart-head__inner">
+        <span class="eyebrow">Step 1 of 3</span>
+        <h1 class="cart-head__title">Your Bag</h1>
+        <p class="cart-head__sub">@summary.ItemCount @(summary.ItemCount == 1 ? "piece" : "pieces") · @(summary.Total.ToString("0.000")) KWD</p>
+      </div>
+    </section>
 
-      <!-- Item 2 -->
-      <article class="cart-item">
-        <a href="/product" class="cart-item__media">
-          <img src="~/assets/products/product-1.jpg" alt="Atelier Tailored Blazer" />
-        </a>
-        <div class="cart-item__body">
-          <div class="cart-item__top">
-            <div>
-              <h3 class="cart-item__title"><a href="/product">Atelier Tailored Blazer</a></h3>
-              <ul class="cart-item__meta">
-                <li><span class="cart-item__meta-label">Colour</span> Stone</li>
-                <li><span class="cart-item__meta-label">Size</span> M</li>
-                <li><span class="cart-item__meta-label">SKU</span> WS-ATLB-STN-M</li>
-              </ul>
-              <p class="cart-item__note cart-item__note--warn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 9v4M12 17h.01M10.3 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.7 3.86a2 2 0 0 0-3.4 0Z"/></svg>
-                Only 2 left in this size — order soon
-              </p>
-            </div>
-            <div class="cart-item__price">
-              <span class="cart-item__price-each">68.000 KWD each</span>
-              <span class="cart-item__price-line" data-line-total>68.000 KWD</span>
-            </div>
-          </div>
-          <div class="cart-item__actions">
-            <div class="qty cart-item__qty">
-              <button type="button" class="qty__btn" data-qty="minus" aria-label="Decrease quantity">−</button>
-              <input type="number" class="qty__input" value="1" min="1" max="10" data-unit-price="68.000" aria-label="Quantity" />
-              <button type="button" class="qty__btn" data-qty="plus" aria-label="Increase quantity">+</button>
-            </div>
-            <div class="cart-item__links">
-              <button type="button" class="link-btn" data-action="wishlist">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                <span>Save for later</span>
-              </button>
-              <button type="button" class="link-btn link-btn--danger" data-action="remove">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 7h16M10 11v6M14 11v6M5 7l1 13a2 2 0 002 2h8a2 2 0 002-2l1-13M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3"/></svg>
-                <span>Remove</span>
-              </button>
-            </div>
-          </div>
+    <!-- ============================ FREE SHIPPING PROGRESS ============================ -->
+    <section class="ship-progress">
+      <div class="ship-progress__inner">
+        <div class="ship-progress__row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+            <path d="M3 7h13v9H3zM16 10h3l2 3v3h-5zM7 19a2 2 0 100-4 2 2 0 000 4zM18 19a2 2 0 100-4 2 2 0 000 4z"/>
+          </svg>
+          @if (summary.QualifiesForFreeShipping)
+          {
+            <span class="ship-progress__msg">You&rsquo;ve unlocked <strong>complimentary delivery</strong> within Kuwait.</span>
+          }
+          else
+          {
+            <span class="ship-progress__msg">Add <strong>@(summary.AmountToFreeShipping.ToString("0.000")) KWD</strong> more for complimentary delivery.</span>
+          }
         </div>
-      </article>
+        <div class="ship-progress__bar" aria-hidden="true">
+          <div class="ship-progress__fill" style="width: @(progressWidth)%;"></div>
+        </div>
+      </div>
+    </section>
 
-      <!-- Item 3 — on sale -->
-      <article class="cart-item">
-        <a href="/product" class="cart-item__media">
-          <img src="~/assets/products/product-2.jpg" alt="Lina Silk Slip Dress" />
-          <span class="cart-item__badge">−20%</span>
-        </a>
-        <div class="cart-item__body">
-          <div class="cart-item__top">
-            <div>
-              <h3 class="cart-item__title"><a href="/product">Lina Silk Slip Dress</a></h3>
-              <ul class="cart-item__meta">
-                <li><span class="cart-item__meta-label">Colour</span> Champagne</li>
-                <li><span class="cart-item__meta-label">Size</span> S</li>
-                <li><span class="cart-item__meta-label">SKU</span> WS-LINA-CMP-S</li>
-              </ul>
-            </div>
-            <div class="cart-item__price">
-              <span class="cart-item__price-each">
-                <span class="strike">95.000</span>
-                <span class="cart-item__price-now">76.000 KWD each</span>
+    <!-- ============================ CART GRID ============================ -->
+    <section class="cart">
+      <div class="cart__inner">
+
+        <!-- ── LINE ITEMS column ───────────────────────────────────────── -->
+        <div class="cart__items">
+
+          @foreach (var item in items)
+          {
+            var variant = item.ProductVariant;
+            var product = variant.Product;
+            var image = product.Images.OrderBy(i => i.SortOrder).FirstOrDefault();
+            var pdpUrl = $"/products/{product.Slug}";
+            var lineTotal = variant.Price * item.Quantity;
+            var onSale = variant.CompareAtPrice.HasValue && variant.CompareAtPrice.Value > variant.Price;
+            var compareAtText = onSale ? variant.CompareAtPrice!.Value.ToString("0.000") : null;
+            var salePct = onSale ? (int)Math.Round((1 - variant.Price / variant.CompareAtPrice!.Value) * 100) : 0;
+            var lowStock = !variant.AllowOversell && variant.StockQuantity > 0 && variant.StockQuantity <= variant.LowStockThreshold;
+
+            <article class="cart-item">
+              <a href="@pdpUrl" class="cart-item__media">
+                @if (image is not null)
+                {
+                  <img src="@image.Url" alt="@(image.AltEn ?? product.TitleEn)" />
+                }
+                @if (onSale)
+                {
+                  <span class="cart-item__badge">−@(salePct)%</span>
+                }
+              </a>
+              <div class="cart-item__body">
+                <div class="cart-item__top">
+                  <div>
+                    <h3 class="cart-item__title"><a href="@pdpUrl">@product.TitleEn</a></h3>
+                    <ul class="cart-item__meta">
+                      @if (!string.IsNullOrWhiteSpace(variant.Option2))
+                      {
+                        <li><span class="cart-item__meta-label">Colour</span> @variant.Option2</li>
+                      }
+                      @if (!string.IsNullOrWhiteSpace(variant.Option1))
+                      {
+                        <li><span class="cart-item__meta-label">Size</span> @variant.Option1</li>
+                      }
+                      @if (!string.IsNullOrWhiteSpace(variant.Sku))
+                      {
+                        <li><span class="cart-item__meta-label">SKU</span> @variant.Sku</li>
+                      }
+                    </ul>
+                    @if (lowStock)
+                    {
+                      <p class="cart-item__note cart-item__note--warn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 9v4M12 17h.01M10.3 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.7 3.86a2 2 0 0 0-3.4 0Z"/></svg>
+                        Only @variant.StockQuantity left in this size — order soon
+                      </p>
+                    }
+                  </div>
+                  <div class="cart-item__price">
+                    @if (onSale)
+                    {
+                      <span class="cart-item__price-each">
+                        <span class="strike">@compareAtText</span>
+                        <span class="cart-item__price-now">@variant.Price.ToString("0.000") KWD each</span>
+                      </span>
+                    }
+                    else
+                    {
+                      <span class="cart-item__price-each">@variant.Price.ToString("0.000") KWD each</span>
+                    }
+                    <span class="cart-item__price-line">@lineTotal.ToString("0.000") KWD</span>
+                  </div>
+                </div>
+                <div class="cart-item__actions">
+                  <form class="qty cart-item__qty" method="post" asp-controller="Cart" asp-action="UpdateItem">
+                    <input type="hidden" name="cartItemId" value="@item.Id" />
+                    <button type="submit" class="qty__btn" name="quantity" value="@(item.Quantity - 1)" aria-label="Decrease quantity">−</button>
+                    <input type="number" class="qty__input" value="@item.Quantity" min="1" max="10" readonly aria-label="Quantity" />
+                    <button type="submit" class="qty__btn" name="quantity" value="@(item.Quantity + 1)" aria-label="Increase quantity">+</button>
+                  </form>
+                  <div class="cart-item__links">
+                    <form method="post" action="/account/wishlist/add">
+                      @Html.AntiForgeryToken()
+                      <input type="hidden" name="productId" value="@product.Id" />
+                      <input type="hidden" name="returnUrl" value="/cart" />
+                      <button type="submit" class="link-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        <span>Save for later</span>
+                      </button>
+                    </form>
+                    <form method="post" asp-controller="Cart" asp-action="RemoveItem">
+                      <input type="hidden" name="cartItemId" value="@item.Id" />
+                      <button type="submit" class="link-btn link-btn--danger">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 7h16M10 11v6M14 11v6M5 7l1 13a2 2 0 002 2h8a2 2 0 002-2l1-13M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3"/></svg>
+                        <span>Remove</span>
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </article>
+          }
+
+          <!-- Gift wrap + order notes (under the line items) -->
+          <form class="cart-extras" method="post" asp-controller="Cart" asp-action="SaveOptions">
+            <label class="check cart-extras__giftwrap">
+              <input type="checkbox" id="wsGiftWrap" name="giftWrap" value="true" checked="@Model.Cart.GiftWrap" />
+              <span>
+                <strong>Add atelier gift wrap</strong>
+                <em class="cart-extras__giftwrap-meta">+ 3.500 KWD · hand-folded, sealed with our wax mark</em>
               </span>
-              <span class="cart-item__price-line" data-line-total>48.000 KWD</span>
-            </div>
-          </div>
-          <div class="cart-item__actions">
-            <div class="qty cart-item__qty">
-              <button type="button" class="qty__btn" data-qty="minus" aria-label="Decrease quantity">−</button>
-              <input type="number" class="qty__input" value="1" min="1" max="10" data-unit-price="76.000" aria-label="Quantity" />
-              <button type="button" class="qty__btn" data-qty="plus" aria-label="Increase quantity">+</button>
-            </div>
-            <div class="cart-item__links">
-              <button type="button" class="link-btn" data-action="wishlist">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                <span>Save for later</span>
-              </button>
-              <button type="button" class="link-btn link-btn--danger" data-action="remove">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 7h16M10 11v6M14 11v6M5 7l1 13a2 2 0 002 2h8a2 2 0 002-2l1-13M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3"/></svg>
-                <span>Remove</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </article>
+            </label>
 
-      <!-- Gift wrap + order notes (under the line items) -->
-      <div class="cart-extras">
-        <label class="check cart-extras__giftwrap">
-          <input type="checkbox" id="giftWrap" />
-          <span>
-            <strong>Add atelier gift wrap</strong>
-            <em class="cart-extras__giftwrap-meta">+ 3.500 KWD · hand-folded, sealed with our wax mark</em>
-          </span>
-        </label>
+            <details class="cart-extras__notes" open="@(!string.IsNullOrWhiteSpace(Model.Cart.Note))">
+              <summary>
+                <span>Add a note to your order</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+              </summary>
+              <div class="cart-extras__notes-body">
+                <textarea
+                  id="wsOrderNote"
+                  name="note"
+                  rows="3"
+                  placeholder="Special instructions — gift message, delivery directions, sizing notes…"
+                  maxlength="500"
+                  aria-label="Order notes">@Model.Cart.Note</textarea>
+                <span class="cart-extras__notes-meta"><span id="wsNoteCount">@(Model.Cart.Note?.Length ?? 0)</span> / 500</span>
+                <button type="submit" class="btn btn--ghost btn--sm">Save</button>
+              </div>
+            </details>
+          </form>
 
-        <details class="cart-extras__notes">
-          <summary>
-            <span>Add a note to your order</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
-          </summary>
-          <div class="cart-extras__notes-body">
-            <textarea
-              id="orderNotes"
-              rows="3"
-              placeholder="Special instructions — gift message, delivery directions, sizing notes…"
-              maxlength="500"
-              aria-label="Order notes"></textarea>
-            <span class="cart-extras__notes-meta"><span id="notesCount">0</span> / 500</span>
-          </div>
-        </details>
-      </div>
+          <!-- Continue shopping link (under items, before summary on mobile) -->
+          <a href="/collection" class="cart__continue link-arrow">← Continue shopping</a>
 
-      <!-- Continue shopping link (under items, before summary on mobile) -->
-      <a href="/collection" class="cart__continue link-arrow">← Continue shopping</a>
-
-    </div>
-
-    <!-- ── SUMMARY column ─────────────────────────────────────────── -->
-    <aside class="cart__summary" id="cartSummary">
-      <div class="cart-summary">
-
-        <h2 class="cart-summary__title">Order Summary</h2>
-
-        <!-- Discount code -->
-        <form class="cart-discount" id="discountForm" onsubmit="event.preventDefault(); window.applyDiscount && window.applyDiscount();">
-          <label for="discountInput" class="cart-discount__label">Promo or gift card</label>
-          <div class="cart-discount__row">
-            <input type="text" id="discountInput" class="cart-discount__input" placeholder="Enter code" autocomplete="off" />
-            <button type="submit" class="cart-discount__btn">Apply</button>
-          </div>
-          <div class="cart-discount__msg" id="discountMsg" hidden></div>
-        </form>
-
-        <!-- Totals -->
-        <ul class="cart-totals">
-          <li>
-            <span>Subtotal</span>
-            <span class="cart-totals__val" id="subtotal">158.500 KWD</span>
-          </li>
-          <li class="cart-totals__discount" id="discountRow" hidden>
-            <span>Promo · <em id="discountCode"></em></span>
-            <span class="cart-totals__val cart-totals__val--accent" id="discountAmt">−0.000 KWD</span>
-          </li>
-          <li>
-            <span>Estimated shipping</span>
-            <span class="cart-totals__val cart-totals__val--accent" id="shipping">Free</span>
-          </li>
-          <li>
-            <span>VAT</span>
-            <span class="cart-totals__val">Included</span>
-          </li>
-        </ul>
-
-        <div class="cart-totals__grand">
-          <span>Total</span>
-          <span id="grandTotal">158.500 <span class="cart-totals__currency">KWD</span></span>
         </div>
 
-        <!-- Primary CTA -->
-        <a href="/checkout" class="btn btn--primary cart-summary__cta">
-          <span>Checkout securely</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
+        <!-- ── SUMMARY column ─────────────────────────────────────────── -->
+        <aside class="cart__summary">
+          <div class="cart-summary">
 
-        <!-- Express checkout -->
-        <div class="cart-express">
-          <span class="cart-express__divider"><em>or pay quickly with</em></span>
-          <div class="cart-express__row">
-            <button type="button" class="express-btn express-btn--apple" aria-label="Pay with Apple Pay">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.01-2.04 1.66-3.02 1.74-3.07-.95-1.39-2.42-1.58-2.94-1.6-1.24-.13-2.43.74-3.06.74-.64 0-1.61-.72-2.66-.7-1.36.02-2.63.79-3.33 2.01-1.42 2.47-.36 6.12 1.02 8.12.68.98 1.49 2.08 2.55 2.04 1.03-.04 1.42-.66 2.66-.66 1.24 0 1.59.66 2.67.64 1.1-.02 1.8-1 2.47-1.99.78-1.14 1.1-2.24 1.12-2.3-.02-.01-2.15-.83-2.17-3.23zM15.07 5.91c.56-.69.95-1.64.84-2.59-.81.04-1.81.55-2.4 1.23-.52.6-.98 1.58-.86 2.51.91.07 1.85-.46 2.42-1.15z"/></svg>
-              <span>Apple&nbsp;Pay</span>
-            </button>
-            <button type="button" class="express-btn express-btn--google" aria-label="Pay with Google Pay">
-              <span>G&nbsp;Pay</span>
-            </button>
-            <button type="button" class="express-btn express-btn--knet" aria-label="Pay with KNET">
-              <span>KNET</span>
-            </button>
+            <h2 class="cart-summary__title">Order Summary</h2>
+
+            <!-- Discount code -->
+            <form class="cart-discount" method="post" asp-controller="Cart" asp-action="ApplyDiscount">
+              <label for="wsDiscountCode" class="cart-discount__label">Promo or gift card</label>
+              <div class="cart-discount__row">
+                <input type="text" id="wsDiscountCode" name="code" class="cart-discount__input" placeholder="Enter code" autocomplete="off" />
+                <button type="submit" class="cart-discount__btn">Apply</button>
+              </div>
+              @if (cartError is not null)
+              {
+                <div class="cart-discount__msg is-error">@cartError</div>
+              }
+              else if (cartMessage is not null)
+              {
+                <div class="cart-discount__msg is-success">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width:14px;height:14px"><polyline points="20 6 9 17 4 12"/></svg>
+                  @cartMessage
+                </div>
+              }
+            </form>
+
+            <!-- Totals -->
+            <ul class="cart-totals">
+              <li>
+                <span>Subtotal</span>
+                <span class="cart-totals__val">@summary.Subtotal.ToString("0.000") KWD</span>
+              </li>
+              @if (summary.GiftWrapFee > 0)
+              {
+                <li>
+                  <span>Gift wrap</span>
+                  <span class="cart-totals__val">@summary.GiftWrapFee.ToString("0.000") KWD</span>
+                </li>
+              }
+              @if (Model.Cart.DiscountCode is not null)
+              {
+                <li class="cart-totals__discount">
+                  <span>
+                    Promo · <em>@Model.Cart.DiscountCode.Code</em>
+                    <button type="submit" form="discountRemoveForm" class="link-btn link-btn--danger" aria-label="Remove code">Remove</button>
+                  </span>
+                  <span class="cart-totals__val cart-totals__val--accent">−@summary.DiscountAmount.ToString("0.000") KWD</span>
+                </li>
+              }
+              <li>
+                <span>Estimated shipping</span>
+                @if (summary.EstimatedShipping == 0)
+                {
+                  <span class="cart-totals__val cart-totals__val--accent">Free</span>
+                }
+                else
+                {
+                  <span class="cart-totals__val">@summary.EstimatedShipping.ToString("0.000") KWD</span>
+                }
+              </li>
+              <li>
+                <span>VAT</span>
+                <span class="cart-totals__val">Included</span>
+              </li>
+            </ul>
+
+            @if (Model.Cart.DiscountCode is not null)
+            {
+              <form id="discountRemoveForm" method="post" asp-controller="Cart" asp-action="RemoveDiscount" hidden></form>
+            }
+
+            <div class="cart-totals__grand">
+              <span>Total</span>
+              <span>@summary.Total.ToString("0.000") <span class="cart-totals__currency">KWD</span></span>
+            </div>
+
+            <!-- Primary CTA -->
+            <a href="/checkout" class="btn btn--primary cart-summary__cta">
+              <span>Checkout securely</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+
+            <!-- Express checkout -->
+            <div class="cart-express">
+              <span class="cart-express__divider"><em>or pay quickly with</em></span>
+              <div class="cart-express__row">
+                <button type="button" class="express-btn express-btn--apple" aria-label="Pay with Apple Pay">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.01-2.04 1.66-3.02 1.74-3.07-.95-1.39-2.42-1.58-2.94-1.6-1.24-.13-2.43.74-3.06.74-.64 0-1.61-.72-2.66-.7-1.36.02-2.63.79-3.33 2.01-1.42 2.47-.36 6.12 1.02 8.12.68.98 1.49 2.08 2.55 2.04 1.03-.04 1.42-.66 2.66-.66 1.24 0 1.59.66 2.67.64 1.1-.02 1.8-1 2.47-1.99.78-1.14 1.1-2.24 1.12-2.3-.02-.01-2.15-.83-2.17-3.23zM15.07 5.91c.56-.69.95-1.64.84-2.59-.81.04-1.81.55-2.4 1.23-.52.6-.98 1.58-.86 2.51.91.07 1.85-.46 2.42-1.15z"/></svg>
+                  <span>Apple&nbsp;Pay</span>
+                </button>
+                <button type="button" class="express-btn express-btn--google" aria-label="Pay with Google Pay">
+                  <span>G&nbsp;Pay</span>
+                </button>
+                <button type="button" class="express-btn express-btn--knet" aria-label="Pay with KNET">
+                  <span>KNET</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Trust signals -->
+            <ul class="cart-trust">
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V8a5 5 0 0110 0v3"/></svg>
+                <span>Secured by Tap Payments · PCI DSS Level 1</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 11-9-9"/><path d="M21 4v5h-5"/></svg>
+                <span>14-day easy returns · Kuwait &amp; GCC</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h13v9H3zM16 10h3l2 3v3h-5zM7 19a2 2 0 100-4 2 2 0 000 4zM18 19a2 2 0 100-4 2 2 0 000 4z"/></svg>
+                <span>Free delivery in Kuwait over 50 KWD</span>
+              </li>
+            </ul>
+
           </div>
-        </div>
-
-        <!-- Trust signals -->
-        <ul class="cart-trust">
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V8a5 5 0 0110 0v3"/></svg>
-            <span>Secured by Tap Payments · PCI DSS Level 1</span>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 11-9-9"/><path d="M21 4v5h-5"/></svg>
-            <span>14-day easy returns · Kuwait &amp; GCC</span>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h13v9H3zM16 10h3l2 3v3h-5zM7 19a2 2 0 100-4 2 2 0 000 4zM18 19a2 2 0 100-4 2 2 0 000 4z"/></svg>
-            <span>Free delivery in Kuwait over 50 KWD</span>
-          </li>
-        </ul>
+        </aside>
 
       </div>
-    </aside>
+    </section>
 
-  </div>
-</section>
-
-<!-- ============================ EMPTY CART (hidden by default) ============================ -->
-<section class="cart-empty" id="cartEmpty" hidden>
-  <div class="cart-empty__inner">
-    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
-      <path d="M14 16h36l-3 28a4 4 0 0 1-4 4H21a4 4 0 0 1-4-4z"/>
-      <path d="M22 16v-3a10 10 0 0 1 20 0v3"/>
-    </svg>
-    <h2>Your bag is empty.</h2>
-    <p>Begin with the new arrivals, or pick up where you left off in your wishlist.</p>
-    <div class="cart-empty__cta">
-      <a href="/collection" class="btn btn--primary">Shop the new edit</a>
-      <a href="#" class="btn btn--ghost">Open wishlist</a>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ RECOMMENDED ============================ -->
-<section class="products products--cart-recs">
-  <div class="section-head section-head--center">
-    <span class="eyebrow">You may also need</span>
-    <h2 class="section-title">Complete the bag.</h2>
-  </div>
-  <div class="products__grid">
-
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-3.jpg" alt="Heritage Silk Scarf" class="product__img product__img--front" />
-        <img src="~/assets/products/product-4.jpg" alt="" class="product__img product__img--back" />
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Heritage Silk Scarf</a></h3>
-        <div class="product__price"><span>22.000 KWD</span></div>
+    <!-- ============================ RECOMMENDED ============================ -->
+    <section class="products products--cart-recs">
+      <div class="section-head section-head--center">
+        <span class="eyebrow">You may also need</span>
+        <h2 class="section-title">Complete the bag.</h2>
       </div>
-    </article>
+      <div class="products__grid">
 
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-1.jpg" alt="Crescent Drop Earrings" class="product__img product__img--front" />
-        <img src="~/assets/products/product-2.jpg" alt="" class="product__img product__img--back" />
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Crescent Drop Earrings</a></h3>
-        <div class="product__price"><span>28.500 KWD</span></div>
+        <article class="product">
+          <a href="/product" class="product__media">
+            <img src="~/assets/products/product-3.jpg" alt="Heritage Silk Scarf" class="product__img product__img--front" />
+            <img src="~/assets/products/product-4.jpg" alt="" class="product__img product__img--back" />
+            <button class="product__quick" type="button">Quick Add</button>
+          </a>
+          <div class="product__info">
+            <h3 class="product__title"><a href="/product">Heritage Silk Scarf</a></h3>
+            <div class="product__price"><span>22.000 KWD</span></div>
+          </div>
+        </article>
+
+        <article class="product">
+          <a href="/product" class="product__media">
+            <img src="~/assets/products/product-1.jpg" alt="Crescent Drop Earrings" class="product__img product__img--front" />
+            <img src="~/assets/products/product-2.jpg" alt="" class="product__img product__img--back" />
+            <button class="product__quick" type="button">Quick Add</button>
+          </a>
+          <div class="product__info">
+            <h3 class="product__title"><a href="/product">Crescent Drop Earrings</a></h3>
+            <div class="product__price"><span>28.500 KWD</span></div>
+          </div>
+        </article>
+
+        <article class="product">
+          <a href="/product" class="product__media">
+            <img src="~/assets/products/product-3.jpg" alt="Saddle Crossbody Bag" class="product__img product__img--front" />
+            <img src="~/assets/products/product-4.jpg" alt="" class="product__img product__img--back" />
+            <button class="product__quick" type="button">Quick Add</button>
+          </a>
+          <div class="product__info">
+            <h3 class="product__title"><a href="/product">Saddle Crossbody Bag</a></h3>
+            <div class="product__price"><span>54.000 KWD</span></div>
+          </div>
+        </article>
+
+        <article class="product">
+          <a href="/product" class="product__media">
+            <img src="~/assets/products/product-1.jpg" alt="Sahar Wide-Leg Trouser" class="product__img product__img--front" />
+            <img src="~/assets/products/product-2.jpg" alt="" class="product__img product__img--back" />
+            <button class="product__quick" type="button">Quick Add</button>
+          </a>
+          <div class="product__info">
+            <h3 class="product__title"><a href="/product">Sahar Wide-Leg Trouser</a></h3>
+            <div class="product__price"><span>38.500 KWD</span></div>
+          </div>
+        </article>
+
       </div>
-    </article>
+    </section>
+}
 
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-3.jpg" alt="Saddle Crossbody Bag" class="product__img product__img--front" />
-        <img src="~/assets/products/product-4.jpg" alt="" class="product__img product__img--back" />
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Saddle Crossbody Bag</a></h3>
-        <div class="product__price"><span>54.000 KWD</span></div>
-      </div>
-    </article>
+@section Scripts {
+<script>
+  (function () {
+    // Gift wrap: auto-submit the options form on toggle
+    var gift = document.getElementById('wsGiftWrap');
+    if (gift) gift.addEventListener('change', function () { gift.form.submit(); });
 
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-1.jpg" alt="Sahar Wide-Leg Trouser" class="product__img product__img--front" />
-        <img src="~/assets/products/product-2.jpg" alt="" class="product__img product__img--back" />
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Sahar Wide-Leg Trouser</a></h3>
-        <div class="product__price"><span>38.500 KWD</span></div>
-      </div>
-    </article>
-
-  </div>
-</section>
-
-<!-- ============================ FOOTER ============================ -->
+    // Order-notes character counter
+    var note = document.getElementById('wsOrderNote');
+    var count = document.getElementById('wsNoteCount');
+    if (note && count) note.addEventListener('input', function () { count.textContent = note.value.length; });
+  })();
+</script>
+}

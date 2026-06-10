@@ -1,12 +1,22 @@
-﻿@{
-    ViewData["Title"] = "The Mira Draped Midi, three ways · White Stitches Journal";
-    ViewData["MetaDescription"] = "Styling notes for the Mira Draped Midi.";
+@using System.Globalization
+@model WhiteStiches.Web.Models.Content.JournalPostViewModel
+@{
+    var post = Model.Post;
+    ViewData["Title"] = $"{post.TitleEn} · White Stitches Journal";
+    ViewData["MetaDescription"] = string.IsNullOrWhiteSpace(post.ExcerptEn)
+        ? "Notes from the White Stitches atelier."
+        : post.ExcerptEn;
+
+    string PostDate(JournalPost p) => (p.PublishAtUtc ?? p.CreatedAtUtc).ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+    string PostImage(JournalPost p) => string.IsNullOrWhiteSpace(p.HeroImageUrl)
+        ? Url.Content("~/assets/products/product-4.jpg")
+        : Url.Content(p.HeroImageUrl);
 }
 
 <!-- Hero image with title overlay -->
 <section class="journal-post-hero">
   <div class="journal-post-hero__media">
-    <img src="~/assets/products/product-4.jpg" alt="" />
+    <img src="@PostImage(post)" alt="@post.TitleEn" />
     <div class="journal-post-hero__overlay"></div>
   </div>
   <div class="journal-post-hero__inner">
@@ -14,14 +24,20 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg>
       <span>Back to journal</span>
     </a>
-    <span class="journal-tag">Styling</span>
-    <h1 class="journal-post-hero__title">The Mira Draped Midi, three ways.</h1>
+    @if (post.Category is not null)
+    {
+      <span class="journal-tag">@post.Category.NameEn</span>
+    }
+    <h1 class="journal-post-hero__title">@post.TitleEn</h1>
     <div class="journal-post-hero__meta">
-      <span>By <strong>Layla Al-Sabah</strong></span>
+      <span>By <strong>@post.AuthorName</strong></span>
       <span>·</span>
-      <time>15 May 2026</time>
-      <span>·</span>
-      <span>4 min read</span>
+      <time>@PostDate(post)</time>
+      @if (post.ReadingTimeMinutes is int minutes)
+      {
+        <span>·</span>
+        <span>@minutes min read</span>
+      }
     </div>
   </div>
 </section>
@@ -29,58 +45,7 @@
 <article class="journal-post">
   <div class="journal-post__inner">
 
-    <p class="journal-post__lead">When we drafted the Mira, we kept asking ourselves: how many ways could one piece work? Turns out, a lot. Here are three ways our team is wearing her this month.</p>
-
-    <p>The Mira sits in that rare category of pieces that genuinely move between contexts — desk to dinner, school run to friend’s wedding — without ever feeling forced. The trick is in the drape: a slight gather at the waist that flatters without clinging, a length that hits the calf at exactly the right place, and a neckline that frames without exposing.</p>
-
-    <h2>1. The everyday </h2>
-
-    <p>Pair the Mira in oat with white sneakers, a tonal cashmere wrap thrown over the shoulders, and a structured tote in cognac leather. The combination is decidedly weekend but elegant enough for a 10 AM meeting at a café.</p>
-
-    <p>Keep the jewellery minimal — a single gold cuff, no earrings, hair down.</p>
-
-    <blockquote class="journal-post__quote">
-      <p>"The first time I tried it on, I knew this was going to be the dress I reach for when I haven’t had time to think about what to wear."</p>
-      <cite>— Reem, our pattern cutter</cite>
-    </blockquote>
-
-    <h2>2. The evening</h2>
-
-    <p>Same dress, entirely different mood. Switch to the silver Mira variant. Add the Crescent Drop Earrings and a slim black belt at the waist to define. Strappy gold heels, hair pulled into a low chignon.</p>
-
-    <p>The drape catches the light differently after dusk — you’ll see it in restaurant photos.</p>
-
-    <!-- Shoppable product card -->
-    <aside class="journal-post__shoppable">
-      <span class="eyebrow">Shop the look</span>
-      <div class="journal-post__shoppable-grid">
-        <a href="/product" class="error-product">
-          <img src="~/assets/products/product-1.jpg" alt="" />
-          <strong>Mira Draped Midi</strong>
-          <span>42.500 KWD</span>
-        </a>
-        <a href="/product" class="error-product">
-          <img src="~/assets/products/product-2.jpg" alt="" />
-          <strong>Crescent Earrings</strong>
-          <span>28.500 KWD</span>
-        </a>
-        <a href="/product" class="error-product">
-          <img src="~/assets/products/product-3.jpg" alt="" />
-          <strong>Heritage Silk Scarf</strong>
-          <span>22.000 KWD</span>
-        </a>
-      </div>
-    </aside>
-
-    <h2>3. The black-tie</h2>
-
-    <p>The Mira goes black-tie with the right styling. Try the long-sleeve version in midnight. Add the Heritage Silk Scarf as a stole, dramatic earrings, and our highest pair of heels. Skip the belt — the dress is the point.</p>
-
-    <p>This is the version we tested at a wedding last month. Nobody asked where it was from. Everybody asked who it was from.</p>
-
-    <hr class="journal-post__divider" />
-
-    <p class="journal-post__close">The Mira comes in five colours — oat, silver, midnight, champagne and ink — and four sizes (XS–L). Made in Kuwait, in batches of 40. There are 17 left in oat as of this morning.</p>
+    @Html.Raw(post.BodyEn)
 
     <!-- Share -->
     <footer class="journal-post__share">
@@ -98,14 +63,16 @@
       <div class="journal-post__author-avatar"></div>
       <div>
         <span class="eyebrow">Written by</span>
-        <strong>Layla Al-Sabah</strong>
-        <p>Founder &amp; Creative Director of White Stitches. Writes here about the pieces we make and the people we make them with.</p>
+        <strong>@post.AuthorName</strong>
+        <p>Writes here about the pieces we make and the people we make them with.</p>
       </div>
     </section>
 
   </div>
 </article>
 
+@if (Model.Related.Count > 0)
+{
 <!-- Related articles -->
 <section class="journal-related">
   <div class="journal-related__inner">
@@ -114,32 +81,23 @@
       <h2 class="section-title">More from the journal.</h2>
     </header>
     <div class="journal-grid__inner" style="padding: 0;">
+      @foreach (var rel in Model.Related)
+      {
       <article class="journal-card">
-        <a href="/journal/post" class="journal-card__media"><img src="~/assets/products/product-4.jpg" alt="" /></a>
+        <a href="/journal/@rel.Slug" class="journal-card__media"><img src="@PostImage(rel)" alt="@rel.TitleEn" /></a>
         <div class="journal-card__body">
-          <span class="journal-tag">Atelier</span>
-          <h3 class="journal-card__title"><a href="/journal/post">A morning in our Sharq workshop.</a></h3>
-          <span class="journal-meta"><time>8 May 2026</time></span>
+          @if (rel.Category is not null)
+          {
+            <span class="journal-tag">@rel.Category.NameEn</span>
+          }
+          <h3 class="journal-card__title"><a href="/journal/@rel.Slug">@rel.TitleEn</a></h3>
+          <span class="journal-meta"><time>@PostDate(rel)</time></span>
         </div>
       </article>
-      <article class="journal-card">
-        <a href="/journal/post" class="journal-card__media"><img src="~/assets/products/product-1.jpg" alt="" /></a>
-        <div class="journal-card__body">
-          <span class="journal-tag">Conversations</span>
-          <h3 class="journal-card__title"><a href="/journal/post">In conversation with our pattern cutter.</a></h3>
-          <span class="journal-meta"><time>30 April 2026</time></span>
-        </div>
-      </article>
-      <article class="journal-card">
-        <a href="/journal/post" class="journal-card__media"><img src="~/assets/products/product-2.jpg" alt="" /></a>
-        <div class="journal-card__body">
-          <span class="journal-tag">Styling</span>
-          <h3 class="journal-card__title"><a href="/journal/post">Building a capsule for Ramadan.</a></h3>
-          <span class="journal-meta"><time>20 April 2026</time></span>
-        </div>
-      </article>
+      }
     </div>
   </div>
 </section>
+}
 
 <!-- ============================ FOOTER ============================ -->

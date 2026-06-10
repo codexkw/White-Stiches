@@ -1,6 +1,48 @@
-﻿@{
-    ViewData["Title"] = "Noor Double-Breasted Dress · White Stitches";
-    ViewData["MetaDescription"] = "Noor Double-Breasted Dress — a fluid linen-blend dress with handcrafted draping. By White Stitches, Kuwait.";
+@model WhiteStiches.Web.Models.Shop.ProductDetailViewModel
+@using System.Globalization
+@using WhiteStiches.Web.Models.Shop
+@{
+    var p = Model.Product;
+    var images = Model.Images;
+    var dv = Model.DefaultVariant;
+    var canBuy = dv is not null && ProductDetailViewModel.IsPurchasable(dv);
+    var onSale = dv?.CompareAtPrice is not null && dv.CompareAtPrice.Value > dv.Price;
+    var returnUrl = $"/products/{p.Slug}";
+    var deliveryEta = DateTime.Now.AddDays(3).ToString("ddd, d MMM", CultureInfo.InvariantCulture);
+
+    string Money(decimal value) => value.ToString("0.000", CultureInfo.InvariantCulture);
+
+    ViewData["Title"] = p.SeoTitleEn is { Length: > 0 } seoTitle ? seoTitle : $"{p.TitleEn} · White Stitches";
+    ViewData["MetaDescription"] = p.SeoDescriptionEn is { Length: > 0 } seoDesc ? seoDesc : $"{p.TitleEn} — by White Stitches, Kuwait.";
+
+    string stockSignalHtml;
+    if (dv is null || (dv.StockQuantity <= 0 && !dv.AllowOversell))
+    {
+        stockSignalHtml = "Currently <strong>out of stock</strong>";
+    }
+    else if (dv.StockQuantity > 0 && dv.StockQuantity <= dv.LowStockThreshold)
+    {
+        stockSignalHtml = $"Only <strong>{dv.StockQuantity} left</strong> in this size";
+    }
+    else
+    {
+        stockSignalHtml = "<strong>In stock</strong> — ready to ship";
+    }
+
+    var variantJson = Model.Variants.Select(v => new
+    {
+        id = v.Id,
+        option1 = v.Option1,
+        option2 = v.Option2,
+        price = Money(v.Price),
+        compareAt = v.CompareAtPrice is not null && v.CompareAtPrice.Value > v.Price ? Money(v.CompareAtPrice.Value) : null,
+        stock = v.StockQuantity,
+        lowStock = v.LowStockThreshold,
+        oversell = v.AllowOversell
+    }).ToList();
+
+    var alsoLike = Model.Related.Take(4).ToList();
+    var completeLook = Model.Related.Skip(4).Take(4).ToList();
 }
 
 <!-- ============================ BREADCRUMB ============================ -->
@@ -8,11 +50,16 @@
   <div class="breadcrumb__inner">
     <a href="/">Home</a>
     <span class="breadcrumb__sep">/</span>
-    <a href="#">Women</a>
+    @if (p.Category is not null)
+    {
+      <a href="/collection?category=@p.Category.Slug">@p.Category.NameEn</a>
+    }
+    else
+    {
+      <a href="/collection">Collection</a>
+    }
     <span class="breadcrumb__sep">/</span>
-    <a href="#">Dresses</a>
-    <span class="breadcrumb__sep">/</span>
-    <span class="breadcrumb__current">Noor Double-Breasted Dress</span>
+    <span class="breadcrumb__current">@p.TitleEn</span>
   </div>
 </nav>
 
@@ -24,77 +71,56 @@
     <div class="pdp__gallery">
       <!-- Vertical thumbnail rail (desktop) -->
       <div class="pdp__thumbs" role="tablist" aria-label="Product gallery thumbnails">
-        <button class="pdp__thumb is-active" data-index="0" role="tab" aria-selected="true">
-          <img src="~/assets/products/product-3.jpg" alt="Noor Double-Breasted Dress — front view" />
-        </button>
-        <button class="pdp__thumb" data-index="1" role="tab" aria-selected="false">
-          <img src="~/assets/products/product-1.jpg" alt="Noor Double-Breasted Dress — back view" />
-        </button>
-        <button class="pdp__thumb pdp__thumb--video" data-index="2" data-type="video" role="tab" aria-selected="false">
-          <img src="~/assets/products/product-3.jpg" alt="Noor Double-Breasted Dress — runway video preview" />
-          <span class="pdp__thumb-play" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7L8 5z"/></svg>
-          </span>
-        </button>
-        <button class="pdp__thumb" data-index="3" role="tab" aria-selected="false">
-          <img src="~/assets/products/product-1.jpg" alt="Noor Double-Breasted Dress — detail shot" />
-        </button>
-        <button class="pdp__thumb" data-index="4" role="tab" aria-selected="false">
-          <img src="~/assets/products/product-3.jpg" alt="Noor Double-Breasted Dress — styling on model" />
-        </button>
-        <button class="pdp__thumb" data-index="5" role="tab" aria-selected="false">
-          <img src="~/assets/products/product-1.jpg" alt="Noor Double-Breasted Dress — fabric close-up" />
-        </button>
+        @if (images.Count > 0)
+        {
+          for (var i = 0; i < images.Count; i++)
+          {
+            <button class="pdp__thumb @(i == 0 ? "is-active" : null)" data-index="@i" role="tab" aria-selected="@(i == 0 ? "true" : "false")">
+              <img src="@images[i].Url" alt="@(images[i].AltEn ?? p.TitleEn)" />
+            </button>
+          }
+        }
+        else
+        {
+          <button class="pdp__thumb is-active" data-index="0" role="tab" aria-selected="true">
+            <img src="~/assets/products/product-1.jpg" alt="@p.TitleEn" />
+          </button>
+        }
       </div>
 
       <!-- Main media area -->
       <div class="pdp__main">
         <div class="pdp__slides">
-          <div class="pdp__slide is-active" data-index="0">
-            <img src="~/assets/products/product-3.jpg" alt="Noor Double-Breasted Dress — front view" />
-          </div>
-          <div class="pdp__slide" data-index="1">
-            <img src="~/assets/products/product-1.jpg" alt="Noor Double-Breasted Dress — back view" />
-          </div>
-          <!-- VIDEO SLIDE -->
-          <div class="pdp__slide pdp__slide--video" data-index="2" data-type="video">
-            <video
-              poster="~/assets/products/product-3.jpg"
-              preload="metadata"
-              playsinline
-              muted
-              loop
-              controls>
-              <!-- Source omitted (would be the merchant's CDN MP4). The poster shows in its place. -->
-              <source src="" type="video/mp4" />
-            </video>
-          </div>
-          <div class="pdp__slide" data-index="3">
-            <img src="~/assets/products/product-1.jpg" alt="Noor Double-Breasted Dress — detail shot" />
-          </div>
-          <div class="pdp__slide" data-index="4">
-            <img src="~/assets/products/product-3.jpg" alt="Noor Double-Breasted Dress — styling on model" />
-          </div>
-          <div class="pdp__slide" data-index="5">
-            <img src="~/assets/products/product-1.jpg" alt="Noor Double-Breasted Dress — fabric close-up" />
-          </div>
+          @if (images.Count > 0)
+          {
+            for (var i = 0; i < images.Count; i++)
+            {
+              <div class="pdp__slide @(i == 0 ? "is-active" : null)" data-index="@i">
+                <img src="@images[i].Url" alt="@(images[i].AltEn ?? p.TitleEn)" />
+              </div>
+            }
+          }
+          else
+          {
+            <div class="pdp__slide is-active" data-index="0">
+              <img src="~/assets/products/product-1.jpg" alt="@p.TitleEn" />
+            </div>
+          }
         </div>
 
         <!-- Mobile dots (visible only on mobile) -->
         <div class="pdp__dots" aria-hidden="true">
-          <span class="pdp__dot is-active"></span>
-          <span class="pdp__dot"></span>
-          <span class="pdp__dot"></span>
-          <span class="pdp__dot"></span>
-          <span class="pdp__dot"></span>
-          <span class="pdp__dot"></span>
+          @for (var i = 0; i < Math.Max(images.Count, 1); i++)
+          {
+            <span class="pdp__dot @(i == 0 ? "is-active" : null)"></span>
+          }
         </div>
 
         <!-- Slide counter (desktop) -->
         <div class="pdp__counter">
           <span class="pdp__counter-current">01</span>
           <span class="pdp__counter-sep">/</span>
-          <span class="pdp__counter-total">06</span>
+          <span class="pdp__counter-total">@Math.Max(images.Count, 1).ToString("00")</span>
         </div>
       </div>
     </div>
@@ -103,100 +129,107 @@
     <aside class="pdp__info">
       <div class="pdp__info-inner">
 
-        <span class="pdp__eyebrow">White Stitches · Atelier</span>
-        <h1 class="pdp__title">Noor Double-Breasted Dress</h1>
-
-        <div class="pdp__rating">
-          <span class="pdp__stars" aria-label="4.7 out of 5 stars">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" opacity=".3"/></svg>
-          </span>
-          <a href="#reviews" class="pdp__rating-link">4.7 · 38 reviews</a>
-        </div>
+        <span class="pdp__eyebrow">@(p.Vendor is { Length: > 0 } vendor ? vendor : "White Stitches · Atelier")</span>
+        <h1 class="pdp__title">@p.TitleEn</h1>
 
         <div class="pdp__price-row">
-          <span class="pdp__price">42.500 <span class="pdp__currency">KWD</span></span>
+          <span class="pdp__price">
+            <span class="product__price--was" id="pdpWas" hidden="@(!onSale)">@(onSale ? Money(dv!.CompareAtPrice!.Value) : null)</span>
+            <span id="pdpPrice">@Money(dv?.Price ?? 0m)</span> <span class="pdp__currency">KWD</span>
+          </span>
           <span class="pdp__price-meta">VAT included · Free shipping over 50 KWD</span>
         </div>
 
-        <p class="pdp__intro">
-          A fluid linen-blend midi with handcrafted draping at the shoulder and a softly gathered waist. Designed for the woman who lets the silhouette speak — never the label.
-        </p>
+        @if (Model.ColorValues.Count > 0)
+        {
+          <!-- ── COLOR VARIANTS (image thumbnail picker) ──────── -->
+          <div class="variant">
+            <div class="variant__head">
+              <span class="variant__label">@Model.ColorLabel</span>
+              <span class="variant__value" id="colorValue">@(dv?.Option2 ?? Model.ColorValues[0])</span>
+            </div>
+            <div class="variant__colors" role="radiogroup" aria-label="@Model.ColorLabel">
+              @foreach (var color in Model.ColorValues)
+              {
+                var isActive = string.Equals(dv?.Option2?.Trim(), color, StringComparison.OrdinalIgnoreCase);
+                var soldOut = Model.IsColorSoldOut(color);
+                var colorImage = Model.ImageForColor(color);
+                <button type="button" class="color-thumb @(isActive ? "is-active" : null) @(soldOut ? "is-soldout" : null)" role="radio" aria-checked="@(isActive ? "true" : "false")" aria-disabled="@(soldOut ? "true" : null)" data-color="@color">
+                  @if (colorImage is not null)
+                  {
+                    <img src="@colorImage.Url" alt="" />
+                  }
+                  else
+                  {
+                    <img src="~/assets/products/product-1.jpg" alt="" />
+                  }
+                  <span class="color-thumb__name">@color</span>
+                  @if (soldOut)
+                  {
+                    <span class="color-thumb__badge">Sold out</span>
+                  }
+                </button>
+              }
+            </div>
+          </div>
+        }
 
-        <!-- ── COLOR VARIANTS (image thumbnail picker, like cloot) ──────── -->
-        <div class="variant">
-          <div class="variant__head">
-            <span class="variant__label">Colour</span>
-            <span class="variant__value" id="colorValue">Oat</span>
+        @if (Model.SizeValues.Count > 0)
+        {
+          <!-- ── SIZE VARIANTS ─────────────────────────────────────────── -->
+          <div class="variant">
+            <div class="variant__head">
+              <span class="variant__label">@Model.SizeLabel</span>
+              <a class="variant__guide" id="sizeGuideOpen" href="/size-guide">Size guide →</a>
+            </div>
+            <div class="variant__sizes" role="radiogroup" aria-label="@Model.SizeLabel">
+              @foreach (var size in Model.SizeValues)
+              {
+                var isActive = string.Equals(dv?.Option1?.Trim(), size, StringComparison.OrdinalIgnoreCase);
+                var soldOut = Model.IsSizeSoldOut(size);
+                <button type="button" class="size-chip @(isActive ? "is-active" : null) @(soldOut ? "is-soldout" : null)" role="radio" aria-checked="@(isActive ? "true" : "false")" aria-disabled="@(soldOut ? "true" : null)" data-size="@size">@size</button>
+              }
+            </div>
           </div>
-          <div class="variant__colors" role="radiogroup" aria-label="Colour">
-            <button type="button" class="color-thumb is-active" role="radio" aria-checked="true" data-color="Oat">
-              <img src="~/assets/products/product-4.jpg" alt="" />
-              <span class="color-thumb__name">Oat</span>
-            </button>
-            <button type="button" class="color-thumb" role="radio" aria-checked="false" data-color="Black">
-              <img src="~/assets/products/product-1.jpg" alt="" />
-              <span class="color-thumb__name">Black</span>
-            </button>
-            <button type="button" class="color-thumb" role="radio" aria-checked="false" data-color="Sand">
-              <img src="~/assets/products/product-2.jpg" alt="" />
-              <span class="color-thumb__name">Sand</span>
-            </button>
-            <button type="button" class="color-thumb is-soldout" role="radio" aria-checked="false" aria-disabled="true" data-color="Olive">
-              <img src="~/assets/products/product-3.jpg" alt="" />
-              <span class="color-thumb__name">Olive</span>
-              <span class="color-thumb__badge">Sold out</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- ── SIZE VARIANTS ─────────────────────────────────────────── -->
-        <div class="variant">
-          <div class="variant__head">
-            <span class="variant__label">Size</span>
-            <button type="button" class="variant__guide" id="sizeGuideOpen">Size guide →</button>
-          </div>
-          <div class="variant__sizes" role="radiogroup" aria-label="Size">
-            <button type="button" class="size-chip" role="radio" aria-checked="false" data-size="XS">XS</button>
-            <button type="button" class="size-chip is-active" role="radio" aria-checked="true" data-size="S">S</button>
-            <button type="button" class="size-chip" role="radio" aria-checked="false" data-size="M">M</button>
-            <button type="button" class="size-chip" role="radio" aria-checked="false" data-size="L">L</button>
-            <button type="button" class="size-chip is-soldout" role="radio" aria-checked="false" aria-disabled="true" data-size="XL">XL</button>
-          </div>
-        </div>
+        }
 
         <!-- ── QUANTITY + ACTIONS ────────────────────────────────────── -->
-        <div class="pdp__actions">
+        <form class="pdp__actions" id="atcForm" method="post" action="/cart/items">
+          @Html.AntiForgeryToken()
+          <input type="hidden" name="variantId" id="variantIdInput" value="@(dv?.Id ?? 0)" />
+          <input type="hidden" name="returnUrl" value="@returnUrl" />
           <div class="qty">
             <button type="button" class="qty__btn" id="qtyMinus" aria-label="Decrease quantity">−</button>
-            <input type="number" class="qty__input" id="qtyInput" value="1" min="1" max="10" aria-label="Quantity" />
+            <input type="number" class="qty__input" id="qtyInput" name="quantity" value="1" min="1" max="10" aria-label="Quantity" />
             <button type="button" class="qty__btn" id="qtyPlus" aria-label="Increase quantity">+</button>
           </div>
-          <button type="button" class="btn btn--primary pdp__atc" id="addToCart">
+          <button type="submit" class="btn btn--primary pdp__atc" id="addToCartBtn" disabled="@(!canBuy)">
             <span>Add to bag</span>
-            <span class="pdp__atc-price">· 42.500 KWD</span>
+            <span class="pdp__atc-price" id="atcPrice">· @Money(dv?.Price ?? 0m) KWD</span>
           </button>
-          <button type="button" class="pdp__wishlist" id="wishlistBtn" aria-label="Add to wishlist" aria-pressed="false">
+          <button type="submit" form="pdpWishlistForm" class="pdp__wishlist" aria-label="Add to wishlist">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </button>
-        </div>
+        </form>
+        <form id="pdpWishlistForm" method="post" action="/account/wishlist/add" hidden>
+          @Html.AntiForgeryToken()
+          <input type="hidden" name="productId" value="@p.Id" />
+          <input type="hidden" name="returnUrl" value="@returnUrl" />
+        </form>
 
         <!-- ── STOCK + DELIVERY MICROCOPY ────────────────────────────── -->
         <div class="pdp__signals">
           <div class="pdp__signal">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-            <span>Only <strong>6 left</strong> in this size</span>
+            <span id="stockSignal">@Html.Raw(stockSignalHtml)</span>
           </div>
           <div class="pdp__signal">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h13v9H3zM16 10h3l2 3v3h-5zM7 19a2 2 0 100-4 2 2 0 000 4zM18 19a2 2 0 100-4 2 2 0 000 4z"/></svg>
-            <span>Free delivery in Kuwait · <strong>Tue, 21 May</strong></span>
+            <span>Free delivery in Kuwait · <strong>@deliveryEta</strong></span>
           </div>
           <div class="pdp__signal">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 1 1-9-9"/><path d="M21 4v5h-5"/></svg>
-            <span>14-day easy returns · <a href="#" class="link-inline">policy</a></span>
+            <span>14-day easy returns · <a href="/returns-policy" class="link-inline">policy</a></span>
           </div>
         </div>
 
@@ -223,47 +256,45 @@
 <section class="pdp-details">
   <div class="pdp-details__inner">
 
-    <details class="acc" open>
-      <summary class="acc__head">
-        <span>Description</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
-      </summary>
-      <div class="acc__body">
-        <p>The Noor is a floor-length double-breasted dress crafted from a structured wool crepe, finished with hand-set crystal buttons running the full length of the bodice. Sheer organza collar and cuffs detailed with hand-applied flocked dots add a couture flourish without breaking the silhouette.</p>
-        <p>Designed and finished at our Kuwait atelier. Each piece carries a single white stitch on the inside seam — our maker's signature.</p>
-      </div>
-    </details>
+    @if (!string.IsNullOrWhiteSpace(p.DescriptionEn))
+    {
+      <details class="acc" open>
+        <summary class="acc__head">
+          <span>Description</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="acc__body">
+          @Html.Raw(p.DescriptionEn)
+        </div>
+      </details>
+    }
 
-    <details class="acc">
-      <summary class="acc__head">
-        <span>Fabric &amp; Materials</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
-      </summary>
-      <div class="acc__body">
-        <ul class="acc__list">
-          <li>62% European linen · 38% viscose</li>
-          <li>Mother-of-pearl button at neckline</li>
-          <li>OEKO-TEX Standard 100 certified</li>
-          <li>Hand wash cold or dry-clean · iron on reverse · do not bleach</li>
-        </ul>
-      </div>
-    </details>
+    @if (!string.IsNullOrWhiteSpace(p.MaterialCareEn))
+    {
+      <details class="acc">
+        <summary class="acc__head">
+          <span>Fabric &amp; Materials</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="acc__body">
+          @Html.Raw(p.MaterialCareEn)
+        </div>
+      </details>
+    }
 
-    <details class="acc">
-      <summary class="acc__head">
-        <span>Size &amp; Fit</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
-      </summary>
-      <div class="acc__body">
-        <ul class="acc__list">
-          <li>Model is 178 cm and wears size S</li>
-          <li>True to size · order your usual</li>
-          <li>Mid-calf length · approx. 118 cm from shoulder on size S</li>
-          <li>Unlined · slightly relaxed through the bodice</li>
-        </ul>
-        <a href="#" class="link-arrow">View full size chart →</a>
-      </div>
-    </details>
+    @if (!string.IsNullOrWhiteSpace(p.SizeFitEn))
+    {
+      <details class="acc">
+        <summary class="acc__head">
+          <span>Size &amp; Fit</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="acc__body">
+          @Html.Raw(p.SizeFitEn)
+          <a href="/size-guide" class="link-arrow">View full size chart →</a>
+        </div>
+      </details>
+    }
 
     <details class="acc">
       <summary class="acc__head">
@@ -283,138 +314,145 @@
   </div>
 </section>
 
-<!-- ============================ COMPLETE THE LOOK ============================ -->
-<section class="products">
-  <div class="section-head section-head--center">
-    <span class="eyebrow">Complete the Look</span>
-    <h2 class="section-title">Styled with the Mira.</h2>
-  </div>
+@if (completeLook.Count > 0)
+{
+  <!-- ============================ COMPLETE THE LOOK ============================ -->
+  <section class="products">
+    <div class="section-head section-head--center">
+      <span class="eyebrow">Complete the Look</span>
+      <h2 class="section-title">Styled with this piece.</h2>
+    </div>
 
-  <div class="products__grid">
+    <div class="products__grid">
+      @foreach (var related in completeLook)
+      {
+        <partial name="_ProductCard" model="related" />
+      }
+    </div>
+  </section>
+}
 
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-4.jpg" alt="Atelier Tailored Blazer" class="product__img product__img--front" />
-        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Atelier Tailored Blazer</a></h3>
-        <div class="product__price"><span>68.000 KWD</span></div>
-      </div>
-    </article>
+@if (alsoLike.Count > 0)
+{
+  <!-- ============================ YOU MAY ALSO LIKE ============================ -->
+  <section class="products">
+    <div class="section-head section-head--center">
+      <span class="eyebrow">You may also like</span>
+      <h2 class="section-title">More from the atelier.</h2>
+    </div>
 
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-2.jpg" alt="Sahar Wide-Leg Trouser" class="product__img product__img--front" />
-        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Sahar Wide-Leg Trouser</a></h3>
-        <div class="product__price"><span>38.500 KWD</span></div>
-      </div>
-    </article>
-
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-4.jpg" alt="Heritage Silk Scarf" class="product__img product__img--front" />
-        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Heritage Silk Scarf</a></h3>
-        <div class="product__price"><span>22.000 KWD</span></div>
-      </div>
-    </article>
-
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-2.jpg" alt="Saddle Crossbody Bag" class="product__img product__img--front" />
-        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Saddle Crossbody Bag</a></h3>
-        <div class="product__price"><span>54.000 KWD</span></div>
-      </div>
-    </article>
-
-  </div>
-</section>
-
-<!-- ============================ YOU MAY ALSO LIKE ============================ -->
-<section class="products">
-  <div class="section-head section-head--center">
-    <span class="eyebrow">You may also like</span>
-    <h2 class="section-title">More from the atelier.</h2>
-  </div>
-
-  <div class="products__grid">
-
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-4.jpg" alt="Lina Silk Slip Dress" class="product__img product__img--front" />
-        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
-        <span class="product__badge product__badge--sale">−20%</span>
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Lina Silk Slip Dress</a></h3>
-        <div class="product__price">
-          <span class="product__price-was">95.000</span>
-          <span class="product__price-now">76.000 KWD</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-2.jpg" alt="Editorial Cotton Shirt" class="product__img product__img--front" />
-        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Editorial Cotton Shirt</a></h3>
-        <div class="product__price"><span>34.000 KWD</span></div>
-      </div>
-    </article>
-
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-4.jpg" alt="Atelier Linen Trouser" class="product__img product__img--front" />
-        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
-        <span class="product__badge">New</span>
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Atelier Linen Trouser</a></h3>
-        <div class="product__price"><span>42.000 KWD</span></div>
-      </div>
-    </article>
-
-    <article class="product">
-      <a href="/product" class="product__media">
-        <img src="~/assets/products/product-2.jpg" alt="Crescent Drop Earrings" class="product__img product__img--front" />
-        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
-        <button class="product__quick" type="button">Quick Add</button>
-      </a>
-      <div class="product__info">
-        <h3 class="product__title"><a href="/product">Crescent Drop Earrings</a></h3>
-        <div class="product__price"><span>28.500 KWD</span></div>
-      </div>
-    </article>
-
-  </div>
-</section>
+    <div class="products__grid">
+      @foreach (var related in alsoLike)
+      {
+        <partial name="_ProductCard" model="related" />
+      }
+    </div>
+  </section>
+}
 
 <!-- ============================ STICKY MOBILE ATC ============================ -->
 <div class="pdp-stickybar" id="pdpStickybar" aria-hidden="true">
   <div class="pdp-stickybar__info">
-    <div class="pdp-stickybar__title">Noor Double-Breasted Dress</div>
-    <div class="pdp-stickybar__price">42.500 KWD</div>
+    <div class="pdp-stickybar__title">@p.TitleEn</div>
+    <div class="pdp-stickybar__price" id="stickyPrice">@Money(dv?.Price ?? 0m) KWD</div>
   </div>
-  <button type="button" class="btn btn--primary pdp-stickybar__atc">Add to bag</button>
+  <button type="submit" form="atcForm" class="btn btn--primary pdp-stickybar__atc" disabled="@(!canBuy)">Add to bag</button>
 </div>
 
-<!-- ============================ FOOTER ============================ -->
+@section Scripts {
+<script>
+  (function () {
+    var variants = @Html.Raw(Json.Serialize(variantJson));
+    var hasSizes = @(Model.SizeValues.Count > 0 ? "true" : "false");
+    var hasColors = @(Model.ColorValues.Count > 0 ? "true" : "false");
+    var selectedSize = @Html.Raw(Json.Serialize(dv?.Option1));
+    var selectedColor = @Html.Raw(Json.Serialize(dv?.Option2));
+
+    var variantInput = document.getElementById('variantIdInput');
+    var priceEl = document.getElementById('pdpPrice');
+    var wasEl = document.getElementById('pdpWas');
+    var atcBtn = document.getElementById('addToCartBtn');
+    var atcPrice = document.getElementById('atcPrice');
+    var stickyPrice = document.getElementById('stickyPrice');
+    var stickyBtn = document.querySelector('.pdp-stickybar__atc');
+    var stockSignal = document.getElementById('stockSignal');
+
+    function findVariant() {
+      for (var i = 0; i < variants.length; i++) {
+        var v = variants[i];
+        if ((!hasSizes || v.option1 === selectedSize) &&
+            (!hasColors || v.option2 === selectedColor)) {
+          return v;
+        }
+      }
+      return null;
+    }
+
+    function refresh() {
+      var v = findVariant();
+      if (!v) {
+        if (variantInput) variantInput.value = '';
+        if (atcBtn) atcBtn.disabled = true;
+        if (stickyBtn) stickyBtn.disabled = true;
+        if (stockSignal) stockSignal.innerHTML = 'Currently <strong>unavailable</strong> in this combination';
+        return;
+      }
+      if (variantInput) variantInput.value = v.id;
+      if (priceEl) priceEl.textContent = v.price;
+      if (wasEl) {
+        if (v.compareAt) {
+          wasEl.textContent = v.compareAt;
+          wasEl.hidden = false;
+        } else {
+          wasEl.textContent = '';
+          wasEl.hidden = true;
+        }
+      }
+      if (atcPrice) atcPrice.textContent = '· ' + v.price + ' KWD';
+      if (stickyPrice) stickyPrice.textContent = v.price + ' KWD';
+
+      var buyable = v.stock > 0 || v.oversell;
+      if (atcBtn) atcBtn.disabled = !buyable;
+      if (stickyBtn) stickyBtn.disabled = !buyable;
+      if (stockSignal) {
+        if (!buyable) {
+          stockSignal.innerHTML = 'Currently <strong>out of stock</strong>';
+        } else if (v.stock > 0 && v.stock <= v.lowStock) {
+          stockSignal.innerHTML = 'Only <strong>' + v.stock + ' left</strong> in this size';
+        } else {
+          stockSignal.innerHTML = '<strong>In stock</strong> — ready to ship';
+        }
+      }
+    }
+
+    document.querySelectorAll('.size-chip').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (btn.classList.contains('is-soldout')) return;
+        selectedSize = btn.dataset.size;
+        refresh();
+      });
+    });
+
+    document.querySelectorAll('.color-thumb').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (btn.classList.contains('is-soldout')) return;
+        selectedColor = btn.dataset.color;
+        refresh();
+      });
+    });
+
+    // Sticky mobile bar — the legacy demo observer keyed on the old #addToCart id no longer runs
+    var stickybar = document.getElementById('pdpStickybar');
+    if (stickybar && atcBtn && 'IntersectionObserver' in window) {
+      document.body.classList.add('has-pdp-stickybar');
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          stickybar.classList.toggle('is-visible', !entry.isIntersecting);
+          stickybar.setAttribute('aria-hidden', entry.isIntersecting ? 'true' : 'false');
+        });
+      }, { threshold: 0 });
+      observer.observe(atcBtn);
+    }
+  })();
+</script>
+}

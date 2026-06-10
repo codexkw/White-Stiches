@@ -1,9 +1,35 @@
-﻿@{
+@model WhiteStiches.Web.Models.Auth.AuthPageViewModel
+@{
     ViewData["Title"] = "Sign in · White Stitches";
     ViewData["MetaDescription"] = "Sign in to your White Stitches account or create one in 30 seconds.";
+
+    var errors = ViewData.ModelState.Values
+        .SelectMany(v => v.Errors)
+        .Select(e => e.ErrorMessage)
+        .Where(m => !string.IsNullOrWhiteSpace(m))
+        .Distinct()
+        .ToList();
 }
 
 <!-- ============================ AUTH PAGE ============================ -->
+<style>
+  /* Server-side validation message box — matches the site's #c87a3a danger tone */
+  .auth-form__error {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 16px;
+    border: 1px solid rgba(200, 122, 58, 0.4);
+    background: rgba(200, 122, 58, 0.08);
+  }
+  .auth-form__error p {
+    margin: 0;
+    font-size: var(--t-xs);
+    letter-spacing: var(--tr-wide);
+    line-height: var(--lh-loose);
+    color: #c87a3a;
+  }
+</style>
 <section class="auth">
   <div class="auth__inner">
 
@@ -40,22 +66,32 @@
           <p class="auth-pane__sub">Sign in to access your orders, wishlist and saved addresses.</p>
         </header>
 
-        <form class="auth-form" id="signinForm" novalidate onsubmit="event.preventDefault(); window.handleSignin && window.handleSignin();">
+        <form class="auth-form" method="post" asp-controller="CustomerAuth" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl">
+          @if (Model.ActivePane == "signin" && errors.Count > 0)
+          {
+            <div class="auth-form__error" role="alert">
+              @foreach (var msg in errors)
+              {
+                <p>@msg</p>
+              }
+            </div>
+          }
+
           <div class="co-field">
-            <input type="email" id="signinEmail" required autocomplete="email" placeholder=" " />
-            <label for="signinEmail">Email</label>
+            <input asp-for="SignIn.Email" type="email" required autocomplete="email" placeholder=" " />
+            <label asp-for="SignIn.Email">Email</label>
           </div>
 
           <div class="co-field co-field--with-action">
-            <input type="password" id="signinPassword" required autocomplete="current-password" placeholder=" " minlength="8" />
-            <label for="signinPassword">Password</label>
+            <input asp-for="SignIn.Password" type="password" required autocomplete="current-password" placeholder=" " minlength="8" />
+            <label asp-for="SignIn.Password">Password</label>
             <button type="button" class="co-field__action" id="togglePwd" aria-label="Show password">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
             </button>
           </div>
 
           <div class="auth-form__row">
-            <label class="check"><input type="checkbox" id="rememberMe" /><span>Keep me signed in</span></label>
+            <label class="check"><input asp-for="SignIn.RememberMe" type="checkbox" /><span>Keep me signed in</span></label>
             <a href="#" class="link-arrow link-arrow--inline" id="forgotLink">Forgot password?</a>
           </div>
 
@@ -88,28 +124,38 @@
           <p class="auth-pane__sub">Create your account in 30 seconds — never miss an edit.</p>
         </header>
 
-        <form class="auth-form" id="registerForm" novalidate onsubmit="event.preventDefault(); window.handleRegister && window.handleRegister();">
+        <form class="auth-form" method="post" asp-controller="CustomerAuth" asp-action="Register" asp-route-returnUrl="@Model.ReturnUrl">
+          @if (Model.ActivePane == "register" && errors.Count > 0)
+          {
+            <div class="auth-form__error" role="alert">
+              @foreach (var msg in errors)
+              {
+                <p>@msg</p>
+              }
+            </div>
+          }
+
           <div class="co-field-row">
             <div class="co-field">
-              <input type="text" id="regFirstName" required autocomplete="given-name" placeholder=" " />
-              <label for="regFirstName">First name</label>
+              <input asp-for="Register.FirstName" type="text" required autocomplete="given-name" placeholder=" " />
+              <label asp-for="Register.FirstName">First name</label>
             </div>
             <div class="co-field">
-              <input type="text" id="regLastName" required autocomplete="family-name" placeholder=" " />
-              <label for="regLastName">Last name</label>
+              <input asp-for="Register.LastName" type="text" required autocomplete="family-name" placeholder=" " />
+              <label asp-for="Register.LastName">Last name</label>
             </div>
           </div>
 
           <div class="co-field">
-            <input type="email" id="regEmail" required autocomplete="email" placeholder=" " />
-            <label for="regEmail">Email</label>
+            <input asp-for="Register.Email" type="email" required autocomplete="email" placeholder=" " />
+            <label asp-for="Register.Email">Email</label>
           </div>
 
           <div class="co-field co-field--phone">
             <span class="field__prefix">
               <span class="flag flag--kw" aria-hidden="true"></span>
-              <select id="regPhoneCountry" aria-label="Country code">
-                <option value="+965" selected>+965</option>
+              <select asp-for="Register.PhoneCountryCode" aria-label="Country code">
+                <option value="+965">+965</option>
                 <option value="+966">+966</option>
                 <option value="+971">+971</option>
                 <option value="+973">+973</option>
@@ -117,12 +163,12 @@
                 <option value="+968">+968</option>
               </select>
             </span>
-            <input type="tel" id="regPhone" required autocomplete="tel" placeholder=" " inputmode="tel" />
-            <label for="regPhone">Mobile</label>
+            <input asp-for="Register.Phone" type="tel" required autocomplete="tel" placeholder=" " inputmode="tel" />
+            <label asp-for="Register.Phone">Mobile</label>
           </div>
 
           <div class="co-field co-field--with-action">
-            <input type="password" id="regPassword" required autocomplete="new-password" placeholder=" " minlength="8" />
+            <input asp-for="Register.Password" type="password" id="regPassword" required autocomplete="new-password" placeholder=" " minlength="8" />
             <label for="regPassword">Password</label>
             <button type="button" class="co-field__action" aria-label="Show password" data-toggle="regPassword">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -136,13 +182,14 @@
           </div>
 
           <label class="check auth-form__consent">
-            <input type="checkbox" id="regMarketing" />
+            <input asp-for="Register.EmailOptIn" type="checkbox" id="regMarketing" />
             <span>Send me styling notes &amp; new arrivals via email and WhatsApp · I can unsubscribe any time</span>
           </label>
+          <input type="hidden" id="regMarketingWhatsApp" name="Register.WhatsAppOptIn" value="@(Model.Register.WhatsAppOptIn ? "true" : "false")" />
 
           <label class="check auth-form__consent">
-            <input type="checkbox" id="regTerms" required />
-            <span>I agree to the <a href="#" class="link-inline">Terms of Sale</a> and <a href="#" class="link-inline">Privacy Policy</a>.</span>
+            <input asp-for="Register.AcceptTerms" type="checkbox" id="regTerms" required />
+            <span>I agree to the <a asp-controller="Pages" asp-action="Terms" class="link-inline">Terms of Sale</a> and <a asp-controller="Pages" asp-action="Privacy" class="link-inline">Privacy Policy</a>.</span>
           </label>
 
           <button type="submit" class="btn btn--primary btn--block">Create account</button>
@@ -164,24 +211,39 @@
           <p class="auth-pane__sub">Enter the email on your account and we&rsquo;ll send a reset link.</p>
         </header>
 
-        <form class="auth-form" id="forgotForm" novalidate onsubmit="event.preventDefault(); window.handleForgot && window.handleForgot();">
-          <div class="co-field">
-            <input type="email" id="forgotEmail" required autocomplete="email" placeholder=" " />
-            <label for="forgotEmail">Email</label>
-          </div>
-          <button type="submit" class="btn btn--primary btn--block">Send reset link</button>
-
-          <!-- Success state — hidden by default -->
-          <div class="auth-success" id="forgotSuccess" hidden>
+        @if (Model.ForgotSuccess)
+        {
+          <!-- Success state -->
+          <div class="auth-success" role="status">
             <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
               <circle cx="32" cy="32" r="28"/>
               <path d="M22 32l8 8 14-16"/>
             </svg>
             <h2>Check your inbox.</h2>
-            <p>We&rsquo;ve sent a reset link to <strong id="forgotSentTo"></strong>. The link expires in 30 minutes.</p>
-            <p class="auth-success__small">No email? Check your spam folder, or <button type="button" class="link-arrow link-arrow--inline">try again</button>.</p>
+            <p>We&rsquo;ve sent a reset link to <strong>@Model.ForgotSentTo</strong>. The link expires in 30 minutes.</p>
+            <p class="auth-success__small">No email? Check your spam folder, or <a asp-controller="CustomerAuth" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl" class="link-arrow link-arrow--inline">try again</a>.</p>
           </div>
-        </form>
+        }
+        else
+        {
+          <form class="auth-form" method="post" asp-controller="CustomerAuth" asp-action="Forgot" asp-route-returnUrl="@Model.ReturnUrl">
+            @if (Model.ActivePane == "forgot" && errors.Count > 0)
+            {
+              <div class="auth-form__error" role="alert">
+                @foreach (var msg in errors)
+                {
+                  <p>@msg</p>
+                }
+              </div>
+            }
+
+            <div class="co-field">
+              <input asp-for="Forgot.Email" type="email" required autocomplete="email" placeholder=" " />
+              <label asp-for="Forgot.Email">Email</label>
+            </div>
+            <button type="submit" class="btn btn--primary btn--block">Send reset link</button>
+          </form>
+        }
       </div>
 
       <!-- Help link -->
@@ -192,5 +254,50 @@
 
   </div>
 </section>
+
+@section Scripts {
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // The single consent checkbox covers both email and WhatsApp opt-ins.
+    var regMarketing = document.getElementById('regMarketing');
+    var regWhatsApp = document.getElementById('regMarketingWhatsApp');
+    if (regMarketing && regWhatsApp) {
+      var syncOptIns = function () { regWhatsApp.value = regMarketing.checked ? 'true' : 'false'; };
+      regMarketing.addEventListener('change', syncOptIns);
+      syncOptIns();
+    }
+
+    // Server round-trip: activate the pane that was submitted (mirrors site.js showPane).
+    var activePane = '@Model.ActivePane';
+    if (activePane !== 'signin') {
+      var panes = {
+        signin: document.getElementById('paneSignin'),
+        register: document.getElementById('paneRegister'),
+        forgot: document.getElementById('paneForgot')
+      };
+      var tabs = {
+        signin: document.getElementById('tabSignin'),
+        register: document.getElementById('tabRegister')
+      };
+      var target = panes[activePane];
+      if (target) {
+        Object.keys(panes).forEach(function (key) {
+          var p = panes[key];
+          if (!p) return;
+          p.hidden = (p !== target);
+          p.classList.toggle('is-active', p === target);
+        });
+        Object.keys(tabs).forEach(function (key) {
+          var t = tabs[key];
+          if (!t) return;
+          var active = (key === activePane);
+          t.classList.toggle('is-active', active);
+          t.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+      }
+    }
+  });
+</script>
+}
 
 <!-- ============================ FOOTER ============================ -->
