@@ -39,9 +39,13 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapStaticAssets();
+// Static assets must be reachable by anonymous visitors (the login/error pages
+// load their CSS before sign-in); otherwise the default-deny fallback policy
+// below blocks /css/* and the login page renders unstyled.
+app.MapStaticAssets().AllowAnonymous();
 
-// Shared upload storage, served at /media (same path the storefront uses)
+// Shared upload storage, served at /media (same path the storefront uses).
+// UseStaticFiles is middleware (runs before authorization), so /media is public too.
 app.UseWhiteStichesMedia(builder.Configuration, app.Environment);
 
 // Seeded catalog images live in the Web app's wwwroot/assets; bridge them so
