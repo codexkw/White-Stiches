@@ -33,18 +33,30 @@ Verified end-to-end by `scripts/smoke-e2e.ps1` (20-step scripted customer journe
 - `DiscountCode.TimesUsed` is not incremented at order placement yet
 - Forgot-password generates a token but cannot email it until SMTP (1C)
 
-## Phase 1B — Admin modules
+## ✅ Phase 1B — Admin modules (DONE · 2026-06-10)
 
-| # | Work | Requirements |
-| --- | --- | --- |
-| 1 | Products: CRUD + bilingual fields, images, options/variants editor, inventory adjustments | AD-PRD-01..05 |
-| 2 | Collections: manual curation + smart rules | AD-PRD-07 |
-| 3 | Orders: list/filters/search, detail with timeline, fulfilment (manual AWB), cancel/restock, draft orders | AD-ORD-01..05, 08 |
-| 4 | Returns queue: approve/reject/receive/refund flow | AD-ORD-10 |
-| 5 | Customers: list, profile, consent status | AD-CUS-01/02 |
-| 6 | Discounts: CRUD with limits/schedule | AD-MKT-01 |
-| 7 | Content: pages + journal editors, contact inbox | AD-CNT-01/02 |
-| 8 | Settings: store/shipping/notifications; staff & roles management; audit log viewer; 2FA | AD-SET-01/02/04/06 |
+Built as 8 parallel modules with disjoint file ownership (`docs/PHASE-1B-PLAN.md`); shared
+scaffolding (file storage at `/media`, admin service stubs, sidebar, pager, CSS kit) pre-built.
+Verified end-to-end by `scripts/smoke-admin.ps1` (25-step back-office journey — all pass) and
+the storefront `scripts/smoke-e2e.ps1` (21-step — all pass, no service-layer regression).
+
+| # | Work | Requirements | Routes |
+| --- | --- | --- | --- |
+| 1 | ✅ Products: CRUD + bilingual fields, images, options/variants editor, inventory adjustments | AD-PRD-01..05 | `/products*`, `/categories*` |
+| 2 | ✅ Collections: manual curation + smart rules (RulesJson, evaluate/apply) | AD-PRD-07 | `/collections*` |
+| 3 | ✅ Orders: list/filters/search, detail timeline, mark-paid, fulfil (manual AWB), cancel/restock, refunds, notes, draft orders → convert | AD-ORD-01..05, 08 | `/orders*` |
+| 4 | ✅ Returns queue: approve/reject/receive/refund state machine with restock | AD-ORD-10 | `/returns*` |
+| 5 | ✅ Customers: list, profile, consent status, lock/unlock | AD-CUS-01/02 | `/customers*` |
+| 6 | ✅ Discounts: CRUD with limits/schedule; newsletter list + CSV export | AD-MKT-01 | `/discounts*`, `/newsletter*` |
+| 7 | ✅ Content: pages + journal editors (hero upload), contact inbox | AD-CNT-01/02 | `/pages*`, `/journal*`, `/inbox*` |
+| 8 | ✅ Settings (grouped panels); staff & roles management; audit log viewer; TOTP 2FA (enable/login/recovery) | AD-SET-01/02/04/06 | `/settings*`, `/staff*`, `/audit`, `/profile/2fa*` |
+
+**Phase 1B leftovers (carried forward):**
+- Product/collection image upload is wired (`IFileStorage` → `/media`) but not exercised by the
+  HTTP smoke (PowerShell 5.1 can't post multipart) — verify manually or in 1D QA.
+- Storefront static/policy pages still render converted markup; binding them to the new
+  `StaticPage` editor (Content module) is a small Web-side follow-up.
+- Admin 2FA login step exists but the TOTP enrolment flow needs a manual device pass.
 
 ## Phase 1C — Integrations (launch blockers)
 

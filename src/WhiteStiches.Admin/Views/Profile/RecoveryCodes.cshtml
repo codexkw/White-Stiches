@@ -1,0 +1,33 @@
+@model WhiteStiches.Admin.Models.RecoveryCodesViewModel
+@{
+    ViewData["Title"] = "Recovery codes";
+    ViewData["Nav"] = "profile";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/modules/settings.css" asp-append-version="true" />
+}
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">Save your recovery codes</h2>
+        <span class="adm-badge adm-badge--warn">Shown once</span>
+    </header>
+    <div class="adm-panel__body">
+        <p>
+            Store these codes somewhere safe. Each one signs you in <strong>once</strong> if you
+            lose access to your authenticator app. They will not be shown again.
+        </p>
+
+        <ul class="set-codes">
+            @foreach (var code in Model.Codes)
+            {
+                <li><code>@code</code></li>
+            }
+        </ul>
+
+        <div class="adm-actions set-actions">
+            <a class="adm-btn adm-btn--solid" href="/profile/2fa">I've saved them — done</a>
+        </div>
+    </div>
+</section>

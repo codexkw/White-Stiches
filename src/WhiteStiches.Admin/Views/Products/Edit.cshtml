@@ -1,0 +1,303 @@
+@model ProductEditViewModel
+@{
+    var isNew = Model.Product is null;
+    ViewData["Nav"] = "products";
+    ViewData["Title"] = isNew ? "New product" : Model.Form.TitleEn;
+    var p = Model.Product;
+}
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">@(isNew ? "Create product" : "Edit product")</h2>
+        <div class="adm-actions">
+            @if (!isNew)
+            {
+                <a href="/products/@p!.Id/inventory" class="adm-btn">Inventory</a>
+            }
+            <a href="/products" class="adm-btn">Back to list</a>
+        </div>
+    </header>
+    <div class="adm-panel__body">
+        <form asp-controller="Products" asp-action="Save" method="post" class="adm-form-grid">
+            <input type="hidden" asp-for="Form.Id" />
+
+            <div class="adm-field">
+                <label asp-for="Form.TitleEn">Title (EN)</label>
+                <input asp-for="Form.TitleEn" />
+            </div>
+            <div class="adm-field">
+                <label asp-for="Form.TitleAr">Title (AR)</label>
+                <input asp-for="Form.TitleAr" dir="rtl" />
+            </div>
+
+            <div class="adm-field">
+                <label asp-for="Form.Slug">Slug (blank = from title)</label>
+                <input asp-for="Form.Slug" placeholder="auto" />
+            </div>
+            <div class="adm-field">
+                <label asp-for="Form.Status">Status</label>
+                <select asp-for="Form.Status" asp-items="Html.GetEnumSelectList<ProductStatus>()"></select>
+            </div>
+
+            <div class="adm-field">
+                <label asp-for="Form.CategoryId">Category</label>
+                <select asp-for="Form.CategoryId">
+                    <option value="">— none —</option>
+                    @foreach (var c in Model.Categories)
+                    {
+                        <option value="@c.Id">@c.Label</option>
+                    }
+                </select>
+            </div>
+            <div class="adm-field">
+                <label asp-for="Form.Type">Type</label>
+                <input asp-for="Form.Type" placeholder="e.g. Jacket" />
+            </div>
+
+            <div class="adm-field">
+                <label asp-for="Form.Vendor">Vendor</label>
+                <input asp-for="Form.Vendor" />
+            </div>
+            <div class="adm-field">
+                <label asp-for="Form.Tags">Tags (comma separated)</label>
+                <input asp-for="Form.Tags" placeholder="linen, summer, eid" />
+            </div>
+
+            <div class="adm-field">
+                <label asp-for="Form.PublishAtUtc">Publish at (UTC, optional)</label>
+                <input asp-for="Form.PublishAtUtc" type="datetime-local" />
+            </div>
+            <div class="adm-field adm-field--check">
+                <input asp-for="Form.IsFeatured" />
+                <label asp-for="Form.IsFeatured">Featured on home</label>
+            </div>
+
+            <div class="adm-field is-full">
+                <label asp-for="Form.DescriptionEn">Description (EN, HTML)</label>
+                <textarea asp-for="Form.DescriptionEn" rows="4"></textarea>
+            </div>
+            <div class="adm-field is-full">
+                <label asp-for="Form.DescriptionAr">Description (AR, HTML)</label>
+                <textarea asp-for="Form.DescriptionAr" rows="4" dir="rtl"></textarea>
+            </div>
+
+            <div class="adm-field is-full">
+                <label asp-for="Form.MaterialCareEn">Material &amp; care (EN, HTML)</label>
+                <textarea asp-for="Form.MaterialCareEn" rows="3"></textarea>
+            </div>
+            <div class="adm-field is-full">
+                <label asp-for="Form.MaterialCareAr">Material &amp; care (AR, HTML)</label>
+                <textarea asp-for="Form.MaterialCareAr" rows="3" dir="rtl"></textarea>
+            </div>
+
+            <div class="adm-field is-full">
+                <label asp-for="Form.SizeFitEn">Size &amp; fit (EN, HTML)</label>
+                <textarea asp-for="Form.SizeFitEn" rows="3"></textarea>
+            </div>
+            <div class="adm-field is-full">
+                <label asp-for="Form.SizeFitAr">Size &amp; fit (AR, HTML)</label>
+                <textarea asp-for="Form.SizeFitAr" rows="3" dir="rtl"></textarea>
+            </div>
+
+            <div class="adm-field">
+                <label asp-for="Form.SeoTitleEn">SEO title (EN)</label>
+                <input asp-for="Form.SeoTitleEn" />
+            </div>
+            <div class="adm-field">
+                <label asp-for="Form.SeoTitleAr">SEO title (AR)</label>
+                <input asp-for="Form.SeoTitleAr" dir="rtl" />
+            </div>
+            <div class="adm-field is-full">
+                <label asp-for="Form.SeoDescriptionEn">SEO description (EN)</label>
+                <textarea asp-for="Form.SeoDescriptionEn" rows="2"></textarea>
+            </div>
+            <div class="adm-field is-full">
+                <label asp-for="Form.SeoDescriptionAr">SEO description (AR)</label>
+                <textarea asp-for="Form.SeoDescriptionAr" rows="2" dir="rtl"></textarea>
+            </div>
+
+            <div class="adm-actions is-full">
+                <button type="submit" class="adm-btn adm-btn--solid">@(isNew ? "Create product" : "Save changes")</button>
+                <a href="/products" class="adm-btn">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>
+
+@if (!isNew)
+{
+    var opt1 = p!.Options.FirstOrDefault(o => o.Position == 1);
+    var opt2 = p.Options.FirstOrDefault(o => o.Position == 2);
+    var opt3 = p.Options.FirstOrDefault(o => o.Position == 3);
+    var variants = p.Variants.OrderBy(v => v.Position).ThenBy(v => v.Id).ToList();
+
+    <section class="adm-panel">
+        <header class="adm-panel__head">
+            <h2 class="adm-panel__title">Options</h2>
+            <span>Defining options regenerates the variant matrix</span>
+        </header>
+        <div class="adm-panel__body">
+            <form action="/products/@p.Id/options" method="post" class="adm-form-grid">
+                @Html.AntiForgeryToken()
+                <div class="adm-field">
+                    <label for="name1">Option 1 name</label>
+                    <input id="name1" name="name1" value="@opt1?.NameEn" placeholder="Size" />
+                </div>
+                <div class="adm-field">
+                    <label for="values1">Option 1 values (comma separated)</label>
+                    <input id="values1" name="values1" value="@opt1?.ValuesCsv" placeholder="XS,S,M,L" />
+                </div>
+                <div class="adm-field">
+                    <label for="name2">Option 2 name</label>
+                    <input id="name2" name="name2" value="@opt2?.NameEn" placeholder="Color" />
+                </div>
+                <div class="adm-field">
+                    <label for="values2">Option 2 values</label>
+                    <input id="values2" name="values2" value="@opt2?.ValuesCsv" />
+                </div>
+                <div class="adm-field">
+                    <label for="name3">Option 3 name</label>
+                    <input id="name3" name="name3" value="@opt3?.NameEn" />
+                </div>
+                <div class="adm-field">
+                    <label for="values3">Option 3 values</label>
+                    <input id="values3" name="values3" value="@opt3?.ValuesCsv" />
+                </div>
+                <div class="adm-actions is-full">
+                    <button type="submit" class="adm-btn adm-btn--solid">Save options</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="adm-panel">
+        <header class="adm-panel__head">
+            <h2 class="adm-panel__title">Variants</h2>
+            <span>@variants.Count variant(s)</span>
+        </header>
+        <div class="adm-panel__body">
+            <form action="/products/@p.Id/variants" method="post">
+                @Html.AntiForgeryToken()
+                <table class="adm-table">
+                    <thead>
+                        <tr>
+                            <th>Variant</th>
+                            <th>SKU</th>
+                            <th>Price</th>
+                            <th>Compare at</th>
+                            <th>Stock</th>
+                            <th>Low at</th>
+                            <th>Oversell</th>
+                            <th>Active</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < variants.Count; i++)
+                        {
+                            var v = variants[i];
+                            var label = string.Join(" / ", new[] { v.Option1, v.Option2, v.Option3 }.Where(o => !string.IsNullOrEmpty(o)));
+                            if (string.IsNullOrEmpty(label)) { label = "Default"; }
+                            <tr>
+                                <td>
+                                    <strong>@label</strong>
+                                    <input type="hidden" name="variants[@i].Id" value="@v.Id" />
+                                </td>
+                                <td><input name="variants[@i].Sku" value="@v.Sku" style="width:120px" /></td>
+                                <td><input name="variants[@i].Price" type="number" step="0.001" min="0" value="@v.Price.ToString("0.000")" style="width:100px" /></td>
+                                <td><input name="variants[@i].CompareAtPrice" type="number" step="0.001" min="0" value="@(v.CompareAtPrice?.ToString("0.000"))" style="width:100px" /></td>
+                                <td><input name="variants[@i].StockQuantity" type="number" value="@v.StockQuantity" style="width:80px" /></td>
+                                <td><input name="variants[@i].LowStockThreshold" type="number" value="@v.LowStockThreshold" style="width:70px" /></td>
+                                <td>
+                                    <input type="checkbox" name="variants[@i].AllowOversell" value="true" @(v.AllowOversell ? "checked" : "") />
+                                    <input type="hidden" name="variants[@i].AllowOversell" value="false" />
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="variants[@i].IsActive" value="true" @(v.IsActive ? "checked" : "") />
+                                    <input type="hidden" name="variants[@i].IsActive" value="false" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="adm-actions" style="margin-top:16px">
+                    <button type="submit" class="adm-btn adm-btn--solid">Save variants</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="adm-panel">
+        <header class="adm-panel__head">
+            <h2 class="adm-panel__title">Images</h2>
+        </header>
+        <div class="adm-panel__body">
+            <form action="/products/@p.Id/images" method="post" enctype="multipart/form-data" class="adm-actions" style="margin-bottom:24px">
+                @Html.AntiForgeryToken()
+                <input type="file" name="files" accept="image/*" multiple />
+                <button type="submit" class="adm-btn adm-btn--solid">Upload</button>
+            </form>
+
+            @if (p.Images.Count == 0)
+            {
+                <div class="adm-empty"><strong>No images yet</strong> Upload product photography above.</div>
+            }
+            else
+            {
+                <table class="adm-table">
+                    <thead>
+                        <tr><th></th><th>Alt / colour</th><th>Order</th><th></th></tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var img in p.Images.OrderBy(i => i.SortOrder))
+                        {
+                            <tr>
+                                <td><img class="adm-thumb" src="@img.Url" alt="" /></td>
+                                <td>
+                                    <form action="/products/@p.Id/images/@img.Id/meta" method="post" class="adm-actions">
+                                        @Html.AntiForgeryToken()
+                                        <input name="altEn" value="@img.AltEn" placeholder="Alt (EN)" style="width:140px" />
+                                        <input name="altAr" value="@img.AltAr" placeholder="Alt (AR)" dir="rtl" style="width:140px" />
+                                        <input name="colorName" value="@img.ColorName" placeholder="Colour" style="width:110px" />
+                                        <button type="submit" class="adm-btn">Save</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <div class="adm-actions">
+                                        <form action="/products/@p.Id/images/@img.Id/move?dir=up" method="post">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="adm-btn">↑</button>
+                                        </form>
+                                        <form action="/products/@p.Id/images/@img.Id/move?dir=down" method="post">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="adm-btn">↓</button>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td>
+                                    <form action="/products/@p.Id/images/@img.Id/delete" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="adm-btn">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </section>
+
+    <section class="adm-panel">
+        <header class="adm-panel__head">
+            <h2 class="adm-panel__title">Danger zone</h2>
+        </header>
+        <div class="adm-panel__body">
+            <p style="margin:0 0 12px">Deleting is permanent. Past orders keep their snapshots, but the product disappears from the store. Setting status to <strong>Archived</strong> is usually safer.</p>
+            <form action="/products/@p.Id/delete" method="post" class="adm-actions">
+                @Html.AntiForgeryToken()
+                <input name="confirm" placeholder="Type yes to confirm" style="width:180px" />
+                <button type="submit" class="adm-btn">Delete product</button>
+            </form>
+        </div>
+    </section>
+}

@@ -1,0 +1,59 @@
+@model WhiteStiches.Admin.Models.LoginTwoFactorViewModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Two-factor sign in";
+}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Two-factor sign in · White Stitches Admin</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="~/assets/logo-mark.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/design-system.css" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+</head>
+<body>
+<div class="adm-login">
+    <div class="adm-login__card">
+        <img src="~/assets/logo-full.png" alt="White Stitches" />
+        <span class="adm-login__eyebrow">Two-factor verification</span>
+
+        @if (ViewData.ModelState[string.Empty]?.Errors.Count > 0)
+        {
+            <div class="adm-login__error">
+                @ViewData.ModelState[string.Empty]!.Errors.First().ErrorMessage
+            </div>
+        }
+
+        <form asp-controller="Auth" asp-action="LoginTwoFactor" method="post">
+            <input type="hidden" asp-for="ReturnUrl" />
+            <input type="hidden" asp-for="RememberMe" />
+            <div class="adm-field">
+                <label asp-for="Code">Authenticator code</label>
+                <input asp-for="Code" inputmode="numeric" autocomplete="one-time-code" autofocus />
+            </div>
+            <div class="adm-field adm-field--check">
+                <input asp-for="RememberMachine" />
+                <label asp-for="RememberMachine">Remember this device</label>
+            </div>
+            <button type="submit" class="adm-btn adm-btn--solid adm-login__submit">Verify</button>
+        </form>
+
+        <form asp-controller="Auth" asp-action="LoginRecovery" method="post" style="margin-top: 24px;">
+            <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+            <input type="hidden" name="rememberMe" value="@(Model.RememberMe ? "true" : "false")" />
+            <div class="adm-field">
+                <label for="recovery-code">Lost your device? Use a recovery code</label>
+                <input id="recovery-code" name="recoveryCode" autocomplete="off" />
+            </div>
+            <button type="submit" class="adm-btn adm-login__submit">Sign in with recovery code</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

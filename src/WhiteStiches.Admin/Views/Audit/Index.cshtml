@@ -1,0 +1,100 @@
+@model WhiteStiches.Admin.Models.AuditListViewModel
+@{
+    ViewData["Title"] = "Audit Log";
+    ViewData["Nav"] = "audit";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/modules/settings.css" asp-append-version="true" />
+}
+
+<div class="adm-toolbar">
+    <form method="get" action="/audit" class="adm-toolbar__filters">
+        <div class="adm-field">
+            <label for="audit-action">Action starts with</label>
+            <input id="audit-action" name="action" value="@Model.ActionFilter" placeholder="e.g. staff.login" />
+        </div>
+        <button type="submit" class="adm-btn">Filter</button>
+        @if (!string.IsNullOrWhiteSpace(Model.ActionFilter))
+        {
+            <a class="adm-btn" href="/audit">Clear</a>
+        }
+    </form>
+    <p class="set-note">@Model.Entries.TotalCount entr@(Model.Entries.TotalCount == 1 ? "y" : "ies"). Times are UTC. Append-only.</p>
+</div>
+
+<section class="adm-panel">
+    <header class="adm-panel__head"><h2 class="adm-panel__title">Entries</h2></header>
+    <div class="adm-panel__body">
+        @if (Model.Entries.Items.Count == 0)
+        {
+            <div class="adm-empty">
+                <strong>No audit entries</strong>
+                Administrative write actions will appear here.
+            </div>
+        }
+        else
+        {
+            <table class="adm-table">
+                <thead>
+                <tr>
+                    <th>Time (UTC)</th>
+                    <th>User</th>
+                    <th>Action</th>
+                    <th>Entity</th>
+                    <th>IP</th>
+                    <th>Changes</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var entry in Model.Entries.Items)
+                {
+                    <tr>
+                        <td>@entry.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>@(entry.UserName ?? "—")</td>
+                        <td><span class="adm-badge adm-badge--info">@entry.Action</span></td>
+                        <td>
+                            @if (entry.EntityType is not null)
+                            {
+                                @entry.EntityType
+
+                                if (entry.EntityId is not null)
+                                {
+                                    <span class="set-note">#@entry.EntityId</span>
+                                }
+                            }
+                            else
+                            {
+                                <text>—</text>
+                            }
+                        </td>
+                        <td>@(entry.IpAddress ?? "—")</td>
+                        <td>
+                            @if (entry.BeforeJson is not null || entry.AfterJson is not null)
+                            {
+                                <details class="set-json">
+                                    <summary>View</summary>
+                                    @if (entry.BeforeJson is not null)
+                                    {
+                                        <div><strong>Before</strong> <code>@entry.BeforeJson</code></div>
+                                    }
+                                    @if (entry.AfterJson is not null)
+                                    {
+                                        <div><strong>After</strong> <code>@entry.AfterJson</code></div>
+                                    }
+                                </details>
+                            }
+                            else
+                            {
+                                <text>—</text>
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+    </div>
+</section>
+
+<partial name="_Pager" model="PagerInfo.From(Model.Entries)" />

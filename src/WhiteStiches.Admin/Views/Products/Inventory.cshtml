@@ -1,0 +1,90 @@
+@model ProductInventoryViewModel
+@{
+    var p = Model.Product;
+    ViewData["Nav"] = "products";
+    ViewData["Title"] = $"Inventory · {p.TitleEn}";
+    var variants = p.Variants.OrderBy(v => v.Position).ThenBy(v => v.Id).ToList();
+    string Label(ProductVariant v)
+    {
+        var l = string.Join(" / ", new[] { v.Option1, v.Option2, v.Option3 }.Where(o => !string.IsNullOrEmpty(o)));
+        return string.IsNullOrEmpty(l) ? "Default" : l;
+    }
+    var labelById = variants.ToDictionary(v => v.Id, Label);
+}
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">Stock by variant</h2>
+        <a href="/products/@p.Id/edit" class="adm-btn">Back to product</a>
+    </header>
+    <div class="adm-panel__body">
+        <table class="adm-table">
+            <thead>
+                <tr><th>Variant</th><th>SKU</th><th>On hand</th><th>Adjust</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var v in variants)
+                {
+                    <tr>
+                        <td><strong>@Label(v)</strong></td>
+                        <td>@(v.Sku ?? "—")</td>
+                        <td>
+                            @v.StockQuantity
+                            @if (v.StockQuantity <= v.LowStockThreshold)
+                            {
+                                <span class="adm-badge adm-badge--warn">Low</span>
+                            }
+                        </td>
+                        <td>
+                            <form action="/products/@p.Id/inventory" method="post" class="adm-actions">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="variantId" value="@v.Id" />
+                                <input name="delta" type="number" placeholder="±qty" style="width:80px" required />
+                                <select name="reason">
+                                    @foreach (var r in Enum.GetValues<InventoryAdjustmentReason>())
+                                    {
+                                        <option value="@r">@r</option>
+                                    }
+                                </select>
+                                <input name="note" placeholder="Note (optional)" style="width:160px" />
+                                <button type="submit" class="adm-btn adm-btn--solid">Apply</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">Recent movements</h2>
+    </header>
+    @if (Model.History.Count == 0)
+    {
+        <div class="adm-panel__body">
+            <div class="adm-empty"><strong>No stock movements yet</strong></div>
+        </div>
+    }
+    else
+    {
+        <table class="adm-table">
+            <thead>
+                <tr><th>When (UTC)</th><th>Variant</th><th>Change</th><th>Reason</th><th>Note</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var a in Model.History)
+                {
+                    <tr>
+                        <td>@a.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>@(labelById.TryGetValue(a.ProductVariantId, out var lbl) ? lbl : $"#{a.ProductVariantId}")</td>
+                        <td>@a.QuantityDelta.ToString("+#;-#;0")</td>
+                        <td>@a.Reason</td>
+                        <td>@(a.Note ?? "—")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>

@@ -1,0 +1,79 @@
+/* Orders module — detail layout, timeline, totals (on top of admin.css kit) */
+
+.ord-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.ord-col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.ord-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.ord-head__meta { color: #8a8478; font-size: 13px; }
+
+.ord-totals { width: 100%; border-collapse: collapse; font-size: 13px; }
+.ord-totals td { padding: 6px 0; color: #b8b2a6; }
+.ord-totals td:last-child { text-align: right; color: #d5cfc3; }
+.ord-totals tr.is-total td {
+  border-top: 1px solid #2a2a2a;
+  padding-top: 10px;
+  color: var(--c-paper, #f5f1ea);
+  font-weight: 600;
+}
+
+.ord-timeline { list-style: none; margin: 0; padding: 0; }
+.ord-timeline li { padding: 12px 0; border-bottom: 1px solid #1d1d1d; }
+.ord-timeline li:last-child { border-bottom: 0; }
+.ord-timeline .ord-timeline__meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  color: #6b665c;
+  margin-bottom: 4px;
+}
+.ord-timeline .ord-timeline__kind {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--c-accent, #c8a96a);
+}
+
+.ord-address { font-style: normal; line-height: 1.7; color: #b8b2a6; }
+
+.ord-kv { display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
+.ord-kv span { color: #8a8478; }
+
+.ord-inline-form { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
+.ord-inline-form .adm-field { margin-bottom: 0; min-width: 140px; flex: 1; }
+.ord-inline-form .adm-field--narrow { min-width: 90px; max-width: 120px; flex: 0 0 auto; }
+
+.ord-stack { display: flex; flex-direction: column; gap: 20px; }
+.ord-stack > form { border-bottom: 1px solid #1d1d1d; padding-bottom: 20px; }
+.ord-stack > form:last-child { border-bottom: 0; padding-bottom: 0; }
+
+.ord-stack h3 {
+  margin: 0 0 10px;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8a8478;
+  font-weight: 500;
+}
+
+.ord-picker-variant { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+@media (max-width: 1100px) {
+  .ord-grid { grid-template-columns: 1fr; }
+}

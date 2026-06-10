@@ -1,0 +1,123 @@
+/* ============================================================================
+   Settings / Staff / Audit / 2FA module styles (extends admin.css kit)
+   ============================================================================ */
+
+.set-note { color: #8a8478; font-size: 12px; margin: 0; }
+
+.set-actions { margin-top: 20px; }
+
+.set-divider { border: 0; border-top: 1px solid #2a2a2a; margin: 28px 0; }
+
+.set-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 12px;
+  color: var(--c-paper, #f5f1ea);
+}
+
+/* ---------------------------------------------------------------- role picker */
+.set-roles {
+  border: 1px solid #2a2a2a;
+  padding: 16px 20px;
+  margin: 24px 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px 24px;
+}
+
+.set-roles legend {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8a8478;
+  padding: 0 8px;
+}
+
+.set-role { align-items: flex-start; }
+
+.set-role input { margin-top: 4px; }
+
+.set-role label {
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: 13px;
+  color: #d5cfc3;
+}
+
+.set-role label strong { display: block; color: var(--c-paper, #f5f1ea); }
+
+.set-role__hint { display: block; font-size: 12px; color: #8a8478; margin-top: 2px; }
+
+/* ---------------------------------------------------------------- 2FA key + URI */
+.set-key {
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  font-size: 18px;
+  letter-spacing: 0.12em;
+  color: var(--c-accent, #c8a96a);
+  border: 1px dashed #3a3a3a;
+  padding: 14px 18px;
+  display: inline-block;
+  user-select: all;
+}
+
+.set-uri {
+  border: 1px solid #2a2a2a;
+  background: #0a0a0a;
+  padding: 12px 16px;
+  overflow-wrap: anywhere;
+}
+
+.set-uri code {
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  font-size: 12px;
+  color: #b8b2a6;
+  user-select: all;
+}
+
+/* ---------------------------------------------------------------- recovery codes */
+.set-codes {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+.set-codes li {
+  border: 1px solid #2a2a2a;
+  background: #0a0a0a;
+  padding: 10px 14px;
+  text-align: center;
+}
+
+.set-codes code {
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  font-size: 14px;
+  color: var(--c-paper, #f5f1ea);
+  user-select: all;
+}
+
+/* ---------------------------------------------------------------- audit details */
+.set-json summary {
+  cursor: pointer;
+  color: var(--c-accent, #c8a96a);
+  font-size: 12px;
+}
+
+.set-json div { margin-top: 8px; }
+
+.set-json code {
+  display: block;
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  font-size: 11px;
+  color: #b8b2a6;
+  background: #0a0a0a;
+  border: 1px solid #2a2a2a;
+  padding: 8px 10px;
+  margin-top: 4px;
+  max-width: 480px;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}

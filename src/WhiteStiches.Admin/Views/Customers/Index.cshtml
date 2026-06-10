@@ -1,0 +1,104 @@
+@using WhiteStiches.Core.Models.Admin
+@model CustomerListViewModel
+@{
+    ViewData["Title"] = "Customers";
+    ViewData["Nav"] = "customers";
+}
+
+<section class="adm-toolbar" aria-label="Customer filters">
+    <form method="get" action="/customers" class="adm-toolbar__filters">
+        <div class="adm-field">
+            <label for="q">Search</label>
+            <input type="search" id="q" name="q" value="@Model.Search" placeholder="Name, email, or phone" />
+        </div>
+        <div class="adm-actions">
+            <button type="submit" class="adm-btn adm-btn--solid">Search</button>
+            @if (!string.IsNullOrWhiteSpace(Model.Search))
+            {
+                <a href="/customers" class="adm-btn">Clear</a>
+            }
+        </div>
+    </form>
+    <div class="adm-actions">
+        <span>@Model.Customers.TotalCount customer@(Model.Customers.TotalCount == 1 ? "" : "s")</span>
+    </div>
+</section>
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">Customer directory</h2>
+    </header>
+
+    @if (Model.Customers.Items.Count == 0)
+    {
+        <div class="adm-panel__body">
+            <div class="adm-empty">
+                <strong>No customers found</strong>
+                @(string.IsNullOrWhiteSpace(Model.Search)
+                    ? "Registered shoppers will appear here."
+                    : "Try a different name, email, or phone number.")
+            </div>
+        </div>
+    }
+    else
+    {
+        <table class="adm-table">
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Orders</th>
+                    <th>Total spent</th>
+                    <th>Consent</th>
+                    <th>Registered (UTC)</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in Model.Customers.Items)
+                {
+                    <tr>
+                        <td>
+                            <a href="/customers/@c.UserId">
+                                @(string.IsNullOrWhiteSpace(c.FullName) ? c.Email : c.FullName)
+                            </a>
+                        </td>
+                        <td>@c.Email</td>
+                        <td>@(string.IsNullOrWhiteSpace(c.Phone) ? "—" : c.Phone)</td>
+                        <td>@c.OrdersCount</td>
+                        <td>KWD @c.TotalSpent.ToString("0.000")</td>
+                        <td>
+                            @if (c.EmailOptIn)
+                            {
+                                <span class="adm-badge adm-badge--ok">Email</span>
+                            }
+                            @if (c.WhatsAppOptIn)
+                            {
+                                <span class="adm-badge adm-badge--ok">WhatsApp</span>
+                            }
+                            @if (!c.EmailOptIn && !c.WhatsAppOptIn)
+                            {
+                                <span>—</span>
+                            }
+                        </td>
+                        <td>@c.RegisteredAtUtc.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>
+                            @if (c.IsLockedOut)
+                            {
+                                <span class="adm-badge adm-badge--err">Locked</span>
+                            }
+                            else
+                            {
+                                <span class="adm-badge adm-badge--ok">Active</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="adm-panel__body">
+            <partial name="_Pager" model="PagerInfo.From(Model.Customers)" />
+        </div>
+    }
+</section>

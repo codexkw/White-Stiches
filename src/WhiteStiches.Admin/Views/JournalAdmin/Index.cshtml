@@ -1,0 +1,75 @@
+@model WhiteStiches.Admin.Models.JournalListViewModel
+@{
+    ViewData["Title"] = "Journal";
+    ViewData["Nav"] = "journal";
+    var now = DateTime.UtcNow;
+}
+
+<div class="adm-toolbar">
+    <form method="get" action="/journal" class="adm-toolbar__filters">
+        <div class="adm-field">
+            <label for="search">Search</label>
+            <input id="search" name="search" value="@Model.Search" placeholder="Title or slug" />
+        </div>
+        <button type="submit" class="adm-btn">Filter</button>
+        <a href="/journal" class="adm-btn">Reset</a>
+    </form>
+    <a href="/journal/new" class="adm-btn adm-btn--solid">New post</a>
+</div>
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">Posts (@Model.Posts.TotalCount)</h2>
+    </header>
+
+    @if (Model.Posts.Items.Count == 0)
+    {
+        <div class="adm-panel__body">
+            <div class="adm-empty">
+                <strong>No posts found</strong>
+                @(string.IsNullOrWhiteSpace(Model.Search) ? "Write the first journal post." : "Try a different search term.")
+            </div>
+        </div>
+    }
+    else
+    {
+        <table class="adm-table">
+            <thead>
+                <tr>
+                    <th>Title (EN)</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Date (UTC)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model.Posts.Items)
+                {
+                    <tr>
+                        <td><a href="/journal/@p.Id/edit">@p.TitleEn</a></td>
+                        <td>@(p.Category?.NameEn ?? "—")</td>
+                        <td>
+                            @if (p.IsPublished && p.PublishAtUtc is not null && p.PublishAtUtc > now)
+                            {
+                                <span class="adm-badge adm-badge--info">Scheduled</span>
+                            }
+                            else if (p.IsPublished)
+                            {
+                                <span class="adm-badge adm-badge--ok">Published</span>
+                            }
+                            else
+                            {
+                                <span class="adm-badge adm-badge--warn">Draft</span>
+                            }
+                        </td>
+                        <td>@((p.PublishAtUtc ?? p.CreatedAtUtc).ToString("yyyy-MM-dd HH:mm"))</td>
+                        <td><a href="/journal/@p.Id/edit" class="adm-btn">Edit</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>
+
+<partial name="_Pager" model="PagerInfo.From(Model.Posts)" />

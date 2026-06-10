@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.FileProviders;
 using WhiteStiches.Infrastructure;
 using WhiteStiches.Infrastructure.Data;
 using WhiteStiches.Infrastructure.Identity;
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddWhiteStichesInfrastructure(builder.Configuration);
+builder.Services.AddWhiteStichesAdminServices();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -38,6 +40,21 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+// Shared upload storage, served at /media (same path the storefront uses)
+app.UseWhiteStichesMedia(builder.Configuration, app.Environment);
+
+// Seeded catalog images live in the Web app's wwwroot/assets; bridge them so
+// product thumbnails render in the back office too (dev/sibling-deploy only).
+var webAssets = Path.GetFullPath(Path.Combine(app.Environment.ContentRootPath, "..", "WhiteStiches.Web", "wwwroot", "assets"));
+if (Directory.Exists(webAssets))
+{
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(webAssets),
+        RequestPath = "/assets"
+    });
+}
 
 app.MapControllerRoute(
         name: "default",

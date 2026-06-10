@@ -1,0 +1,49 @@
+@{
+    ViewData["Title"] = "New draft order";
+    ViewData["Nav"] = "orders";
+}
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">Customer &amp; channel</h2>
+        <a href="/orders/drafts" class="adm-btn">Back to drafts</a>
+    </header>
+    <div class="adm-panel__body">
+        <p class="adm-card__hint">
+            Draft orders are built by staff for Instagram, WhatsApp, or phone sales.
+            Provide at least an email address or a phone number.
+        </p>
+        <form asp-controller="Orders" asp-action="CreateDraft" method="post">
+            <div class="adm-form-grid">
+                <div class="adm-field">
+                    <label for="firstName">First name</label>
+                    <input id="firstName" type="text" name="firstName" />
+                </div>
+                <div class="adm-field">
+                    <label for="lastName">Last name</label>
+                    <input id="lastName" type="text" name="lastName" />
+                </div>
+                <div class="adm-field">
+                    <label for="email">Email</label>
+                    <input id="email" type="email" name="email" />
+                </div>
+                <div class="adm-field">
+                    <label for="phone">Phone</label>
+                    <input id="phone" type="text" name="phone" />
+                </div>
+                <div class="adm-field">
+                    <label for="channel">Channel</label>
+                    <select id="channel" name="channel">
+                        <option value="Instagram">Instagram</option>
+                        <option value="WhatsApp">WhatsApp</option>
+                        <option value="Phone">Phone</option>
+                    </select>
+                </div>
+            </div>
+            <div class="adm-actions" style="margin-top:16px;">
+                <button type="submit" class="adm-btn adm-btn--solid">Create draft</button>
+                <a href="/orders/drafts" class="adm-btn">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>

@@ -1,0 +1,99 @@
+@model WhiteStiches.Admin.Models.StaffEditViewModel
+@{
+    ViewData["Title"] = $"Edit {Model.Member.FullName}";
+    ViewData["Nav"] = "staff";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/modules/settings.css" asp-append-version="true" />
+}
+
+<div class="adm-toolbar">
+    <div class="adm-actions">
+        <span class="adm-badge">@Model.Member.Email</span>
+        @if (Model.Member.TwoFactorEnabled)
+        {
+            <span class="adm-badge adm-badge--ok">2FA on</span>
+        }
+        else
+        {
+            <span class="adm-badge adm-badge--warn">2FA off</span>
+        }
+        @if (Model.Member.IsLockedOut)
+        {
+            <span class="adm-badge adm-badge--err">Locked</span>
+        }
+        else
+        {
+            <span class="adm-badge adm-badge--ok">Active</span>
+        }
+        <span class="set-note">Last login (UTC): @(Model.Member.LastLoginAtUtc?.ToString("yyyy-MM-dd HH:mm") ?? "Never")</span>
+    </div>
+    <a class="adm-btn" href="/staff">Back to staff</a>
+</div>
+
+<section class="adm-panel">
+    <header class="adm-panel__head"><h2 class="adm-panel__title">Roles</h2></header>
+    <div class="adm-panel__body">
+        <form asp-controller="Staff" asp-action="SetRoles" asp-route-userId="@Model.Member.UserId" method="post">
+            <fieldset class="set-roles">
+                <legend>Staff roles</legend>
+                @foreach (var role in Model.StaffRoles)
+                {
+                    <div class="adm-field--check set-role">
+                        <input id="role-@role" type="checkbox" name="roles" value="@role"
+                               checked="@Model.Member.Roles.Contains(role)" />
+                        <label for="role-@role">
+                            <strong>@role</strong>
+                            <span class="set-role__hint">@Model.RoleDescriptions.GetValueOrDefault(role)</span>
+                        </label>
+                    </div>
+                }
+            </fieldset>
+            <div class="adm-actions set-actions">
+                <button type="submit" class="adm-btn adm-btn--solid">Save roles</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="adm-panel">
+    <header class="adm-panel__head"><h2 class="adm-panel__title">Account access</h2></header>
+    <div class="adm-panel__body">
+        <div class="adm-actions">
+            @if (Model.Member.IsLockedOut)
+            {
+                <form asp-controller="Staff" asp-action="Unlock" asp-route-userId="@Model.Member.UserId" method="post">
+                    <button type="submit" class="adm-btn">Unlock account</button>
+                </form>
+            }
+            else if (Model.IsSelf)
+            {
+                <span class="set-note">You cannot lock your own account.</span>
+            }
+            else
+            {
+                <form asp-controller="Staff" asp-action="Lock" asp-route-userId="@Model.Member.UserId" method="post">
+                    <button type="submit" class="adm-btn">Lock account</button>
+                </form>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="adm-panel">
+    <header class="adm-panel__head"><h2 class="adm-panel__title">Reset password</h2></header>
+    <div class="adm-panel__body">
+        <form asp-controller="Staff" asp-action="ResetPassword" asp-route-userId="@Model.Member.UserId" method="post">
+            <div class="adm-form-grid">
+                <div class="adm-field">
+                    <label for="staff-newpass">New password</label>
+                    <input id="staff-newpass" name="newPassword" type="password" autocomplete="new-password" required />
+                </div>
+            </div>
+            <div class="adm-actions set-actions">
+                <button type="submit" class="adm-btn adm-btn--solid">Reset password</button>
+            </div>
+        </form>
+    </div>
+</section>

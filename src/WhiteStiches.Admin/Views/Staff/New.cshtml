@@ -1,0 +1,57 @@
+@model WhiteStiches.Admin.Models.StaffNewViewModel
+@{
+    ViewData["Title"] = "Add staff member";
+    ViewData["Nav"] = "staff";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/modules/settings.css" asp-append-version="true" />
+}
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">New staff account</h2>
+        <a class="adm-btn" href="/staff">Back to staff</a>
+    </header>
+    <div class="adm-panel__body">
+        <form asp-controller="Staff" asp-action="Create" method="post">
+            <div class="adm-form-grid">
+                <div class="adm-field">
+                    <label for="staff-first">First name</label>
+                    <input id="staff-first" name="firstName" required />
+                </div>
+                <div class="adm-field">
+                    <label for="staff-last">Last name</label>
+                    <input id="staff-last" name="lastName" required />
+                </div>
+                <div class="adm-field">
+                    <label for="staff-email">Email</label>
+                    <input id="staff-email" name="email" type="email" required />
+                </div>
+                <div class="adm-field">
+                    <label for="staff-password">Temporary password</label>
+                    <input id="staff-password" name="password" type="password" autocomplete="new-password" required />
+                </div>
+            </div>
+
+            <fieldset class="set-roles">
+                <legend>Roles</legend>
+                @foreach (var role in Model.StaffRoles)
+                {
+                    <div class="adm-field--check set-role">
+                        <input id="role-@role" type="checkbox" name="roles" value="@role" />
+                        <label for="role-@role">
+                            <strong>@role</strong>
+                            <span class="set-role__hint">@Model.RoleDescriptions.GetValueOrDefault(role)</span>
+                        </label>
+                    </div>
+                }
+            </fieldset>
+
+            <div class="adm-actions set-actions">
+                <button type="submit" class="adm-btn adm-btn--solid">Create staff member</button>
+                <a class="adm-btn" href="/staff">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>

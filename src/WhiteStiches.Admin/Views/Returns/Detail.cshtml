@@ -1,0 +1,238 @@
+@model WhiteStiches.Admin.Models.ReturnDetailViewModel
+@{
+    var request = Model.Request;
+    var order = Model.Order;
+
+    ViewData["Title"] = $"Return {request.RmaNumber}";
+    ViewData["Nav"] = "returns";
+
+    static string BadgeClass(ReturnStatus status) => status switch
+    {
+        ReturnStatus.Pending => "adm-badge--warn",
+        ReturnStatus.Approved => "adm-badge--ok",
+        ReturnStatus.Received => "adm-badge--info",
+        ReturnStatus.Refunded => "adm-badge--ok",
+        ReturnStatus.Rejected => "adm-badge--err",
+        _ => string.Empty
+    };
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/modules/returns.css" asp-append-version="true" />
+}
+
+<div class="ret-grid">
+    <div class="ret-stack">
+
+        <section class="adm-panel">
+            <header class="adm-panel__head">
+                <h2 class="adm-panel__title">Requested items</h2>
+                <span class="adm-badge @BadgeClass(request.Status)">@request.Status</span>
+            </header>
+            <table class="adm-table">
+                <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Unit (KWD)</th>
+                    <th>Line (KWD)</th>
+                    <th>Reason</th>
+                    <th>Condition</th>
+                    <th>Restocked</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in request.Items)
+                {
+                    var oi = item.OrderItem;
+                    <tr>
+                        <td>
+                            @(oi?.TitleEn ?? "(item)")
+                            @if (!string.IsNullOrWhiteSpace(oi?.VariantDescription))
+                            {
+                                <br /><small>@oi!.VariantDescription</small>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(oi?.Sku))
+                            {
+                                <br /><small>SKU @oi!.Sku</small>
+                            }
+                        </td>
+                        <td>@item.Quantity</td>
+                        <td>@((oi?.UnitPrice ?? 0m).ToString("0.000"))</td>
+                        <td>@(((oi?.UnitPrice ?? 0m) * item.Quantity).ToString("0.000"))</td>
+                        <td>@(string.IsNullOrWhiteSpace(item.Reason) ? "—" : item.Reason)</td>
+                        <td>@(string.IsNullOrWhiteSpace(item.Condition) ? "—" : item.Condition)</td>
+                        <td>
+                            @if (item.Restocked)
+                            {
+                                <span class="adm-badge adm-badge--ok">Yes</span>
+                            }
+                            else
+                            {
+                                <span class="adm-badge">No</span>
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </section>
+
+        <section class="adm-panel">
+            <header class="adm-panel__head">
+                <h2 class="adm-panel__title">Notes &amp; history</h2>
+            </header>
+            <div class="adm-panel__body">
+                @if (!string.IsNullOrWhiteSpace(request.CustomerReason))
+                {
+                    <h3 class="ret-subhead">Customer note</h3>
+                    <p class="ret-note">@request.CustomerReason</p>
+                }
+                @if (!string.IsNullOrWhiteSpace(request.StaffNote))
+                {
+                    <h3 class="ret-subhead">Staff note</h3>
+                    <p class="ret-note">@request.StaffNote</p>
+                }
+                <h3 class="ret-subhead">Return timeline (UTC)</h3>
+                @if (Model.ReturnEvents.Count == 0)
+                {
+                    <p>No return events yet.</p>
+                }
+                else
+                {
+                    <ul class="ret-events">
+                        @foreach (var e in Model.ReturnEvents)
+                        {
+                            <li>
+                                <time>@e.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm") · @e.Kind@(e.AuthorName is not null ? $" · {e.AuthorName}" : null)</time>
+                                @e.Description
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+        </section>
+
+    </div>
+
+    <div class="ret-stack">
+
+        <section class="adm-panel">
+            <header class="adm-panel__head">
+                <h2 class="adm-panel__title">Request</h2>
+            </header>
+            <div class="adm-panel__body">
+                <dl class="ret-kv">
+                    <dt>RMA</dt>
+                    <dd>@(string.IsNullOrWhiteSpace(request.RmaNumber) ? $"#{request.Id}" : request.RmaNumber)</dd>
+                    <dt>Order</dt>
+                    <dd><a href="/orders/@order.Id">@order.OrderNumber</a></dd>
+                    <dt>Customer</dt>
+                    <dd>@($"{order.ShipFirstName} {order.ShipLastName}".Trim())<br /><small>@order.Email · @order.Phone</small></dd>
+                    <dt>Requested</dt>
+                    <dd>@request.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm") UTC</dd>
+                    <dt>Method</dt>
+                    <dd>@(string.IsNullOrWhiteSpace(request.Method) ? "—" : request.Method)</dd>
+                    <dt>Status</dt>
+                    <dd><span class="adm-badge @BadgeClass(request.Status)">@request.Status</span></dd>
+                    @if (request.ResolvedAtUtc is DateTime resolved)
+                    {
+                        <dt>Resolved</dt>
+                        <dd>@resolved.ToString("yyyy-MM-dd HH:mm") UTC</dd>
+                    }
+                </dl>
+            </div>
+        </section>
+
+        <section class="adm-panel">
+            <header class="adm-panel__head">
+                <h2 class="adm-panel__title">Order totals</h2>
+            </header>
+            <div class="adm-panel__body">
+                <dl class="ret-kv">
+                    <dt>Subtotal</dt>
+                    <dd>KWD @order.Subtotal.ToString("0.000")</dd>
+                    <dt>Shipping</dt>
+                    <dd>KWD @order.ShippingAmount.ToString("0.000")</dd>
+                    <dt>Discount</dt>
+                    <dd>− KWD @order.DiscountAmount.ToString("0.000")</dd>
+                    <dt>Total</dt>
+                    <dd><strong>KWD @order.Total.ToString("0.000")</strong></dd>
+                    <dt>Refunded</dt>
+                    <dd>KWD @Model.AlreadyRefunded.ToString("0.000")</dd>
+                    <dt>Payment</dt>
+                    <dd>@order.PaymentStatus</dd>
+                </dl>
+            </div>
+        </section>
+
+        @if (request.Status is ReturnStatus.Pending or ReturnStatus.Approved or ReturnStatus.Received)
+        {
+            <section class="adm-panel">
+                <header class="adm-panel__head">
+                    <h2 class="adm-panel__title">Actions</h2>
+                </header>
+                <div class="adm-panel__body">
+
+                    @if (request.Status == ReturnStatus.Pending)
+                    {
+                        <form method="post" action="/returns/@request.Id/approve" class="ret-form">
+                            @Html.AntiForgeryToken()
+                            <div class="adm-field">
+                                <label for="approve-note">Staff note (optional)</label>
+                                <textarea id="approve-note" name="staffNote" rows="2"></textarea>
+                            </div>
+                            <div class="adm-actions">
+                                <button type="submit" class="adm-btn adm-btn--solid">Approve return</button>
+                            </div>
+                        </form>
+
+                        <form method="post" action="/returns/@request.Id/reject" class="ret-form">
+                            @Html.AntiForgeryToken()
+                            <div class="adm-field">
+                                <label for="reject-note">Staff note (required)</label>
+                                <textarea id="reject-note" name="staffNote" rows="2" required></textarea>
+                            </div>
+                            <div class="adm-actions">
+                                <button type="submit" class="adm-btn">Reject return</button>
+                            </div>
+                        </form>
+                    }
+
+                    @if (request.Status == ReturnStatus.Approved)
+                    {
+                        <form method="post" action="/returns/@request.Id/receive" class="ret-form">
+                            @Html.AntiForgeryToken()
+                            <div class="adm-field adm-field--check">
+                                <input type="checkbox" id="restock" name="restock" value="true" checked />
+                                <label for="restock">Restock returned items</label>
+                            </div>
+                            <div class="adm-actions">
+                                <button type="submit" class="adm-btn adm-btn--solid">Mark received</button>
+                            </div>
+                        </form>
+                    }
+
+                    @if (request.Status == ReturnStatus.Received)
+                    {
+                        <form method="post" action="/returns/@request.Id/refund" class="ret-form">
+                            @Html.AntiForgeryToken()
+                            <div class="adm-field">
+                                <label for="refund-amount">Refund amount (KWD)</label>
+                                <input type="number" id="refund-amount" name="amount" step="0.001" min="0.001"
+                                       value="@Model.SuggestedRefund.ToString("0.000")" />
+                            </div>
+                            <div class="adm-actions">
+                                <button type="submit" class="adm-btn adm-btn--solid">Record manual refund</button>
+                            </div>
+                        </form>
+                    }
+
+                </div>
+            </section>
+        }
+
+        <p><a href="/returns" class="adm-btn">&lsaquo; Back to queue</a></p>
+
+    </div>
+</div>

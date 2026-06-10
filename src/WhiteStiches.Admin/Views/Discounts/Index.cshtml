@@ -1,0 +1,121 @@
+@model DiscountListViewModel
+@{
+    ViewData["Title"] = "Discounts";
+    ViewData["Nav"] = "discounts";
+}
+
+<section class="adm-toolbar">
+    <form method="get" action="/discounts" class="adm-toolbar__filters">
+        <div class="adm-field">
+            <label for="search">Search code</label>
+            <input id="search" name="search" type="search" value="@Model.Search" placeholder="e.g. WELCOME10" />
+        </div>
+        <div class="adm-field adm-field--check">
+            <input id="activeOnly" name="activeOnly" type="checkbox" value="true" checked="@Model.ActiveOnly" />
+            <label for="activeOnly">Active only</label>
+        </div>
+        <button type="submit" class="adm-btn">Filter</button>
+    </form>
+    <div class="adm-actions">
+        <a href="/discounts/new" class="adm-btn adm-btn--solid">New discount</a>
+    </div>
+</section>
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">Discount codes</h2>
+        <span>@Model.Discounts.TotalCount total</span>
+    </header>
+
+    @if (Model.Discounts.Items.Count == 0)
+    {
+        <div class="adm-panel__body">
+            <div class="adm-empty">
+                <strong>No discount codes found</strong>
+                Adjust the filters, or create the first code.
+            </div>
+        </div>
+    }
+    else
+    {
+        <table class="adm-table">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Type</th>
+                    <th>Value</th>
+                    <th>Minimums</th>
+                    <th>Schedule (UTC)</th>
+                    <th>Usage</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var d in Model.Discounts.Items)
+                {
+                    var mins = new List<string>();
+                    if (d.MinPurchaseAmount is not null) { mins.Add($"{d.MinPurchaseAmount.Value:0.000} KWD"); }
+                    if (d.MinQuantity is not null) { mins.Add($"{d.MinQuantity} items"); }
+
+                    <tr>
+                        <td><a href="/discounts/@d.Id/edit"><strong>@d.Code</strong></a></td>
+                        <td>
+                            @if (d.Type == DiscountType.Percentage)
+                            {
+                                <span class="adm-badge adm-badge--info">Percentage</span>
+                            }
+                            else if (d.Type == DiscountType.FixedAmount)
+                            {
+                                <span class="adm-badge adm-badge--warn">Fixed amount</span>
+                            }
+                            else
+                            {
+                                <span class="adm-badge">Free shipping</span>
+                            }
+                        </td>
+                        <td>
+                            @(d.Type == DiscountType.Percentage
+                                ? $"{d.Value:0.##}%"
+                                : d.Type == DiscountType.FixedAmount
+                                    ? $"{d.Value:0.000} KWD"
+                                    : "—")
+                        </td>
+                        <td>@(mins.Count == 0 ? "—" : string.Join(" · ", mins))</td>
+                        <td>
+                            @if (d.StartsAtUtc is null && d.EndsAtUtc is null)
+                            {
+                                <text>Always</text>
+                            }
+                            else
+                            {
+                                @($"{d.StartsAtUtc?.ToString("yyyy-MM-dd HH:mm") ?? "…"} → {d.EndsAtUtc?.ToString("yyyy-MM-dd HH:mm") ?? "…"}")
+                            }
+                        </td>
+                        <td>@d.TimesUsed / @(d.UsageLimitTotal?.ToString() ?? "∞")</td>
+                        <td>
+                            @if (d.IsActive)
+                            {
+                                <span class="adm-badge adm-badge--ok">Active</span>
+                            }
+                            else
+                            {
+                                <span class="adm-badge adm-badge--err">Inactive</span>
+                            }
+                        </td>
+                        <td>
+                            <div class="adm-actions">
+                                <a class="adm-btn" href="/discounts/@d.Id/edit">Edit</a>
+                                <form method="post" asp-controller="Discounts" asp-action="Delete" asp-route-id="@d.Id">
+                                    <button type="submit" class="adm-btn">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>
+
+<partial name="_Pager" model="PagerInfo.From(Model.Discounts)" />

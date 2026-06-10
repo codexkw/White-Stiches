@@ -1,0 +1,65 @@
+@model WhiteStiches.Admin.Models.InboxListViewModel
+@{
+    ViewData["Title"] = "Inbox";
+    ViewData["Nav"] = "inbox";
+}
+
+<div class="adm-toolbar">
+    <div class="adm-toolbar__filters">
+        <a href="/inbox" class="adm-btn @(Model.UnreadOnly ? "adm-btn--solid" : null)">Unread</a>
+        <a href="/inbox?unreadOnly=false" class="adm-btn @(!Model.UnreadOnly ? "adm-btn--solid" : null)">All messages</a>
+    </div>
+</div>
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">@(Model.UnreadOnly ? "Unread messages" : "All messages") (@Model.Messages.TotalCount)</h2>
+    </header>
+
+    @if (Model.Messages.Items.Count == 0)
+    {
+        <div class="adm-panel__body">
+            <div class="adm-empty">
+                <strong>@(Model.UnreadOnly ? "Inbox zero" : "No messages")</strong>
+                @(Model.UnreadOnly ? "No unread contact messages right now." : "Nothing has come through the contact form yet.")
+            </div>
+        </div>
+    }
+    else
+    {
+        <table class="adm-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Subject</th>
+                    <th>Received (UTC)</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model.Messages.Items)
+                {
+                    <tr>
+                        <td><a href="/inbox/@m.Id">@m.Name</a></td>
+                        <td>@m.Email</td>
+                        <td><a href="/inbox/@m.Id">@(string.IsNullOrWhiteSpace(m.Subject) ? "(no subject)" : m.Subject)</a></td>
+                        <td>@m.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>
+                            @if (m.IsRead)
+                            {
+                                <span class="adm-badge">Read</span>
+                            }
+                            else
+                            {
+                                <span class="adm-badge adm-badge--warn">Unread</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>
+
+<partial name="_Pager" model="PagerInfo.From(Model.Messages)" />

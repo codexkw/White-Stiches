@@ -1,0 +1,70 @@
+/* ============================================================================
+   Content module (Pages / Journal / Inbox) — extras on top of admin.css
+   ============================================================================ */
+
+/* Field-level validation messages (span asp-validation-for) */
+.field-validation-error {
+  display: block;
+  color: #d99a82;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Muted helper text under fields */
+.cnt-hint {
+  display: block;
+  color: #6b665c;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Inbox message detail */
+.cnt-msg-meta {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 6px 16px;
+  margin: 0 0 20px;
+}
+
+.cnt-msg-meta dt {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8a8478;
+}
+
+.cnt-msg-meta dd {
+  margin: 0;
+  color: #d5cfc3;
+  overflow-wrap: anywhere;
+}
+
+.cnt-msg-body {
+  white-space: pre-wrap;
+  border: 1px solid #2a2a2a;
+  background: #0a0a0a;
+  padding: 20px;
+  color: #d5cfc3;
+  line-height: 1.7;
+}
+
+/* Current hero image preview on the journal edit form */
+.cnt-hero-current {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.cnt-hero-current img {
+  width: 96px;
+  height: 64px;
+  object-fit: cover;
+  border: 1px solid #2a2a2a;
+  background: #1a1a1a;
+}
+
+/* Danger-zone panel accent */
+.cnt-danger {
+  border-color: #7a3a2a;
+}

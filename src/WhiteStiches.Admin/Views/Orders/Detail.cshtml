@@ -1,0 +1,371 @@
+@model OrderDetailViewModel
+@{
+    var o = Model.Order;
+    ViewData["Title"] = $"Order {o.OrderNumber}";
+    ViewData["Nav"] = "orders";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/modules/orders.css" asp-append-version="true" />
+}
+
+<div class="ord-head">
+    <span class="adm-badge @OrderBadges.Status(o.Status)">@o.Status</span>
+    <span class="adm-badge @OrderBadges.Payment(o.PaymentStatus)">@o.PaymentStatus</span>
+    <span class="adm-badge @OrderBadges.Fulfillment(o.FulfillmentStatus)">@o.FulfillmentStatus</span>
+    <span class="adm-badge">@o.Channel</span>
+    <span class="ord-head__meta">
+        Placed @(o.PlacedAtUtc?.ToString("yyyy-MM-dd HH:mm") ?? "—") UTC
+        · @o.Items.Sum(i => i.Quantity) item(s)
+        · @o.Total.ToString("0.000") KWD
+    </span>
+    <a href="/orders" class="adm-btn">Back to orders</a>
+</div>
+
+<div class="ord-grid">
+    <div class="ord-col">
+
+        <section class="adm-panel">
+            <header class="adm-panel__head"><h2 class="adm-panel__title">Items</h2></header>
+            <table class="adm-table">
+                <thead>
+                    <tr><th>Item</th><th>Unit price</th><th>Qty</th><th>Line total</th></tr>
+                </thead>
+                <tbody>
+                @foreach (var item in o.Items)
+                {
+                    <tr>
+                        <td>
+                            <strong>@item.TitleEn</strong>
+                            @if (!string.IsNullOrEmpty(item.VariantDescription))
+                            {
+                                <br /><span class="adm-card__hint">@item.VariantDescription</span>
+                            }
+                            @if (!string.IsNullOrEmpty(item.Sku))
+                            {
+                                <br /><span class="adm-card__hint">SKU @item.Sku</span>
+                            }
+                        </td>
+                        <td>@item.UnitPrice.ToString("0.000") KWD</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.LineTotal.ToString("0.000") KWD</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+            <div class="adm-panel__body">
+                <table class="ord-totals">
+                    <tr><td>Subtotal</td><td>@o.Subtotal.ToString("0.000") KWD</td></tr>
+                    <tr>
+                        <td>Discount@(string.IsNullOrEmpty(o.DiscountCodeSnapshot) ? "" : $" ({o.DiscountCodeSnapshot})")</td>
+                        <td>−@o.DiscountAmount.ToString("0.000") KWD</td>
+                    </tr>
+                    <tr><td>Shipping@(string.IsNullOrEmpty(o.ShippingMethodName) ? "" : $" ({o.ShippingMethodName})")</td><td>@o.ShippingAmount.ToString("0.000") KWD</td></tr>
+                    @if (o.GiftWrap || o.GiftWrapFee > 0)
+                    {
+                        <tr><td>Gift wrap</td><td>@o.GiftWrapFee.ToString("0.000") KWD</td></tr>
+                    }
+                    @if (o.TaxAmount > 0)
+                    {
+                        <tr><td>Tax</td><td>@o.TaxAmount.ToString("0.000") KWD</td></tr>
+                    }
+                    <tr class="is-total"><td>Total</td><td>@o.Total.ToString("0.000") KWD</td></tr>
+                    <tr><td>Paid</td><td>@Model.TotalPaid.ToString("0.000") KWD</td></tr>
+                    <tr><td>Refunded</td><td>@Model.TotalRefunded.ToString("0.000") KWD</td></tr>
+                    <tr><td>Refundable</td><td>@Model.RemainingRefundable.ToString("0.000") KWD</td></tr>
+                </table>
+            </div>
+        </section>
+
+        <section class="adm-panel">
+            <header class="adm-panel__head"><h2 class="adm-panel__title">Payments</h2></header>
+            @if (o.Payments.Count == 0)
+            {
+                <div class="adm-panel__body"><div class="adm-empty">No payments recorded.</div></div>
+            }
+            else
+            {
+                <table class="adm-table">
+                    <thead><tr><th>Provider</th><th>Method</th><th>Status</th><th>Amount</th><th>Reference</th><th>Processed (UTC)</th></tr></thead>
+                    <tbody>
+                    @foreach (var p in o.Payments)
+                    {
+                        <tr>
+                            <td>@p.Provider</td>
+                            <td>@p.Method</td>
+                            <td><span class="adm-badge @OrderBadges.Transaction(p.Status)">@p.Status</span></td>
+                            <td>@p.Amount.ToString("0.000") @p.Currency</td>
+                            <td>@(p.GatewayTransactionId ?? "—")</td>
+                            <td>@(p.ProcessedAtUtc?.ToString("yyyy-MM-dd HH:mm") ?? "—")</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+        </section>
+
+        @if (o.Refunds.Count > 0)
+        {
+            <section class="adm-panel">
+                <header class="adm-panel__head"><h2 class="adm-panel__title">Refunds</h2></header>
+                <table class="adm-table">
+                    <thead><tr><th>Amount</th><th>Status</th><th>Reason</th><th>Processed (UTC)</th></tr></thead>
+                    <tbody>
+                    @foreach (var r in o.Refunds)
+                    {
+                        <tr>
+                            <td>@r.Amount.ToString("0.000") KWD</td>
+                            <td><span class="adm-badge @OrderBadges.Refund(r.Status)">@r.Status</span></td>
+                            <td>@(r.Reason ?? "—")</td>
+                            <td>@(r.ProcessedAtUtc?.ToString("yyyy-MM-dd HH:mm") ?? "—")</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </section>
+        }
+
+        @if (o.Shipments.Count > 0)
+        {
+            <section class="adm-panel">
+                <header class="adm-panel__head"><h2 class="adm-panel__title">Shipments</h2></header>
+                <table class="adm-table">
+                    <thead><tr><th>Carrier</th><th>AWB</th><th>Tracking</th><th>Status</th><th>Created (UTC)</th></tr></thead>
+                    <tbody>
+                    @foreach (var s in o.Shipments)
+                    {
+                        <tr>
+                            <td>@(s.Carrier ?? "—")</td>
+                            <td>@(s.AwbNumber ?? "—")</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(s.TrackingUrl))
+                                {
+                                    <a href="@s.TrackingUrl" target="_blank" rel="noopener">Track</a>
+                                }
+                                else
+                                {
+                                    <text>—</text>
+                                }
+                            </td>
+                            <td><span class="adm-badge @OrderBadges.Shipment(s.Status)">@s.Status</span></td>
+                            <td>@s.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm")</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </section>
+        }
+
+        @if (o.ReturnRequests.Count > 0)
+        {
+            <section class="adm-panel">
+                <header class="adm-panel__head"><h2 class="adm-panel__title">Return requests</h2></header>
+                <table class="adm-table">
+                    <thead><tr><th>RMA</th><th>Status</th><th>Reason</th><th>Created (UTC)</th></tr></thead>
+                    <tbody>
+                    @foreach (var r in o.ReturnRequests)
+                    {
+                        <tr>
+                            <td><a href="/returns">@r.RmaNumber</a></td>
+                            <td><span class="adm-badge @OrderBadges.Return(r.Status)">@r.Status</span></td>
+                            <td>@(r.CustomerReason ?? "—")</td>
+                            <td>@r.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm")</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </section>
+        }
+
+        <section class="adm-panel">
+            <header class="adm-panel__head"><h2 class="adm-panel__title">Timeline</h2></header>
+            <div class="adm-panel__body">
+                <form asp-controller="Orders" asp-action="AddComment" asp-route-id="@o.Id" method="post" class="ord-inline-form">
+                    <div class="adm-field">
+                        <label for="comment-text">Staff comment</label>
+                        <input id="comment-text" type="text" name="text" placeholder="Visible to staff only" required />
+                    </div>
+                    <button type="submit" class="adm-btn">Add comment</button>
+                </form>
+
+                @if (o.Events.Count == 0)
+                {
+                    <div class="adm-empty">No events yet.</div>
+                }
+                else
+                {
+                    <ul class="ord-timeline">
+                    @foreach (var e in o.Events)
+                    {
+                        <li>
+                            <div class="ord-timeline__meta">
+                                <span class="ord-timeline__kind">@e.Kind</span>
+                                <span>@e.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm") UTC</span>
+                                @if (!string.IsNullOrEmpty(e.AuthorName))
+                                {
+                                    <span>by @e.AuthorName</span>
+                                }
+                            </div>
+                            @e.Description
+                        </li>
+                    }
+                    </ul>
+                }
+            </div>
+        </section>
+
+    </div>
+    <div class="ord-col">
+
+        <section class="adm-panel">
+            <header class="adm-panel__head"><h2 class="adm-panel__title">Customer</h2></header>
+            <div class="adm-panel__body">
+                <div class="ord-kv">
+                    <div><span>Name:</span> @o.ShipFirstName @o.ShipLastName</div>
+                    <div><span>Email:</span> @o.Email</div>
+                    <div><span>Phone:</span> @o.Phone</div>
+                    <div><span>Language:</span> @o.LanguageCode.ToUpperInvariant()</div>
+                    @if (o.UserId is not null)
+                    {
+                        <div><a href="/customers/@o.UserId" class="adm-btn">View customer</a></div>
+                    }
+                    else
+                    {
+                        <div><span>Guest checkout</span></div>
+                    }
+                </div>
+                @if (!string.IsNullOrEmpty(o.CustomerNote))
+                {
+                    <p><span class="adm-card__hint">Customer note:</span><br />@o.CustomerNote</p>
+                }
+            </div>
+        </section>
+
+        <section class="adm-panel">
+            <header class="adm-panel__head"><h2 class="adm-panel__title">Shipping address</h2></header>
+            <div class="adm-panel__body">
+                <address class="ord-address">
+                    @o.ShipFirstName @o.ShipLastName<br />
+                    @if (!string.IsNullOrEmpty(o.ShipGovernorate)) { @o.ShipGovernorate <text>, </text> } @o.ShipArea<br />
+                    Block @o.ShipBlock, @o.ShipStreet, Building @o.ShipBuilding<br />
+                    @if (!string.IsNullOrEmpty(o.ShipFloor)) { <text>Floor @o.ShipFloor</text> }
+                    @if (!string.IsNullOrEmpty(o.ShipApartment)) { <text>, Apt @o.ShipApartment</text> }
+                    @if (!string.IsNullOrEmpty(o.ShipFloor) || !string.IsNullOrEmpty(o.ShipApartment)) { <br /> }
+                    @o.ShipCountry · @o.ShipPhone
+                    @if (!string.IsNullOrEmpty(o.ShipDirections))
+                    {
+                        <br /><span class="adm-card__hint">@o.ShipDirections</span>
+                    }
+                </address>
+            </div>
+        </section>
+
+        <section class="adm-panel">
+            <header class="adm-panel__head"><h2 class="adm-panel__title">Actions</h2></header>
+            <div class="adm-panel__body ord-stack">
+
+                <form asp-controller="Orders" asp-action="UpdateStatus" asp-route-id="@o.Id" method="post">
+                    <h3>Change status</h3>
+                    <div class="ord-inline-form">
+                        <div class="adm-field">
+                            <label for="status-select">Status</label>
+                            <select id="status-select" name="status">
+                                @foreach (var s in Enum.GetValues<OrderStatus>())
+                                {
+                                    <option value="@s" selected="@(o.Status == s)">@s</option>
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="adm-btn">Update</button>
+                    </div>
+                </form>
+
+                <form asp-controller="Orders" asp-action="MarkPaid" asp-route-id="@o.Id" method="post">
+                    <h3>Mark paid (manual)</h3>
+                    <div class="ord-inline-form">
+                        <div class="adm-field adm-field--narrow">
+                            <label for="paid-amount">Amount (KWD)</label>
+                            <input id="paid-amount" type="number" step="0.001" min="0" name="amount"
+                                   placeholder="@o.Total.ToString("0.000")" />
+                        </div>
+                        <div class="adm-field">
+                            <label for="paid-reference">Reference</label>
+                            <input id="paid-reference" type="text" name="reference" placeholder="KNET ref, bank transfer…" />
+                        </div>
+                        <button type="submit" class="adm-btn">Mark paid</button>
+                    </div>
+                </form>
+
+                <form asp-controller="Orders" asp-action="Fulfill" asp-route-id="@o.Id" method="post">
+                    <h3>Fulfil &amp; ship</h3>
+                    <div class="ord-inline-form">
+                        <div class="adm-field">
+                            <label for="ship-carrier">Carrier</label>
+                            <input id="ship-carrier" type="text" name="carrier" placeholder="DHL, Aramex…" />
+                        </div>
+                        <div class="adm-field">
+                            <label for="ship-tracking">Tracking / AWB</label>
+                            <input id="ship-tracking" type="text" name="trackingNumber" />
+                        </div>
+                        <div class="adm-field">
+                            <label for="ship-url">Tracking URL</label>
+                            <input id="ship-url" type="text" name="trackingUrl" placeholder="https://…" />
+                        </div>
+                        <button type="submit" class="adm-btn">Create shipment</button>
+                    </div>
+                </form>
+
+                <form asp-controller="Orders" asp-action="RefundOrder" asp-route-id="@o.Id" method="post">
+                    <h3>Refund</h3>
+                    <div class="ord-inline-form">
+                        <div class="adm-field adm-field--narrow">
+                            <label for="refund-amount">Amount (KWD)</label>
+                            <input id="refund-amount" type="number" step="0.001" min="0.001"
+                                   max="@Model.RemainingRefundable.ToString("0.000")" name="amount" required />
+                        </div>
+                        <div class="adm-field">
+                            <label for="refund-reason">Reason</label>
+                            <input id="refund-reason" type="text" name="reason" />
+                        </div>
+                        <button type="submit" class="adm-btn">Refund</button>
+                    </div>
+                    <p class="adm-card__hint">Refundable: @Model.RemainingRefundable.ToString("0.000") KWD</p>
+                </form>
+
+                @if (o.Status != OrderStatus.Cancelled)
+                {
+                    <form asp-controller="Orders" asp-action="Cancel" asp-route-id="@o.Id" method="post">
+                        <h3>Cancel order</h3>
+                        <div class="ord-inline-form">
+                            <div class="adm-field">
+                                <label for="cancel-reason">Reason</label>
+                                <input id="cancel-reason" type="text" name="reason" required />
+                            </div>
+                            <div class="adm-field adm-field--check">
+                                <input id="cancel-restock" type="checkbox" name="restock" value="true" />
+                                <label for="cancel-restock">Restock items</label>
+                            </div>
+                            <button type="submit" class="adm-btn">Cancel order</button>
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <p class="adm-card__hint">
+                        Cancelled @(o.CancelledAtUtc?.ToString("yyyy-MM-dd HH:mm") ?? "") UTC — @o.CancelReason
+                    </p>
+                }
+
+                <form asp-controller="Orders" asp-action="SaveNote" asp-route-id="@o.Id" method="post">
+                    <h3>Internal note</h3>
+                    <div class="adm-field">
+                        <label for="internal-note">Staff-only note</label>
+                        <textarea id="internal-note" name="internalNote">@o.InternalNote</textarea>
+                    </div>
+                    <button type="submit" class="adm-btn">Save note</button>
+                </form>
+
+            </div>
+        </section>
+
+    </div>
+</div>

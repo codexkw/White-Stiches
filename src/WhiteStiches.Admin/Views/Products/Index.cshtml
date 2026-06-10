@@ -1,0 +1,135 @@
+@model ProductListViewModel
+@{
+    ViewData["Title"] = "Products";
+    ViewData["Nav"] = "products";
+}
+
+<section class="adm-toolbar">
+    <form method="get" action="/products" class="adm-toolbar__filters">
+        <div class="adm-field">
+            <label for="search">Search</label>
+            <input id="search" name="search" type="search" value="@Model.Search" placeholder="Title or slug" />
+        </div>
+        <div class="adm-field">
+            <label for="status">Status</label>
+            <select id="status" name="status">
+                <option value="">All statuses</option>
+                @foreach (var st in Enum.GetValues<ProductStatus>())
+                {
+                    if (Model.Status == st)
+                    {
+                        <option value="@st" selected>@st</option>
+                    }
+                    else
+                    {
+                        <option value="@st">@st</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="adm-field">
+            <label for="categoryId">Category</label>
+            <select id="categoryId" name="categoryId">
+                <option value="">All categories</option>
+                @foreach (var c in Model.Categories)
+                {
+                    if (Model.CategoryId == c.Id)
+                    {
+                        <option value="@c.Id" selected>@c.Label</option>
+                    }
+                    else
+                    {
+                        <option value="@c.Id">@c.Label</option>
+                    }
+                }
+            </select>
+        </div>
+        <button type="submit" class="adm-btn">Filter</button>
+    </form>
+    <div class="adm-actions">
+        <a href="/products/new" class="adm-btn adm-btn--solid">New product</a>
+    </div>
+</section>
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">Catalogue</h2>
+        <span>@Model.Products.TotalCount total</span>
+    </header>
+
+    @if (Model.Products.Items.Count == 0)
+    {
+        <div class="adm-panel__body">
+            <div class="adm-empty">
+                <strong>No products found</strong>
+                Adjust the filters, or create the first product.
+            </div>
+        </div>
+    }
+    else
+    {
+        <table class="adm-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Variants</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Featured</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model.Products.Items)
+                {
+                    var thumb = p.Images.OrderBy(i => i.SortOrder).FirstOrDefault()?.Url;
+                    var active = p.Variants.Where(v => v.IsActive).ToList();
+                    var priced = active.Count > 0 ? active : p.Variants.ToList();
+                    var min = priced.Count > 0 ? priced.Min(v => v.Price) : 0m;
+                    var max = priced.Count > 0 ? priced.Max(v => v.Price) : 0m;
+                    var stock = p.Variants.Sum(v => v.StockQuantity);
+
+                    <tr>
+                        <td>
+                            @if (thumb is not null)
+                            {
+                                <img class="adm-thumb" src="@thumb" alt="" />
+                            }
+                            else
+                            {
+                                <span class="adm-thumb"></span>
+                            }
+                        </td>
+                        <td>
+                            <a href="/products/@p.Id/edit"><strong>@p.TitleEn</strong></a>
+                            <div style="color:#6b665c;font-size:12px">@p.Slug</div>
+                        </td>
+                        <td>@(p.Category?.NameEn ?? "—")</td>
+                        <td>
+                            @switch (p.Status)
+                            {
+                                case ProductStatus.Active:
+                                    <span class="adm-badge adm-badge--ok">Active</span>
+                                    break;
+                                case ProductStatus.Draft:
+                                    <span class="adm-badge adm-badge--warn">Draft</span>
+                                    break;
+                                default:
+                                    <span class="adm-badge">Archived</span>
+                                    break;
+                            }
+                        </td>
+                        <td>@p.Variants.Count</td>
+                        <td>@(min == max ? $"{min:0.000}" : $"{min:0.000} – {max:0.000}") KWD</td>
+                        <td>@stock</td>
+                        <td>@(p.IsFeatured ? "★" : "")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>
+
+<partial name="_Pager" model="PagerInfo.From(Model.Products)" />

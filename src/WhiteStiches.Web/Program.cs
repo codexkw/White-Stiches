@@ -36,6 +36,9 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
+// Shared upload storage (product images etc.) written by Admin, served here at /media
+app.UseWhiteStichesMedia(builder.Configuration, app.Environment);
+
 app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}")

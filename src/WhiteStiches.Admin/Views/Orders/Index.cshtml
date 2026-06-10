@@ -1,0 +1,105 @@
+@model OrderListViewModel
+@{
+    ViewData["Title"] = "Orders";
+    ViewData["Nav"] = "orders";
+}
+
+<section class="adm-toolbar">
+    <form method="get" class="adm-toolbar__filters">
+        <div class="adm-field">
+            <label for="status">Status</label>
+            <select id="status" name="status">
+                <option value="">All</option>
+                @foreach (var s in Enum.GetValues<OrderStatus>())
+                {
+                    <option value="@s" selected="@(Model.Status == s)">@s</option>
+                }
+            </select>
+        </div>
+        <div class="adm-field">
+            <label for="paymentStatus">Payment</label>
+            <select id="paymentStatus" name="paymentStatus">
+                <option value="">All</option>
+                @foreach (var s in Enum.GetValues<PaymentStatus>())
+                {
+                    <option value="@s" selected="@(Model.PaymentStatus == s)">@s</option>
+                }
+            </select>
+        </div>
+        <div class="adm-field">
+            <label for="channel">Channel</label>
+            <select id="channel" name="channel">
+                <option value="">All</option>
+                @foreach (var c in Enum.GetValues<OrderChannel>())
+                {
+                    <option value="@c" selected="@(Model.Channel == c)">@c</option>
+                }
+            </select>
+        </div>
+        <div class="adm-field">
+            <label for="search">Search</label>
+            <input id="search" type="text" name="search" value="@Model.Search"
+                   placeholder="Number, email, name, phone" />
+        </div>
+        <button type="submit" class="adm-btn">Filter</button>
+        <a href="/orders" class="adm-btn">Reset</a>
+    </form>
+    <div class="adm-actions">
+        <a href="/orders/drafts" class="adm-btn">Draft orders</a>
+        <a href="/orders/drafts/new" class="adm-btn adm-btn--solid">New draft</a>
+    </div>
+</section>
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">Orders (@Model.Orders.TotalCount)</h2>
+    </header>
+    <table class="adm-table">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Placed (UTC)</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Payment</th>
+                <th>Fulfilment</th>
+                <th>Channel</th>
+            </tr>
+        </thead>
+        <tbody>
+        @if (Model.Orders.Items.Count == 0)
+        {
+            <tr>
+                <td colspan="9">
+                    <div class="adm-empty">
+                        <strong>No orders found</strong>
+                        Try adjusting the filters above.
+                    </div>
+                </td>
+            </tr>
+        }
+        @foreach (var o in Model.Orders.Items)
+        {
+            <tr>
+                <td><a href="/orders/@o.Id"><strong>@o.OrderNumber</strong></a></td>
+                <td>@(o.PlacedAtUtc?.ToString("yyyy-MM-dd HH:mm") ?? "—")</td>
+                <td>
+                    @o.ShipFirstName @o.ShipLastName<br />
+                    <span class="adm-card__hint">@o.Email</span>
+                </td>
+                <td>@o.Items.Sum(i => i.Quantity)</td>
+                <td>@o.Total.ToString("0.000") KWD</td>
+                <td><span class="adm-badge @OrderBadges.Status(o.Status)">@o.Status</span></td>
+                <td><span class="adm-badge @OrderBadges.Payment(o.PaymentStatus)">@o.PaymentStatus</span></td>
+                <td><span class="adm-badge @OrderBadges.Fulfillment(o.FulfillmentStatus)">@o.FulfillmentStatus</span></td>
+                <td>@o.Channel</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <div class="adm-panel__body">
+        <partial name="_Pager" model="PagerInfo.From(Model.Orders)" />
+    </div>
+</section>

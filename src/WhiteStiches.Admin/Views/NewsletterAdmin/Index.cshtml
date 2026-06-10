@@ -1,0 +1,67 @@
+@model NewsletterListViewModel
+@{
+    ViewData["Title"] = "Newsletter";
+    ViewData["Nav"] = "newsletter";
+}
+
+<section class="adm-toolbar">
+    <div class="adm-toolbar__filters">
+        <span class="adm-badge adm-badge--ok">@Model.Subscribers.TotalCount subscribers</span>
+    </div>
+    <div class="adm-actions">
+        <a href="/newsletter/export" class="adm-btn adm-btn--solid">Export CSV</a>
+    </div>
+</section>
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">Subscribers</h2>
+    </header>
+
+    @if (Model.Subscribers.Items.Count == 0)
+    {
+        <div class="adm-panel__body">
+            <div class="adm-empty">
+                <strong>No subscribers yet</strong>
+                Signups from the storefront newsletter band will appear here.
+            </div>
+        </div>
+    }
+    else
+    {
+        <table class="adm-table">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Language</th>
+                    <th>WhatsApp</th>
+                    <th>Source</th>
+                    <th>Subscribed (UTC)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var s in Model.Subscribers.Items)
+                {
+                    <tr>
+                        <td>@s.Email</td>
+                        <td>@s.LanguageCode.ToUpperInvariant()</td>
+                        <td>
+                            @if (s.WhatsAppOptIn)
+                            {
+                                <span class="adm-badge adm-badge--ok">Opted in</span>
+                            }
+                            else
+                            {
+                                <span class="adm-badge">No</span>
+                            }
+                        </td>
+                        <td>@(string.IsNullOrEmpty(s.Source) ? "—" : s.Source)</td>
+                        <td>@s.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>
+
+<partial name="_Pager" model="PagerInfo.From(Model.Subscribers)" />

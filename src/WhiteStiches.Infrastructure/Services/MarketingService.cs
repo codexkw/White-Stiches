@@ -60,8 +60,39 @@ public class MarketingService(WhiteStichesDbContext db) : IMarketingService
         return await query.OrderByDescending(d => d.CreatedAtUtc).ToListAsync(ct);
     }
 
+    public async Task<PagedResult<DiscountCode>> GetDiscountCodesPagedAsync(string? search = null, bool activeOnly = false,
+        int page = 1, int pageSize = 20, CancellationToken ct = default)
+    {
+        var query = db.DiscountCodes.AsNoTracking().AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var term = search.Trim().ToUpperInvariant();
+            query = query.Where(d => d.Code.ToUpper().Contains(term));
+        }
+
+        if (activeOnly) query = query.Where(d => d.IsActive);
+
+        query = query.OrderByDescending(d => d.CreatedAtUtc);
+
+        var total = await query.CountAsync(ct);
+        var items = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync(ct);
+
+        return new PagedResult<DiscountCode> { Items = items, TotalCount = total, Page = page, PageSize = pageSize };
+    }
+
     public async Task<DiscountCode?> GetDiscountCodeAsync(int id, CancellationToken ct = default) =>
         await db.DiscountCodes.FindAsync([id], ct);
+
+    public async Task<bool> DiscountCodeExistsAsync(string code, int excludeId = 0, CancellationToken ct = default)
+    {
+        var normalized = code.Trim().ToUpperInvariant();
+        return await db.DiscountCodes.AsNoTracking()
+            .AnyAsync(d => d.Id != excludeId && d.Code.ToUpper() == normalized, ct);
+    }
+
+    public Task<bool> IsDiscountCodeUsedByOrdersAsync(int discountCodeId, CancellationToken ct = default) =>
+        db.Orders.AsNoTracking().AnyAsync(o => o.DiscountCodeId == discountCodeId, ct);
 
     public async Task<DiscountCode> SaveDiscountCodeAsync(DiscountCode code, CancellationToken ct = default)
     {
@@ -128,4 +159,10 @@ public class MarketingService(WhiteStichesDbContext db) : IMarketingService
 
         return new PagedResult<NewsletterSubscriber> { Items = items, TotalCount = total, Page = page, PageSize = pageSize };
     }
+
+    public async Task<IReadOnlyList<NewsletterSubscriber>> GetAllSubscribersAsync(CancellationToken ct = default) =>
+        await db.NewsletterSubscribers.AsNoTracking()
+            .Where(s => s.UnsubscribedAtUtc == null)
+            .OrderByDescending(s => s.CreatedAtUtc)
+            .ToListAsync(ct);
 }

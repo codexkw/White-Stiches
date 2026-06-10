@@ -1,0 +1,139 @@
+@model WhiteStiches.Admin.Models.JournalEditViewModel
+@{
+    var isNew = Model.Id == 0;
+    ViewData["Title"] = isNew ? "New post" : $"Edit post — {Model.TitleEn}";
+    ViewData["Nav"] = "journal";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/modules/content.css" asp-append-version="true" />
+}
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">@(isNew ? "New post" : "Edit post")</h2>
+        <a href="/journal" class="adm-btn">Back to journal</a>
+    </header>
+    <div class="adm-panel__body">
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="adm-toast adm-toast--err" role="alert">Please fix the highlighted fields below.</div>
+        }
+
+        <form asp-controller="JournalAdmin" asp-action="Save" method="post" enctype="multipart/form-data" class="adm-form-grid">
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="HeroImageUrl" />
+
+            <div class="adm-field">
+                <label asp-for="TitleEn">Title (EN)</label>
+                <input asp-for="TitleEn" />
+                <span asp-validation-for="TitleEn"></span>
+            </div>
+            <div class="adm-field">
+                <label asp-for="TitleAr">Title (AR)</label>
+                <input asp-for="TitleAr" dir="rtl" />
+            </div>
+
+            <div class="adm-field">
+                <label asp-for="Slug">Slug</label>
+                <input asp-for="Slug" placeholder="auto-generated from EN title" />
+                <span class="cnt-hint">Leave blank to generate from the English title. Collisions get -2, -3…</span>
+            </div>
+            <div class="adm-field">
+                <label asp-for="AuthorName">Author</label>
+                <input asp-for="AuthorName" />
+            </div>
+
+            <div class="adm-field">
+                <label asp-for="JournalCategoryId">Category</label>
+                <select asp-for="JournalCategoryId">
+                    <option value="">— No category —</option>
+                    @foreach (var c in Model.Categories)
+                    {
+                        <option value="@c.Id">@c.NameEn</option>
+                    }
+                </select>
+            </div>
+            <div class="adm-field">
+                <label asp-for="NewCategoryName">Or create a category</label>
+                <input asp-for="NewCategoryName" placeholder="e.g. Behind the Seams" />
+                <span class="cnt-hint">When filled, this category is created and assigned instead of the selection.</span>
+            </div>
+
+            <div class="adm-field">
+                <label asp-for="Tags">Tags</label>
+                <input asp-for="Tags" placeholder="comma, separated, tags" />
+            </div>
+            <div class="adm-field">
+                <label asp-for="ReadingTimeMinutes">Reading time (minutes)</label>
+                <input asp-for="ReadingTimeMinutes" type="number" min="1" />
+            </div>
+
+            <div class="adm-field is-full">
+                <label asp-for="HeroImage">Hero image</label>
+                <input asp-for="HeroImage" type="file" accept="image/*" />
+                <span class="cnt-hint">Optional — leave empty to keep the current image.</span>
+                @if (!string.IsNullOrEmpty(Model.HeroImageUrl))
+                {
+                    <div class="cnt-hero-current">
+                        <img src="@Model.HeroImageUrl" alt="Current hero image" />
+                        <span class="cnt-hint">@Model.HeroImageUrl</span>
+                    </div>
+                }
+            </div>
+
+            <div class="adm-field is-full">
+                <label asp-for="ExcerptEn">Excerpt (EN)</label>
+                <textarea asp-for="ExcerptEn" rows="3"></textarea>
+            </div>
+            <div class="adm-field is-full">
+                <label asp-for="ExcerptAr">Excerpt (AR)</label>
+                <textarea asp-for="ExcerptAr" rows="3" dir="rtl"></textarea>
+            </div>
+
+            <div class="adm-field is-full">
+                <label asp-for="BodyEn">Body EN (HTML)</label>
+                <textarea asp-for="BodyEn" rows="14" spellcheck="false"></textarea>
+                <span class="cnt-hint">Raw HTML — rendered as-is on the storefront.</span>
+            </div>
+            <div class="adm-field is-full">
+                <label asp-for="BodyAr">Body AR (HTML)</label>
+                <textarea asp-for="BodyAr" rows="14" dir="rtl" spellcheck="false"></textarea>
+            </div>
+
+            <div class="adm-field adm-field--check">
+                <input asp-for="IsPublished" />
+                <label asp-for="IsPublished">Published</label>
+            </div>
+            <div class="adm-field">
+                <label asp-for="PublishAtUtc">Publish date (UTC)</label>
+                <input asp-for="PublishAtUtc" type="datetime-local" />
+                <span asp-validation-for="PublishAtUtc"></span>
+                <span class="cnt-hint">Optional. A future date schedules the post; blank publishes immediately.</span>
+            </div>
+
+            <div class="adm-actions is-full">
+                <button type="submit" class="adm-btn adm-btn--solid">@(isNew ? "Create post" : "Save changes")</button>
+                <a href="/journal" class="adm-btn">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>
+
+@if (!isNew)
+{
+    <section class="adm-panel cnt-danger">
+        <header class="adm-panel__head">
+            <h2 class="adm-panel__title">Delete post</h2>
+        </header>
+        <div class="adm-panel__body">
+            <form asp-controller="JournalAdmin" asp-action="Delete" asp-route-id="@Model.Id" method="post" class="adm-actions">
+                <label class="adm-field--check">
+                    <input type="checkbox" name="confirm" value="yes" />
+                    Yes, permanently delete “@Model.TitleEn”
+                </label>
+                <button type="submit" class="adm-btn">Delete post</button>
+            </form>
+        </div>
+    </section>
+}

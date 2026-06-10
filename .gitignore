@@ -48,6 +48,9 @@ PublishScripts/
 *.pfx
 *.key
 
+# Shared upload storage (served at /media by both apps)
+storage/
+
 # OS cruft
 Thumbs.db
 Desktop.ini

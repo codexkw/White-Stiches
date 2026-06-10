@@ -1,0 +1,346 @@
+@model CollectionEditViewModel
+@{
+    ViewData["Title"] = Model.IsNew ? "New collection" : $"Collection · {Model.Form.TitleEn}";
+    ViewData["Nav"] = "collections";
+}
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">@(Model.IsNew ? "New collection" : "Details")</h2>
+        <a class="adm-btn" href="/collections">Back to collections</a>
+    </header>
+    <div class="adm-panel__body">
+        @if (!Model.IsNew)
+        {
+            <p style="margin:0 0 16px; font-size:12px; color:#6b665c;">
+                Created @Model.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm") UTC
+                @if (Model.UpdatedAtUtc is DateTime updated)
+                {
+                    <text>· Updated @updated.ToString("yyyy-MM-dd HH:mm") UTC</text>
+                }
+            </p>
+        }
+
+        <form method="post" action="/collections/save" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="Id" value="@Model.Form.Id" />
+
+            <div class="adm-form-grid">
+                <div class="adm-field">
+                    <label for="TitleEn">Title (EN) *</label>
+                    <input id="TitleEn" name="TitleEn" value="@Model.Form.TitleEn" required maxlength="200" />
+                </div>
+                <div class="adm-field">
+                    <label for="TitleAr">Title (AR)</label>
+                    <input id="TitleAr" name="TitleAr" value="@Model.Form.TitleAr" dir="rtl" maxlength="200" />
+                </div>
+                <div class="adm-field">
+                    <label for="Slug">Slug — blank = auto from EN title</label>
+                    <input id="Slug" name="Slug" value="@Model.Form.Slug" maxlength="200" />
+                </div>
+                <div class="adm-field">
+                    <label for="SortOrder">Storefront sort order</label>
+                    <select id="SortOrder" name="SortOrder">
+                        @foreach (var option in Enum.GetValues<CollectionSortOrder>())
+                        {
+                            <option value="@option" selected="@(Model.Form.SortOrder == option ? "selected" : null)">@option</option>
+                        }
+                    </select>
+                </div>
+                <div class="adm-field is-full">
+                    <label for="DescriptionEn">Description (EN)</label>
+                    <textarea id="DescriptionEn" name="DescriptionEn">@Model.Form.DescriptionEn</textarea>
+                </div>
+                <div class="adm-field is-full">
+                    <label for="DescriptionAr">Description (AR)</label>
+                    <textarea id="DescriptionAr" name="DescriptionAr" dir="rtl">@Model.Form.DescriptionAr</textarea>
+                </div>
+                <div class="adm-field">
+                    <label for="HeroImage">Hero image (optional)</label>
+                    <input id="HeroImage" name="HeroImage" type="file" accept="image/*" />
+                    @if (!string.IsNullOrEmpty(Model.Form.ImageUrl))
+                    {
+                        <img class="adm-thumb" src="@Model.Form.ImageUrl" alt="Current hero image" style="margin-top:8px;" />
+                    }
+                </div>
+                <div class="adm-field">
+                    <label for="BannerImage">Banner image (optional)</label>
+                    <input id="BannerImage" name="BannerImage" type="file" accept="image/*" />
+                    @if (!string.IsNullOrEmpty(Model.Form.BannerUrl))
+                    {
+                        <img class="adm-thumb" src="@Model.Form.BannerUrl" alt="Current banner image" style="margin-top:8px;" />
+                    }
+                </div>
+                <div class="adm-field">
+                    <label for="SeoTitleEn">SEO title (EN)</label>
+                    <input id="SeoTitleEn" name="SeoTitleEn" value="@Model.Form.SeoTitleEn" maxlength="200" />
+                </div>
+                <div class="adm-field">
+                    <label for="SeoTitleAr">SEO title (AR)</label>
+                    <input id="SeoTitleAr" name="SeoTitleAr" value="@Model.Form.SeoTitleAr" dir="rtl" maxlength="200" />
+                </div>
+                <div class="adm-field">
+                    <label for="SeoDescriptionEn">SEO description (EN)</label>
+                    <input id="SeoDescriptionEn" name="SeoDescriptionEn" value="@Model.Form.SeoDescriptionEn" maxlength="320" />
+                </div>
+                <div class="adm-field">
+                    <label for="SeoDescriptionAr">SEO description (AR)</label>
+                    <input id="SeoDescriptionAr" name="SeoDescriptionAr" value="@Model.Form.SeoDescriptionAr" dir="rtl" maxlength="320" />
+                </div>
+                <div class="adm-field adm-field--check">
+                    <input type="checkbox" id="IsActive" name="IsActive" value="true" checked="@(Model.Form.IsActive ? "checked" : null)" />
+                    <label for="IsActive">Active — visible on the storefront</label>
+                </div>
+                <div class="adm-field adm-field--check">
+                    <input type="checkbox" id="IsSmart" name="IsSmart" value="true" checked="@(Model.Form.IsSmart ? "checked" : null)" />
+                    <label for="IsSmart">Smart collection — products selected by rules</label>
+                </div>
+            </div>
+
+            <div class="adm-actions" style="margin-top:20px;">
+                <button type="submit" class="adm-btn adm-btn--solid">@(Model.IsNew ? "Create collection" : "Save changes")</button>
+            </div>
+        </form>
+
+        @if (Model.IsNew)
+        {
+            <p style="margin:16px 0 0; font-size:12px; color:#6b665c;">
+                Save the collection first, then curate products (manual) or define rules (smart).
+            </p>
+        }
+    </div>
+</section>
+
+@if (!Model.IsNew && !Model.Form.IsSmart)
+{
+    <section class="adm-panel">
+        <header class="adm-panel__head">
+            <h2 class="adm-panel__title">Curated products (@Model.Products.Count)</h2>
+        </header>
+        <div class="adm-panel__body">
+            <form method="get" action="/collections/@Model.Form.Id/edit" class="adm-toolbar__filters" style="margin-bottom:16px;">
+                <div class="adm-field">
+                    <label for="productSearch">Find active products to add</label>
+                    <input id="productSearch" name="productSearch" value="@Model.ProductSearch" placeholder="Title, slug, type, vendor or tag…" />
+                </div>
+                <button type="submit" class="adm-btn">Search</button>
+            </form>
+
+            @if (Model.ShowPickerResults)
+            {
+                @if (Model.PickerResults.Count == 0)
+                {
+                    <p style="color:#6b665c;">No matching active products — products already in this collection are hidden.</p>
+                }
+                else
+                {
+                    <table class="adm-table" style="margin-bottom:24px;">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Product</th>
+                            <th>Type</th>
+                            <th>Price</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var p in Model.PickerResults)
+                        {
+                            <tr>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(p.ImageUrl))
+                                    {
+                                        <img class="adm-thumb" src="@p.ImageUrl" alt="@p.TitleEn" />
+                                    }
+                                </td>
+                                <td>@p.TitleEn <span style="color:#6b665c;">(@p.Slug)</span></td>
+                                <td>@p.Type</td>
+                                <td>@(p.Price.HasValue ? "KWD " + p.Price.Value.ToString("0.000") : "—")</td>
+                                <td>
+                                    <form method="post" action="/collections/@Model.Form.Id/products/add">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="productId" value="@p.ProductId" />
+                                        <input type="hidden" name="productSearch" value="@Model.ProductSearch" />
+                                        <button type="submit" class="adm-btn">Add</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                }
+            }
+
+            @if (Model.Products.Count == 0)
+            {
+                <div class="adm-empty">
+                    <strong>No products yet</strong>
+                    Search above to find active products and add them to this collection.
+                </div>
+            }
+            else
+            {
+                <table class="adm-table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th></th>
+                        <th>Product</th>
+                        <th>Type</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for (var i = 0; i < Model.Products.Count; i++)
+                    {
+                        var row = Model.Products[i];
+                        <tr>
+                            <td>@(i + 1)</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(row.ImageUrl))
+                                {
+                                    <img class="adm-thumb" src="@row.ImageUrl" alt="@row.TitleEn" />
+                                }
+                            </td>
+                            <td>@row.TitleEn <span style="color:#6b665c;">(@row.Slug)</span></td>
+                            <td>@row.Type</td>
+                            <td>@(row.Price.HasValue ? "KWD " + row.Price.Value.ToString("0.000") : "—")</td>
+                            <td>
+                                <div class="adm-actions">
+                                    <form method="post" action="/collections/@Model.Form.Id/products/@row.ProductId/move?dir=up">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="adm-btn" title="Move up" disabled="@(i == 0 ? "disabled" : null)">&uarr;</button>
+                                    </form>
+                                    <form method="post" action="/collections/@Model.Form.Id/products/@row.ProductId/move?dir=down">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="adm-btn" title="Move down" disabled="@(i == Model.Products.Count - 1 ? "disabled" : null)">&darr;</button>
+                                    </form>
+                                    <form method="post" action="/collections/@Model.Form.Id/products/@row.ProductId/remove">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="adm-btn">Remove</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </section>
+}
+
+@if (!Model.IsNew && Model.Form.IsSmart)
+{
+    <section class="adm-panel">
+        <header class="adm-panel__head">
+            <h2 class="adm-panel__title">Smart rules</h2>
+            @if (Model.HasSavedRules)
+            {
+                <span class="adm-badge adm-badge--info">@Model.PreviewCount matching product@(Model.PreviewCount == 1 ? "" : "s")</span>
+            }
+            else
+            {
+                <span class="adm-badge adm-badge--warn">No rules saved yet</span>
+            }
+        </header>
+        <div class="adm-panel__body">
+            <form method="post" action="/collections/@Model.Form.Id/rules">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="rows" value="@Model.RulesForm.Rows" />
+
+                <div class="adm-field" style="max-width:280px; margin-bottom:16px;">
+                    <label for="match">Products must match</label>
+                    <select id="match" name="match">
+                        <option value="all" selected="@(Model.RulesForm.Match != "any" ? "selected" : null)">All rules (AND)</option>
+                        <option value="any" selected="@(Model.RulesForm.Match == "any" ? "selected" : null)">Any rule (OR)</option>
+                    </select>
+                </div>
+
+                <table class="adm-table">
+                    <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Operator</th>
+                        <th>Value</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @for (var i = 0; i < Model.RulesForm.Rules.Count; i++)
+                    {
+                        var rule = Model.RulesForm.Rules[i];
+                        <tr>
+                            <td>
+                                <select name="rules[@i].Field" aria-label="Rule @(i + 1) field">
+                                    <option value="tag" selected="@(rule.Field == "tag" ? "selected" : null)">Tag</option>
+                                    <option value="type" selected="@(rule.Field == "type" ? "selected" : null)">Type</option>
+                                    <option value="vendor" selected="@(rule.Field == "vendor" ? "selected" : null)">Vendor</option>
+                                    <option value="price" selected="@(rule.Field == "price" ? "selected" : null)">Price (any active variant, KWD)</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="rules[@i].Operator" aria-label="Rule @(i + 1) operator">
+                                    <option value="equals" selected="@(rule.Operator == "equals" ? "selected" : null)">equals</option>
+                                    <option value="contains" selected="@(rule.Operator == "contains" ? "selected" : null)">contains</option>
+                                    <option value="gt" selected="@(rule.Operator == "gt" ? "selected" : null)">greater than (price)</option>
+                                    <option value="lt" selected="@(rule.Operator == "lt" ? "selected" : null)">less than (price)</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input name="rules[@i].Value" value="@rule.Value" aria-label="Rule @(i + 1) value" placeholder="e.g. linen or 25.000" />
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+
+                <div class="adm-actions" style="margin-top:16px;">
+                    <button type="submit" name="addRow" value="1" class="adm-btn">Add rule</button>
+                    <button type="submit" class="adm-btn adm-btn--solid">Save rules</button>
+                </div>
+                <p style="margin:12px 0 0; font-size:12px; color:#6b665c;">
+                    Rows with an empty value are ignored when saving.
+                </p>
+            </form>
+
+            @if (Model.HasSavedRules)
+            {
+                <div style="margin-top:24px; border-top:1px solid #2a2a2a; padding-top:16px;">
+                    <p style="margin:0 0 12px;">
+                        <strong>Preview:</strong> @Model.PreviewCount active product@(Model.PreviewCount == 1 ? "" : "s") match the saved rules.
+                        @if (Model.PreviewTitles.Count > 0)
+                        {
+                            <span style="color:#6b665c;"> First @Model.PreviewTitles.Count: @(string.Join(", ", Model.PreviewTitles))</span>
+                        }
+                    </p>
+                    <p style="margin:0 0 12px; color:#6b665c;">
+                        Collection currently contains @Model.Products.Count product@(Model.Products.Count == 1 ? "" : "s").
+                        Applying replaces them with the @Model.PreviewCount match@(Model.PreviewCount == 1 ? "" : "es") above.
+                    </p>
+                    <form method="post" action="/collections/@Model.Form.Id/rules/apply">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="adm-btn adm-btn--solid">Apply rules now</button>
+                    </form>
+                </div>
+            }
+        </div>
+    </section>
+}
+
+@if (!Model.IsNew)
+{
+    <section class="adm-panel">
+        <header class="adm-panel__head">
+            <h2 class="adm-panel__title">Danger zone</h2>
+        </header>
+        <div class="adm-panel__body">
+            <form method="post" action="/collections/@Model.Form.Id/delete"
+                  onsubmit="return confirm('Delete this collection? Products themselves are not deleted.');">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="adm-btn">Delete collection</button>
+            </form>
+        </div>
+    </section>
+}

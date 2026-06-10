@@ -1,0 +1,11 @@
+/* Discounts module — validation message styling on top of admin.css */
+
+.field-validation-error {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #d99a82;
+}
+
+.dsc-summary { margin-bottom: 16px; }
+.dsc-summary ul { margin: 0; padding-left: 18px; }

@@ -1,0 +1,49 @@
+@model ContactMessage
+@{
+    ViewData["Title"] = $"Message — {Model.Name}";
+    ViewData["Nav"] = "inbox";
+
+    var replySubject = Uri.EscapeDataString("Re: " + (string.IsNullOrWhiteSpace(Model.Subject)
+        ? "Your message to White Stitches"
+        : Model.Subject));
+    var mailto = $"mailto:{Model.Email}?subject={replySubject}";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/modules/content.css" asp-append-version="true" />
+}
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">@(string.IsNullOrWhiteSpace(Model.Subject) ? "(no subject)" : Model.Subject)</h2>
+        <div class="adm-actions">
+            <a href="@mailto" class="adm-btn adm-btn--solid">Reply via email</a>
+            <a href="/inbox" class="adm-btn">Back to inbox</a>
+        </div>
+    </header>
+    <div class="adm-panel__body">
+        <dl class="cnt-msg-meta">
+            <dt>From</dt>
+            <dd>@Model.Name</dd>
+
+            <dt>Email</dt>
+            <dd>@Model.Email</dd>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Phone))
+            {
+                <dt>Phone</dt>
+                <dd>@Model.Phone</dd>
+            }
+
+            <dt>Received (UTC)</dt>
+            <dd>@Model.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm")</dd>
+
+            <dt>Status</dt>
+            <dd><span class="adm-badge adm-badge--ok">Read</span></dd>
+        </dl>
+
+        <div class="cnt-msg-body">@Model.Body</div>
+
+        <p class="cnt-hint">Replying opens your mail client — in-app SMTP sending lands in Phase 1C.</p>
+    </div>
+</section>

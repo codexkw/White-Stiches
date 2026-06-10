@@ -10,12 +10,26 @@ public interface IMarketingService
     Task<DiscountValidationResult> ValidateDiscountCodeAsync(string code, decimal cartSubtotal, int cartItemCount, Guid? userId = null, CancellationToken ct = default);
 
     Task<IReadOnlyList<DiscountCode>> GetDiscountCodesAsync(bool activeOnly = false, CancellationToken ct = default);
+
+    /// <summary>Paged discount-code listing for the back office with code search and active-only filter (AD-MKT-01).</summary>
+    Task<PagedResult<DiscountCode>> GetDiscountCodesPagedAsync(string? search = null, bool activeOnly = false,
+        int page = 1, int pageSize = 20, CancellationToken ct = default);
+
     Task<DiscountCode?> GetDiscountCodeAsync(int id, CancellationToken ct = default);
     Task<DiscountCode> SaveDiscountCodeAsync(DiscountCode code, CancellationToken ct = default);
     Task DeleteDiscountCodeAsync(int id, CancellationToken ct = default);
 
+    /// <summary>True when a different discount code (excluding <paramref name="excludeId"/>) already uses this code (case-insensitive).</summary>
+    Task<bool> DiscountCodeExistsAsync(string code, int excludeId = 0, CancellationToken ct = default);
+
+    /// <summary>True when at least one order references the discount code — delete should deactivate instead.</summary>
+    Task<bool> IsDiscountCodeUsedByOrdersAsync(int discountCodeId, CancellationToken ct = default);
+
     Task<bool> SubscribeToNewsletterAsync(string email, bool whatsAppOptIn, string languageCode = "en", string? source = null, CancellationToken ct = default);
     Task<PagedResult<NewsletterSubscriber>> GetSubscribersAsync(int page = 1, int pageSize = 50, CancellationToken ct = default);
+
+    /// <summary>All active (non-unsubscribed) subscribers, newest first — used by the admin CSV export.</summary>
+    Task<IReadOnlyList<NewsletterSubscriber>> GetAllSubscribersAsync(CancellationToken ct = default);
 }
 
 public class DiscountValidationResult

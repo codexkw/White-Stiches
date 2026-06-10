@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600&family=Inter+Tight:wght@300;400;500;600&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/design-system.css" />
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
 <div class="adm">
@@ -21,25 +22,29 @@
         </a>
 
         <nav class="adm-nav" aria-label="Admin navigation">
+            @{ var nav = ViewData["Nav"] as string; }
             <div class="adm-side__label">Store</div>
-            <a href="/" class="@(ViewData["Nav"] as string == "dashboard" ? "is-active" : null)">Dashboard</a>
-            <span>Orders <em class="soon">soon</em></span>
-            <span>Products <em class="soon">soon</em></span>
-            <span>Collections <em class="soon">soon</em></span>
-            <span>Customers <em class="soon">soon</em></span>
+            <a href="/" class="@(nav == "dashboard" ? "is-active" : null)">Dashboard</a>
+            <a href="/orders" class="@(nav == "orders" ? "is-active" : null)">Orders</a>
+            <a href="/returns" class="@(nav == "returns" ? "is-active" : null)">Returns</a>
+            <a href="/products" class="@(nav == "products" ? "is-active" : null)">Products</a>
+            <a href="/categories" class="@(nav == "categories" ? "is-active" : null)">Categories</a>
+            <a href="/collections" class="@(nav == "collections" ? "is-active" : null)">Collections</a>
+            <a href="/customers" class="@(nav == "customers" ? "is-active" : null)">Customers</a>
 
             <div class="adm-side__label">Marketing</div>
-            <span>Discounts <em class="soon">soon</em></span>
-            <span>Newsletter <em class="soon">soon</em></span>
+            <a href="/discounts" class="@(nav == "discounts" ? "is-active" : null)">Discounts</a>
+            <a href="/newsletter" class="@(nav == "newsletter" ? "is-active" : null)">Newsletter</a>
 
             <div class="adm-side__label">Content</div>
-            <span>Pages <em class="soon">soon</em></span>
-            <span>Journal <em class="soon">soon</em></span>
+            <a href="/pages" class="@(nav == "pages" ? "is-active" : null)">Pages</a>
+            <a href="/journal" class="@(nav == "journal" ? "is-active" : null)">Journal</a>
+            <a href="/inbox" class="@(nav == "inbox" ? "is-active" : null)">Inbox</a>
 
             <div class="adm-side__label">System</div>
-            <span>Settings <em class="soon">soon</em></span>
-            <span>Staff &amp; Roles <em class="soon">soon</em></span>
-            <span>Audit Log <em class="soon">soon</em></span>
+            <a href="/settings" class="@(nav == "settings" ? "is-active" : null)">Settings</a>
+            <a href="/staff" class="@(nav == "staff" ? "is-active" : null)">Staff &amp; Roles</a>
+            <a href="/audit" class="@(nav == "audit" ? "is-active" : null)">Audit Log</a>
         </nav>
     </aside>
 
@@ -55,6 +60,14 @@
         </header>
 
         <main class="adm-content">
+            @if (TempData["Ok"] is string ok)
+            {
+                <div class="adm-toast adm-toast--ok" role="status">@ok</div>
+            }
+            @if (TempData["Err"] is string err)
+            {
+                <div class="adm-toast adm-toast--err" role="alert">@err</div>
+            }
             @RenderBody()
         </main>
     </div>

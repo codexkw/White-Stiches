@@ -1,0 +1,96 @@
+/* ============================================================================
+   Customers module — profile layout helpers on top of admin.css
+   ============================================================================ */
+
+/* Identity + consent side-by-side */
+.cust-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+}
+
+/* Definition list for the identity block */
+.cust-dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 10px 28px;
+  margin: 0;
+}
+
+.cust-dl dt {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8a8478;
+  align-self: center;
+}
+
+.cust-dl dd {
+  margin: 0;
+  color: #d5cfc3;
+}
+
+/* Consent status rows */
+.cust-consent {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cust-consent__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid #1d1d1d;
+  padding-bottom: 14px;
+  color: #d5cfc3;
+}
+
+.cust-consent__meta {
+  margin: 16px 0 0;
+  font-size: 12px;
+  color: #6b665c;
+}
+
+/* Address cards */
+.cust-addr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.cust-addr {
+  border: 1px solid #2a2a2a;
+  background: #0e0e0e;
+  padding: 16px 18px;
+  font-size: 13px;
+  color: #d5cfc3;
+}
+
+.cust-addr__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.cust-addr__label {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-accent, #c8a96a);
+}
+
+.cust-addr__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cust-addr__directions {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #8a8478;
+}

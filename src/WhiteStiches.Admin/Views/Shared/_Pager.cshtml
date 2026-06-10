@@ -1,0 +1,36 @@
+@model WhiteStiches.Admin.Models.PagerInfo
+@functions {
+    string PageUrl(int page)
+    {
+        var parts = Context.Request.Query
+            .Where(kv => !string.Equals(kv.Key, "page", StringComparison.OrdinalIgnoreCase))
+            .SelectMany(kv => kv.Value.Select(v => $"{Uri.EscapeDataString(kv.Key)}={Uri.EscapeDataString(v ?? string.Empty)}"))
+            .ToList();
+        parts.Add($"page={page}");
+        return $"{Context.Request.Path}?{string.Join("&", parts)}";
+    }
+}
+@if (Model.TotalPages > 1)
+{
+    <nav class="adm-pager" aria-label="Pagination">
+        @if (Model.Page > 1)
+        {
+            <a href="@PageUrl(Model.Page - 1)">&lsaquo; Prev</a>
+        }
+        @for (var i = Math.Max(1, Model.Page - 2); i <= Math.Min(Model.TotalPages, Model.Page + 2); i++)
+        {
+            if (i == Model.Page)
+            {
+                <span class="is-current">@i</span>
+            }
+            else
+            {
+                <a href="@PageUrl(i)">@i</a>
+            }
+        }
+        @if (Model.Page < Model.TotalPages)
+        {
+            <a href="@PageUrl(Model.Page + 1)">Next &rsaquo;</a>
+        }
+    </nav>
+}

@@ -1,0 +1,57 @@
+@model IReadOnlyList<StaticPage>
+@{
+    ViewData["Title"] = "Pages";
+    ViewData["Nav"] = "pages";
+}
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">Static pages</h2>
+        <a href="/pages/new" class="adm-btn adm-btn--solid">New page</a>
+    </header>
+
+    @if (Model.Count == 0)
+    {
+        <div class="adm-panel__body">
+            <div class="adm-empty">
+                <strong>No pages yet</strong>
+                Create the first static page — About, Shipping, Returns, Privacy, Terms…
+            </div>
+        </div>
+    }
+    else
+    {
+        <table class="adm-table">
+            <thead>
+                <tr>
+                    <th>Title (EN)</th>
+                    <th>Slug</th>
+                    <th>Status</th>
+                    <th>Updated (UTC)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td><a href="/pages/@p.Id/edit">@p.TitleEn</a></td>
+                        <td><code>@p.Slug</code></td>
+                        <td>
+                            @if (p.IsPublished)
+                            {
+                                <span class="adm-badge adm-badge--ok">Published</span>
+                            }
+                            else
+                            {
+                                <span class="adm-badge adm-badge--warn">Hidden</span>
+                            }
+                        </td>
+                        <td>@((p.UpdatedAtUtc ?? p.CreatedAtUtc).ToString("yyyy-MM-dd HH:mm"))</td>
+                        <td><a href="/pages/@p.Id/edit" class="adm-btn">Edit</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>

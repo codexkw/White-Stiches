@@ -1,0 +1,94 @@
+@model WhiteStiches.Admin.Models.ReturnsQueueViewModel
+@{
+    ViewData["Title"] = "Returns";
+    ViewData["Nav"] = "returns";
+
+    static string BadgeClass(ReturnStatus status) => status switch
+    {
+        ReturnStatus.Pending => "adm-badge--warn",
+        ReturnStatus.Approved => "adm-badge--ok",
+        ReturnStatus.Received => "adm-badge--info",
+        ReturnStatus.Refunded => "adm-badge--ok",
+        ReturnStatus.Rejected => "adm-badge--err",
+        _ => string.Empty
+    };
+
+    static string ReasonSummary(ReturnRequest request)
+    {
+        var reason = !string.IsNullOrWhiteSpace(request.CustomerReason)
+            ? request.CustomerReason!
+            : string.Join("; ", request.Items
+                .Select(i => i.Reason)
+                .Where(r => !string.IsNullOrWhiteSpace(r))
+                .Distinct());
+
+        if (string.IsNullOrWhiteSpace(reason)) return "—";
+        return reason.Length > 70 ? reason[..67] + "…" : reason;
+    }
+}
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">Returns queue</h2>
+        <form method="get" action="/returns" class="adm-toolbar__filters">
+            <div class="adm-field">
+                <label for="status">Status</label>
+                <select id="status" name="status">
+                    @{ var current = Model.StatusFilter; }
+                    <option value="" selected="@(current == string.Empty)">All</option>
+                    @foreach (var s in Enum.GetValues<ReturnStatus>())
+                    {
+                        <option value="@s" selected="@(current == s.ToString())">@s</option>
+                    }
+                </select>
+            </div>
+            <button type="submit" class="adm-btn">Filter</button>
+        </form>
+    </header>
+
+    @if (Model.Returns.Items.Count == 0)
+    {
+        <div class="adm-panel__body">
+            <div class="adm-empty">
+                <strong>No return requests</strong>
+                Nothing matches this filter.
+            </div>
+        </div>
+    }
+    else
+    {
+        <table class="adm-table">
+            <thead>
+            <tr>
+                <th>RMA</th>
+                <th>Order</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Reason</th>
+                <th>Requested (UTC)</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var r in Model.Returns.Items)
+            {
+                <tr>
+                    <td><a href="/returns/@r.Id">@(string.IsNullOrWhiteSpace(r.RmaNumber) ? $"#{r.Id}" : r.RmaNumber)</a></td>
+                    <td><a href="/orders/@r.OrderId">@r.Order.OrderNumber</a></td>
+                    <td>
+                        @($"{r.Order.ShipFirstName} {r.Order.ShipLastName}".Trim())<br />
+                        <small>@r.Order.Email</small>
+                    </td>
+                    <td>@r.Items.Sum(i => i.Quantity)</td>
+                    <td>@ReasonSummary(r)</td>
+                    <td>@r.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td><span class="adm-badge @BadgeClass(r.Status)">@r.Status</span></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <div class="adm-panel__body">
+            <partial name="_Pager" model="PagerInfo.From(Model.Returns)" />
+        </div>
+    }
+</section>
