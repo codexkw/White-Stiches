@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] · White Stitches Admin</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="~/assets/logo-mark.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600&family=Inter+Tight:wght@300;400;500;600&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/design-system.css" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+</head>
+<body>
+<div class="adm">
+
+    <aside class="adm-side">
+        <a href="/" class="adm-side__logo" aria-label="White Stitches Admin home">
+            <img src="~/assets/logo-full.png" alt="White Stitches" />
+        </a>
+
+        <nav class="adm-nav" aria-label="Admin navigation">
+            <div class="adm-side__label">Store</div>
+            <a href="/" class="@(ViewData["Nav"] as string == "dashboard" ? "is-active" : null)">Dashboard</a>
+            <span>Orders <em class="soon">soon</em></span>
+            <span>Products <em class="soon">soon</em></span>
+            <span>Collections <em class="soon">soon</em></span>
+            <span>Customers <em class="soon">soon</em></span>
+
+            <div class="adm-side__label">Marketing</div>
+            <span>Discounts <em class="soon">soon</em></span>
+            <span>Newsletter <em class="soon">soon</em></span>
+
+            <div class="adm-side__label">Content</div>
+            <span>Pages <em class="soon">soon</em></span>
+            <span>Journal <em class="soon">soon</em></span>
+
+            <div class="adm-side__label">System</div>
+            <span>Settings <em class="soon">soon</em></span>
+            <span>Staff &amp; Roles <em class="soon">soon</em></span>
+            <span>Audit Log <em class="soon">soon</em></span>
+        </nav>
+    </aside>
+
+    <div class="adm-main">
+        <header class="adm-top">
+            <h1 class="adm-top__title">@ViewData["Title"]</h1>
+            <div class="adm-top__user">
+                <span>@User.Identity?.Name</span>
+                <form asp-controller="Auth" asp-action="Logout" method="post">
+                    <button type="submit" class="adm-btn">Sign out</button>
+                </form>
+            </div>
+        </header>
+
+        <main class="adm-content">
+            @RenderBody()
+        </main>
+    </div>
+
+</div>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

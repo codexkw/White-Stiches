@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>@ViewData["Title"]</title>
+<meta name="description" content="@ViewData["MetaDescription"]" />
+<link rel="icon" type="image/svg+xml" href="~/assets/logo-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter+Tight:wght@@300;400;500;600&family=Tajawal:wght@@300;400;500;700&display=swap" rel="stylesheet">
+
+<!-- Critical inline CSS — guarantees correct layout even if external CSS fails to load -->
+<style>
+  .ws-svg-defs {
+    position: absolute !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+  }
+  body { background: #0a0a0a; margin: 0; color: #e8e2d6; font-family: "Inter Tight", system-ui, sans-serif; }
+  .co-hdr {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: #0a0a0a;
+    border-bottom: 1px solid #2a2a2a;
+    height: 116px;
+  }
+  .co-hdr__inner {
+    max-width: 1400px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 24px;
+  }
+</style>
+
+<link rel="stylesheet" href="~/css/design-system.css?v=2.6" />
+<link rel="stylesheet" href="~/css/site.css?v=2.6" />
+</head>
+<body class="co-body">
+
+@RenderBody()
+
+<!-- ============================ MINIMAL FOOTER ============================ -->
+<footer class="co-footer">
+  <div class="co-footer__inner">
+    <span>© 2026 White Stitches Kuwait</span>
+    <nav>
+      <a href="/terms">Terms</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/returns-policy">Returns</a>
+      <a href="/contact">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="~/js/site.js?v=2.6"></script>
+@RenderSection("Scripts", required: false)
+</body>
+</html>

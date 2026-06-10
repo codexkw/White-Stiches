@@ -1,0 +1,164 @@
+﻿@{
+    ViewData["Title"] = "Your wishlist · White Stitches";
+    ViewData["MetaDescription"] = "Your saved pieces — moves to bag in a tap.";
+}
+
+<section class="acct-head">
+  <div class="acct-head__inner">
+    <span class="eyebrow">Account · Wishlist</span>
+    <h1 class="acct-head__title">Saved pieces.</h1>
+    <p class="acct-head__sub">7 pieces · 2 on sale right now</p>
+  </div>
+</section>
+
+<section class="acct">
+  <div class="acct__inner">
+    <aside class="acct-nav" aria-label="Account navigation">
+  <div class="acct-nav__head">
+    <span class="eyebrow">Account</span>
+    <strong class="acct-nav__name">Anas Al-Mutairi</strong>
+    <span class="acct-nav__email">anas@@whitestiches.kw</span>
+  </div>
+  <nav class="acct-nav__list">
+    <a href="/account" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg><span>Overview</span></a>
+    <a href="/account/orders" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h18l-2 13H5z"/><path d="M8 7V5a4 4 0 018 0v2"/></svg><span>Orders</span></a>
+    <a href="/account/addresses" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg><span>Addresses</span></a>
+    <a href="/account/wishlist" class="acct-nav__link is-active" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>Wishlist</span></a>
+    <a href="/account/profile" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg><span>Profile</span></a>
+    <a href="/account/returns" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 11-9-9"/><path d="M21 4v5h-5"/></svg><span>Returns</span></a>
+  </nav>
+  <a href="/account/login" class="acct-nav__signout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span>Sign out</span></a>
+</aside>
+
+    <main class="acct__main">
+
+      <!-- Toolbar -->
+      <div class="acct-wish-toolbar">
+        <div class="acct-wish-toolbar__share">
+          <button type="button" class="btn btn--ghost btn--sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+            Share wishlist
+          </button>
+          <button type="button" class="btn btn--ghost btn--sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h18l-2 13H5z"/><path d="M8 7V5a4 4 0 018 0v2"/></svg>
+            Move all to bag
+          </button>
+        </div>
+        <div class="acct-wish-toolbar__sort">
+          <select aria-label="Sort wishlist">
+            <option>Recently added</option>
+            <option>Price · low to high</option>
+            <option>Price · high to low</option>
+            <option>On sale first</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Wishlist grid -->
+      <div class="acct-wish-grid">
+        <article class="product wish-product">
+      <button class="wish-product__remove" type="button" aria-label="Remove from wishlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <a href="/product" class="product__media">
+        <img src="~/assets/products/product-4.jpg" alt="Mira Draped Midi" class="product__img product__img--front" />
+        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
+        
+      </a>
+      <div class="product__info">
+        <h3 class="product__title"><a href="/product">Mira Draped Midi</a></h3>
+        <div class="product__price"><span>42.500 KWD</span></div>
+        <button type="button" class="btn btn--ghost btn--sm wish-product__add">Move to bag</button>
+      </div>
+    </article><article class="product wish-product">
+      <button class="wish-product__remove" type="button" aria-label="Remove from wishlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <a href="/product" class="product__media">
+        <img src="~/assets/products/product-2.jpg" alt="Lina Silk Slip Dress" class="product__img product__img--front" />
+        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
+        <span class="product__badge product__badge--sale">−20%</span>
+      </a>
+      <div class="product__info">
+        <h3 class="product__title"><a href="/product">Lina Silk Slip Dress</a></h3>
+        <div class="product__price"><span class="product__price-was">95.000</span><span class="product__price-now">76.000 KWD</span></div>
+        <button type="button" class="btn btn--ghost btn--sm wish-product__add">Move to bag</button>
+      </div>
+    </article><article class="product wish-product">
+      <button class="wish-product__remove" type="button" aria-label="Remove from wishlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <a href="/product" class="product__media">
+        <img src="~/assets/products/product-4.jpg" alt="Cashmere Wrap Coat" class="product__img product__img--front" />
+        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
+        
+      </a>
+      <div class="product__info">
+        <h3 class="product__title"><a href="/product">Cashmere Wrap Coat</a></h3>
+        <div class="product__price"><span>118.000 KWD</span></div>
+        <button type="button" class="btn btn--ghost btn--sm wish-product__add">Move to bag</button>
+      </div>
+    </article><article class="product wish-product">
+      <button class="wish-product__remove" type="button" aria-label="Remove from wishlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <a href="/product" class="product__media">
+        <img src="~/assets/products/product-2.jpg" alt="Heritage Silk Scarf" class="product__img product__img--front" />
+        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
+        
+      </a>
+      <div class="product__info">
+        <h3 class="product__title"><a href="/product">Heritage Silk Scarf</a></h3>
+        <div class="product__price"><span>22.000 KWD</span></div>
+        <button type="button" class="btn btn--ghost btn--sm wish-product__add">Move to bag</button>
+      </div>
+    </article><article class="product wish-product">
+      <button class="wish-product__remove" type="button" aria-label="Remove from wishlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <a href="/product" class="product__media">
+        <img src="~/assets/products/product-4.jpg" alt="Crescent Drop Earrings" class="product__img product__img--front" />
+        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
+        <span class="product__badge ">New</span>
+      </a>
+      <div class="product__info">
+        <h3 class="product__title"><a href="/product">Crescent Drop Earrings</a></h3>
+        <div class="product__price"><span>28.500 KWD</span></div>
+        <button type="button" class="btn btn--ghost btn--sm wish-product__add">Move to bag</button>
+      </div>
+    </article><article class="product wish-product">
+      <button class="wish-product__remove" type="button" aria-label="Remove from wishlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <a href="/product" class="product__media">
+        <img src="~/assets/products/product-2.jpg" alt="Atelier Linen Trouser" class="product__img product__img--front" />
+        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
+        
+      </a>
+      <div class="product__info">
+        <h3 class="product__title"><a href="/product">Atelier Linen Trouser</a></h3>
+        <div class="product__price"><span>42.000 KWD</span></div>
+        <button type="button" class="btn btn--ghost btn--sm wish-product__add">Move to bag</button>
+      </div>
+    </article><article class="product wish-product">
+      <button class="wish-product__remove" type="button" aria-label="Remove from wishlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <a href="/product" class="product__media">
+        <img src="~/assets/products/product-4.jpg" alt="Saddle Crossbody Bag" class="product__img product__img--front" />
+        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
+        
+      </a>
+      <div class="product__info">
+        <h3 class="product__title"><a href="/product">Saddle Crossbody Bag</a></h3>
+        <div class="product__price"><span>54.000 KWD</span></div>
+        <button type="button" class="btn btn--ghost btn--sm wish-product__add">Move to bag</button>
+      </div>
+    </article>
+      </div>
+
+    </main>
+  </div>
+</section>
+
+<!-- ============================ FOOTER ============================ -->

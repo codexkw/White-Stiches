@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <g fill="#f5f1ea" fill-rule="evenodd">
+    <path d="M40 20 L80 20 L60 60 Z"/>
+    <path d="M120 20 L160 20 L140 60 Z"/>
+    <path d="M85 30 L100 50 L85 65 Z"/>
+    <path d="M115 30 L100 50 L115 65 Z"/>
+    <path d="M20 50 L40 70 L40 130 L20 150 Z"/>
+    <path d="M180 50 L160 70 L160 130 L180 150 Z"/>
+    <path d="M100 60 L130 100 L100 140 L70 100 Z"/>
+    <path d="M100 80 L115 100 L100 120 L85 100 Z" fill="#0a0a0a"/>
+    <path d="M40 180 L80 180 L60 140 Z"/>
+    <path d="M120 180 L160 180 L140 140 Z"/>
+    <path d="M85 170 L100 150 L85 135 Z"/>
+    <path d="M115 170 L100 150 L115 135 Z"/>
+  </g>
+</svg>

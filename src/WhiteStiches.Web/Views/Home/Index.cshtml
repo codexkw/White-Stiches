@@ -1,0 +1,244 @@
+﻿@{
+    ViewData["Title"] = "White Stitches — Fashion KW";
+    ViewData["MetaDescription"] = "White Stitches — Premium fashion from Kuwait. Curated collections delivered across the GCC.";
+}
+
+<!-- ============================ HERO ============================ -->
+<section class="hero">
+  <div class="hero__pattern" aria-hidden="true"></div>
+
+  <div class="hero__media hero__media--video">
+    <video class="hero__video"
+           autoplay
+           muted
+           loop
+           playsinline
+           preload="auto"
+           poster="~/assets/products/product-3.jpg"
+           aria-label="Spring 2026 editorial — Noor double-breasted dress">
+      <source src="~/assets/video/hero.mp4" type="video/mp4" />
+      <!-- Fallback image for browsers that can't play the video -->
+      <img src="~/assets/products/product-3.jpg"
+           alt="Spring 2026 editorial — Noor double-breasted dress" class="hero__img" />
+    </video>
+    <div class="hero__veil" aria-hidden="true"></div>
+  </div>
+
+  <div class="hero__content">
+    <span class="eyebrow">Spring · Summer 2026</span>
+    <h1 class="hero__title">
+      <span class="hero__title-line">The art of</span>
+      <span class="hero__title-line hero__title-line--italic">quiet elegance.</span>
+    </h1>
+    <p class="hero__lede">
+      A curated edit of cuts, fabrics and silhouettes — designed for the woman who measures luxury in stitches, not labels.
+    </p>
+    <div class="hero__ctas">
+      <a href="#" class="btn btn--primary">Shop the Edit
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a href="#" class="btn btn--ghost">Watch the Film</a>
+    </div>
+  </div>
+
+  <div class="hero__meta">
+    <div class="hero__meta-item">
+      <span class="hero__meta-num">01</span>
+      <span class="hero__meta-label">Lookbook</span>
+    </div>
+    <div class="hero__meta-item">
+      <span class="hero__meta-num">28</span>
+      <span class="hero__meta-label">New Pieces</span>
+    </div>
+    <div class="hero__meta-item">
+      <span class="hero__meta-num">06</span>
+      <span class="hero__meta-label">GCC Markets</span>
+    </div>
+  </div>
+
+  <button class="hero__scroll" aria-label="Scroll to explore">
+    <span>Scroll</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+  </button>
+</section>
+
+<!-- ============================ MARQUEE STRIP ============================ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <span>Shop New Arrivals</span>
+    <span>Free Delivery in Kuwait</span>
+    <span>Shop New Arrivals</span>
+    <span>Crafted at Our Atelier</span>
+    <span>Shop New Arrivals</span>
+    <span>Free Delivery in Kuwait</span>
+    <span>Shop New Arrivals</span>
+    <span>Crafted at Our Atelier</span>
+  </div>
+</div>
+
+<!-- ============================ CATEGORY CIRCLES ============================ -->
+<section class="categories section--light" id="categories">
+  <div class="section-head section-head--center">
+    <span class="eyebrow">Shop by Category</span>
+    <h2 class="section-title">Curated lines, season after season.</h2>
+  </div>
+
+  <div class="cat-circles cat-circles--four">
+
+    <a href="/collection" class="cat-circle">
+      <div class="cat-circle__img">
+        <img src="~/assets/products/product-4.jpg" alt="Jackets collection" />
+      </div>
+      <span class="cat-circle__label">Jackets <span class="cat-circle__arrow">→</span></span>
+    </a>
+
+    <a href="/collection" class="cat-circle">
+      <div class="cat-circle__img">
+        <img src="~/assets/products/product-3.jpg" alt="Dresses collection" />
+      </div>
+      <span class="cat-circle__label">Dresses <span class="cat-circle__arrow">→</span></span>
+    </a>
+
+    <a href="/collection" class="cat-circle">
+      <div class="cat-circle__img">
+        <img src="~/assets/products/product-2.jpg" alt="Suits collection" />
+      </div>
+      <span class="cat-circle__label">Suits <span class="cat-circle__arrow">→</span></span>
+    </a>
+
+    <a href="/collection" class="cat-circle">
+      <div class="cat-circle__img">
+        <img src="~/assets/products/product-1.jpg" alt="Tops collection" />
+      </div>
+      <span class="cat-circle__label">Tops <span class="cat-circle__arrow">→</span></span>
+    </a>
+
+  </div>
+</section>
+
+<!-- ============================ FEATURED PRODUCTS ============================ -->
+<section class="products section--light" id="products">
+  <div class="section-head section-head--row">
+    <div>
+      <span class="eyebrow">New Arrivals</span>
+      <h2 class="section-title">Just landed.</h2>
+    </div>
+    <a href="#" class="link-arrow">View all 28 →</a>
+  </div>
+
+  <div class="products__grid">
+
+    <article class="product">
+      <a href="/product" class="product__media">
+        <img src="~/assets/products/product-3.jpg" alt="Noor double-breasted dress in black" class="product__img product__img--front" />
+        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" aria-hidden="true" />
+        <span class="product__badge">New</span>
+        <button class="product__wish" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+        <button class="product__quick">Quick Add</button>
+      </a>
+      <div class="product__body">
+        <h3 class="product__name">Noor Double-Breasted Dress</h3>
+        <div class="product__row">
+          <span class="product__price">42.500 KWD</span>
+          <div class="product__swatches" aria-label="Available colors">
+            <span class="swatch" style="background:#0f0f0f"></span>
+            <span class="swatch" style="background:#1a1a3a"></span>
+            <span class="swatch" style="background:#3a3a3a"></span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="product">
+      <a href="/product" class="product__media">
+        <img src="~/assets/products/product-2.jpg" alt="Sahara safari suit in camel" class="product__img product__img--front" />
+        <img src="~/assets/products/product-4.jpg" alt="" class="product__img product__img--back" aria-hidden="true" />
+        <button class="product__wish" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+        <button class="product__quick">Quick Add</button>
+      </a>
+      <div class="product__body">
+        <h3 class="product__name">Sahara Safari Suit</h3>
+        <div class="product__row">
+          <span class="product__price">68.000 KWD</span>
+          <div class="product__swatches">
+            <span class="swatch" style="background:#c2a98a"></span>
+            <span class="swatch" style="background:#0f0f0f"></span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="product">
+      <a href="/product" class="product__media">
+        <img src="~/assets/products/product-1.jpg" alt="Layla evening dress with sheer collar" class="product__img product__img--front" />
+        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" aria-hidden="true" />
+        <span class="product__badge product__badge--sale">−20%</span>
+        <button class="product__wish" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+        <button class="product__quick">Quick Add</button>
+      </a>
+      <div class="product__body">
+        <h3 class="product__name">Layla Evening Dress</h3>
+        <div class="product__row">
+          <span class="product__price">
+            <span class="product__price--was">95.000</span>
+            76.000 KWD
+          </span>
+          <div class="product__swatches">
+            <span class="swatch" style="background:#0f0f0f"></span>
+            <span class="swatch" style="background:#1a1a3a"></span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="product">
+      <a href="/product" class="product__media">
+        <img src="~/assets/products/product-4.jpg" alt="Hala cropped safari jacket" class="product__img product__img--front" />
+        <img src="~/assets/products/product-2.jpg" alt="" class="product__img product__img--back" aria-hidden="true" />
+        <button class="product__wish" aria-label="Add to wishlist">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+        <button class="product__quick">Quick Add</button>
+      </a>
+      <div class="product__body">
+        <h3 class="product__name">Hala Cropped Jacket</h3>
+        <div class="product__row">
+          <span class="product__price">38.500 KWD</span>
+          <div class="product__swatches">
+            <span class="swatch" style="background:#c2a98a"></span>
+            <span class="swatch" style="background:#5a4a3a"></span>
+            <span class="swatch" style="background:#0f0f0f"></span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============================ NEWSLETTER ============================ -->
+<section class="newsletter">
+  <div class="newsletter__pattern" aria-hidden="true"></div>
+  <div class="newsletter__inner">
+    <span class="eyebrow">The List</span>
+    <h2 class="newsletter__title">Be the first to receive new edits, private events and the SS26 lookbook.</h2>
+    <form class="newsletter__form" onsubmit="event.preventDefault();">
+      <div class="field">
+        <input type="email" placeholder="Your email address" required aria-label="Email address" />
+        <button type="submit" class="btn btn--primary">Subscribe</button>
+      </div>
+      <label class="checkbox">
+        <input type="checkbox" />
+        <span>Also send me styling tips on WhatsApp</span>
+      </label>
+    </form>
+  </div>
+</section>
+
+<!-- ============================ FOOTER ============================ -->

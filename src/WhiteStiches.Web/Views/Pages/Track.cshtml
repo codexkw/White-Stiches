@@ -1,0 +1,114 @@
+﻿@{
+    ViewData["Title"] = "Track your order · White Stitches";
+    ViewData["MetaDescription"] = "Track your order without signing in.";
+}
+
+<section class="page-hero">
+  <div class="page-hero__inner">
+    <span class="eyebrow">Track</span>
+    <h1 class="page-hero__title">Where’s my order?</h1>
+    <p class="page-hero__lede">Enter your order number and email to see the latest. No account needed.</p>
+  </div>
+</section>
+
+<section class="track">
+  <div class="track__inner">
+
+    <!-- Lookup form -->
+    <div class="track__form-wrap" id="trackForm">
+      <form class="track__form" onsubmit="event.preventDefault(); window.handleTrackLookup && window.handleTrackLookup();">
+        <div class="co-field">
+          <input type="text" id="trackNumber" required placeholder=" " autocomplete="off" />
+          <label for="trackNumber">Order number</label>
+          <span class="field__hint">From your confirmation email — e.g. #WS-2026-08412</span>
+        </div>
+
+        <div class="co-field">
+          <input type="email" id="trackEmail" required placeholder=" " autocomplete="email" />
+          <label for="trackEmail">Email or mobile</label>
+          <span class="field__hint">The one you used at checkout</span>
+        </div>
+
+        <button type="submit" class="btn btn--primary btn--block">Find my order</button>
+
+        <p class="track__help">
+          Can’t find your order number? <a href="/contact" class="link-arrow link-arrow--inline">WhatsApp the atelier</a> and we’ll look it up.
+        </p>
+      </form>
+
+      <!-- Error state -->
+      <div class="track__error" id="trackError" hidden>
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="32" cy="32" r="28"/><path d="M32 20v16M32 42v.5"/></svg>
+        <h3>We couldn’t find that order.</h3>
+        <p>Double-check the order number and email match what’s in your confirmation. Still stuck? <a href="/contact" class="link-inline">Reach the atelier on WhatsApp</a>.</p>
+        <button type="button" class="btn btn--ghost" id="trackErrorBack">Try again</button>
+      </div>
+    </div>
+
+    <!-- Result (hidden by default) -->
+    <div class="track__result" id="trackResult" hidden>
+      <header class="track__result-head">
+        <div>
+          <span class="eyebrow">Order found</span>
+          <h2 class="track__result-title">#WS-2026-08412</h2>
+          <p class="track__result-sub">Placed Saturday 18 May 2026 · 3 pieces · 186.500 KWD</p>
+        </div>
+        <button type="button" class="btn btn--ghost btn--sm" id="trackLookupAgain">Look up another</button>
+      </header>
+
+      <section class="oc-card oc-card--eta">
+        <div class="oc-card__head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h13v9H3zM16 10h3l2 3v3h-5zM7 19a2 2 0 100-4 2 2 0 000 4zM18 19a2 2 0 100-4 2 2 0 000 4z"/></svg>
+          <h2>Arriving <strong>Tuesday 21 May</strong></h2>
+          <span class="oc-card__chip">AWB 1Z 999 AA1 234 5678</span>
+        </div>
+        <div class="oc-card__body">
+          <p>Your order left our Kuwait atelier at 4:18 PM yesterday. The courier will WhatsApp 30 minutes before delivery.</p>
+          <div class="oc-tracker">
+            <div class="oc-tracker__bar"><span style="width: 50%"></span></div>
+            <ol class="oc-tracker__steps">
+              <li class="is-done"><span></span>Confirmed</li>
+              <li class="is-done"><span></span>Atelier</li>
+              <li class="is-active"><span></span>In transit</li>
+              <li><span></span>Delivered</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- Activity timeline -->
+      <section class="track-timeline">
+        <h3 class="track-timeline__title">Activity</h3>
+        <ol class="track-timeline__list">
+          <li class="is-current">
+            <span class="track-timeline__time">Today · 9:12 AM</span>
+            <strong>Out for delivery in Salmiya</strong>
+            <p>Aramex courier on the way. Will WhatsApp 30 min before arrival.</p>
+          </li>
+          <li>
+            <span class="track-timeline__time">Yesterday · 4:18 PM</span>
+            <strong>Left the Kuwait atelier</strong>
+            <p>Hand-folded, sealed and handed to the courier.</p>
+          </li>
+          <li>
+            <span class="track-timeline__time">Yesterday · 11:03 AM</span>
+            <strong>Pieces ready</strong>
+            <p>Inspected, pressed and packed in our signature tissue.</p>
+          </li>
+          <li>
+            <span class="track-timeline__time">18 May · 11:14 AM</span>
+            <strong>Order confirmed</strong>
+            <p>Payment captured via KNET · debit ending 4421.</p>
+          </li>
+        </ol>
+      </section>
+
+      <p class="track__help track__help--center">
+        Need to change something? <a href="/contact" class="link-arrow link-arrow--inline">WhatsApp the atelier</a>.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================ FOOTER ============================ -->

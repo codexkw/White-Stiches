@@ -1,0 +1,161 @@
+﻿@{
+    ViewData["Title"] = "Contact · White Stitches";
+    ViewData["MetaDescription"] = "Get in touch — WhatsApp, email or visit our atelier in Kuwait City.";
+}
+
+<section class="page-hero">
+  <div class="page-hero__inner">
+    <span class="eyebrow">Contact</span>
+    <h1 class="page-hero__title">We&rsquo;re here to help.</h1>
+    <p class="page-hero__lede">Whether it&rsquo;s sizing, a special request or just to say hello — reach out however suits you.</p>
+  </div>
+</section>
+
+<section class="contact">
+  <div class="contact__inner">
+
+    <!-- ── Channels grid ────────────────────────────────────── -->
+    <div class="contact__channels">
+      <article class="contact-channel contact-channel--whatsapp">
+        <span class="contact-channel__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 11.5a8.4 8.4 0 0 1-8.4 8.4 8.4 8.4 0 0 1-4-1L3 20l1.1-5.6a8.4 8.4 0 0 1-1-4A8.4 8.4 0 0 1 11.5 2 8.4 8.4 0 0 1 21 11.5z"/></svg>
+        </span>
+        <h3>WhatsApp the atelier</h3>
+        <p>Fastest response · usually under 15 minutes during business hours.</p>
+        <a href="#" class="link-arrow">+965 9999 9999 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+
+      <article class="contact-channel">
+        <span class="contact-channel__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="m3 7 9 6 9-6"/></svg>
+        </span>
+        <h3>Email us</h3>
+        <p>For longer enquiries, returns, partnerships. We reply within 24 hours.</p>
+        <a href="mailto:hello@@whitestiches.kw" class="link-arrow">hello@@whitestiches.kw <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+
+      <article class="contact-channel">
+        <span class="contact-channel__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </span>
+        <h3>Visit the atelier</h3>
+        <p>Block 3, Sharq Tower · Floor 3<br>Kuwait City · Sat–Thu · 11 AM – 7 PM</p>
+        <a href="#" class="link-arrow">Get directions <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </article>
+    </div>
+
+    <!-- ── Contact form + side info ────────────────────────── -->
+    <div class="contact__form-wrap">
+      <div class="contact__form">
+        <header class="contact__form-head">
+          <h2>Send us a message.</h2>
+          <p>For everything else — we&rsquo;ll come back to you within 24 hours.</p>
+        </header>
+
+        <form class="auth-form" id="contactForm" novalidate onsubmit="event.preventDefault(); window.handleContact && window.handleContact();">
+          <div class="co-field-row">
+            <div class="co-field">
+              <input type="text" id="contactName" required placeholder=" " autocomplete="name" />
+              <label for="contactName">Full name</label>
+            </div>
+            <div class="co-field">
+              <input type="email" id="contactEmail" required placeholder=" " autocomplete="email" />
+              <label for="contactEmail">Email</label>
+            </div>
+          </div>
+
+          <div class="co-field co-field--phone">
+            <span class="field__prefix">
+              <span class="flag flag--kw"></span>
+              <select aria-label="Country code">
+                <option value="+965" selected>+965</option>
+                <option value="+966">+966</option>
+                <option value="+971">+971</option>
+                <option value="+973">+973</option>
+                <option value="+974">+974</option>
+                <option value="+968">+968</option>
+              </select>
+            </span>
+            <input type="tel" id="contactPhone" placeholder=" " autocomplete="tel" />
+            <label for="contactPhone">Mobile (optional)</label>
+          </div>
+
+          <div class="co-field">
+            <select id="contactReason" required>
+              <option value="" disabled selected hidden></option>
+              <option>Order enquiry</option>
+              <option>Sizing or fit help</option>
+              <option>Returns or exchanges</option>
+              <option>Press &amp; partnerships</option>
+              <option>Wholesale / B2B</option>
+              <option>Other</option>
+            </select>
+            <label for="contactReason">What can we help with?</label>
+          </div>
+
+          <div class="co-field">
+            <input type="text" id="contactOrder" placeholder=" " />
+            <label for="contactOrder">Order number (if relevant)</label>
+            <span class="field__hint">e.g. #WS-2026-08412</span>
+          </div>
+
+          <div class="co-field">
+            <textarea id="contactMessage" rows="4" required placeholder=" "></textarea>
+            <label for="contactMessage">Your message</label>
+          </div>
+
+          <label class="check auth-form__consent">
+            <input type="checkbox" id="contactConsent" required />
+            <span>I consent to White Stitches contacting me by email and WhatsApp regarding this enquiry. See our <a href="/privacy" class="link-inline">Privacy Policy</a>.</span>
+          </label>
+
+          <button type="submit" class="btn btn--primary">Send message</button>
+
+          <!-- Success state -->
+          <div class="auth-success" id="contactSuccess" hidden>
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="32" cy="32" r="28"/><path d="M22 32l8 8 14-16"/></svg>
+            <h2>Message sent.</h2>
+            <p>Thanks <strong id="contactSentName"></strong> — we&rsquo;ve received your enquiry and will reply within 24 hours.</p>
+          </div>
+        </form>
+      </div>
+
+      <aside class="contact__aside">
+        <div class="contact-aside-card">
+          <span class="eyebrow">Hours</span>
+          <ul class="contact-hours">
+            <li><span>Saturday</span><span>11 AM – 7 PM</span></li>
+            <li><span>Sunday</span><span>11 AM – 7 PM</span></li>
+            <li><span>Monday</span><span>11 AM – 7 PM</span></li>
+            <li><span>Tuesday</span><span>11 AM – 7 PM</span></li>
+            <li><span>Wednesday</span><span>11 AM – 7 PM</span></li>
+            <li><span>Thursday</span><span>11 AM – 7 PM</span></li>
+            <li><span>Friday</span><span class="contact-hours__closed">Closed</span></li>
+          </ul>
+        </div>
+
+        <div class="contact-aside-card">
+          <span class="eyebrow">Find us</span>
+          <address class="oc-address">
+            <strong>White Stitches Atelier</strong><br>
+            Block 3, Sharq Tower · Floor 3<br>
+            Sharq, Al Asimah<br>
+            Kuwait
+          </address>
+        </div>
+
+        <div class="contact-aside-card">
+          <span class="eyebrow">Follow us</span>
+          <div class="contact-aside__social">
+            <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg> <span>@@whitestiches.kw</span></a>
+            <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c0 2.5 2 4.5 4.5 4.5"/></svg> <span>@@whitestiches</span></a>
+            <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M11 22c.5-3 .8-4 1.2-5.5"/><path d="M8 9.5C8 7 10 5 12.5 5S17 7 17 9.5c0 3-2 5-4 5-1 0-1.7-.5-2-1.2"/></svg> <span>White Stitches KW</span></a>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================ FOOTER ============================ -->

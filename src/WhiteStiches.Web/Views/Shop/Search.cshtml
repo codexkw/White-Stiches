@@ -1,0 +1,403 @@
+﻿@{
+    ViewData["Title"] = "Search Results · White Stitches";
+    ViewData["MetaDescription"] = "Search results — find your piece across the White Stitches edit.";
+}
+
+<!-- ============================ SEARCH HEADER ============================ -->
+<section class="search-head">
+  <div class="search-head__inner">
+    <form class="search-head__form" id="searchForm" role="search" onsubmit="event.preventDefault(); window.handleSearchSubmit && window.handleSearchSubmit();">
+      <button type="submit" class="search-head__submit" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      </button>
+      <input
+        type="search"
+        id="searchInput"
+        class="search-head__input"
+        placeholder="Search dresses, linen, evening..."
+        aria-label="Search the store"
+        autocomplete="off"
+        value="linen midi"
+      />
+      <button type="button" class="search-head__clear" id="searchClear" aria-label="Clear search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </form>
+
+    <div class="search-head__meta" id="searchMeta">
+      <span class="search-head__count"><strong id="searchCount">42</strong> results for <em id="searchQuery">"linen midi"</em></span>
+      <span class="search-head__hint" id="searchHint">
+        Did you mean
+        <button type="button" class="link-arrow link-arrow--inline" id="suggestionBtn">linen midi dresses</button>?
+      </span>
+    </div>
+
+    <!-- Search refinement chips: type filter at a glance -->
+    <div class="search-refine" role="tablist" aria-label="Refine results by type">
+      <button type="button" class="search-refine__chip is-active" role="tab" aria-selected="true">
+        Products <em>42</em>
+      </button>
+      <button type="button" class="search-refine__chip" role="tab" aria-selected="false">
+        Collections <em>3</em>
+      </button>
+      <button type="button" class="search-refine__chip" role="tab" aria-selected="false">
+        Journal <em>2</em>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ TOOLBAR (reused from collection) ============================ -->
+<section class="coll-toolbar">
+  <div class="coll-toolbar__inner">
+    <button class="coll-toolbar__filter-btn" id="filterToggle" type="button" aria-controls="filterSidebar" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+      <span>Filter</span>
+      <span class="coll-toolbar__filter-count" id="activeFilterCount" hidden>0</span>
+    </button>
+    <div class="coll-toolbar__count" id="resultCount">42 pieces</div>
+    <div class="coll-toolbar__sort">
+      <label for="sortSelect" class="visually-hidden">Sort by</label>
+      <select id="sortSelect" class="sort-select">
+        <option value="relevance">Most relevant</option>
+        <option value="newest">Newest</option>
+        <option value="bestselling">Best-selling</option>
+        <option value="price-asc">Price · low to high</option>
+        <option value="price-desc">Price · high to low</option>
+      </select>
+      <svg class="sort-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ GRID (reuses .coll layout) ============================ -->
+<section class="coll">
+  <div class="coll__inner">
+
+    <!-- ── FILTER SIDEBAR (reduced set — fabric/occasion most useful for search) -->
+    <aside class="filter" id="filterSidebar" aria-label="Filter results">
+      <div class="filter__head">
+        <h2 class="filter__title">Filter</h2>
+        <button type="button" class="filter__close" id="filterClose" aria-label="Close filters">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+
+      <div class="filter__chips" id="filterChips" hidden></div>
+
+      <details class="filter-group" open>
+        <summary class="filter-group__head">
+          <span>Category</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="filter-group__body">
+          <label class="check"><input type="checkbox" name="category" value="dresses" /><span>Dresses <em>18</em></span></label>
+          <label class="check"><input type="checkbox" name="category" value="tops" /><span>Tops &amp; Blouses <em>12</em></span></label>
+          <label class="check"><input type="checkbox" name="category" value="trousers" /><span>Trousers <em>8</em></span></label>
+          <label class="check"><input type="checkbox" name="category" value="skirts" /><span>Skirts <em>4</em></span></label>
+        </div>
+      </details>
+
+      <details class="filter-group" open>
+        <summary class="filter-group__head">
+          <span>Size</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="filter-group__body">
+          <div class="filter-sizes">
+            <label class="size-pill"><input type="checkbox" name="size" value="XS" /><span>XS</span></label>
+            <label class="size-pill"><input type="checkbox" name="size" value="S" /><span>S</span></label>
+            <label class="size-pill"><input type="checkbox" name="size" value="M" /><span>M</span></label>
+            <label class="size-pill"><input type="checkbox" name="size" value="L" /><span>L</span></label>
+            <label class="size-pill"><input type="checkbox" name="size" value="XL" /><span>XL</span></label>
+          </div>
+        </div>
+      </details>
+
+      <details class="filter-group" open>
+        <summary class="filter-group__head">
+          <span>Colour</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="filter-group__body">
+          <div class="filter-colors">
+            <label class="color-dot"><input type="checkbox" name="color" value="black" /><span style="background:#0a0a0a"></span><em>Black</em></label>
+            <label class="color-dot"><input type="checkbox" name="color" value="oat" /><span style="background:#d4cdbc"></span><em>Oat</em></label>
+            <label class="color-dot"><input type="checkbox" name="color" value="ivory" /><span style="background:#f5f1ea"></span><em>Ivory</em></label>
+            <label class="color-dot"><input type="checkbox" name="color" value="sand" /><span style="background:#c2a98a"></span><em>Sand</em></label>
+          </div>
+        </div>
+      </details>
+
+      <details class="filter-group">
+        <summary class="filter-group__head">
+          <span>Fabric</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="filter-group__body">
+          <label class="check"><input type="checkbox" name="fabric" value="linen" /><span>Linen <em>26</em></span></label>
+          <label class="check"><input type="checkbox" name="fabric" value="silk" /><span>Silk <em>9</em></span></label>
+          <label class="check"><input type="checkbox" name="fabric" value="cotton" /><span>Cotton <em>7</em></span></label>
+        </div>
+      </details>
+
+      <details class="filter-group">
+        <summary class="filter-group__head">
+          <span>Occasion</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="filter-group__body">
+          <label class="check"><input type="checkbox" name="occasion" value="everyday" /><span>Everyday</span></label>
+          <label class="check"><input type="checkbox" name="occasion" value="workwear" /><span>Workwear</span></label>
+          <label class="check"><input type="checkbox" name="occasion" value="evening" /><span>Evening</span></label>
+          <label class="check"><input type="checkbox" name="occasion" value="resort" /><span>Resort</span></label>
+        </div>
+      </details>
+
+      <div class="filter__foot">
+        <button type="button" class="btn btn--ghost filter__clear" id="filterClear">Clear all</button>
+        <button type="button" class="btn btn--primary filter__apply" id="filterApply">Show results</button>
+      </div>
+    </aside>
+
+    <div class="filter-overlay" id="filterOverlay" aria-hidden="true"></div>
+
+    <!-- ── RESULTS column ─────────────────────────────────────────── -->
+    <div class="coll__main">
+
+      <!-- Skeleton loading state -->
+      <div class="coll__skeleton" aria-hidden="true">
+        <div class="skel-card"></div><div class="skel-card"></div><div class="skel-card"></div>
+        <div class="skel-card"></div><div class="skel-card"></div><div class="skel-card"></div>
+      </div>
+
+      <!-- Zero-results state — search-specific (different from collection's filter-empty) -->
+      <div class="search-empty">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+          <circle cx="28" cy="28" r="14"/>
+          <path d="m48 48-10-10"/>
+        </svg>
+        <h3>No results for <em id="searchEmptyQuery">"your search"</em></h3>
+        <p>We couldn't find anything matching that. Try a different word, browse a category, or talk to our atelier.</p>
+        <div class="search-empty__chips" aria-label="Popular searches">
+          <span class="search-empty__label">Popular searches:</span>
+          <a href="#" class="search-empty__chip">linen midi dress</a>
+          <a href="#" class="search-empty__chip">silk slip</a>
+          <a href="#" class="search-empty__chip">tailored blazer</a>
+          <a href="#" class="search-empty__chip">cashmere</a>
+          <a href="#" class="search-empty__chip">SS26 lookbook</a>
+        </div>
+        <div class="search-empty__cta">
+          <a href="/collection" class="btn btn--ghost">Browse Women</a>
+          <a href="#" class="btn btn--primary">Chat with the atelier</a>
+        </div>
+      </div>
+
+      <!-- Default: results grid -->
+      <div class="coll__grid">
+
+    <article class="product">
+      <a href="/product" class="product__media">
+        <img src="~/assets/products/product-4.jpg" alt="Mira Draped Midi" class="product__img product__img--front" />
+        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
+        
+        <button class="product__quick" type="button">Quick Add</button>
+      </a>
+      <div class="product__info">
+        <h3 class="product__title"><a href="/product">Mira Draped Midi</a></h3>
+        <div class="product__swatches" aria-label="Available colours">
+          <span class="swatch swatch--oat" title="Oat"></span>
+        <span class="swatch swatch--black" title="Black"></span>
+        <span class="swatch swatch--sand" title="Sand"></span>
+        </div>
+        <div class="product__price"><span>42.500 KWD</span></div>
+      </div>
+    </article>
+
+    <article class="product">
+      <a href="/product" class="product__media">
+        <img src="~/assets/products/product-2.jpg" alt="Atelier Tailored Blazer" class="product__img product__img--front" />
+        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
+        
+        <button class="product__quick" type="button">Quick Add</button>
+      </a>
+      <div class="product__info">
+        <h3 class="product__title"><a href="/product">Atelier Tailored Blazer</a></h3>
+        <div class="product__swatches" aria-label="Available colours">
+          <span class="swatch swatch--stone" title="Stone"></span>
+        <span class="swatch swatch--black" title="Black"></span>
+        </div>
+        <div class="product__price"><span>68.000 KWD</span></div>
+      </div>
+    </article>
+
+    <article class="product">
+      <a href="/product" class="product__media">
+        <img src="~/assets/products/product-4.jpg" alt="Lina Silk Slip Dress" class="product__img product__img--front" />
+        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
+        <span class="product__badge product__badge--sale">−20%</span>
+        <button class="product__quick" type="button">Quick Add</button>
+      </a>
+      <div class="product__info">
+        <h3 class="product__title"><a href="/product">Lina Silk Slip Dress</a></h3>
+        <div class="product__swatches" aria-label="Available colours">
+          <span class="swatch swatch--champagne" title="Champagne"></span>
+        <span class="swatch swatch--ink" title="Ink"></span>
+        </div>
+        <div class="product__price"><span class="product__price-was">95.000</span>
+          <span class="product__price-now">76.000 KWD</span></div>
+      </div>
+    </article>
+
+    <article class="product">
+      <a href="/product" class="product__media">
+        <img src="~/assets/products/product-2.jpg" alt="Sahar Wide-Leg Trouser" class="product__img product__img--front" />
+        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
+        
+        <button class="product__quick" type="button">Quick Add</button>
+      </a>
+      <div class="product__info">
+        <h3 class="product__title"><a href="/product">Sahar Wide-Leg Trouser</a></h3>
+        <div class="product__swatches" aria-label="Available colours">
+          <span class="swatch swatch--oat" title="Oat"></span>
+        <span class="swatch swatch--olive" title="Olive"></span>
+        <span class="swatch swatch--black" title="Black"></span>
+        </div>
+        <div class="product__price"><span>38.500 KWD</span></div>
+      </div>
+    </article>
+
+    <article class="product">
+      <a href="/product" class="product__media">
+        <img src="~/assets/products/product-4.jpg" alt="Editorial Cotton Shirt" class="product__img product__img--front" />
+        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
+        <span class="product__badge ">New</span>
+        <button class="product__quick" type="button">Quick Add</button>
+      </a>
+      <div class="product__info">
+        <h3 class="product__title"><a href="/product">Editorial Cotton Shirt</a></h3>
+        <div class="product__swatches" aria-label="Available colours">
+          <span class="swatch swatch--white" title="White"></span>
+        <span class="swatch swatch--sand" title="Sand"></span>
+        </div>
+        <div class="product__price"><span>34.000 KWD</span></div>
+      </div>
+    </article>
+
+    <article class="product">
+      <a href="/product" class="product__media">
+        <img src="~/assets/products/product-2.jpg" alt="Knit Crew Sweater" class="product__img product__img--front" />
+        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
+        
+        <button class="product__quick" type="button">Quick Add</button>
+      </a>
+      <div class="product__info">
+        <h3 class="product__title"><a href="/product">Knit Crew Sweater</a></h3>
+        <div class="product__swatches" aria-label="Available colours">
+          <span class="swatch swatch--oat" title="Oat"></span>
+        <span class="swatch swatch--forest" title="Forest"></span>
+        </div>
+        <div class="product__price"><span>48.000 KWD</span></div>
+      </div>
+    </article>
+
+    <article class="product">
+      <a href="/product" class="product__media">
+        <img src="~/assets/products/product-4.jpg" alt="Pleated Midi Skirt" class="product__img product__img--front" />
+        <img src="~/assets/products/product-1.jpg" alt="" class="product__img product__img--back" />
+        <span class="product__badge product__badge--sale">−18%</span>
+        <button class="product__quick" type="button">Quick Add</button>
+      </a>
+      <div class="product__info">
+        <h3 class="product__title"><a href="/product">Pleated Midi Skirt</a></h3>
+        <div class="product__swatches" aria-label="Available colours">
+          <span class="swatch swatch--ivory" title="Ivory"></span>
+        <span class="swatch swatch--black" title="Black"></span>
+        </div>
+        <div class="product__price"><span class="product__price-was">55.000</span>
+          <span class="product__price-now">44.500 KWD</span></div>
+      </div>
+    </article>
+
+    <article class="product">
+      <a href="/product" class="product__media">
+        <img src="~/assets/products/product-2.jpg" alt="Cashmere Wrap Coat" class="product__img product__img--front" />
+        <img src="~/assets/products/product-3.jpg" alt="" class="product__img product__img--back" />
+        
+        <button class="product__quick" type="button">Quick Add</button>
+      </a>
+      <div class="product__info">
+        <h3 class="product__title"><a href="/product">Cashmere Wrap Coat</a></h3>
+        <div class="product__swatches" aria-label="Available colours">
+          <span class="swatch swatch--camel" title="Camel"></span>
+        <span class="swatch swatch--charcoal" title="Charcoal"></span>
+        </div>
+        <div class="product__price"><span>118.000 KWD</span></div>
+      </div>
+    </article>
+
+      </div>
+
+      <!-- Section break before secondary results -->
+      <div class="search-secondary" id="searchSecondary">
+        <h3 class="search-secondary__title">Collections matching <em>"linen midi"</em></h3>
+        <div class="search-secondary__row">
+          <a href="/collection" class="search-secondary__tile">
+            <img src="~/assets/products/product-4.jpg" alt="The Linen Edit" />
+            <span class="search-secondary__tile-name">The Linen Edit</span>
+            <span class="search-secondary__tile-meta">26 pieces</span>
+          </a>
+          <a href="/collection" class="search-secondary__tile">
+            <img src="~/assets/products/product-1.jpg" alt="Spring/Summer 2026" />
+            <span class="search-secondary__tile-name">Spring/Summer 2026</span>
+            <span class="search-secondary__tile-meta">128 pieces</span>
+          </a>
+          <a href="/collection" class="search-secondary__tile">
+            <img src="~/assets/products/product-2.jpg" alt="Midi Dresses" />
+            <span class="search-secondary__tile-name">Midi Dresses</span>
+            <span class="search-secondary__tile-meta">14 pieces</span>
+          </a>
+        </div>
+
+        <h3 class="search-secondary__title">From the Journal</h3>
+        <div class="search-secondary__row">
+          <a href="#" class="search-secondary__article">
+            <img src="~/assets/products/product-3.jpg" alt="A Study in Linen" />
+            <div>
+              <span class="search-secondary__article-cat">Lookbook</span>
+              <h4 class="search-secondary__article-title">A Study in Linen — Notes on a quiet spring</h4>
+              <span class="search-secondary__article-meta">5 min read · April 2026</span>
+            </div>
+          </a>
+          <a href="#" class="search-secondary__article">
+            <img src="~/assets/products/product-4.jpg" alt="How to style the midi" />
+            <div>
+              <span class="search-secondary__article-cat">Styling</span>
+              <h4 class="search-secondary__article-title">How to style the midi dress for desert evenings</h4>
+              <span class="search-secondary__article-meta">3 min read · March 2026</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Pagination (reused) -->
+      <nav class="pagination" aria-label="Pagination">
+        <button class="pagination__btn pagination__btn--prev" disabled aria-label="Previous page">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+        <ol class="pagination__nums">
+          <li><a href="#" class="is-active" aria-current="page">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+        </ol>
+        <button class="pagination__btn pagination__btn--next" aria-label="Next page">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </nav>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FOOTER ============================ -->

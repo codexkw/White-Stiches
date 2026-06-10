@@ -1,0 +1,48 @@
+@model WhiteStiches.Admin.Models.LoginViewModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Sign in";
+}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign in · White Stitches Admin</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="~/assets/logo-mark.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/design-system.css" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+</head>
+<body>
+<div class="adm-login">
+    <div class="adm-login__card">
+        <img src="~/assets/logo-full.png" alt="White Stitches" />
+        <span class="adm-login__eyebrow">Back office</span>
+
+        @if (ViewData.ModelState[string.Empty]?.Errors.Count > 0)
+        {
+            <div class="adm-login__error">
+                @ViewData.ModelState[string.Empty]!.Errors.First().ErrorMessage
+            </div>
+        }
+
+        <form asp-controller="Auth" asp-action="Login" method="post">
+            <input type="hidden" asp-for="ReturnUrl" />
+            <div class="adm-field">
+                <label asp-for="Email">Email</label>
+                <input asp-for="Email" autocomplete="username" autofocus />
+            </div>
+            <div class="adm-field">
+                <label asp-for="Password">Password</label>
+                <input asp-for="Password" autocomplete="current-password" />
+            </div>
+            <button type="submit" class="adm-btn adm-btn--solid adm-login__submit">Sign in</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

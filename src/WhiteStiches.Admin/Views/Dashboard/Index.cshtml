@@ -1,0 +1,49 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<section class="adm-stats" aria-label="Store snapshot">
+    <div class="adm-card">
+        <div class="adm-card__label">Products</div>
+        <div class="adm-card__value">@ViewBag.ProductCount</div>
+        <div class="adm-card__hint">in catalogue</div>
+    </div>
+    <div class="adm-card">
+        <div class="adm-card__label">Orders</div>
+        <div class="adm-card__value">@ViewBag.OrderCount</div>
+        <div class="adm-card__hint">all time</div>
+    </div>
+    <div class="adm-card">
+        <div class="adm-card__label">Customers</div>
+        <div class="adm-card__value">@ViewBag.CustomerCount</div>
+        <div class="adm-card__hint">registered</div>
+    </div>
+    <div class="adm-card">
+        <div class="adm-card__label">Pending returns</div>
+        <div class="adm-card__value">@ViewBag.PendingReturns</div>
+        <div class="adm-card__hint">awaiting review</div>
+    </div>
+    <div class="adm-card">
+        <div class="adm-card__label">Messages</div>
+        <div class="adm-card__value">@ViewBag.UnreadMessages</div>
+        <div class="adm-card__hint">unread contact messages</div>
+    </div>
+    <div class="adm-card">
+        <div class="adm-card__label">Newsletter</div>
+        <div class="adm-card__value">@ViewBag.NewsletterCount</div>
+        <div class="adm-card__hint">active subscribers</div>
+    </div>
+</section>
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">Action queue</h2>
+    </header>
+    <div class="adm-panel__body">
+        <div class="adm-empty">
+            <strong>Modules under construction</strong>
+            Orders, Products, Collections, Customers, Discounts, Content, and Settings
+            land next per the build plan in <code>docs/BUILD-PLAN.md</code>.
+        </div>
+    </div>
+</section>

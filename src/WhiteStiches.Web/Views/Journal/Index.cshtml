@@ -1,0 +1,134 @@
+﻿@{
+    ViewData["Title"] = "Journal · White Stitches";
+    ViewData["MetaDescription"] = "Styling notes, atelier stories and behind the seams.";
+}
+
+<section class="page-hero">
+  <div class="page-hero__inner">
+    <span class="eyebrow">Journal</span>
+    <h1 class="page-hero__title">Notes from the atelier.</h1>
+    <p class="page-hero__lede">Styling guides, behind-the-scenes from our team, and the stories behind each piece.</p>
+  </div>
+</section>
+
+<!-- Featured article -->
+<section class="journal-featured">
+  <div class="journal-featured__inner">
+    <a href="/journal/post" class="journal-featured__card">
+      <div class="journal-featured__media">
+        <img src="~/assets/products/product-4.jpg" alt="" />
+        <div class="journal-featured__overlay"></div>
+      </div>
+      <div class="journal-featured__copy">
+        <span class="journal-tag">Featured · Styling</span>
+        <h2 class="journal-featured__title">The Mira Draped Midi, three ways.</h2>
+        <p class="journal-featured__excerpt">From day to dinner — styling notes for the piece we can’t stop wearing.</p>
+        <span class="journal-meta"><span>Layla Al-Sabah</span> · <time>15 May 2026</time> · 4 min read</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- Filter chips -->
+<section class="journal-filters">
+  <div class="journal-filters__inner">
+    <div class="acct-orders-toolbar__filters">
+      <button class="filter-chip is-active" type="button">All</button>
+      <button class="filter-chip" type="button">Styling</button>
+      <button class="filter-chip" type="button">Atelier</button>
+      <button class="filter-chip" type="button">Conversations</button>
+      <button class="filter-chip" type="button">Behind the seams</button>
+    </div>
+  </div>
+</section>
+
+<!-- Article grid -->
+<section class="journal-grid">
+  <div class="journal-grid__inner">
+
+    <article class="journal-card">
+      <a href="/journal/post" class="journal-card__media">
+        <img src="~/assets/products/product-1.jpg" alt="" />
+      </a>
+      <div class="journal-card__body">
+        <span class="journal-tag">Atelier</span>
+        <h3 class="journal-card__title"><a href="/journal/post">A morning in our Sharq workshop.</a></h3>
+        <p class="journal-card__excerpt">Where every piece begins — with tea, a kettle, and 14 pairs of hands.</p>
+        <span class="journal-meta"><time>8 May 2026</time> · 6 min read</span>
+      </div>
+    </article>
+
+    <article class="journal-card">
+      <a href="/journal/post" class="journal-card__media">
+        <img src="~/assets/products/product-2.jpg" alt="" />
+      </a>
+      <div class="journal-card__body">
+        <span class="journal-tag">Conversations</span>
+        <h3 class="journal-card__title"><a href="/journal/post">In conversation with our pattern cutter, Reem.</a></h3>
+        <p class="journal-card__excerpt">After 18 years of drafting patterns by hand, Reem still works from intuition more than measurement.</p>
+        <span class="journal-meta"><time>30 April 2026</time> · 8 min read</span>
+      </div>
+    </article>
+
+    <article class="journal-card">
+      <a href="/journal/post" class="journal-card__media">
+        <img src="~/assets/products/product-3.jpg" alt="" />
+      </a>
+      <div class="journal-card__body">
+        <span class="journal-tag">Styling</span>
+        <h3 class="journal-card__title"><a href="/journal/post">Building a capsule for the Ramadan season.</a></h3>
+        <p class="journal-card__excerpt">Six pieces that work as a sehoor kaftan as easily as an iftar dinner outfit.</p>
+        <span class="journal-meta"><time>20 April 2026</time> · 5 min read</span>
+      </div>
+    </article>
+
+    <article class="journal-card">
+      <a href="/journal/post" class="journal-card__media">
+        <img src="~/assets/products/product-4.jpg" alt="" />
+      </a>
+      <div class="journal-card__body">
+        <span class="journal-tag">Behind the seams</span>
+        <h3 class="journal-card__title"><a href="/journal/post">Why we make our earrings by hand.</a></h3>
+        <p class="journal-card__excerpt">Our jewellery comes from a small studio in Old Kuwait — the goldsmith works on commission only.</p>
+        <span class="journal-meta"><time>14 April 2026</time> · 4 min read</span>
+      </div>
+    </article>
+
+    <article class="journal-card">
+      <a href="/journal/post" class="journal-card__media">
+        <img src="~/assets/products/product-1.jpg" alt="" />
+      </a>
+      <div class="journal-card__body">
+        <span class="journal-tag">Styling</span>
+        <h3 class="journal-card__title"><a href="/journal/post">Dressing for Kuwait’s 45° summer.</a></h3>
+        <p class="journal-card__excerpt">The fabrics, cuts and tricks our team relies on to look pulled-together when it’s unbearable outside.</p>
+        <span class="journal-meta"><time>2 April 2026</time> · 6 min read</span>
+      </div>
+    </article>
+
+    <article class="journal-card">
+      <a href="/journal/post" class="journal-card__media">
+        <img src="~/assets/products/product-2.jpg" alt="" />
+      </a>
+      <div class="journal-card__body">
+        <span class="journal-tag">Behind the seams</span>
+        <h3 class="journal-card__title"><a href="/journal/post">Sourcing fabrics: a year in Como.</a></h3>
+        <p class="journal-card__excerpt">A visit to our Italian silk mill — and what we learned about getting fabrics right for our climate.</p>
+        <span class="journal-meta"><time>25 March 2026</time> · 7 min read</span>
+      </div>
+    </article>
+
+  </div>
+
+  <nav class="pagination" aria-label="Pagination" style="margin-top: var(--s-5);">
+    <button class="pagination__btn pagination__btn--prev" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <ol class="pagination__nums">
+      <li><a href="#" class="is-active" aria-current="page">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+    </ol>
+    <button class="pagination__btn pagination__btn--next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 6l6 6-6 6"/></svg></button>
+  </nav>
+</section>
+
+<!-- ============================ FOOTER ============================ -->
