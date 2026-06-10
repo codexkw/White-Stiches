@@ -44,6 +44,20 @@ app.MapControllerRoute(
         pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+// Surface the Tap payment configuration at startup so a deployment can be verified from the logs:
+// an empty SecretKey means checkout uses the Development-only manual fallback (and is unavailable in
+// production), and an empty PublicBaseUrl means callback/webhook URLs fall back to the request scheme.
+var tapConfigured = !string.IsNullOrWhiteSpace(builder.Configuration["Tap:SecretKey"]);
+var tapPublicBase = builder.Configuration["Tap:PublicBaseUrl"];
+app.Logger.LogInformation(
+    "Tap payments: {State}. PublicBaseUrl: {PublicBase}",
+    tapConfigured
+        ? "CONFIGURED"
+        : "NOT configured — checkout falls back to the manual flow in Development, and is unavailable in other environments",
+    string.IsNullOrWhiteSpace(tapPublicBase)
+        ? "(not set — callback/webhook URLs use the incoming request scheme + host)"
+        : tapPublicBase);
+
 // Idempotent seed: roles, super admin, root categories, baseline settings
 try
 {

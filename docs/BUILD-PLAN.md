@@ -77,22 +77,41 @@ orchestration (`IPaymentService` → `PaymentService`). Tap v2 Charges API: host
 against the live sandbox; a full card+3DS purchase was captured and finalized end-to-end, and an
 Admin → Tap partial refund was issued.
 
-- knet/card/applepay → Tap hosted page; **COD stays synchronous**; if no Tap key is configured,
-  checkout falls back to the manual flow (so dev/CI still completes).
+- **Online payment only** — knet/card/applepay → Tap hosted page. **Cash on delivery was removed**
+  (2026-06-11): no `cod` option in the UI, the form model, or the controller. Because there is no
+  longer a non-Tap method, the no-key **manual fallback is now gated to the Development environment**
+  (so local dev + smoke tests still complete); in any other environment an unconfigured gateway
+  returns a "payment temporarily unavailable" error instead of silently booking an **unpaid** order.
 - Order is created `Pending`; **stock is decremented + cart cleared only once payment is confirmed**
   (return or webhook). Finalization is idempotent + race-safe: an atomic `ExecuteUpdate` claim on the
   payment row (return vs webhook) and an atomic `Stock = Stock - qty` (cross-order). Captured amount is
   reconciled against the order total before marking paid (mismatch → held for review).
 - Re-submitting checkout **resumes** the in-flight order via a `ws_pay` cookie instead of duplicating.
+  The resume now also requires the **same bag** (line items + amount), not just a matching total — this
+  closes a shared-device case where one guest (null UserId) could otherwise resume another's order.
+- `Program.cs` logs the Tap config state at startup ("Tap payments: CONFIGURED / NOT configured" +
+  PublicBaseUrl) so a deployment can be verified from the logs.
 - Admin refunds call Tap for `Provider="Tap"` payments (store `GatewayRefundId`); `"Manual"` stay local.
-- Keys: the `Tap` section lives in `appsettings.json` (committed) but `Tap:SecretKey` is left **empty** —
-  set the real key on the server (GitHub push-protection blocks the `sk_test_`/`sk_live_` value, and a live
-  key must never be committed). `Tap:MerchantId` = 599424.
+- Keys: the `Tap` section lives in `appsettings.json` (Web + Admin). `Tap:SecretKey` now holds the
+  **sandbox** key locally so a Web-Deploy/publish carries it to the server. ⚠️ **Do not `git push` this** —
+  GitHub push-protection blocks the `sk_test_`/`sk_live_` value (flags it as a Stripe key); keep the key in
+  local appsettings for the publish only, and **never** commit a live `sk_live_` key. `Tap:MerchantId` = 599424,
+  `Tap:PublicBaseUrl` = `https://white-stiches-testing.codexkw.co`.
 
 **1C-1 leftovers / before go-live:**
+- **The deployed server must have `Tap:SecretKey` set out-of-band** (env var `Tap__SecretKey`, or the
+  server's `appsettings`). The committed value is empty, so a fresh deploy has `IsConfigured=false` and
+  checkout never redirects to Tap — verified 2026-06-11 on the testing site: a guest KNET checkout went
+  straight to a (manual, unpaid) confirmation, no Tap redirect. With the key set locally, the same guest
+  flow returns `302 → checkout.tap.company` — so this is purely a server-config gap, not a code bug.
 - Set `Tap:PublicBaseUrl` to the public https origin in production so the webhook/return URLs are
-  always https (the webhook needs a public HTTPS endpoint Tap can reach — configure the post URL /
-  dashboard webhook). Rotate `Tap:SecretKey` to the `sk_live_` key for production.
+  always https (there is no `ForwardedHeaders` middleware, so behind a TLS proxy `Request.Scheme` may be
+  http). The webhook needs a public HTTPS endpoint Tap can reach — configure the post URL / dashboard
+  webhook. Rotate `Tap:SecretKey` to the `sk_live_` key for production.
+- **Webhook-first finalize doesn't clear the guest cart** (PaymentService has no HTTP context): if the
+  webhook captures the charge and the browser never returns to `/checkout/tap-return`, the guest's
+  `ws_cart` still has the items. Low-probability, but to fix it cleanly, link the order to its cart
+  (e.g. a nullable `Order.CartToken`) and clear that cart inside `FinalizeCapturedChargeAsync`.
 - No background sweep yet for abandoned `Pending` Tap orders (hosted-page TTL ~30 min) — they linger in
   the admin order list. Add an `IHostedService` to expire/cancel them (and/or filter Pending+Initiated
   Tap orders out of the default admin list).

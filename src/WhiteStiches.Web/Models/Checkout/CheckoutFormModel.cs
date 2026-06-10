@@ -42,7 +42,7 @@ public class CheckoutFormModel
     public string ShippingMethod { get; set; } = "standard";
 
     [Required(ErrorMessage = "Choose a payment method.")]
-    [RegularExpression("^(knet|card|applepay|cod)$", ErrorMessage = "Choose a valid payment method.")]
+    [RegularExpression("^(knet|card|applepay)$", ErrorMessage = "Choose a valid payment method.")]
     public string PaymentMethod { get; set; } = "knet";
 
     public bool TermsAccepted { get; set; }

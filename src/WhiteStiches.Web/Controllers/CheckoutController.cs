@@ -21,11 +21,9 @@ public class CheckoutController(
     IPaymentService paymentService,
     ICustomerService customerService,
     IConfiguration configuration,
+    IWebHostEnvironment env,
     UserManager<ApplicationUser> userManager) : Controller
 {
-    /// <summary>Cash-on-delivery surcharge added to shipping. TODO Phase 1C: move to a settings key.</summary>
-    private const decimal CodFee = 1.500m;
-
     /// <summary>Points the browser at its in-flight Tap order so a re-submit resumes it instead of duplicating.</summary>
     private const string PendingPayCookie = "ws_pay";
 
@@ -84,12 +82,6 @@ public class CheckoutController(
                 : await settingsService.GetAsync(SettingKeys.StandardShippingRate, 0m, ct)
         };
 
-        if (form.PaymentMethod == "cod")
-        {
-            // COD fee — folded into shipping until a dedicated settings key exists
-            shippingAmount += CodFee;
-        }
-
         var total = summary.Subtotal - summary.DiscountAmount + summary.GiftWrapFee + shippingAmount;
 
         var order = new Order
@@ -145,16 +137,17 @@ public class CheckoutController(
             });
         }
 
-        // knet/card/applepay go through Tap (hosted redirect); COD is pay-on-delivery and stays
-        // synchronous. If Tap has no key configured, fall back to the manual flow so local/dev
-        // checkout still completes.
-        var payViaTap = form.PaymentMethod != "cod" && paymentGateway.IsConfigured;
+        // Every payment method (knet/card/applepay) goes through Tap's hosted redirect. If Tap has
+        // no key configured we only fall back to a synchronous "manual" order in Development (so
+        // local dev + smoke tests still complete) — see the guard below. There is no cash-on-delivery
+        // option, so an unconfigured gateway must never silently book an unpaid order in production.
+        var payViaTap = paymentGateway.IsConfigured;
 
         if (payViaTap)
         {
-            // Resume the browser's in-flight Tap order (same amount, still unpaid) instead of
+            // Resume the browser's in-flight Tap order (same bag + amount, still unpaid) instead of
             // spawning a new order + charge on every re-submit (back button / abandoned page).
-            var tapOrder = await ResolveResumableTapOrderAsync(total, ct);
+            var tapOrder = await ResolveResumableTapOrderAsync(cart, total, ct);
             if (tapOrder is null)
             {
                 order.Payments.Add(new Payment
@@ -185,12 +178,23 @@ public class CheckoutController(
             }
 
             ModelState.AddModelError(string.Empty,
-                "We couldn't start your payment. Please try again, or choose Cash on Delivery.");
+                "We couldn't start your payment. Please try again in a moment.");
             var failedVm = await BuildViewModelAsync(cart, form, ct);
             return View("Index", failedVm);
         }
 
-        // COD / manual fallback: confirm immediately.
+        // Gateway not configured. Only Development may place a synchronous unpaid order, so local
+        // dev + the smoke tests still complete; anywhere else, refuse rather than book an unpaid
+        // order (there is no cash-on-delivery fallback now that online payment is the only method).
+        if (!env.IsDevelopment())
+        {
+            ModelState.AddModelError(string.Empty,
+                "Online payment is temporarily unavailable. Please try again shortly.");
+            var unavailableVm = await BuildViewModelAsync(cart, form, ct);
+            return View("Index", unavailableVm);
+        }
+
+        // Development-only manual fallback: confirm immediately without a real charge.
         order.Payments.Add(new Payment
         {
             Provider = "Manual",
@@ -222,10 +226,13 @@ public class CheckoutController(
 
     /// <summary>
     /// Returns the browser's in-flight Tap order (from the <c>ws_pay</c> cookie) when it is still
-    /// resumable — ours, placed-and-unpaid, with an Initiated Tap payment, and for the same amount —
-    /// so a re-submit continues that order instead of creating a duplicate order + charge.
+    /// resumable — placed-and-unpaid, with an Initiated Tap payment, owned by the same visitor, and
+    /// for the exact same bag (line items + amount) — so a re-submit continues that order instead of
+    /// creating a duplicate order + charge. The same-bag check matters most for guests: the ownership
+    /// guard alone can't distinguish two anonymous visitors (both have a null UserId), so we additionally
+    /// require the current cart to match the order's lines before re-using it on a shared device.
     /// </summary>
-    private async Task<Order?> ResolveResumableTapOrderAsync(decimal total, CancellationToken ct)
+    private async Task<Order?> ResolveResumableTapOrderAsync(Cart cart, decimal total, CancellationToken ct)
     {
         if (!Request.Cookies.TryGetValue(PendingPayCookie, out var orderNumber) || string.IsNullOrWhiteSpace(orderNumber))
             return null;
@@ -235,9 +242,29 @@ public class CheckoutController(
         if (order.Status != OrderStatus.Placed || order.PaymentStatus != PaymentStatus.Pending) return null;
         if (order.UserId != User.GetUserId()) return null;                  // ownership (both null for a guest)
         if (Math.Round(order.Total, 3) != Math.Round(total, 3)) return null; // the bag changed since
+        if (!SameLineItems(order, cart)) return null;                        // a different bag with the same total
         if (!order.Payments.Any(p => p.Provider == "Tap" && p.Status == TransactionStatus.Initiated)) return null;
 
         return order;
+    }
+
+    /// <summary>True when the order's line items are exactly the current cart's (same variants and quantities).</summary>
+    private static bool SameLineItems(Order order, Cart cart)
+    {
+        var cartLines = cart.Items
+            .GroupBy(i => i.ProductVariantId)
+            .ToDictionary(g => g.Key, g => g.Sum(i => i.Quantity));
+
+        var orderLines = order.Items
+            .Where(i => i.ProductVariantId is not null)
+            .GroupBy(i => i.ProductVariantId!.Value)
+            .ToDictionary(g => g.Key, g => g.Sum(i => i.Quantity));
+
+        if (cartLines.Count != orderLines.Count) return false;
+        foreach (var (variantId, qty) in cartLines)
+            if (!orderLines.TryGetValue(variantId, out var orderedQty) || orderedQty != qty) return false;
+
+        return true;
     }
 
     /// <summary>

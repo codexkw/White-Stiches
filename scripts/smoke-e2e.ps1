@@ -118,11 +118,13 @@ Step 'checkout renders with cart (merged after login)' {
 }
 
 Step 'place order' {
+    # No Tap key configured locally → in Development the checkout uses the synchronous manual
+    # fallback and lands straight on the confirmation page (no hosted-page redirect to follow).
     $r = Post-Form '/checkout/place' @{
         email = $email; phone = '+96550000000'; firstName = 'Smoke'; lastName = 'Tester'
         governorate = 'Al Asimah'; area = 'Kuwait City'; block = '3'; street = 'Salem Al Mubarak'
         building = '12'; floor = '2'; apartment = '4'; directions = 'Test order'
-        shippingMethod = 'standard'; paymentMethod = 'cod'; termsAccepted = 'true'
+        shippingMethod = 'standard'; paymentMethod = 'knet'; termsAccepted = 'true'
     } '/checkout'
     $m = [regex]::Match($r.Content, '(WS-\d+)')
     if (-not $m.Success) { throw 'no order number on confirmation' }

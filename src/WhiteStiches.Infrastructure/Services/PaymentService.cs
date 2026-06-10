@@ -29,6 +29,13 @@ public class PaymentService(
         var payment = order.Payments.Where(p => p.Provider == "Tap").OrderByDescending(p => p.Id).FirstOrDefault()
             ?? order.Payments.OrderByDescending(p => p.Id).FirstOrDefault();
 
+        // Refuse to open a charge we couldn't record: a charge created at Tap with no Payment row to
+        // hold its id can never be reconciled by the return or webhook (GatewayTransactionId stays null),
+        // leaving the customer charged with no way to finalize the order. Fail loud instead.
+        if (payment is null)
+            throw new InvalidOperationException(
+                $"Order {order.OrderNumber} has no Payment row to record the gateway charge against.");
+
         var result = await gateway.CreateChargeAsync(new PaymentChargeRequest
         {
             Amount = order.Total,
