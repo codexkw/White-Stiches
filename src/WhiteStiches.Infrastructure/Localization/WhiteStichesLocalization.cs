@@ -32,12 +32,23 @@ public static class WhiteStichesLocalization
     /// </summary>
     public static RequestLocalizationOptions BuildOptions()
     {
-        var cultures = SupportedCultures.Select(c => new CultureInfo(c)).ToList();
+        // The UI (resource) culture switches between English and Arabic so translations, Arabic DB
+        // content, and RTL all follow the chosen language (everything keys off CurrentUICulture).
+        //
+        // The *formatting* culture is deliberately pinned to English everywhere: numbers and dates
+        // stay Latin / invariant-style (KWD 3-decimal, "." decimal separator) so numeric model
+        // binding round-trips regardless of UI language. This matters because under ICU, Arabic's
+        // decimal separator is U+066B ("٫") — so once a user is in Arabic, the MVC decimal binder
+        // rejects invariant inputs like "5.000"/"12.500" and every price/amount field silently fails
+        // to save. Pinning the format culture to "en" (only the UI culture is allowed to be Arabic)
+        // avoids that and matches the house convention of Latin-only numerals.
+        var formatting = new List<CultureInfo> { new(DefaultCulture) };               // en only
+        var uiCultures = SupportedCultures.Select(c => new CultureInfo(c)).ToList();  // en + ar
         return new RequestLocalizationOptions
         {
-            DefaultRequestCulture = new RequestCulture(DefaultCulture),
-            SupportedCultures = cultures,
-            SupportedUICultures = cultures,
+            DefaultRequestCulture = new RequestCulture(DefaultCulture, DefaultCulture),
+            SupportedCultures = formatting,
+            SupportedUICultures = uiCultures,
             ApplyCurrentCultureToResponseHeaders = true
         };
     }

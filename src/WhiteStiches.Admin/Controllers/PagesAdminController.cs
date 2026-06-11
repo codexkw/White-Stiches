@@ -12,14 +12,16 @@ namespace WhiteStiches.Admin.Controllers;
 [Authorize(Roles = $"{AppRoles.SuperAdmin},{AppRoles.Admin},{AppRoles.MarketingManager},{AppRoles.ContentEditor}")]
 public class PagesAdminController(IContentService content, IAuditService audit, IRichTextSanitizer sanitizer) : Controller
 {
+    private const int PageSize = 25;
+
     [HttpGet("pages")]
-    public async Task<IActionResult> Index(CancellationToken ct)
+    public async Task<IActionResult> Index(int page = 1, CancellationToken ct = default)
     {
         ViewData["Title"] = "Pages";
         ViewData["Nav"] = "pages";
 
         var pages = await content.GetPagesAsync(ct);
-        return View(pages);
+        return View(pages.ToPagedResult(page, PageSize));
     }
 
     [HttpGet("pages/new")]

@@ -1,4 +1,4 @@
-@model IReadOnlyList<StaticPage>
+@model WhiteStiches.Core.Models.PagedResult<StaticPage>
 @{
     ViewData["Title"] = "Pages";
     ViewData["Nav"] = "pages";
@@ -10,7 +10,7 @@
         <a href="/pages/new" class="adm-btn adm-btn--solid">@L["New page"]</a>
     </header>
 
-    @if (Model.Count == 0)
+    @if (Model.TotalCount == 0)
     {
         <div class="adm-panel__body">
             <div class="adm-empty">
@@ -32,7 +32,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var p in Model)
+                @foreach (var p in Model.Items)
                 {
                     <tr>
                         <td><a href="/pages/@p.Id/edit">@p.Title()</a></td>
@@ -55,3 +55,5 @@
         </table>
     }
 </section>
+
+<partial name="_Pager" model="PagerInfo.From(Model)" />

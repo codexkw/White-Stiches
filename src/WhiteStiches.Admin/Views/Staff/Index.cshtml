@@ -10,7 +10,7 @@
 }
 
 <div class="adm-toolbar">
-    <p class="set-note">@Model.Members.Count @L[Model.Members.Count == 1 ? "staff member" : "staff members"]. @L["Times are UTC."]</p>
+    <p class="set-note">@Model.Members.TotalCount @L[Model.Members.TotalCount == 1 ? "staff member" : "staff members"]. @L["Times are UTC."]</p>
     <div class="adm-actions">
         <a class="adm-btn" href="/profile/2fa">@L["My two-factor authentication"]</a>
         <a class="adm-btn adm-btn--solid" href="/staff/new">@L["Add staff member"]</a>
@@ -20,7 +20,7 @@
 <section class="adm-panel">
     <header class="adm-panel__head"><h2 class="adm-panel__title">@L["Staff"]</h2></header>
     <div class="adm-panel__body">
-        @if (Model.Members.Count == 0)
+        @if (Model.Members.TotalCount == 0)
         {
             <div class="adm-empty">
                 <strong>@L["No staff yet"]</strong>
@@ -42,7 +42,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach (var member in Model.Members)
+                @foreach (var member in Model.Members.Items)
                 {
                     <tr>
                         <td>@member.FullName</td>
@@ -82,3 +82,5 @@
         }
     </div>
 </section>
+
+<partial name="_Pager" model="PagerInfo.From(Model.Members)" />

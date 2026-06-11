@@ -32,7 +32,7 @@ public class SettingsIndexViewModel
 
 public class StaffListViewModel
 {
-    public IReadOnlyList<StaffMember> Members { get; init; } = [];
+    public PagedResult<StaffMember> Members { get; init; } = new();
 }
 
 public class StaffNewViewModel

@@ -13,14 +13,16 @@ namespace WhiteStiches.Admin.Controllers;
 [Route("staff")]
 public class StaffController(IStaffAdminService staff, IAuditService audit) : Controller
 {
+    private const int PageSize = 25;
+
     [HttpGet("")]
-    public async Task<IActionResult> Index(CancellationToken ct)
+    public async Task<IActionResult> Index(int page = 1, CancellationToken ct = default)
     {
         ViewData["Title"] = "Staff & Roles";
         ViewData["Nav"] = "staff";
 
-        var members = await staff.GetStaffAsync(ct);
-        return View(new StaffListViewModel { Members = members });
+        var all = await staff.GetStaffAsync(ct);
+        return View(new StaffListViewModel { Members = all.ToPagedResult(page, PageSize) });
     }
 
     [HttpGet("new")]

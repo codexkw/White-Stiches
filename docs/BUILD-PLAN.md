@@ -252,6 +252,32 @@ helper, and `audit.LogAsync` on export. Reuse all of them.
 - **Permissions**: gate `/reports` behind an appropriate staff role (admin default-deny already applies).
 - **Stretch** (after 1C‑3 SMTP): saved filters + scheduled emailed exports.
 
+## ✅ Phase 1F — Admin listing pagination audit (DONE · 2026-06-11)
+
+Swept **every** admin listing page to guarantee server-side pagination, reusing the established
+`PagedResult<T>` + `_Pager` partial + query-string-preserving `PagerInfo` pattern.
+
+**Already paginated (13 surfaces):** Orders, Order drafts, Products, Customers, Discounts, Returns,
+Collections, Journal, Newsletter, Inbox, Audit (all via `_Pager`), Customer detail order history,
+and the Reports output table (its own `rep-pager`).
+
+**Fixed (2 — were rendering the entire table):**
+- [x] **Staff & Roles** (`/staff`) — `StaffListViewModel.Members` is now a `PagedResult<StaffMember>`
+  (25/page) + `_Pager`; controller takes `?page`.
+- [x] **Static pages** (`/pages`) — `Index` now returns `PagedResult<StaticPage>` (25/page) + `_Pager`.
+
+Paging is done in-controller via a shared `IReadOnlyList<T>.ToPagedResult(page, size)` helper
+(`Admin/Models/PagingExtensions.cs`) — Skip/Take over the existing full-list service call. Chosen over
+DB-level paging because both sets are small/bounded; no Core service-contract change, no impact on
+other callers of `GetStaffAsync`/`GetPagesAsync`.
+
+**Intentionally NOT paginated (by design — documented so it isn't "fixed" later):**
+- **Categories** (`/categories`) — hierarchical tree (`CategoryTree.BuildRows`); paging would sever
+  parent/child rows. Bounded taxonomy, rendered whole with an inline create/edit form.
+- **Products → Inventory** (`/products/{id}/inventory`) — a per-product detail page, not a list-all
+  surface; its adjustment history is already capped (last 50).
+- Dashboard, Settings, Reports landing form — not lists.
+
 ## Phase 2+ (PRD §10.2/10.3)
 
 GCC markets, mada/BNPL/COD, marketing automations, reviews, loyalty, gift cards,
