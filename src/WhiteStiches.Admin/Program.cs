@@ -75,6 +75,15 @@ app.MapControllerRoute(
         pattern: "{controller=Dashboard}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+// Surface the SMTP/email configuration at startup (the back office sends shipment notifications).
+var smtpHost = builder.Configuration["Smtp:Host"];
+var smtpUser = builder.Configuration["Smtp:Username"];
+app.Logger.LogInformation(
+    "SMTP email: {State}",
+    !string.IsNullOrWhiteSpace(smtpHost) && !string.IsNullOrWhiteSpace(smtpUser)
+        ? $"CONFIGURED ({smtpHost})"
+        : "NOT configured — transactional email is skipped");
+
 // Idempotent seed: roles, super admin, root categories, baseline settings
 try
 {

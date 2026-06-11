@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using WhiteStiches.Core.Interfaces;
 using WhiteStiches.Infrastructure.Data;
+using WhiteStiches.Infrastructure.Email;
 using WhiteStiches.Infrastructure.Identity;
 using WhiteStiches.Infrastructure.Payments;
 using WhiteStiches.Infrastructure.Services;
@@ -70,6 +71,12 @@ public static class DependencyInjection
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", opts.SecretKey);
         });
         services.AddScoped<IPaymentService, PaymentService>();
+
+        // SMTP transactional email (Phase 1C-3). Shared by both apps: the storefront sends
+        // password-reset + order-confirmation mail, the back office sends shipment notifications.
+        services.Configure<SmtpOptions>(configuration.GetSection("Smtp"));
+        services.AddScoped<IEmailSender, SmtpEmailSender>();
+        services.AddScoped<IEmailService, EmailService>();
 
         return services;
     }

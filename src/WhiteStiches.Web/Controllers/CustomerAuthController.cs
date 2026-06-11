@@ -1,6 +1,8 @@
+using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using WhiteStiches.Core.Interfaces;
 using WhiteStiches.Infrastructure.Identity;
 using WhiteStiches.Infrastructure.Localization;
@@ -17,20 +19,27 @@ namespace WhiteStiches.Web.Controllers;
 public class CustomerAuthController : Controller
 {
     private const string LoginViewPath = "~/Views/Account/Login.cshtml";
+    private const string ResetViewPath = "~/Views/Account/ResetPassword.cshtml";
     private const string ForgotSentToTempDataKey = "AuthForgotSentTo";
 
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ICartService _cartService;
+    private readonly IEmailService _emailService;
+    private readonly IConfiguration _configuration;
 
     public CustomerAuthController(
         SignInManager<ApplicationUser> signInManager,
         UserManager<ApplicationUser> userManager,
-        ICartService cartService)
+        ICartService cartService,
+        IEmailService emailService,
+        IConfiguration configuration)
     {
         _signInManager = signInManager;
         _userManager = userManager;
         _cartService = cartService;
+        _emailService = emailService;
+        _configuration = configuration;
     }
 
     // ── GET /account/login ──────────────────────────────────────────────
@@ -144,7 +153,8 @@ public class CustomerAuthController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Forgot(
         [Bind(Prefix = "Forgot")] ForgotPasswordFormModel form,
-        string? returnUrl = null)
+        string? returnUrl = null,
+        CancellationToken ct = default)
     {
         if (!ModelState.IsValid)
             return LoginView(AuthPageViewModel.PaneForgot, returnUrl, forgot: form);
@@ -155,12 +165,71 @@ public class CustomerAuthController : Controller
         var user = await _userManager.FindByEmailAsync(email);
         if (user is not null)
         {
-            // Token is generated now; the reset email itself ships in Phase 1C.
-            _ = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var encoded = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            var resetLink = BuildResetLink(encoded, email);
+            await _emailService.SendPasswordResetAsync(user.Email ?? email, user.FullName,
+                user.PreferredLanguage, resetLink, ct);
         }
 
         TempData[ForgotSentToTempDataKey] = email;
         return RedirectToAction(nameof(Login), new { returnUrl });
+    }
+
+    // ── GET /account/reset-password ─────────────────────────────────────
+    [HttpGet("account/reset-password")]
+    public IActionResult ResetPassword(string? token = null, string? email = null)
+    {
+        if (User.Identity?.IsAuthenticated == true)
+            return Redirect("/account");
+
+        return View(ResetViewPath, new ResetPasswordFormModel
+        {
+            Token = token,
+            Email = email ?? string.Empty,
+            LinkInvalid = string.IsNullOrWhiteSpace(token) || string.IsNullOrWhiteSpace(email)
+        });
+    }
+
+    // ── POST /account/reset-password ────────────────────────────────────
+    [HttpPost("account/reset-password")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ResetPassword(ResetPasswordFormModel form)
+    {
+        if (string.IsNullOrWhiteSpace(form.Token) || string.IsNullOrWhiteSpace(form.Email))
+        {
+            form.LinkInvalid = true;
+            return View(ResetViewPath, form);
+        }
+
+        if (!ModelState.IsValid)
+            return View(ResetViewPath, form);
+
+        var user = await _userManager.FindByEmailAsync(form.Email.Trim());
+        if (user is not null)
+        {
+            string decoded;
+            try { decoded = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(form.Token)); }
+            catch { decoded = form.Token; }
+
+            var result = await _userManager.ResetPasswordAsync(user, decoded, form.Password);
+            if (result.Succeeded)
+            {
+                form.Success = true;
+                return View(ResetViewPath, form);
+            }
+
+            foreach (var error in result.Errors)
+                ModelState.AddModelError(string.Empty, error.Description);
+        }
+        else
+        {
+            // Don't reveal whether the email exists; a bad/expired link looks the same.
+            ModelState.AddModelError(string.Empty,
+                "This reset link is invalid or has expired. Please request a new one.");
+        }
+
+        return View(ResetViewPath, form);
     }
 
     // ── POST /account/logout ────────────────────────────────────────────
@@ -190,6 +259,20 @@ public class CustomerAuthController : Controller
         !string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl)
             ? Redirect(returnUrl)
             : Redirect("/account");
+
+    /// <summary>
+    /// Builds the absolute reset-password URL for the email. Prefers a configured public origin
+    /// (Smtp:BaseUrl → Tap:PublicBaseUrl) so links are correct behind a TLS proxy; falls back to
+    /// the current request's scheme/host for local dev.
+    /// </summary>
+    private string BuildResetLink(string token, string email)
+    {
+        var path = Url.Action(nameof(ResetPassword), "CustomerAuth", new { token, email })!;
+        var baseUrl = _configuration["Smtp:BaseUrl"] ?? _configuration["Tap:PublicBaseUrl"];
+        return string.IsNullOrWhiteSpace(baseUrl)
+            ? $"{Request.Scheme}://{Request.Host}{path}"
+            : new Uri(new Uri(baseUrl), path).ToString();
+    }
 
     private ViewResult LoginView(
         string activePane,

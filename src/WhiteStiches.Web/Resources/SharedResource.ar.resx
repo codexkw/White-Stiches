@@ -2217,4 +2217,25 @@
   <data name="Your bag" xml:space="preserve">
     <value>حقيبتكِ</value>
   </data>
+  <data name="Reset your password" xml:space="preserve">
+    <value>إعادة تعيين كلمة المرور</value>
+  </data>
+  <data name="Choose a new password to get back into your account." xml:space="preserve">
+    <value>اختاري كلمة مرور جديدة للعودة إلى حسابكِ.</value>
+  </data>
+  <data name="Update password" xml:space="preserve">
+    <value>تحديث كلمة المرور</value>
+  </data>
+  <data name="Password updated" xml:space="preserve">
+    <value>تم تحديث كلمة المرور</value>
+  </data>
+  <data name="Your password has been changed - you can now sign in with it." xml:space="preserve">
+    <value>تم تغيير كلمة المرور — يمكنكِ الآن تسجيل الدخول بها.</value>
+  </data>
+  <data name="This reset link is invalid or has expired." xml:space="preserve">
+    <value>رابط إعادة التعيين غير صالح أو منتهي الصلاحية.</value>
+  </data>
+  <data name="Request a new link" xml:space="preserve">
+    <value>طلب رابط جديد</value>
+  </data>
 </root>

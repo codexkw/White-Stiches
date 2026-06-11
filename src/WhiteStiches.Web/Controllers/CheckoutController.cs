@@ -20,6 +20,7 @@ public class CheckoutController(
     IPaymentGateway paymentGateway,
     IPaymentService paymentService,
     ICustomerService customerService,
+    IEmailService emailService,
     IConfiguration configuration,
     IWebHostEnvironment env,
     UserManager<ApplicationUser> userManager) : Controller
@@ -219,6 +220,9 @@ public class CheckoutController(
 
         await cartService.ClearAsync(cart.Id, ct);
         Response.Cookies.Delete(PendingPayCookie);
+
+        // Confirmation email for the synchronous (Development) order. Guarded — never blocks the redirect.
+        await emailService.SendOrderConfirmationAsync(order, ct);
 
         TempData["LastOrderNumber"] = order.OrderNumber;
         return Redirect($"/checkout/confirmation/{order.OrderNumber}");

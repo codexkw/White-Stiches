@@ -67,6 +67,16 @@ app.Logger.LogInformation(
         ? "(not set — callback/webhook URLs use the incoming request scheme + host)"
         : tapPublicBase);
 
+// Surface the SMTP/email configuration at startup. NOT configured means transactional mail
+// (password reset, order confirmation, shipment) is silently skipped (logged as a warning per send).
+var smtpHost = builder.Configuration["Smtp:Host"];
+var smtpUser = builder.Configuration["Smtp:Username"];
+app.Logger.LogInformation(
+    "SMTP email: {State}",
+    !string.IsNullOrWhiteSpace(smtpHost) && !string.IsNullOrWhiteSpace(smtpUser)
+        ? $"CONFIGURED ({smtpHost})"
+        : "NOT configured — transactional email is skipped");
+
 // Idempotent seed: roles, super admin, root categories, baseline settings
 try
 {

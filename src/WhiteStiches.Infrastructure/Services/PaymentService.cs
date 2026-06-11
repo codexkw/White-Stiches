@@ -18,6 +18,7 @@ namespace WhiteStiches.Infrastructure.Services;
 public class PaymentService(
     WhiteStichesDbContext db,
     IPaymentGateway gateway,
+    IEmailService emailService,
     ILogger<PaymentService> logger) : IPaymentService
 {
     public async Task<PaymentChargeResult> StartChargeForOrderAsync(int orderId, string redirectUrl, string? webhookUrl,
@@ -165,6 +166,10 @@ public class PaymentService(
 
         await db.SaveChangesAsync(ct);
         await tx.CommitAsync(ct);
+
+        // Confirmation email — fired AFTER commit (outside the transaction) so a slow/failed SMTP
+        // never holds DB locks or rolls back a captured payment. The service swallows its own errors.
+        await emailService.SendOrderConfirmationAsync(order, ct);
 
         logger.LogInformation("Order {OrderNumber} finalized from Tap charge {ChargeId}.", order.OrderNumber, chargeId);
         return new OrderFinalizeResult(OrderFinalizeOutcome.Finalized, order.OrderNumber);

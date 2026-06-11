@@ -11,7 +11,8 @@ using WhiteStiches.Infrastructure.Data;
 
 namespace WhiteStiches.Infrastructure.Services.Admin;
 
-public class OrderAdminService(WhiteStichesDbContext db, IOrderService orders, IPaymentGateway gateway) : IOrderAdminService
+public class OrderAdminService(WhiteStichesDbContext db, IOrderService orders, IPaymentGateway gateway,
+    IEmailService emailService) : IOrderAdminService
 {
     public async Task<PagedResult<Order>> GetOrdersAdminAsync(OrderStatus? status, PaymentStatus? paymentStatus,
         OrderChannel? channel, string? search, bool isDraft = false,
@@ -136,6 +137,10 @@ public class OrderAdminService(WhiteStichesDbContext db, IOrderService orders, I
         });
 
         await db.SaveChangesAsync(ct);
+
+        // Notify the customer that their order shipped (carrier/AWB/tracking if supplied). Guarded.
+        await emailService.SendOrderShippedAsync(order, shipment, ct);
+
         return shipment;
     }
 

@@ -64,7 +64,7 @@ the storefront `scripts/smoke-e2e.ps1` (21-step — all pass, no service-layer r
 | --- | --- | --- |
 | 1 | ✅ **Tap Payments**: hosted checkout, webhooks (signature + idempotency), refunds from Admin | INT-PAY-01..05, SF-CHK-03 |
 | 2 | Delivery partner behind provider-agnostic interface (partner TBD — open question in PRD §12) | INT-DLV-01/02 |
-| 3 | SMTP transactional email (bilingual templates) | INT-EML-01..03 |
+| 3 | ✅ **SMTP transactional email** (Mailgun): password reset, order confirmation, shipment — bilingual EN/AR | INT-EML-01..03 |
 | 4 | WhatsApp transactional templates (order confirmed/shipped/delivered) | INT-WAP-01..03 |
 | 5 | GA4 + Consent Mode v2 wired to the cookie-consent state already in the front end | INT-GA4-01/02 |
 
@@ -117,6 +117,46 @@ Admin → Tap partial refund was issued.
   Tap orders out of the default admin list).
 - Webhook signature verified by code review against the documented algorithm; exercise it against a real
   Tap delivery once a public HTTPS endpoint exists (can't reach localhost).
+
+### ✅ 1C-3 SMTP transactional email (DONE · 2026-06-11)
+
+Dependency-free SMTP (built-in `SmtpClient`, port 587 STARTTLS) over Mailgun (`smtp.mailgun.org`).
+New `Infrastructure/Email/`: `SmtpOptions`, `IEmailSender` → `SmtpEmailSender`, `IEmailService`
+(Core interface) → `EmailService`, and `EmailTemplates` (branded, bilingual EN/AR, RTL for Arabic,
+Latin-numeral KWD money). Registered in the shared `AddWhiteStichesInfrastructure` so both apps send.
+
+- **Password reset** — `CustomerAuthController.Forgot` now generates the token, builds an absolute
+  link (`Smtp:BaseUrl` → `Tap:PublicBaseUrl` → request), and emails it; new
+  `GET/POST /account/reset-password` page (`ResetPassword.cshtml`, bilingual, 3 states:
+  form / success / invalid-link) calls `UserManager.ResetPasswordAsync`. **Closes the 1A
+  forgot-password leftover.**
+- **Order confirmation** — fired from `PaymentService.FinalizeCapturedChargeAsync` (after commit,
+  outside the tx) and the Development manual-fallback in `CheckoutController`.
+- **Shipment notice** — fired from `OrderAdminService.FulfillAsync` (carrier/AWB/tracking included).
+- **Resilience**: `EmailService` + `SmtpEmailSender` never throw — a mail failure logs and is
+  swallowed so checkout / fulfilment / reset are never broken. Both `Program.cs` log SMTP state at
+  startup. Language picked from `Order.LanguageCode` / `ApplicationUser.PreferredLanguage`.
+- **Config**: `Smtp` section in both `appsettings.json` (Host/Port/UseSsl/Username/Password/
+  FromEmail/FromName/BaseUrl/Enabled). `Smtp:Enabled=false` disables all mail without removing config.
+
+**Verified:** build 0/0 · i18n gate PASS (7 new reset-page keys translated) · smoke-e2e 21/21 ·
+smoke-admin 25/25 · a real forgot-password send was **accepted by Mailgun** (`SMTP: sent`) · reset
+page renders EN + AR (RTL) · confirmation + shipment hooks fire and build their templates (verified
+via the skip log with the real order number).
+
+**1C-3 leftovers / before go-live:**
+- ⚠️ The Mailgun **password is committed in `appsettings.json`** (per request) — see security note
+  below; SMTP password is not caught by GitHub push-protection.
+- `From` is `postmaster@mg.codexkw.co` on the `mg.codexkw.co` domain; switch to the production
+  sending domain + a `no-reply@` address and verify SPF/DKIM before launch.
+- No background queue — sends are inline (guarded). Fine at launch volume; revisit with a hosted
+  queue if checkout latency from SMTP becomes noticeable.
+- Email links use `Smtp:BaseUrl` (testing origin) — update for production.
+
+> **⚠️ Secrets-in-repo note (pre-existing):** `appsettings.json` is git-tracked and the committed
+> history already contains the SQL `sa` password, the Tap `sk_test_` key, and the seed-admin
+> password. The Mailgun password follows that same (insecure) convention. Recommended before any
+> public exposure: move all secrets to user-secrets / environment variables and scrub history.
 
 ## Phase 1D — Localization & launch QA
 

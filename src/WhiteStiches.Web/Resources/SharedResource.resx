@@ -2217,4 +2217,25 @@
   <data name="Your bag" xml:space="preserve">
     <value>Your bag</value>
   </data>
+  <data name="Reset your password" xml:space="preserve">
+    <value>Reset your password</value>
+  </data>
+  <data name="Choose a new password to get back into your account." xml:space="preserve">
+    <value>Choose a new password to get back into your account.</value>
+  </data>
+  <data name="Update password" xml:space="preserve">
+    <value>Update password</value>
+  </data>
+  <data name="Password updated" xml:space="preserve">
+    <value>Password updated</value>
+  </data>
+  <data name="Your password has been changed - you can now sign in with it." xml:space="preserve">
+    <value>Your password has been changed - you can now sign in with it.</value>
+  </data>
+  <data name="This reset link is invalid or has expired." xml:space="preserve">
+    <value>This reset link is invalid or has expired.</value>
+  </data>
+  <data name="Request a new link" xml:space="preserve">
+    <value>Request a new link</value>
+  </data>
 </root>
