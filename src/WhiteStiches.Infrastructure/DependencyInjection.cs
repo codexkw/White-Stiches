@@ -53,6 +53,7 @@ public static class DependencyInjection
         services.AddScoped<ISettingsService, SettingsService>();
         services.AddScoped<IAuditService, AuditService>();
         services.AddScoped<IFileStorage, FileStorageService>();
+        services.AddSingleton<IRichTextSanitizer, RichTextSanitizer>();
 
         // Tap Payments (Phase 1C). Typed HttpClient is the first in the codebase; the
         // secret key (sk_test_/sk_live_) authenticates every call and signs webhooks.

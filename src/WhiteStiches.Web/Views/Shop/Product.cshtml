@@ -48,18 +48,18 @@
 <!-- ============================ BREADCRUMB ============================ -->
 <nav class="breadcrumb" aria-label="Breadcrumb">
   <div class="breadcrumb__inner">
-    <a href="/">Home</a>
+    <a href="/">@L["Home"]</a>
     <span class="breadcrumb__sep">/</span>
     @if (p.Category is not null)
     {
-      <a href="/collection?category=@p.Category.Slug">@p.Category.NameEn</a>
+      <a href="/collection?category=@p.Category.Slug">@p.Category.Name()</a>
     }
     else
     {
-      <a href="/collection">Collection</a>
+      <a href="/collection">@L["Collection"]</a>
     }
     <span class="breadcrumb__sep">/</span>
-    <span class="breadcrumb__current">@p.TitleEn</span>
+    <span class="breadcrumb__current">@p.Title()</span>
   </div>
 </nav>
 
@@ -70,20 +70,20 @@
     <!-- ── GALLERY ─────────────────────────────────────────────────── -->
     <div class="pdp__gallery">
       <!-- Vertical thumbnail rail (desktop) -->
-      <div class="pdp__thumbs" role="tablist" aria-label="Product gallery thumbnails">
+      <div class="pdp__thumbs" role="tablist" aria-label="@L["Product gallery thumbnails"]">
         @if (images.Count > 0)
         {
           for (var i = 0; i < images.Count; i++)
           {
             <button class="pdp__thumb @(i == 0 ? "is-active" : null)" data-index="@i" role="tab" aria-selected="@(i == 0 ? "true" : "false")">
-              <img src="@images[i].Url" alt="@(images[i].AltEn ?? p.TitleEn)" />
+              <img src="@images[i].Url" alt="@(images[i].Alt() ?? p.Title())" />
             </button>
           }
         }
         else
         {
           <button class="pdp__thumb is-active" data-index="0" role="tab" aria-selected="true">
-            <img src="~/assets/products/product-1.jpg" alt="@p.TitleEn" />
+            <img src="~/assets/products/product-1.jpg" alt="@p.Title()" />
           </button>
         }
       </div>
@@ -96,14 +96,14 @@
             for (var i = 0; i < images.Count; i++)
             {
               <div class="pdp__slide @(i == 0 ? "is-active" : null)" data-index="@i">
-                <img src="@images[i].Url" alt="@(images[i].AltEn ?? p.TitleEn)" />
+                <img src="@images[i].Url" alt="@(images[i].Alt() ?? p.Title())" />
               </div>
             }
           }
           else
           {
             <div class="pdp__slide is-active" data-index="0">
-              <img src="~/assets/products/product-1.jpg" alt="@p.TitleEn" />
+              <img src="~/assets/products/product-1.jpg" alt="@p.Title()" />
             </div>
           }
         </div>
@@ -130,14 +130,14 @@
       <div class="pdp__info-inner">
 
         <span class="pdp__eyebrow">@(p.Vendor is { Length: > 0 } vendor ? vendor : "White Stitches · Atelier")</span>
-        <h1 class="pdp__title">@p.TitleEn</h1>
+        <h1 class="pdp__title">@p.Title()</h1>
 
         <div class="pdp__price-row">
           <span class="pdp__price">
             <span class="product__price--was" id="pdpWas" hidden="@(!onSale)">@(onSale ? Money(dv!.CompareAtPrice!.Value) : null)</span>
             <span id="pdpPrice">@Money(dv?.Price ?? 0m)</span> <span class="pdp__currency">KWD</span>
           </span>
-          <span class="pdp__price-meta">VAT included · Free shipping over 50 KWD</span>
+          <span class="pdp__price-meta">@L["VAT included · Free shipping over 50 KWD"]</span>
         </div>
 
         @if (Model.ColorValues.Count > 0)
@@ -166,7 +166,7 @@
                   <span class="color-thumb__name">@color</span>
                   @if (soldOut)
                   {
-                    <span class="color-thumb__badge">Sold out</span>
+                    <span class="color-thumb__badge">@L["Sold out"]</span>
                   }
                 </button>
               }
@@ -180,7 +180,7 @@
           <div class="variant">
             <div class="variant__head">
               <span class="variant__label">@Model.SizeLabel</span>
-              <a class="variant__guide" id="sizeGuideOpen" href="/size-guide">Size guide →</a>
+              <a class="variant__guide" id="sizeGuideOpen" href="/size-guide">@L["Size guide →"]</a>
             </div>
             <div class="variant__sizes" role="radiogroup" aria-label="@Model.SizeLabel">
               @foreach (var size in Model.SizeValues)
@@ -199,15 +199,15 @@
           <input type="hidden" name="variantId" id="variantIdInput" value="@(dv?.Id ?? 0)" />
           <input type="hidden" name="returnUrl" value="@returnUrl" />
           <div class="qty">
-            <button type="button" class="qty__btn" id="qtyMinus" aria-label="Decrease quantity">−</button>
-            <input type="number" class="qty__input" id="qtyInput" name="quantity" value="1" min="1" max="10" aria-label="Quantity" />
-            <button type="button" class="qty__btn" id="qtyPlus" aria-label="Increase quantity">+</button>
+            <button type="button" class="qty__btn" id="qtyMinus" aria-label="@L["Decrease quantity"]">−</button>
+            <input type="number" class="qty__input" id="qtyInput" name="quantity" value="1" min="1" max="10" aria-label="@L["Quantity"]" />
+            <button type="button" class="qty__btn" id="qtyPlus" aria-label="@L["Increase quantity"]">+</button>
           </div>
           <button type="submit" class="btn btn--primary pdp__atc" id="addToCartBtn" disabled="@(!canBuy)">
-            <span>Add to bag</span>
+            <span>@L["Add to bag"]</span>
             <span class="pdp__atc-price" id="atcPrice">· @Money(dv?.Price ?? 0m) KWD</span>
           </button>
-          <button type="submit" form="pdpWishlistForm" class="pdp__wishlist" aria-label="Add to wishlist">
+          <button type="submit" form="pdpWishlistForm" class="pdp__wishlist" aria-label="@L["Add to wishlist"]">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           </button>
         </form>
@@ -225,24 +225,24 @@
           </div>
           <div class="pdp__signal">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h13v9H3zM16 10h3l2 3v3h-5zM7 19a2 2 0 100-4 2 2 0 000 4zM18 19a2 2 0 100-4 2 2 0 000 4z"/></svg>
-            <span>Free delivery in Kuwait · <strong>@deliveryEta</strong></span>
+            <span>@L["Free delivery in Kuwait"] · <strong>@deliveryEta</strong></span>
           </div>
           <div class="pdp__signal">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 1 1-9-9"/><path d="M21 4v5h-5"/></svg>
-            <span>14-day easy returns · <a href="/returns-policy" class="link-inline">policy</a></span>
+            <span>@L["14-day easy returns"] · <a href="/returns-policy" class="link-inline">@L["policy"]</a></span>
           </div>
         </div>
 
         <!-- ── SHARE ─────────────────────────────────────────────────── -->
         <div class="pdp__share">
-          <span>Share</span>
-          <a href="#" aria-label="Share on WhatsApp">
+          <span>@L["Share"]</span>
+          <a href="#" aria-label="@L["Share on WhatsApp"]">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 11.5a8.4 8.4 0 0 1-8.4 8.4 8.4 8.4 0 0 1-4-1L3 20l1.1-5.6a8.4 8.4 0 0 1-1-4A8.4 8.4 0 0 1 11.5 2"/></svg>
           </a>
-          <a href="#" aria-label="Share on Instagram">
+          <a href="#" aria-label="@L["Share on Instagram"]">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg>
           </a>
-          <a href="#" aria-label="Copy link">
+          <a href="#" aria-label="@L["Copy link"]">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
           </a>
         </div>
@@ -256,57 +256,57 @@
 <section class="pdp-details">
   <div class="pdp-details__inner">
 
-    @if (!string.IsNullOrWhiteSpace(p.DescriptionEn))
+    @if (!string.IsNullOrWhiteSpace(p.Description()))
     {
       <details class="acc" open>
         <summary class="acc__head">
-          <span>Description</span>
+          <span>@L["Description"]</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
         </summary>
         <div class="acc__body">
-          @Html.Raw(p.DescriptionEn)
+          @Html.Raw(p.Description())
         </div>
       </details>
     }
 
-    @if (!string.IsNullOrWhiteSpace(p.MaterialCareEn))
+    @if (!string.IsNullOrWhiteSpace(p.MaterialCare()))
     {
       <details class="acc">
         <summary class="acc__head">
-          <span>Fabric &amp; Materials</span>
+          <span>@L["Fabric & Materials"]</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
         </summary>
         <div class="acc__body">
-          @Html.Raw(p.MaterialCareEn)
+          @Html.Raw(p.MaterialCare())
         </div>
       </details>
     }
 
-    @if (!string.IsNullOrWhiteSpace(p.SizeFitEn))
+    @if (!string.IsNullOrWhiteSpace(p.SizeFit()))
     {
       <details class="acc">
         <summary class="acc__head">
-          <span>Size &amp; Fit</span>
+          <span>@L["Size & Fit"]</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
         </summary>
         <div class="acc__body">
-          @Html.Raw(p.SizeFitEn)
-          <a href="/size-guide" class="link-arrow">View full size chart →</a>
+          @Html.Raw(p.SizeFit())
+          <a href="/size-guide" class="link-arrow">@L["View full size chart →"]</a>
         </div>
       </details>
     }
 
     <details class="acc">
       <summary class="acc__head">
-        <span>Delivery &amp; Returns</span>
+        <span>@L["Delivery & Returns"]</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
       </summary>
       <div class="acc__body">
         <ul class="acc__list">
-          <li>Free standard delivery within Kuwait on orders above 50 KWD</li>
-          <li>Same-day delivery in Kuwait City for orders before 2 PM</li>
-          <li>GCC delivery 3–5 working days · duties included</li>
-          <li>Easy returns within 14 days · unworn, with tags · refund to original payment method</li>
+          <li>@L["Free standard delivery within Kuwait on orders above 50 KWD"]</li>
+          <li>@L["Same-day delivery in Kuwait City for orders before 2 PM"]</li>
+          <li>@L["GCC delivery 3–5 working days · duties included"]</li>
+          <li>@L["Easy returns within 14 days · unworn, with tags · refund to original payment method"]</li>
         </ul>
       </div>
     </details>
@@ -319,8 +319,8 @@
   <!-- ============================ COMPLETE THE LOOK ============================ -->
   <section class="products">
     <div class="section-head section-head--center">
-      <span class="eyebrow">Complete the Look</span>
-      <h2 class="section-title">Styled with this piece.</h2>
+      <span class="eyebrow">@L["Complete the Look"]</span>
+      <h2 class="section-title">@L["Styled with this piece."]</h2>
     </div>
 
     <div class="products__grid">
@@ -337,8 +337,8 @@
   <!-- ============================ YOU MAY ALSO LIKE ============================ -->
   <section class="products">
     <div class="section-head section-head--center">
-      <span class="eyebrow">You may also like</span>
-      <h2 class="section-title">More from the atelier.</h2>
+      <span class="eyebrow">@L["You may also like"]</span>
+      <h2 class="section-title">@L["More from the atelier."]</h2>
     </div>
 
     <div class="products__grid">
@@ -353,10 +353,10 @@
 <!-- ============================ STICKY MOBILE ATC ============================ -->
 <div class="pdp-stickybar" id="pdpStickybar" aria-hidden="true">
   <div class="pdp-stickybar__info">
-    <div class="pdp-stickybar__title">@p.TitleEn</div>
+    <div class="pdp-stickybar__title">@p.Title()</div>
     <div class="pdp-stickybar__price" id="stickyPrice">@Money(dv?.Price ?? 0m) KWD</div>
   </div>
-  <button type="submit" form="atcForm" class="btn btn--primary pdp-stickybar__atc" disabled="@(!canBuy)">Add to bag</button>
+  <button type="submit" form="atcForm" class="btn btn--primary pdp-stickybar__atc" disabled="@(!canBuy)">@L["Add to bag"]</button>
 </div>
 
 @section Scripts {

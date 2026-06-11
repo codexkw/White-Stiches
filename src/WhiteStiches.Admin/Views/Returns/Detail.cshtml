@@ -26,19 +26,19 @@
 
         <section class="adm-panel">
             <header class="adm-panel__head">
-                <h2 class="adm-panel__title">Requested items</h2>
+                <h2 class="adm-panel__title">@L["Requested items"]</h2>
                 <span class="adm-badge @BadgeClass(request.Status)">@request.Status</span>
             </header>
             <table class="adm-table">
                 <thead>
                 <tr>
-                    <th>Item</th>
-                    <th>Qty</th>
-                    <th>Unit (KWD)</th>
-                    <th>Line (KWD)</th>
-                    <th>Reason</th>
-                    <th>Condition</th>
-                    <th>Restocked</th>
+                    <th>@L["Item"]</th>
+                    <th>@L["Qty"]</th>
+                    <th>@L["Unit (KWD)"]</th>
+                    <th>@L["Line (KWD)"]</th>
+                    <th>@L["Reason"]</th>
+                    <th>@L["Condition"]</th>
+                    <th>@L["Restocked"]</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -47,7 +47,7 @@
                     var oi = item.OrderItem;
                     <tr>
                         <td>
-                            @(oi?.TitleEn ?? "(item)")
+                            @(oi?.Title() ?? "(item)")
                             @if (!string.IsNullOrWhiteSpace(oi?.VariantDescription))
                             {
                                 <br /><small>@oi!.VariantDescription</small>
@@ -65,11 +65,11 @@
                         <td>
                             @if (item.Restocked)
                             {
-                                <span class="adm-badge adm-badge--ok">Yes</span>
+                                <span class="adm-badge adm-badge--ok">@L["Yes"]</span>
                             }
                             else
                             {
-                                <span class="adm-badge">No</span>
+                                <span class="adm-badge">@L["No"]</span>
                             }
                         </td>
                     </tr>
@@ -80,23 +80,23 @@
 
         <section class="adm-panel">
             <header class="adm-panel__head">
-                <h2 class="adm-panel__title">Notes &amp; history</h2>
+                <h2 class="adm-panel__title">@L["Notes & history"]</h2>
             </header>
             <div class="adm-panel__body">
                 @if (!string.IsNullOrWhiteSpace(request.CustomerReason))
                 {
-                    <h3 class="ret-subhead">Customer note</h3>
+                    <h3 class="ret-subhead">@L["Customer note"]</h3>
                     <p class="ret-note">@request.CustomerReason</p>
                 }
                 @if (!string.IsNullOrWhiteSpace(request.StaffNote))
                 {
-                    <h3 class="ret-subhead">Staff note</h3>
+                    <h3 class="ret-subhead">@L["Staff note"]</h3>
                     <p class="ret-note">@request.StaffNote</p>
                 }
-                <h3 class="ret-subhead">Return timeline (UTC)</h3>
+                <h3 class="ret-subhead">@L["Return timeline (UTC)"]</h3>
                 @if (Model.ReturnEvents.Count == 0)
                 {
-                    <p>No return events yet.</p>
+                    <p>@L["No return events yet."]</p>
                 }
                 else
                 {
@@ -119,25 +119,25 @@
 
         <section class="adm-panel">
             <header class="adm-panel__head">
-                <h2 class="adm-panel__title">Request</h2>
+                <h2 class="adm-panel__title">@L["Request"]</h2>
             </header>
             <div class="adm-panel__body">
                 <dl class="ret-kv">
-                    <dt>RMA</dt>
+                    <dt>@L["RMA"]</dt>
                     <dd>@(string.IsNullOrWhiteSpace(request.RmaNumber) ? $"#{request.Id}" : request.RmaNumber)</dd>
-                    <dt>Order</dt>
+                    <dt>@L["Order"]</dt>
                     <dd><a href="/orders/@order.Id">@order.OrderNumber</a></dd>
-                    <dt>Customer</dt>
+                    <dt>@L["Customer"]</dt>
                     <dd>@($"{order.ShipFirstName} {order.ShipLastName}".Trim())<br /><small>@order.Email · @order.Phone</small></dd>
-                    <dt>Requested</dt>
+                    <dt>@L["Requested"]</dt>
                     <dd>@request.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm") UTC</dd>
-                    <dt>Method</dt>
+                    <dt>@L["Method"]</dt>
                     <dd>@(string.IsNullOrWhiteSpace(request.Method) ? "—" : request.Method)</dd>
-                    <dt>Status</dt>
+                    <dt>@L["Status"]</dt>
                     <dd><span class="adm-badge @BadgeClass(request.Status)">@request.Status</span></dd>
                     @if (request.ResolvedAtUtc is DateTime resolved)
                     {
-                        <dt>Resolved</dt>
+                        <dt>@L["Resolved"]</dt>
                         <dd>@resolved.ToString("yyyy-MM-dd HH:mm") UTC</dd>
                     }
                 </dl>
@@ -146,21 +146,21 @@
 
         <section class="adm-panel">
             <header class="adm-panel__head">
-                <h2 class="adm-panel__title">Order totals</h2>
+                <h2 class="adm-panel__title">@L["Order totals"]</h2>
             </header>
             <div class="adm-panel__body">
                 <dl class="ret-kv">
-                    <dt>Subtotal</dt>
+                    <dt>@L["Subtotal"]</dt>
                     <dd>KWD @order.Subtotal.ToString("0.000")</dd>
-                    <dt>Shipping</dt>
+                    <dt>@L["Shipping"]</dt>
                     <dd>KWD @order.ShippingAmount.ToString("0.000")</dd>
-                    <dt>Discount</dt>
+                    <dt>@L["Discount"]</dt>
                     <dd>− KWD @order.DiscountAmount.ToString("0.000")</dd>
-                    <dt>Total</dt>
+                    <dt>@L["Total"]</dt>
                     <dd><strong>KWD @order.Total.ToString("0.000")</strong></dd>
-                    <dt>Refunded</dt>
+                    <dt>@L["Refunded"]</dt>
                     <dd>KWD @Model.AlreadyRefunded.ToString("0.000")</dd>
-                    <dt>Payment</dt>
+                    <dt>@L["Payment"]</dt>
                     <dd>@order.PaymentStatus</dd>
                 </dl>
             </div>
@@ -170,7 +170,7 @@
         {
             <section class="adm-panel">
                 <header class="adm-panel__head">
-                    <h2 class="adm-panel__title">Actions</h2>
+                    <h2 class="adm-panel__title">@L["Actions"]</h2>
                 </header>
                 <div class="adm-panel__body">
 
@@ -179,22 +179,22 @@
                         <form method="post" action="/returns/@request.Id/approve" class="ret-form">
                             @Html.AntiForgeryToken()
                             <div class="adm-field">
-                                <label for="approve-note">Staff note (optional)</label>
+                                <label for="approve-note">@L["Staff note (optional)"]</label>
                                 <textarea id="approve-note" name="staffNote" rows="2"></textarea>
                             </div>
                             <div class="adm-actions">
-                                <button type="submit" class="adm-btn adm-btn--solid">Approve return</button>
+                                <button type="submit" class="adm-btn adm-btn--solid">@L["Approve return"]</button>
                             </div>
                         </form>
 
                         <form method="post" action="/returns/@request.Id/reject" class="ret-form">
                             @Html.AntiForgeryToken()
                             <div class="adm-field">
-                                <label for="reject-note">Staff note (required)</label>
+                                <label for="reject-note">@L["Staff note (required)"]</label>
                                 <textarea id="reject-note" name="staffNote" rows="2" required></textarea>
                             </div>
                             <div class="adm-actions">
-                                <button type="submit" class="adm-btn">Reject return</button>
+                                <button type="submit" class="adm-btn">@L["Reject return"]</button>
                             </div>
                         </form>
                     }
@@ -205,10 +205,10 @@
                             @Html.AntiForgeryToken()
                             <div class="adm-field adm-field--check">
                                 <input type="checkbox" id="restock" name="restock" value="true" checked />
-                                <label for="restock">Restock returned items</label>
+                                <label for="restock">@L["Restock returned items"]</label>
                             </div>
                             <div class="adm-actions">
-                                <button type="submit" class="adm-btn adm-btn--solid">Mark received</button>
+                                <button type="submit" class="adm-btn adm-btn--solid">@L["Mark received"]</button>
                             </div>
                         </form>
                     }
@@ -218,12 +218,12 @@
                         <form method="post" action="/returns/@request.Id/refund" class="ret-form">
                             @Html.AntiForgeryToken()
                             <div class="adm-field">
-                                <label for="refund-amount">Refund amount (KWD)</label>
+                                <label for="refund-amount">@L["Refund amount (KWD)"]</label>
                                 <input type="number" id="refund-amount" name="amount" step="0.001" min="0.001"
                                        value="@Model.SuggestedRefund.ToString("0.000")" />
                             </div>
                             <div class="adm-actions">
-                                <button type="submit" class="adm-btn adm-btn--solid">Record manual refund</button>
+                                <button type="submit" class="adm-btn adm-btn--solid">@L["Record manual refund"]</button>
                             </div>
                         </form>
                     }
@@ -232,7 +232,7 @@
             </section>
         }
 
-        <p><a href="/returns" class="adm-btn">&lsaquo; Back to queue</a></p>
+        <p><a href="/returns" class="adm-btn">@L["‹ Back to queue"]</a></p>
 
     </div>
 </div>

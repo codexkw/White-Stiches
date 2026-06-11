@@ -1,9 +1,15 @@
 using WhiteStiches.Infrastructure;
 using WhiteStiches.Infrastructure.Data;
+using WhiteStiches.Infrastructure.Localization;
+using WhiteStiches.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddWhiteStichesLocalization();
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization()
+    .AddDataAnnotationsLocalization(options =>
+        options.DataAnnotationLocalizerProvider = (_, factory) => factory.Create(typeof(SharedResource)));
 builder.Services.AddWhiteStichesInfrastructure(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<WhiteStiches.Web.Infrastructure.ICurrentCartAccessor, WhiteStiches.Web.Infrastructure.CurrentCartAccessor>();
@@ -28,6 +34,9 @@ app.UseHttpsRedirection();
 
 // Render the branded 404 page for unmatched routes and 404 results
 app.UseStatusCodePagesWithReExecute("/not-found");
+
+// Resolve English/Arabic per request (query → culture cookie → Accept-Language) — Phase 1E‑3.
+app.UseRequestLocalization(WhiteStichesLocalization.BuildOptions());
 
 app.UseRouting();
 

@@ -12,10 +12,10 @@
 }
 @if (Model.TotalPages > 1)
 {
-    <nav class="adm-pager" aria-label="Pagination">
+    <nav class="adm-pager" aria-label="@L["Pagination"]">
         @if (Model.Page > 1)
         {
-            <a href="@PageUrl(Model.Page - 1)">&lsaquo; Prev</a>
+            <a href="@PageUrl(Model.Page - 1)">&lsaquo; @L["Prev"]</a>
         }
         @for (var i = Math.Max(1, Model.Page - 2); i <= Math.Min(Model.TotalPages, Model.Page + 2); i++)
         {
@@ -30,7 +30,7 @@
         }
         @if (Model.Page < Model.TotalPages)
         {
-            <a href="@PageUrl(Model.Page + 1)">Next &rsaquo;</a>
+            <a href="@PageUrl(Model.Page + 1)">@L["Next"] &rsaquo;</a>
         }
     </nav>
 }

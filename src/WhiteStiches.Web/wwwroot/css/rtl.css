@@ -1,0 +1,61 @@
+/* ============================================================================
+   WHITE STITCHES — RTL overrides (Phase 1E‑3)
+   Scoped entirely to [dir="rtl"] so this stylesheet is inert in the LTR (English)
+   layout. It is a pragmatic baseline pass: direction, Arabic typography, text
+   alignment, and the off-canvas panels — not a pixel-perfect mirror of every rule.
+============================================================================ */
+
+[dir="rtl"] body,
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select,
+[dir="rtl"] button {
+  font-family: "Tajawal", "Inter Tight", system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+[dir="rtl"] { text-align: right; }
+
+/* ── Header / primary nav ─────────────────────────────────────────────── */
+[dir="rtl"] .hdr__nav--left { justify-content: flex-start; }
+[dir="rtl"] .hdr__nav--right { justify-content: flex-start; }
+[dir="rtl"] .hdr__lang { text-decoration: none; }
+
+/* ── Footer ───────────────────────────────────────────────────────────── */
+[dir="rtl"] .ftr__brand,
+[dir="rtl"] .ftr__col,
+[dir="rtl"] .ftr__col--prefs { text-align: right; }
+[dir="rtl"] .ftr__bottom { direction: rtl; }
+
+/* ── Mobile drawer: slide in from the right ───────────────────────────── */
+[dir="rtl"] .drawer { left: auto; right: 0; transform: translateX(100%); }
+[dir="rtl"] .drawer.is-open { transform: translateX(0); }
+[dir="rtl"] .drawer__sub,
+[dir="rtl"] .drawer__nav { text-align: right; }
+
+/* ── Mini-cart + search overlay: mirror to the left edge ──────────────── */
+[dir="rtl"] .mc-drawer__panel { right: auto; left: 0; }
+
+/* ── Content blocks: right-align common copy containers ───────────────── */
+[dir="rtl"] .section-head,
+[dir="rtl"] .policy,
+[dir="rtl"] .policy-section,
+[dir="rtl"] .acct,
+[dir="rtl"] .acct-card,
+[dir="rtl"] .co-field,
+[dir="rtl"] .co-field label,
+[dir="rtl"] .pdp__info,
+[dir="rtl"] .so-col { text-align: right; }
+
+[dir="rtl"] input,
+[dir="rtl"] textarea { direction: rtl; }
+
+/* ── Keep prices, SKUs and Latin numerals left-to-right inside RTL text ─ */
+[dir="rtl"] .price,
+[dir="rtl"] .money,
+[dir="rtl"] .pdp__price,
+[dir="rtl"] [data-ltr] {
+  direction: ltr;
+  unicode-bidi: embed;
+  display: inline-block;
+}

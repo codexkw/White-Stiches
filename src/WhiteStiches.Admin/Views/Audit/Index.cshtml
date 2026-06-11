@@ -11,26 +11,26 @@
 <div class="adm-toolbar">
     <form method="get" action="/audit" class="adm-toolbar__filters">
         <div class="adm-field">
-            <label for="audit-action">Action starts with</label>
+            <label for="audit-action">@L["Action starts with"]</label>
             <input id="audit-action" name="action" value="@Model.ActionFilter" placeholder="e.g. staff.login" />
         </div>
-        <button type="submit" class="adm-btn">Filter</button>
+        <button type="submit" class="adm-btn">@L["Filter"]</button>
         @if (!string.IsNullOrWhiteSpace(Model.ActionFilter))
         {
-            <a class="adm-btn" href="/audit">Clear</a>
+            <a class="adm-btn" href="/audit">@L["Clear"]</a>
         }
     </form>
-    <p class="set-note">@Model.Entries.TotalCount entr@(Model.Entries.TotalCount == 1 ? "y" : "ies"). Times are UTC. Append-only.</p>
+    <p class="set-note">@Model.Entries.TotalCount entr@(Model.Entries.TotalCount == 1 ? "y" : "ies"). @L["Times are UTC. Append-only."]</p>
 </div>
 
 <section class="adm-panel">
-    <header class="adm-panel__head"><h2 class="adm-panel__title">Entries</h2></header>
+    <header class="adm-panel__head"><h2 class="adm-panel__title">@L["Entries"]</h2></header>
     <div class="adm-panel__body">
         @if (Model.Entries.Items.Count == 0)
         {
             <div class="adm-empty">
-                <strong>No audit entries</strong>
-                Administrative write actions will appear here.
+                <strong>@L["No audit entries"]</strong>
+                @L["Administrative write actions will appear here."]
             </div>
         }
         else
@@ -38,12 +38,12 @@
             <table class="adm-table">
                 <thead>
                 <tr>
-                    <th>Time (UTC)</th>
-                    <th>User</th>
-                    <th>Action</th>
-                    <th>Entity</th>
-                    <th>IP</th>
-                    <th>Changes</th>
+                    <th>@L["Time (UTC)"]</th>
+                    <th>@L["User"]</th>
+                    <th>@L["Action"]</th>
+                    <th>@L["Entity"]</th>
+                    <th>@L["IP"]</th>
+                    <th>@L["Changes"]</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -73,14 +73,14 @@
                             @if (entry.BeforeJson is not null || entry.AfterJson is not null)
                             {
                                 <details class="set-json">
-                                    <summary>View</summary>
+                                    <summary>@L["View"]</summary>
                                     @if (entry.BeforeJson is not null)
                                     {
-                                        <div><strong>Before</strong> <code>@entry.BeforeJson</code></div>
+                                        <div><strong>@L["Before"]</strong> <code>@entry.BeforeJson</code></div>
                                     }
                                     @if (entry.AfterJson is not null)
                                     {
-                                        <div><strong>After</strong> <code>@entry.AfterJson</code></div>
+                                        <div><strong>@L["After"]</strong> <code>@entry.AfterJson</code></div>
                                     }
                                 </details>
                             }

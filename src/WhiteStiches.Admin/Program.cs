@@ -1,12 +1,18 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.FileProviders;
+using WhiteStiches.Admin;
 using WhiteStiches.Infrastructure;
 using WhiteStiches.Infrastructure.Data;
 using WhiteStiches.Infrastructure.Identity;
+using WhiteStiches.Infrastructure.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddWhiteStichesLocalization();
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization()
+    .AddDataAnnotationsLocalization(options =>
+        options.DataAnnotationLocalizerProvider = (_, factory) => factory.Create(typeof(SharedResource)));
 builder.Services.AddWhiteStichesInfrastructure(builder.Configuration);
 builder.Services.AddWhiteStichesAdminServices();
 
@@ -34,6 +40,10 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Resolve English/Arabic per request (query → culture cookie → Accept-Language) — Phase 1E‑3.
+app.UseRequestLocalization(WhiteStichesLocalization.BuildOptions());
+
 app.UseRouting();
 
 app.UseAuthentication();

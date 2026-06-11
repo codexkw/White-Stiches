@@ -1,7 +1,7 @@
 @model WhiteStiches.Admin.Models.JournalEditViewModel
 @{
     var isNew = Model.Id == 0;
-    ViewData["Title"] = isNew ? "New post" : $"Edit post — {Model.TitleEn}";
+    ViewData["Title"] = isNew ? L["New post"].Value : $"{L["Edit post"].Value} — {Model.TitleEn}";
     ViewData["Nav"] = "journal";
 }
 
@@ -11,13 +11,13 @@
 
 <section class="adm-panel">
     <header class="adm-panel__head">
-        <h2 class="adm-panel__title">@(isNew ? "New post" : "Edit post")</h2>
-        <a href="/journal" class="adm-btn">Back to journal</a>
+        <h2 class="adm-panel__title">@(isNew ? L["New post"].Value : L["Edit post"].Value)</h2>
+        <a href="/journal" class="adm-btn">@L["Back to journal"]</a>
     </header>
     <div class="adm-panel__body">
         @if (!ViewData.ModelState.IsValid)
         {
-            <div class="adm-toast adm-toast--err" role="alert">Please fix the highlighted fields below.</div>
+            <div class="adm-toast adm-toast--err" role="alert">@L["Please fix the highlighted fields below."]</div>
         }
 
         <form asp-controller="JournalAdmin" asp-action="Save" method="post" enctype="multipart/form-data" class="adm-form-grid">
@@ -25,96 +25,96 @@
             <input type="hidden" asp-for="HeroImageUrl" />
 
             <div class="adm-field">
-                <label asp-for="TitleEn">Title (EN)</label>
+                <label asp-for="TitleEn">@L["Title (EN)"]</label>
                 <input asp-for="TitleEn" />
                 <span asp-validation-for="TitleEn"></span>
             </div>
             <div class="adm-field">
-                <label asp-for="TitleAr">Title (AR)</label>
+                <label asp-for="TitleAr">@L["Title (AR)"]</label>
                 <input asp-for="TitleAr" dir="rtl" />
             </div>
 
             <div class="adm-field">
-                <label asp-for="Slug">Slug</label>
-                <input asp-for="Slug" placeholder="auto-generated from EN title" />
-                <span class="cnt-hint">Leave blank to generate from the English title. Collisions get -2, -3…</span>
+                <label asp-for="Slug">@L["Slug"]</label>
+                <input asp-for="Slug" placeholder="@L["auto-generated from EN title"]" />
+                <span class="cnt-hint">@L["Leave blank to generate from the English title. Collisions get -2, -3…"]</span>
             </div>
             <div class="adm-field">
-                <label asp-for="AuthorName">Author</label>
+                <label asp-for="AuthorName">@L["Author"]</label>
                 <input asp-for="AuthorName" />
             </div>
 
             <div class="adm-field">
-                <label asp-for="JournalCategoryId">Category</label>
+                <label asp-for="JournalCategoryId">@L["Category"]</label>
                 <select asp-for="JournalCategoryId">
-                    <option value="">— No category —</option>
+                    <option value="">@L["— No category —"]</option>
                     @foreach (var c in Model.Categories)
                     {
-                        <option value="@c.Id">@c.NameEn</option>
+                        <option value="@c.Id">@c.Name()</option>
                     }
                 </select>
             </div>
             <div class="adm-field">
-                <label asp-for="NewCategoryName">Or create a category</label>
-                <input asp-for="NewCategoryName" placeholder="e.g. Behind the Seams" />
-                <span class="cnt-hint">When filled, this category is created and assigned instead of the selection.</span>
+                <label asp-for="NewCategoryName">@L["Or create a category"]</label>
+                <input asp-for="NewCategoryName" placeholder="@L["e.g. Behind the Seams"]" />
+                <span class="cnt-hint">@L["When filled, this category is created and assigned instead of the selection."]</span>
             </div>
 
             <div class="adm-field">
-                <label asp-for="Tags">Tags</label>
-                <input asp-for="Tags" placeholder="comma, separated, tags" />
+                <label asp-for="Tags">@L["Tags"]</label>
+                <input asp-for="Tags" placeholder="@L["comma, separated, tags"]" />
             </div>
             <div class="adm-field">
-                <label asp-for="ReadingTimeMinutes">Reading time (minutes)</label>
+                <label asp-for="ReadingTimeMinutes">@L["Reading time (minutes)"]</label>
                 <input asp-for="ReadingTimeMinutes" type="number" min="1" />
             </div>
 
             <div class="adm-field is-full">
-                <label asp-for="HeroImage">Hero image</label>
+                <label asp-for="HeroImage">@L["Hero image"]</label>
                 <input asp-for="HeroImage" type="file" accept="image/*" />
-                <span class="cnt-hint">Optional — leave empty to keep the current image.</span>
+                <span class="cnt-hint">@L["Optional — leave empty to keep the current image."]</span>
                 @if (!string.IsNullOrEmpty(Model.HeroImageUrl))
                 {
                     <div class="cnt-hero-current">
-                        <img src="@Model.HeroImageUrl" alt="Current hero image" />
+                        <img src="@Model.HeroImageUrl" alt="@L["Current hero image"]" />
                         <span class="cnt-hint">@Model.HeroImageUrl</span>
                     </div>
                 }
             </div>
 
             <div class="adm-field is-full">
-                <label asp-for="ExcerptEn">Excerpt (EN)</label>
+                <label asp-for="ExcerptEn">@L["Excerpt (EN)"]</label>
                 <textarea asp-for="ExcerptEn" rows="3"></textarea>
             </div>
             <div class="adm-field is-full">
-                <label asp-for="ExcerptAr">Excerpt (AR)</label>
+                <label asp-for="ExcerptAr">@L["Excerpt (AR)"]</label>
                 <textarea asp-for="ExcerptAr" rows="3" dir="rtl"></textarea>
             </div>
 
             <div class="adm-field is-full">
-                <label asp-for="BodyEn">Body EN (HTML)</label>
-                <textarea asp-for="BodyEn" rows="14" spellcheck="false"></textarea>
-                <span class="cnt-hint">Raw HTML — rendered as-is on the storefront.</span>
+                <label asp-for="BodyEn">@L["Body EN (HTML)"]</label>
+                <textarea asp-for="BodyEn" rows="14" spellcheck="false" data-editor="rich" data-dir="ltr"></textarea>
+                <span class="cnt-hint">@L["Formatted with the editor; sanitized on save before it renders on the storefront."]</span>
             </div>
             <div class="adm-field is-full">
-                <label asp-for="BodyAr">Body AR (HTML)</label>
-                <textarea asp-for="BodyAr" rows="14" dir="rtl" spellcheck="false"></textarea>
+                <label asp-for="BodyAr">@L["Body AR (HTML)"]</label>
+                <textarea asp-for="BodyAr" rows="14" dir="rtl" spellcheck="false" data-editor="rich" data-dir="rtl"></textarea>
             </div>
 
             <div class="adm-field adm-field--check">
                 <input asp-for="IsPublished" />
-                <label asp-for="IsPublished">Published</label>
+                <label asp-for="IsPublished">@L["Published"]</label>
             </div>
             <div class="adm-field">
-                <label asp-for="PublishAtUtc">Publish date (UTC)</label>
+                <label asp-for="PublishAtUtc">@L["Publish date (UTC)"]</label>
                 <input asp-for="PublishAtUtc" type="datetime-local" />
                 <span asp-validation-for="PublishAtUtc"></span>
-                <span class="cnt-hint">Optional. A future date schedules the post; blank publishes immediately.</span>
+                <span class="cnt-hint">@L["Optional. A future date schedules the post; blank publishes immediately."]</span>
             </div>
 
             <div class="adm-actions is-full">
-                <button type="submit" class="adm-btn adm-btn--solid">@(isNew ? "Create post" : "Save changes")</button>
-                <a href="/journal" class="adm-btn">Cancel</a>
+                <button type="submit" class="adm-btn adm-btn--solid">@(isNew ? L["Create post"].Value : L["Save changes"].Value)</button>
+                <a href="/journal" class="adm-btn">@L["Cancel"]</a>
             </div>
         </form>
     </div>
@@ -124,15 +124,15 @@
 {
     <section class="adm-panel cnt-danger">
         <header class="adm-panel__head">
-            <h2 class="adm-panel__title">Delete post</h2>
+            <h2 class="adm-panel__title">@L["Delete post"]</h2>
         </header>
         <div class="adm-panel__body">
             <form asp-controller="JournalAdmin" asp-action="Delete" asp-route-id="@Model.Id" method="post" class="adm-actions">
                 <label class="adm-field--check">
                     <input type="checkbox" name="confirm" value="yes" />
-                    Yes, permanently delete “@Model.TitleEn”
+                    @L["Yes, permanently delete"] "@Model.TitleEn"
                 </label>
-                <button type="submit" class="adm-btn">Delete post</button>
+                <button type="submit" class="adm-btn">@L["Delete post"]</button>
             </form>
         </div>
     </section>

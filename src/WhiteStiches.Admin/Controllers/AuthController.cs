@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using WhiteStiches.Admin.Models;
 using WhiteStiches.Core.Interfaces;
 using WhiteStiches.Infrastructure.Identity;
+using WhiteStiches.Infrastructure.Localization;
 
 namespace WhiteStiches.Admin.Controllers;
 
@@ -154,6 +155,9 @@ public class AuthController(
     {
         user.LastLoginAtUtc = DateTime.UtcNow;
         await userManager.UpdateAsync(user);
+
+        // Their saved language wins on sign-in (LOC-02).
+        WhiteStichesLocalization.WriteCultureCookie(HttpContext, user.PreferredLanguage);
 
         await audit.LogAsync("staff.login", user.Id, user.Email,
             ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString());

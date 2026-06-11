@@ -15,35 +15,35 @@
 
 <section class="adm-panel">
     <header class="adm-panel__head">
-        <h2 class="adm-panel__title">@(string.IsNullOrWhiteSpace(Model.Subject) ? "(no subject)" : Model.Subject)</h2>
+        <h2 class="adm-panel__title">@(string.IsNullOrWhiteSpace(Model.Subject) ? L["(no subject)"].Value : Model.Subject)</h2>
         <div class="adm-actions">
-            <a href="@mailto" class="adm-btn adm-btn--solid">Reply via email</a>
-            <a href="/inbox" class="adm-btn">Back to inbox</a>
+            <a href="@mailto" class="adm-btn adm-btn--solid">@L["Reply via email"]</a>
+            <a href="/inbox" class="adm-btn">@L["Back to inbox"]</a>
         </div>
     </header>
     <div class="adm-panel__body">
         <dl class="cnt-msg-meta">
-            <dt>From</dt>
+            <dt>@L["From"]</dt>
             <dd>@Model.Name</dd>
 
-            <dt>Email</dt>
+            <dt>@L["Email"]</dt>
             <dd>@Model.Email</dd>
 
             @if (!string.IsNullOrWhiteSpace(Model.Phone))
             {
-                <dt>Phone</dt>
+                <dt>@L["Phone"]</dt>
                 <dd>@Model.Phone</dd>
             }
 
-            <dt>Received (UTC)</dt>
+            <dt>@L["Received (UTC)"]</dt>
             <dd>@Model.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm")</dd>
 
-            <dt>Status</dt>
-            <dd><span class="adm-badge adm-badge--ok">Read</span></dd>
+            <dt>@L["Status"]</dt>
+            <dd><span class="adm-badge adm-badge--ok">@L["Read"]</span></dd>
         </dl>
 
         <div class="cnt-msg-body">@Model.Body</div>
 
-        <p class="cnt-hint">Replying opens your mail client — in-app SMTP sending lands in Phase 1C.</p>
+        <p class="cnt-hint">@L["Replying opens your mail client — in-app SMTP sending lands in Phase 1C."]</p>
     </div>
 </section>

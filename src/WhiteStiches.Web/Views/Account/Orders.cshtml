@@ -12,9 +12,9 @@
 
 <section class="acct-head">
   <div class="acct-head__inner">
-    <span class="eyebrow">Account · Orders</span>
-    <h1 class="acct-head__title">Your orders.</h1>
-    <p class="acct-head__sub">@Model.Orders.TotalCount @(Model.Orders.TotalCount == 1 ? "order" : "orders") since @Model.MemberSinceText</p>
+    <span class="eyebrow">@L["Account · Orders"]</span>
+    <h1 class="acct-head__title">@L["Your orders."]</h1>
+    <p class="acct-head__sub">@Model.Orders.TotalCount @(Model.Orders.TotalCount == 1 ? L["order"].Value : L["orders"].Value) since @Model.MemberSinceText</p>
   </div>
 </section>
 
@@ -22,21 +22,21 @@
   <div class="acct__inner">
     <aside class="acct-nav" aria-label="Account navigation">
   <div class="acct-nav__head">
-    <span class="eyebrow">Account</span>
+    <span class="eyebrow">@L["Account"]</span>
     <strong class="acct-nav__name">@Model.FullName</strong>
     <span class="acct-nav__email">@Model.Email</span>
   </div>
   <nav class="acct-nav__list">
-    <a href="/account" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg><span>Overview</span></a>
-    <a href="/account/orders" class="acct-nav__link is-active" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h18l-2 13H5z"/><path d="M8 7V5a4 4 0 018 0v2"/></svg><span>Orders</span></a>
-    <a href="/account/addresses" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg><span>Addresses</span></a>
-    <a href="/account/wishlist" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>Wishlist</span></a>
-    <a href="/account/profile" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg><span>Profile</span></a>
-    <a href="/account/returns" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 11-9-9"/><path d="M21 4v5h-5"/></svg><span>Returns</span></a>
+    <a href="/account" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg><span>@L["Overview"]</span></a>
+    <a href="/account/orders" class="acct-nav__link is-active" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h18l-2 13H5z"/><path d="M8 7V5a4 4 0 018 0v2"/></svg><span>@L["Orders"]</span></a>
+    <a href="/account/addresses" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg><span>@L["Addresses"]</span></a>
+    <a href="/account/wishlist" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>@L["Wishlist"]</span></a>
+    <a href="/account/profile" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg><span>@L["Profile"]</span></a>
+    <a href="/account/returns" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 11-9-9"/><path d="M21 4v5h-5"/></svg><span>@L["Returns"]</span></a>
   </nav>
   <form method="post" action="/account/logout" style="margin: 0;">
     @Html.AntiForgeryToken()
-    <button type="submit" class="acct-nav__signout" style="background: none; border: 0; border-top: 1px solid var(--c-line); width: 100%; cursor: pointer; font-family: inherit; text-align: left;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span>Sign out</span></button>
+    <button type="submit" class="acct-nav__signout" style="background: none; border: 0; border-top: 1px solid var(--c-line); width: 100%; cursor: pointer; font-family: inherit; text-align: left;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span>@L["Sign out"]</span></button>
   </form>
 </aside>
 
@@ -55,9 +55,9 @@
       {
         <section class="acct-section acct-section--card">
           <header class="acct-section__head">
-            <h2>No orders yet</h2>
+            <h2>@L["No orders yet"]</h2>
           </header>
-          <p class="acct-section__meta">When you place your first order it will appear here. <a href="/collection" class="link-arrow link-arrow--inline">Shop new arrivals</a></p>
+          <p class="acct-section__meta">@L["When you place your first order it will appear here."] <a href="/collection" class="link-arrow link-arrow--inline">@L["Shop new arrivals"]</a></p>
         </section>
       }
       else
@@ -65,14 +65,14 @@
         <!-- Filter chips + search (visual filtering only) -->
         <div class="acct-orders-toolbar">
           <div class="acct-orders-toolbar__filters" role="tablist">
-            <button class="filter-chip is-active" type="button" role="tab" aria-selected="true">All <em>@Model.Orders.TotalCount</em></button>
-            <button class="filter-chip" type="button" role="tab">In transit <em>@inTransitCount</em></button>
-            <button class="filter-chip" type="button" role="tab">Delivered <em>@deliveredCount</em></button>
-            <button class="filter-chip" type="button" role="tab">Cancelled <em>@cancelledCount</em></button>
+            <button class="filter-chip is-active" type="button" role="tab" aria-selected="true">@L["All"] <em>@Model.Orders.TotalCount</em></button>
+            <button class="filter-chip" type="button" role="tab">@L["In transit"] <em>@inTransitCount</em></button>
+            <button class="filter-chip" type="button" role="tab">@L["Delivered"] <em>@deliveredCount</em></button>
+            <button class="filter-chip" type="button" role="tab">@L["Cancelled"] <em>@cancelledCount</em></button>
           </div>
           <div class="acct-orders-toolbar__search">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-            <input type="search" placeholder="Search by order # or product…" />
+            <input type="search" placeholder="@L["Search by order # or product…"]" />
           </div>
         </div>
 
@@ -87,7 +87,7 @@
               <div class="acct-order__main">
                 <span class="acct-order__num">#@order.OrderNumber</span>
                 <span class="acct-order__date">@AccountFormat.Date(order.PlacedAtUtc ?? order.CreatedAtUtc)</span>
-                <span class="acct-order__items-count">@itemCount @(itemCount == 1 ? "item" : "items")</span>
+                <span class="acct-order__items-count">@itemCount @(itemCount == 1 ? L["item"].Value : L["items"].Value)</span>
               </div>
               <div class="acct-order__thumbs">
                 @foreach (var item in thumbs)
@@ -102,10 +102,10 @@
               <span class="status-badge @badgeCss">@badgeLabel</span>
               <span class="acct-order__total">@AccountFormat.Money(order.Total)</span>
               <div class="acct-order__actions">
-                <a href="/account/orders/@order.OrderNumber" class="btn btn--ghost btn--sm">View</a>
+                <a href="/account/orders/@order.OrderNumber" class="btn btn--ghost btn--sm">@L["View"]</a>
                 @if (order.Status == OrderStatus.Delivered)
                 {
-                  <a href="/account/returns/new?order=@order.OrderNumber" class="btn btn--ghost btn--sm">Return</a>
+                  <a href="/account/returns/new?order=@order.OrderNumber" class="btn btn--ghost btn--sm">@L["Return"]</a>
                 }
               </div>
             </li>
@@ -115,14 +115,14 @@
         @if (Model.Orders.TotalPages > 1)
         {
           <!-- Pagination -->
-          <nav class="pagination" aria-label="Pagination">
+          <nav class="pagination" aria-label="@L["Pagination"]">
             @if (Model.Orders.HasPrevious)
             {
-              <a class="pagination__btn pagination__btn--prev" asp-action="Orders" asp-route-page="@(Model.Orders.Page - 1)" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg></a>
+              <a class="pagination__btn pagination__btn--prev" asp-action="Orders" asp-route-page="@(Model.Orders.Page - 1)" aria-label="@L["Previous"]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg></a>
             }
             else
             {
-              <button class="pagination__btn pagination__btn--prev" disabled aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg></button>
+              <button class="pagination__btn pagination__btn--prev" disabled aria-label="@L["Previous"]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg></button>
             }
             <ol class="pagination__nums">
               @for (var p = 1; p <= Model.Orders.TotalPages; p++)
@@ -141,11 +141,11 @@
             </ol>
             @if (Model.Orders.HasNext)
             {
-              <a class="pagination__btn pagination__btn--next" asp-action="Orders" asp-route-page="@(Model.Orders.Page + 1)" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 6l6 6-6 6"/></svg></a>
+              <a class="pagination__btn pagination__btn--next" asp-action="Orders" asp-route-page="@(Model.Orders.Page + 1)" aria-label="@L["Next"]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 6l6 6-6 6"/></svg></a>
             }
             else
             {
-              <button class="pagination__btn pagination__btn--next" disabled aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 6l6 6-6 6"/></svg></button>
+              <button class="pagination__btn pagination__btn--next" disabled aria-label="@L["Next"]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 6l6 6-6 6"/></svg></button>
             }
           </nav>
         }

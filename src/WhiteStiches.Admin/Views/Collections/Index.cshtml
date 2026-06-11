@@ -6,16 +6,16 @@
 
 <section class="adm-panel">
     <header class="adm-panel__head">
-        <h2 class="adm-panel__title">Collections (@Model.Collections.TotalCount)</h2>
-        <a class="adm-btn adm-btn--solid" href="/collections/new">New collection</a>
+        <h2 class="adm-panel__title">@L["Collections"] (@Model.Collections.TotalCount)</h2>
+        <a class="adm-btn adm-btn--solid" href="/collections/new">@L["New collection"]</a>
     </header>
 
     @if (Model.Collections.Items.Count == 0)
     {
         <div class="adm-panel__body">
             <div class="adm-empty">
-                <strong>No collections yet</strong>
-                Create a manual collection and curate products, or a smart collection driven by rules.
+                <strong>@L["No collections yet"]</strong>
+                @L["Create a manual collection and curate products, or a smart collection driven by rules."]
             </div>
         </div>
     }
@@ -24,12 +24,12 @@
         <table class="adm-table">
             <thead>
             <tr>
-                <th>Title (EN)</th>
-                <th>Slug</th>
-                <th>Type</th>
-                <th>Products</th>
-                <th>Status</th>
-                <th>Updated (UTC)</th>
+                <th>@L["Title (EN)"]</th>
+                <th>@L["Slug"]</th>
+                <th>@L["Type"]</th>
+                <th>@L["Products"]</th>
+                <th>@L["Status"]</th>
+                <th>@L["Updated (UTC)"]</th>
                 <th></th>
             </tr>
             </thead>
@@ -40,14 +40,14 @@
                     <td><a href="/collections/@c.Id/edit">@c.TitleEn</a></td>
                     <td><code>@c.Slug</code></td>
                     <td>
-                        <span class="adm-badge @(c.IsSmart ? "adm-badge--info" : null)">@(c.IsSmart ? "Smart" : "Manual")</span>
+                        <span class="adm-badge @(c.IsSmart ? "adm-badge--info" : null)">@(c.IsSmart ? L["Smart"].Value : L["Manual"].Value)</span>
                     </td>
                     <td>@c.ProductCount</td>
                     <td>
-                        <span class="adm-badge @(c.IsActive ? "adm-badge--ok" : "adm-badge--warn")">@(c.IsActive ? "Active" : "Inactive")</span>
+                        <span class="adm-badge @(c.IsActive ? "adm-badge--ok" : "adm-badge--warn")">@(c.IsActive ? L["Active"].Value : L["Inactive"].Value)</span>
                     </td>
                     <td>@c.UpdatedAtUtc.ToString("yyyy-MM-dd HH:mm")</td>
-                    <td><a class="adm-btn" href="/collections/@c.Id/edit">Edit</a></td>
+                    <td><a class="adm-btn" href="/collections/@c.Id/edit">@L["Edit"]</a></td>
                 </tr>
             }
             </tbody>

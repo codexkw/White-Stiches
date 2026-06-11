@@ -8,9 +8,9 @@
 
 <section class="page-hero">
   <div class="page-hero__inner">
-    <span class="eyebrow">Contact</span>
-    <h1 class="page-hero__title">We&rsquo;re here to help.</h1>
-    <p class="page-hero__lede">Whether it&rsquo;s sizing, a special request or just to say hello — reach out however suits you.</p>
+    <span class="eyebrow">@L["Contact"]</span>
+    <h1 class="page-hero__title">@L["We're here to help."]</h1>
+    <p class="page-hero__lede">@L["Whether it's sizing, a special request or just to say hello — reach out however suits you."]</p>
   </div>
 </section>
 
@@ -23,8 +23,8 @@
         <span class="contact-channel__icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 11.5a8.4 8.4 0 0 1-8.4 8.4 8.4 8.4 0 0 1-4-1L3 20l1.1-5.6a8.4 8.4 0 0 1-1-4A8.4 8.4 0 0 1 11.5 2 8.4 8.4 0 0 1 21 11.5z"/></svg>
         </span>
-        <h3>WhatsApp the atelier</h3>
-        <p>Fastest response · usually under 15 minutes during business hours.</p>
+        <h3>@L["WhatsApp the atelier"]</h3>
+        <p>@L["Fastest response · usually under 15 minutes during business hours."]</p>
         <a href="#" class="link-arrow">+965 9999 9999 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </article>
 
@@ -32,8 +32,8 @@
         <span class="contact-channel__icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="m3 7 9 6 9-6"/></svg>
         </span>
-        <h3>Email us</h3>
-        <p>For longer enquiries, returns, partnerships. We reply within 24 hours.</p>
+        <h3>@L["Email us"]</h3>
+        <p>@L["For longer enquiries, returns, partnerships. We reply within 24 hours."]</p>
         <a href="mailto:hello@@whitestiches.kw" class="link-arrow">hello@@whitestiches.kw <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </article>
 
@@ -41,9 +41,9 @@
         <span class="contact-channel__icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
         </span>
-        <h3>Visit the atelier</h3>
+        <h3>@L["Visit the atelier"]</h3>
         <p>Block 3, Sharq Tower · Floor 3<br>Kuwait City · Sat–Thu · 11 AM – 7 PM</p>
-        <a href="#" class="link-arrow">Get directions <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#" class="link-arrow">@L["Get directions"] <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </article>
     </div>
 
@@ -51,8 +51,8 @@
     <div class="contact__form-wrap">
       <div class="contact__form">
         <header class="contact__form-head">
-          <h2>Send us a message.</h2>
-          <p>For everything else — we&rsquo;ll come back to you within 24 hours.</p>
+          <h2>@L["Send us a message."]</h2>
+          <p>@L["For everything else — we'll come back to you within 24 hours."]</p>
         </header>
 
         @if (sentName is not null)
@@ -61,8 +61,8 @@
           <!-- Success state -->
           <div class="auth-success">
             <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="32" cy="32" r="28"/><path d="M22 32l8 8 14-16"/></svg>
-            <h2>Message sent.</h2>
-            <p>Thanks <strong>@sentName</strong> — we&rsquo;ve received your enquiry and will reply within 24 hours.</p>
+            <h2>@L["Message sent."]</h2>
+            <p>@L["Thanks"] <strong>@sentName</strong> — @L["we've received your enquiry and will reply within 24 hours."]</p>
           </div>
         </div>
         }
@@ -72,18 +72,18 @@
           <div class="co-field-row">
             <div class="co-field">
               <input type="text" id="contactName" name="name" required placeholder=" " autocomplete="name" />
-              <label for="contactName">Full name</label>
+              <label for="contactName">@L["Full name"]</label>
             </div>
             <div class="co-field">
               <input type="email" id="contactEmail" name="email" required placeholder=" " autocomplete="email" />
-              <label for="contactEmail">Email</label>
+              <label for="contactEmail">@L["Email"]</label>
             </div>
           </div>
 
           <div class="co-field co-field--phone">
             <span class="field__prefix">
               <span class="flag flag--kw"></span>
-              <select name="phoneCode" aria-label="Country code">
+              <select name="phoneCode" aria-label="@L["Country code"]">
                 <option value="+965" selected>+965</option>
                 <option value="+966">+966</option>
                 <option value="+971">+971</option>
@@ -93,36 +93,36 @@
               </select>
             </span>
             <input type="tel" id="contactPhone" name="phone" placeholder=" " autocomplete="tel" />
-            <label for="contactPhone">Mobile (optional)</label>
+            <label for="contactPhone">@L["Mobile (optional)"]</label>
           </div>
 
           <div class="co-field">
             <select id="contactReason" name="subject" required>
               <option value="" disabled selected hidden></option>
-              <option>Order enquiry</option>
-              <option>Sizing or fit help</option>
-              <option>Returns or exchanges</option>
-              <option>Press &amp; partnerships</option>
-              <option>Wholesale / B2B</option>
-              <option>Other</option>
+              <option>@L["Order enquiry"]</option>
+              <option>@L["Sizing or fit help"]</option>
+              <option>@L["Returns or exchanges"]</option>
+              <option>@L["Press & partnerships"]</option>
+              <option>@L["Wholesale / B2B"]</option>
+              <option>@L["Other"]</option>
             </select>
-            <label for="contactReason">What can we help with?</label>
+            <label for="contactReason">@L["What can we help with?"]</label>
           </div>
 
           <div class="co-field">
             <input type="text" id="contactOrder" name="orderNumber" placeholder=" " />
-            <label for="contactOrder">Order number (if relevant)</label>
+            <label for="contactOrder">@L["Order number (if relevant)"]</label>
             <span class="field__hint">e.g. #WS-2026-08412</span>
           </div>
 
           <div class="co-field">
             <textarea id="contactMessage" name="message" rows="4" required placeholder=" "></textarea>
-            <label for="contactMessage">Your message</label>
+            <label for="contactMessage">@L["Your message"]</label>
           </div>
 
           <label class="check auth-form__consent">
             <input type="checkbox" id="contactConsent" required />
-            <span>I consent to White Stitches contacting me by email and WhatsApp regarding this enquiry. See our <a href="/privacy" class="link-inline">Privacy Policy</a>.</span>
+            <span>@L["I consent to White Stitches contacting me by email and WhatsApp regarding this enquiry. See our"] <a href="/privacy" class="link-inline">@L["Privacy Policy"]</a>.</span>
           </label>
 
           @if (contactError is not null)
@@ -130,27 +130,27 @@
             <p class="field__hint" style="color: #c87a3a;">@contactError</p>
           }
 
-          <button type="submit" class="btn btn--primary">Send message</button>
+          <button type="submit" class="btn btn--primary">@L["Send message"]</button>
         </form>
         }
       </div>
 
       <aside class="contact__aside">
         <div class="contact-aside-card">
-          <span class="eyebrow">Hours</span>
+          <span class="eyebrow">@L["Hours"]</span>
           <ul class="contact-hours">
-            <li><span>Saturday</span><span>11 AM – 7 PM</span></li>
-            <li><span>Sunday</span><span>11 AM – 7 PM</span></li>
-            <li><span>Monday</span><span>11 AM – 7 PM</span></li>
-            <li><span>Tuesday</span><span>11 AM – 7 PM</span></li>
-            <li><span>Wednesday</span><span>11 AM – 7 PM</span></li>
-            <li><span>Thursday</span><span>11 AM – 7 PM</span></li>
-            <li><span>Friday</span><span class="contact-hours__closed">Closed</span></li>
+            <li><span>@L["Saturday"]</span><span>11 AM – 7 PM</span></li>
+            <li><span>@L["Sunday"]</span><span>11 AM – 7 PM</span></li>
+            <li><span>@L["Monday"]</span><span>11 AM – 7 PM</span></li>
+            <li><span>@L["Tuesday"]</span><span>11 AM – 7 PM</span></li>
+            <li><span>@L["Wednesday"]</span><span>11 AM – 7 PM</span></li>
+            <li><span>@L["Thursday"]</span><span>11 AM – 7 PM</span></li>
+            <li><span>@L["Friday"]</span><span class="contact-hours__closed">@L["Closed"]</span></li>
           </ul>
         </div>
 
         <div class="contact-aside-card">
-          <span class="eyebrow">Find us</span>
+          <span class="eyebrow">@L["Find us"]</span>
           <address class="oc-address">
             <strong>White Stitches Atelier</strong><br>
             Block 3, Sharq Tower · Floor 3<br>
@@ -160,7 +160,7 @@
         </div>
 
         <div class="contact-aside-card">
-          <span class="eyebrow">Follow us</span>
+          <span class="eyebrow">@L["Follow us"]</span>
           <div class="contact-aside__social">
             <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg> <span>@@whitestiches.kw</span></a>
             <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c0 2.5 2 4.5 4.5 4.5"/></svg> <span>@@whitestiches</span></a>

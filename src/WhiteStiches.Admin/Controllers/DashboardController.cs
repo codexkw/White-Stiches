@@ -1,23 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WhiteStiches.Infrastructure.Data;
+using WhiteStiches.Core.Interfaces.Admin;
 
 namespace WhiteStiches.Admin.Controllers;
 
-public class DashboardController(WhiteStichesDbContext db) : Controller
+/// <summary>Advanced analytics dashboard (Phase 1E‑1): KPIs with period-over-period deltas,
+/// a revenue/orders time series, breakdowns, leaderboards and an operational snapshot.</summary>
+public class DashboardController(IAnalyticsService analytics) : Controller
 {
-    public async Task<IActionResult> Index()
+    private static readonly int[] AllowedRanges = [7, 14, 30, 90, 365];
+
+    public async Task<IActionResult> Index(int days = 30, CancellationToken ct = default)
     {
+        if (!AllowedRanges.Contains(days)) days = 30;
+
         ViewData["Title"] = "Dashboard";
         ViewData["Nav"] = "dashboard";
+        ViewData["RangeDays"] = days;
 
-        ViewBag.ProductCount = await db.Products.CountAsync();
-        ViewBag.OrderCount = await db.Orders.CountAsync();
-        ViewBag.CustomerCount = await db.Users.CountAsync(u => !u.IsStaff);
-        ViewBag.UnreadMessages = await db.ContactMessages.CountAsync(m => !m.IsRead);
-        ViewBag.NewsletterCount = await db.NewsletterSubscribers.CountAsync(s => s.UnsubscribedAtUtc == null);
-        ViewBag.PendingReturns = await db.ReturnRequests.CountAsync(r => r.Status == Core.Enums.ReturnStatus.Pending);
+        var toUtc = DateTime.UtcNow;
+        var fromUtc = toUtc.AddDays(-days);
 
-        return View();
+        var model = await analytics.GetDashboardAsync(fromUtc, toUtc, ct);
+        return View(model);
     }
 }

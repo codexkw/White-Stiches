@@ -11,9 +11,9 @@
 
 <section class="page-hero">
   <div class="page-hero__inner">
-    <span class="eyebrow">Track</span>
-    <h1 class="page-hero__title">Where’s my order?</h1>
-    <p class="page-hero__lede">Enter your order number and email to see the latest. No account needed.</p>
+    <span class="eyebrow">@L["Track"]</span>
+    <h1 class="page-hero__title">@L["Where’s my order?"]</h1>
+    <p class="page-hero__lede">@L["Enter your order number and email to see the latest. No account needed."]</p>
   </div>
 </section>
 
@@ -26,17 +26,17 @@
     <div class="track__result">
       <header class="track__result-head">
         <div>
-          <span class="eyebrow">Order found</span>
+          <span class="eyebrow">@L["Order found"]</span>
           <h2 class="track__result-title">#@order.OrderNumber</h2>
           <p class="track__result-sub">Placed @(((order.PlacedAtUtc ?? order.CreatedAtUtc)).ToString("dddd d MMMM yyyy", CultureInfo.InvariantCulture)) · @Model.PieceCount @(Model.PieceCount == 1 ? "piece" : "pieces") · @order.Total.ToString("0.000") KWD</p>
         </div>
-        <a href="/track" class="btn btn--ghost btn--sm">Look up another</a>
+        <a href="/track" class="btn btn--ghost btn--sm">@L["Look up another"]</a>
       </header>
 
       <section class="oc-card oc-card--eta">
         <div class="oc-card__head">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h13v9H3zM16 10h3l2 3v3h-5zM7 19a2 2 0 100-4 2 2 0 000 4zM18 19a2 2 0 100-4 2 2 0 000 4z"/></svg>
-          <h2>Order status <strong>@Model.StatusLabel</strong></h2>
+          <h2>@L["Order status"] <strong>@Model.StatusLabel</strong></h2>
           @if (!string.IsNullOrWhiteSpace(Model.LatestShipment?.AwbNumber))
           {
             if (!string.IsNullOrWhiteSpace(Model.LatestShipment!.TrackingUrl))
@@ -75,7 +75,7 @@
       </section>
 
       <p class="track__help track__help--center">
-        Need to change something? <a href="/contact" class="link-arrow link-arrow--inline">WhatsApp the atelier</a>.
+        @L["Need to change something?"] <a href="/contact" class="link-arrow link-arrow--inline">@L["WhatsApp the atelier"]</a>.
       </p>
     </div>
     }
@@ -89,8 +89,8 @@
       <div class="track__error">
         <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="32" cy="32" r="28"/><path d="M32 20v16M32 42v.5"/></svg>
         <h3>Order #@(order!.OrderNumber) was @(Model.StatusLabel.ToLowerInvariant()).</h3>
-        <p>This order is no longer on its way. If you weren’t expecting that, <a href="/contact" class="link-inline">reach the atelier on WhatsApp</a> and we’ll sort it out.</p>
-        <a href="/track" class="btn btn--ghost">Try again</a>
+        <p>@L["This order is no longer on its way. If you weren’t expecting that,"] <a href="/contact" class="link-inline">@L["reach the atelier on WhatsApp"]</a> @L["and we’ll sort it out."]</p>
+        <a href="/track" class="btn btn--ghost">@L["Try again"]</a>
       </div>
       }
       else if (Model.NotFound)
@@ -98,9 +98,9 @@
       <!-- Error state -->
       <div class="track__error">
         <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="32" cy="32" r="28"/><path d="M32 20v16M32 42v.5"/></svg>
-        <h3>We couldn’t find that order.</h3>
-        <p>Double-check the order number and email match what’s in your confirmation. Still stuck? <a href="/contact" class="link-inline">Reach the atelier on WhatsApp</a>.</p>
-        <a href="/track" class="btn btn--ghost">Try again</a>
+        <h3>@L["We couldn’t find that order."]</h3>
+        <p>@L["Double-check the order number and email match what’s in your confirmation. Still stuck?"] <a href="/contact" class="link-inline">@L["Reach the atelier on WhatsApp"]</a>.</p>
+        <a href="/track" class="btn btn--ghost">@L["Try again"]</a>
       </div>
       }
       else
@@ -108,20 +108,20 @@
       <form class="track__form" method="post" asp-controller="Pages" asp-action="Track">
         <div class="co-field">
           <input type="text" id="trackNumber" name="orderNumber" required placeholder=" " autocomplete="off" value="@Model.OrderNumber" />
-          <label for="trackNumber">Order number</label>
-          <span class="field__hint">From your confirmation email — e.g. #WS-2026-08412</span>
+          <label for="trackNumber">@L["Order number"]</label>
+          <span class="field__hint">@L["From your confirmation email — e.g. #WS-2026-08412"]</span>
         </div>
 
         <div class="co-field">
           <input type="text" id="trackEmail" name="contact" required placeholder=" " autocomplete="email" />
-          <label for="trackEmail">Email or mobile</label>
-          <span class="field__hint">The one you used at checkout</span>
+          <label for="trackEmail">@L["Email or mobile"]</label>
+          <span class="field__hint">@L["The one you used at checkout"]</span>
         </div>
 
-        <button type="submit" class="btn btn--primary btn--block">Find my order</button>
+        <button type="submit" class="btn btn--primary btn--block">@L["Find my order"]</button>
 
         <p class="track__help">
-          Can’t find your order number? <a href="/contact" class="link-arrow link-arrow--inline">WhatsApp the atelier</a> and we’ll look it up.
+          @L["Can’t find your order number?"] <a href="/contact" class="link-arrow link-arrow--inline">@L["WhatsApp the atelier"]</a> @L["and we’ll look it up."]
         </p>
       </form>
       }

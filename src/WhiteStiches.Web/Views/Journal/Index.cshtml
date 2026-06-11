@@ -16,9 +16,9 @@
 
 <section class="page-hero">
   <div class="page-hero__inner">
-    <span class="eyebrow">Journal</span>
-    <h1 class="page-hero__title">Notes from the atelier.</h1>
-    <p class="page-hero__lede">Styling guides, behind-the-scenes from our team, and the stories behind each piece.</p>
+    <span class="eyebrow">@L["Journal"]</span>
+    <h1 class="page-hero__title">@L["Notes from the atelier."]</h1>
+    <p class="page-hero__lede">@L["Styling guides, behind-the-scenes from our team, and the stories behind each piece."]</p>
   </div>
 </section>
 
@@ -29,13 +29,13 @@
   <div class="journal-featured__inner">
     <a href="/journal/@Model.Featured.Slug" class="journal-featured__card">
       <div class="journal-featured__media">
-        <img src="@PostImage(Model.Featured)" alt="@Model.Featured.TitleEn" />
+        <img src="@PostImage(Model.Featured)" alt="@Model.Featured.Title()" />
         <div class="journal-featured__overlay"></div>
       </div>
       <div class="journal-featured__copy">
-        <span class="journal-tag">Featured@(Model.Featured.Category is null ? "" : $" · {Model.Featured.Category.NameEn}")</span>
-        <h2 class="journal-featured__title">@Model.Featured.TitleEn</h2>
-        <p class="journal-featured__excerpt">@Model.Featured.ExcerptEn</p>
+        <span class="journal-tag">@L["Featured"]@(Model.Featured.Category is null ? "" : $" · {Model.Featured.Category.Name()}")</span>
+        <h2 class="journal-featured__title">@Model.Featured.Title()</h2>
+        <p class="journal-featured__excerpt">@Model.Featured.Excerpt()</p>
         <span class="journal-meta"><span>@Model.Featured.AuthorName</span> · <time>@PostDate(Model.Featured)</time>@(Model.Featured.ReadingTimeMinutes is int fm ? $" · {fm} min read" : "")</span>
       </div>
     </a>
@@ -47,10 +47,10 @@
 <section class="journal-filters">
   <div class="journal-filters__inner">
     <div class="acct-orders-toolbar__filters">
-      <a href="/journal" class="filter-chip@(Model.ActiveCategorySlug is null ? " is-active" : "")">All</a>
+      <a href="/journal" class="filter-chip@(Model.ActiveCategorySlug is null ? " is-active" : "")">@L["All"]</a>
       @foreach (var cat in Model.Categories)
       {
-        <a href="@CategoryUrl(cat.Slug)" class="filter-chip@(string.Equals(Model.ActiveCategorySlug, cat.Slug, StringComparison.OrdinalIgnoreCase) ? " is-active" : "")">@cat.NameEn</a>
+        <a href="@CategoryUrl(cat.Slug)" class="filter-chip@(string.Equals(Model.ActiveCategorySlug, cat.Slug, StringComparison.OrdinalIgnoreCase) ? " is-active" : "")">@cat.Name()</a>
       }
     </div>
   </div>
@@ -66,9 +66,9 @@
         <path d="m48 48-10-10"/>
         <path d="M22 28h12M28 22v12" opacity="0"/>
       </svg>
-      <h3>Nothing here yet.</h3>
-      <p>We haven&rsquo;t published any journal entries under this filter. Check back soon — or browse the full journal.</p>
-      <a href="/journal" class="btn btn--ghost">View all articles</a>
+      <h3>@L["Nothing here yet."]</h3>
+      <p>@L["We haven't published any journal entries under this filter. Check back soon — or browse the full journal."]</p>
+      <a href="/journal" class="btn btn--ghost">@L["View all articles"]</a>
     </div>
   }
   else
@@ -79,15 +79,15 @@
     {
     <article class="journal-card">
       <a href="/journal/@post.Slug" class="journal-card__media">
-        <img src="@PostImage(post)" alt="@post.TitleEn" />
+        <img src="@PostImage(post)" alt="@post.Title()" />
       </a>
       <div class="journal-card__body">
         @if (post.Category is not null)
         {
-          <span class="journal-tag">@post.Category.NameEn</span>
+          <span class="journal-tag">@post.Category.Name()</span>
         }
-        <h3 class="journal-card__title"><a href="/journal/@post.Slug">@post.TitleEn</a></h3>
-        <p class="journal-card__excerpt">@post.ExcerptEn</p>
+        <h3 class="journal-card__title"><a href="/journal/@post.Slug">@post.Title()</a></h3>
+        <p class="journal-card__excerpt">@post.Excerpt()</p>
         <span class="journal-meta"><time>@PostDate(post)</time>@(post.ReadingTimeMinutes is int m ? $" · {m} min read" : "")</span>
       </div>
     </article>
@@ -98,10 +98,10 @@
 
   @if (Model.TotalPages > 1)
   {
-  <nav class="pagination" aria-label="Pagination" style="margin-top: var(--s-5);">
+  <nav class="pagination" aria-label="@L["Pagination"]" style="margin-top: var(--s-5);">
     @if (Model.HasPrevious)
     {
-      <a class="pagination__btn pagination__btn--prev" href="@PageUrl(Model.Page - 1)" aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg></a>
+      <a class="pagination__btn pagination__btn--prev" href="@PageUrl(Model.Page - 1)" aria-label="@L["Previous page"]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg></a>
     }
     else
     {
@@ -122,7 +122,7 @@
     </ol>
     @if (Model.HasNext)
     {
-      <a class="pagination__btn pagination__btn--next" href="@PageUrl(Model.Page + 1)" aria-label="Next page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 6l6 6-6 6"/></svg></a>
+      <a class="pagination__btn pagination__btn--next" href="@PageUrl(Model.Page + 1)" aria-label="@L["Next page"]"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 6l6 6-6 6"/></svg></a>
     }
     else
     {

@@ -1,5 +1,14 @@
-﻿<!DOCTYPE html>
-<html lang="en" dir="ltr">
+﻿@using System.Globalization
+@{
+    var ci = CultureInfo.CurrentUICulture;
+    var dir = ci.TextInfo.IsRightToLeft ? "rtl" : "ltr";
+    var lang = ci.TwoLetterISOLanguageName;
+    var otherLang = lang == "ar" ? "en" : "ar";
+    var langLabel = lang == "ar" ? "EN" : "ع";
+    var returnPath = Uri.EscapeDataString(Context.Request.Path + Context.Request.QueryString);
+}
+<!DOCTYPE html>
+<html lang="@lang" dir="@dir">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -67,27 +76,28 @@
 
 <link rel="stylesheet" href="~/css/design-system.css?v=2.6" />
 <link rel="stylesheet" href="~/css/site.css?v=2.6" />
+<link rel="stylesheet" href="~/css/rtl.css?v=2.6" />
 </head>
 <body>
 
 <!-- ============================ ANNOUNCEMENT BAR ============================ -->
 <div class="announce" role="region" aria-label="Promotional announcement">
   <div class="announce__track">
-    <span>Complimentary delivery on orders over 50 KWD</span>
+    <span>@L["Complimentary delivery on orders over 50 KWD"]</span>
     <span class="announce__dot" aria-hidden="true">◆</span>
-    <span>New Spring Edit — now in stores</span>
+    <span>@L["New Spring Edit — now in stores"]</span>
     <span class="announce__dot" aria-hidden="true">◆</span>
-    <span>Pay with KNET, Apple Pay & Tabby</span>
+    <span>@L["Pay with KNET, Apple Pay & Tabby"]</span>
     <span class="announce__dot" aria-hidden="true">◆</span>
-    <span>Shipping across the GCC</span>
+    <span>@L["Shipping across the GCC"]</span>
     <span class="announce__dot" aria-hidden="true">◆</span>
-    <span>Complimentary delivery on orders over 50 KWD</span>
+    <span>@L["Complimentary delivery on orders over 50 KWD"]</span>
     <span class="announce__dot" aria-hidden="true">◆</span>
-    <span>New Spring Edit — now in stores</span>
+    <span>@L["New Spring Edit — now in stores"]</span>
     <span class="announce__dot" aria-hidden="true">◆</span>
-    <span>Pay with KNET, Apple Pay & Tabby</span>
+    <span>@L["Pay with KNET, Apple Pay & Tabby"]</span>
     <span class="announce__dot" aria-hidden="true">◆</span>
-    <span>Shipping across the GCC</span>
+    <span>@L["Shipping across the GCC"]</span>
   </div>
 </div>
 
@@ -102,11 +112,11 @@
     </button>
 
     <nav class="hdr__nav hdr__nav--left" aria-label="Primary">
-      <a href="/collection?category=jackets" class="hdr__link" data-menu="jackets">Jackets</a>
-      <a href="/collection?category=dresses" class="hdr__link" data-menu="dresses">Dresses</a>
-      <a href="/collection?category=suits" class="hdr__link" data-menu="suits">Suits</a>
-      <a href="/collection?category=tops" class="hdr__link" data-menu="tops">Tops</a>
-      <a href="/collection" class="hdr__link hdr__link--accent">Sale</a>
+      <a href="/collection?category=jackets" class="hdr__link" data-menu="jackets">@L["Jackets"]</a>
+      <a href="/collection?category=dresses" class="hdr__link" data-menu="dresses">@L["Dresses"]</a>
+      <a href="/collection?category=suits" class="hdr__link" data-menu="suits">@L["Suits"]</a>
+      <a href="/collection?category=tops" class="hdr__link" data-menu="tops">@L["Tops"]</a>
+      <a href="/collection" class="hdr__link hdr__link--accent">@L["Sale"]</a>
     </nav>
 
     <a href="/" class="hdr__logo" aria-label="White Stitches home">
@@ -114,14 +124,14 @@
     </a>
 
     <nav class="hdr__nav hdr__nav--right" aria-label="Utility">
-      <button type="button" class="hdr__icon" id="hdrSearchBtn" aria-label="Open search">
+      <button type="button" class="hdr__icon" id="hdrSearchBtn" aria-label="@L["Search"]">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       </button>
-      <button class="hdr__lang" aria-label="Switch language">AR</button>
-      <a href="/account/login" class="hdr__icon" aria-label="Account">
+      <a class="hdr__lang" href="/set-culture?culture=@otherLang&returnUrl=@returnPath" aria-label="@L["Switch language"]">@langLabel</a>
+      <a href="/account/login" class="hdr__icon" aria-label="@L["Account"]">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
       </a>
-      <button class="hdr__icon" aria-label="Wishlist">
+      <button class="hdr__icon" aria-label="@L["Wishlist"]">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
       </button>
       <button type="button" class="hdr__cart" id="hdrCartBtn" aria-label="Open cart">
@@ -349,22 +359,22 @@
     </nav>
 
     <div class="drawer__foot">
-      <a href="#" class="drawer__util">
+      <a href="/account/login" class="drawer__util">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
-        Account
+        @L["Account"]
       </a>
-      <a href="#" class="drawer__util">
+      <a href="/account/wishlist" class="drawer__util">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        Wishlist
+        @L["Wishlist"]
       </a>
-      <a href="#" class="drawer__util">
+      <a href="/search" class="drawer__util">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        Search
+        @L["Search"]
       </a>
       <div class="drawer__lang-row">
-        <button class="drawer__lang">English</button>
+        <a class="drawer__lang @(lang == "ar" ? null : "is-active")" href="/set-culture?culture=en&returnUrl=@returnPath">English</a>
         <span>|</span>
-        <button class="drawer__lang">العربية</button>
+        <a class="drawer__lang @(lang == "ar" ? "is-active" : null)" href="/set-culture?culture=ar&returnUrl=@returnPath">العربية</a>
       </div>
     </div>
   </aside>
@@ -387,40 +397,40 @@
     </div>
 
     <div class="ftr__col">
-      <h5>Shop</h5>
-      <a href="/collection?category=jackets">Jackets</a>
-      <a href="/collection?category=dresses">Dresses</a>
-      <a href="/collection?category=suits">Suits</a>
-      <a href="/collection?category=tops">Tops</a>
-      <a href="/collection">New Arrivals</a>
-      <a href="/collection">Sale</a>
-      <a href="#">Gift Cards</a>
+      <h5>@L["Shop"]</h5>
+      <a href="/collection?category=jackets">@L["Jackets"]</a>
+      <a href="/collection?category=dresses">@L["Dresses"]</a>
+      <a href="/collection?category=suits">@L["Suits"]</a>
+      <a href="/collection?category=tops">@L["Tops"]</a>
+      <a href="/collection">@L["New Arrivals"]</a>
+      <a href="/collection">@L["Sale"]</a>
+      <a href="#">@L["Gift Cards"]</a>
     </div>
 
     <div class="ftr__col">
-      <h5>Help</h5>
-      <a href="/contact">Contact</a>
-      <a href="/size-guide">Size Guide</a>
-      <a href="/shipping">Shipping &amp; Delivery</a>
-      <a href="/returns-policy">Returns &amp; Exchanges</a>
-      <a href="/track">Track Order</a>
-      <a href="/faq">FAQ</a>
+      <h5>@L["Help"]</h5>
+      <a href="/contact">@L["Contact"]</a>
+      <a href="/size-guide">@L["Size Guide"]</a>
+      <a href="/shipping">@L["Shipping & Delivery"]</a>
+      <a href="/returns-policy">@L["Returns & Exchanges"]</a>
+      <a href="/track">@L["Track Order"]</a>
+      <a href="/faq">@L["FAQ"]</a>
     </div>
 
     <div class="ftr__col">
-      <h5>About</h5>
-      <a href="/about">Our Story</a>
-      <a href="/about#atelier">Atelier</a>
-      <a href="#">Sustainability</a>
-      <a href="/journal">Journal</a>
-      <a href="#">Careers</a>
+      <h5>@L["About"]</h5>
+      <a href="/about">@L["Our Story"]</a>
+      <a href="/about#atelier">@L["Atelier"]</a>
+      <a href="#">@L["Sustainability"]</a>
+      <a href="/journal">@L["Journal"]</a>
+      <a href="#">@L["Careers"]</a>
     </div>
 
     <div class="ftr__col ftr__col--prefs">
-      <h5>Preferences</h5>
+      <h5>@L["Preferences"]</h5>
       <div class="ftr__pref">
-        <span class="ftr__pref-lbl">Country</span>
-        <select aria-label="Select country">
+        <span class="ftr__pref-lbl">@L["Country"]</span>
+        <select aria-label="@L["Country"]">
           <option>Kuwait (KWD)</option>
           <option>Saudi Arabia (SAR)</option>
           <option>UAE (AED)</option>
@@ -430,11 +440,12 @@
         </select>
       </div>
       <div class="ftr__pref">
-        <span class="ftr__pref-lbl">Language</span>
-        <select aria-label="Select language">
-          <option>English</option>
-          <option>العربية</option>
-        </select>
+        <span class="ftr__pref-lbl">@L["Language"]</span>
+        <div class="ftr__lang-switch">
+          <a href="/set-culture?culture=en&returnUrl=@returnPath" class="@(lang == "ar" ? null : "is-active")">English</a>
+          <span aria-hidden="true">·</span>
+          <a href="/set-culture?culture=ar&returnUrl=@returnPath" class="@(lang == "ar" ? "is-active" : null)">العربية</a>
+        </div>
       </div>
     </div>
 
@@ -446,9 +457,9 @@
       <span>KNET</span><span>VISA</span><span>MC</span><span>APPLE PAY</span><span>TABBY</span><span>TAMARA</span>
     </div>
     <div class="ftr__legal">
-      <a href="/privacy">Privacy</a>
-      <a href="/terms">Terms</a>
-      <a href="/cookies">Cookies</a>
+      <a href="/privacy">@L["Privacy"]</a>
+      <a href="/terms">@L["Terms"]</a>
+      <a href="/cookies">@L["Cookies"]</a>
     </div>
   </div>
 </footer>

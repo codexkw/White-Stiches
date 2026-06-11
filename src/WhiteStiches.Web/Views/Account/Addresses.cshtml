@@ -9,9 +9,9 @@
 
 <section class="acct-head">
   <div class="acct-head__inner">
-    <span class="eyebrow">Account · Addresses</span>
-    <h1 class="acct-head__title">Saved addresses.</h1>
-    <p class="acct-head__sub">Manage where we deliver and bill.</p>
+    <span class="eyebrow">@L["Account · Addresses"]</span>
+    <h1 class="acct-head__title">@L["Saved addresses."]</h1>
+    <p class="acct-head__sub">@L["Manage where we deliver and bill."]</p>
   </div>
 </section>
 
@@ -19,21 +19,21 @@
   <div class="acct__inner">
     <aside class="acct-nav" aria-label="Account navigation">
   <div class="acct-nav__head">
-    <span class="eyebrow">Account</span>
+    <span class="eyebrow">@L["Account"]</span>
     <strong class="acct-nav__name">@Model.FullName</strong>
     <span class="acct-nav__email">@Model.Email</span>
   </div>
   <nav class="acct-nav__list">
-    <a href="/account" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg><span>Overview</span></a>
-    <a href="/account/orders" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h18l-2 13H5z"/><path d="M8 7V5a4 4 0 018 0v2"/></svg><span>Orders</span></a>
-    <a href="/account/addresses" class="acct-nav__link is-active" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg><span>Addresses</span></a>
-    <a href="/account/wishlist" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>Wishlist</span></a>
-    <a href="/account/profile" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg><span>Profile</span></a>
-    <a href="/account/returns" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 11-9-9"/><path d="M21 4v5h-5"/></svg><span>Returns</span></a>
+    <a href="/account" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg><span>@L["Overview"]</span></a>
+    <a href="/account/orders" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h18l-2 13H5z"/><path d="M8 7V5a4 4 0 018 0v2"/></svg><span>@L["Orders"]</span></a>
+    <a href="/account/addresses" class="acct-nav__link is-active" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg><span>@L["Addresses"]</span></a>
+    <a href="/account/wishlist" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>@L["Wishlist"]</span></a>
+    <a href="/account/profile" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg><span>@L["Profile"]</span></a>
+    <a href="/account/returns" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 11-9-9"/><path d="M21 4v5h-5"/></svg><span>@L["Returns"]</span></a>
   </nav>
   <form method="post" action="/account/logout" style="margin: 0;">
     @Html.AntiForgeryToken()
-    <button type="submit" class="acct-nav__signout" style="background: none; border: 0; border-top: 1px solid var(--c-line); width: 100%; cursor: pointer; font-family: inherit; text-align: left;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span>Sign out</span></button>
+    <button type="submit" class="acct-nav__signout" style="background: none; border: 0; border-top: 1px solid var(--c-line); width: 100%; cursor: pointer; font-family: inherit; text-align: left;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span>@L["Sign out"]</span></button>
   </form>
 </aside>
 
@@ -55,32 +55,32 @@
             <header class="addr-card__head">
               @if (address.IsDefault)
               {
-                <span class="addr-card__badge">Default · Shipping &amp; Billing</span>
+                <span class="addr-card__badge">@L["Default · Shipping & Billing"]</span>
               }
               else
               {
-                <span class="addr-card__badge addr-card__badge--neutral">@(string.IsNullOrEmpty(address.Label) ? "Saved" : address.Label)</span>
+                <span class="addr-card__badge addr-card__badge--neutral">@(string.IsNullOrEmpty(address.Label) ? L["Saved"].Value : address.Label)</span>
               }
               <div class="addr-card__menu">
-                <a class="link-btn" href="/account/addresses?edit=@address.Id">Edit</a>
+                <a class="link-btn" href="/account/addresses?edit=@address.Id">@L["Edit"]</a>
                 @if (!address.IsDefault)
                 {
                   <form asp-controller="Account" asp-action="AddressDefault" method="post" style="margin: 0;">
                     <input type="hidden" name="id" value="@address.Id" />
-                    <button type="submit" class="link-btn">Set default</button>
+                    <button type="submit" class="link-btn">@L["Set default"]</button>
                   </form>
                   <form asp-controller="Account" asp-action="AddressDelete" method="post" style="margin: 0;">
                     <input type="hidden" name="id" value="@address.Id" />
-                    <button type="submit" class="link-btn link-btn--danger">Delete</button>
+                    <button type="submit" class="link-btn link-btn--danger">@L["Delete"]</button>
                   </form>
                 }
               </div>
             </header>
             <address class="addr-card__body">
               <strong>@address.FirstName @address.LastName</strong><br>
-              Block @address.Block, Street @address.Street, Building @address.Building@(string.IsNullOrEmpty(address.Floor) ? "" : $" · Floor {address.Floor}")@(string.IsNullOrEmpty(address.Apartment) ? "" : $", Apt {address.Apartment}")<br>
+              @L["Block"] @address.Block, @L["Street"] @address.Street, @L["Building"] @address.Building@(string.IsNullOrEmpty(address.Floor) ? "" : $" · {L["Floor"]} {address.Floor}")@(string.IsNullOrEmpty(address.Apartment) ? "" : $", {L["Apt"]} {address.Apartment}")<br>
               @address.Area, @address.Governorate<br>
-              @(address.Country == "KW" ? "Kuwait" : address.Country)
+              @(address.Country == "KW" ? L["Kuwait"].Value : address.Country)
               @if (!string.IsNullOrEmpty(address.Phone))
               {
                 <text><br>@address.Phone</text>
@@ -93,7 +93,7 @@
         <article class="addr-card addr-card--add" id="addAddressCard">
           <button type="button" class="addr-card__add-btn" id="openAddressForm">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>
-            <span>Add a new address</span>
+            <span>@L["Add a new address"]</span>
           </button>
         </article>
       </div>
@@ -101,44 +101,44 @@
       <!-- Address form (hidden by default, revealed on click; open when editing) -->
       <section class="acct-section acct-section--card" id="addressForm" hidden="@(edit is null)">
         <header class="acct-section__head">
-          <h2>@(edit is null ? "New address" : "Edit address")</h2>
+          <h2>@(edit is null ? L["New address"].Value : L["Edit address"].Value)</h2>
           @if (edit is null)
           {
-            <button type="button" class="link-btn" id="closeAddressForm">Cancel</button>
+            <button type="button" class="link-btn" id="closeAddressForm">@L["Cancel"]</button>
           }
           else
           {
-            <a class="link-btn" href="/account/addresses">Cancel</a>
+            <a class="link-btn" href="/account/addresses">@L["Cancel"]</a>
           }
         </header>
         <form class="auth-form" asp-controller="Account" asp-action="AddressSave" method="post">
           <input type="hidden" name="Id" value="@(edit?.Id ?? 0)" />
           <div class="co-field">
             <input type="text" id="addrLabel" name="Label" placeholder=" " value="@edit?.Label" />
-            <label for="addrLabel">Label (e.g. Home, Office)</label>
+            <label for="addrLabel">@L["Label (e.g. Home, Office)"]</label>
           </div>
           <div class="co-field-row">
-            <div class="co-field"><input type="text" id="addrFirst" name="FirstName" placeholder=" " required value="@edit?.FirstName" /><label for="addrFirst">First name</label></div>
-            <div class="co-field"><input type="text" id="addrLast" name="LastName" placeholder=" " required value="@edit?.LastName" /><label for="addrLast">Last name</label></div>
+            <div class="co-field"><input type="text" id="addrFirst" name="FirstName" placeholder=" " required value="@edit?.FirstName" /><label for="addrFirst">@L["First name"]</label></div>
+            <div class="co-field"><input type="text" id="addrLast" name="LastName" placeholder=" " required value="@edit?.LastName" /><label for="addrLast">@L["Last name"]</label></div>
           </div>
           <div class="co-field co-field--phone">
             <span class="field__prefix"><span class="flag flag--kw" aria-hidden="true"></span><span style="padding: 0 8px 0 4px; color: var(--c-text);">+965</span></span>
             <input type="tel" id="addrPhone" name="Phone" placeholder=" " inputmode="tel" value="@edit?.Phone" />
-            <label for="addrPhone">Mobile</label>
+            <label for="addrPhone">@L["Mobile"]</label>
           </div>
           <div class="co-field">
             <select id="addrCountry" name="Country">
               @{
                 var country = edit?.Country ?? "KW";
               }
-              <option value="KW" selected="@(country == "KW")">Kuwait</option>
-              <option value="SA" selected="@(country == "SA")">Saudi Arabia</option>
-              <option value="AE" selected="@(country == "AE")">UAE</option>
-              <option value="BH" selected="@(country == "BH")">Bahrain</option>
-              <option value="QA" selected="@(country == "QA")">Qatar</option>
-              <option value="OM" selected="@(country == "OM")">Oman</option>
+              <option value="KW" selected="@(country == "KW")">@L["Kuwait"]</option>
+              <option value="SA" selected="@(country == "SA")">@L["Saudi Arabia"]</option>
+              <option value="AE" selected="@(country == "AE")">@L["UAE"]</option>
+              <option value="BH" selected="@(country == "BH")">@L["Bahrain"]</option>
+              <option value="QA" selected="@(country == "QA")">@L["Qatar"]</option>
+              <option value="OM" selected="@(country == "OM")">@L["Oman"]</option>
             </select>
-            <label for="addrCountry">Country</label>
+            <label for="addrCountry">@L["Country"]</label>
           </div>
           <div class="co-field-row">
             <div class="co-field">
@@ -148,34 +148,34 @@
                   <option value="@gov" selected="@(edit?.Governorate == gov)">@gov</option>
                 }
               </select>
-              <label for="addrGov">Governorate</label>
+              <label for="addrGov">@L["Governorate"]</label>
             </div>
-            <div class="co-field"><input type="text" id="addrArea" name="Area" placeholder=" " required value="@edit?.Area" /><label for="addrArea">Area</label></div>
+            <div class="co-field"><input type="text" id="addrArea" name="Area" placeholder=" " required value="@edit?.Area" /><label for="addrArea">@L["Area"]</label></div>
           </div>
           <div class="co-field-row co-field-row--3">
-            <div class="co-field"><input type="text" id="addrBlock" name="Block" placeholder=" " required value="@edit?.Block" /><label for="addrBlock">Block</label></div>
-            <div class="co-field"><input type="text" id="addrStreet" name="Street" placeholder=" " required value="@edit?.Street" /><label for="addrStreet">Street</label></div>
-            <div class="co-field"><input type="text" id="addrBuilding" name="Building" placeholder=" " required value="@edit?.Building" /><label for="addrBuilding">Building</label></div>
+            <div class="co-field"><input type="text" id="addrBlock" name="Block" placeholder=" " required value="@edit?.Block" /><label for="addrBlock">@L["Block"]</label></div>
+            <div class="co-field"><input type="text" id="addrStreet" name="Street" placeholder=" " required value="@edit?.Street" /><label for="addrStreet">@L["Street"]</label></div>
+            <div class="co-field"><input type="text" id="addrBuilding" name="Building" placeholder=" " required value="@edit?.Building" /><label for="addrBuilding">@L["Building"]</label></div>
           </div>
           <div class="co-field-row">
             <div class="co-field">
               <input type="text" id="addrFloor" name="Floor" placeholder=" " value="@edit?.Floor" />
-              <label for="addrFloor">Floor</label>
-              <span class="field__hint">Optional</span>
+              <label for="addrFloor">@L["Floor"]</label>
+              <span class="field__hint">@L["Optional"]</span>
             </div>
             <div class="co-field">
               <input type="text" id="addrApartment" name="Apartment" placeholder=" " value="@edit?.Apartment" />
-              <label for="addrApartment">Apartment</label>
-              <span class="field__hint">Optional</span>
+              <label for="addrApartment">@L["Apartment"]</label>
+              <span class="field__hint">@L["Optional"]</span>
             </div>
           </div>
           <div class="co-field">
             <textarea id="addrDirections" name="Directions" rows="2" placeholder=" ">@edit?.Directions</textarea>
-            <label for="addrDirections">Additional directions</label>
-            <span class="field__hint">e.g. landmark, gate code · optional</span>
+            <label for="addrDirections">@L["Additional directions"]</label>
+            <span class="field__hint">@L["e.g. landmark, gate code · optional"]</span>
           </div>
-          <label class="check co-check"><input type="checkbox" id="addrDefault" name="IsDefault" value="true" checked="@(edit?.IsDefault == true)" /><span>Set as default address</span></label>
-          <button type="submit" class="btn btn--primary">Save address</button>
+          <label class="check co-check"><input type="checkbox" id="addrDefault" name="IsDefault" value="true" checked="@(edit?.IsDefault == true)" /><span>@L["Set as default address"]</span></label>
+          <button type="submit" class="btn btn--primary">@L["Save address"]</button>
         </form>
       </section>
 

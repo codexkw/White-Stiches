@@ -1,0 +1,2220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Jackets" xml:space="preserve">
+    <value>Jackets</value>
+  </data>
+  <data name="Dresses" xml:space="preserve">
+    <value>Dresses</value>
+  </data>
+  <data name="Suits" xml:space="preserve">
+    <value>Suits</value>
+  </data>
+  <data name="Tops" xml:space="preserve">
+    <value>Tops</value>
+  </data>
+  <data name="Sale" xml:space="preserve">
+    <value>Sale</value>
+  </data>
+  <data name="Shop" xml:space="preserve">
+    <value>Shop</value>
+  </data>
+  <data name="New Arrivals" xml:space="preserve">
+    <value>New Arrivals</value>
+  </data>
+  <data name="Gift Cards" xml:space="preserve">
+    <value>Gift Cards</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="Size Guide" xml:space="preserve">
+    <value>Size Guide</value>
+  </data>
+  <data name="Shipping &amp; Delivery" xml:space="preserve">
+    <value>Shipping &amp; Delivery</value>
+  </data>
+  <data name="Returns &amp; Exchanges" xml:space="preserve">
+    <value>Returns &amp; Exchanges</value>
+  </data>
+  <data name="Track Order" xml:space="preserve">
+    <value>Track Order</value>
+  </data>
+  <data name="FAQ" xml:space="preserve">
+    <value>FAQ</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Our Story" xml:space="preserve">
+    <value>Our Story</value>
+  </data>
+  <data name="Atelier" xml:space="preserve">
+    <value>Atelier</value>
+  </data>
+  <data name="Sustainability" xml:space="preserve">
+    <value>Sustainability</value>
+  </data>
+  <data name="Journal" xml:space="preserve">
+    <value>Journal</value>
+  </data>
+  <data name="Careers" xml:space="preserve">
+    <value>Careers</value>
+  </data>
+  <data name="Preferences" xml:space="preserve">
+    <value>Preferences</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="Wishlist" xml:space="preserve">
+    <value>Wishlist</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Switch language" xml:space="preserve">
+    <value>Switch language</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="Terms" xml:space="preserve">
+    <value>Terms</value>
+  </data>
+  <data name="Cookies" xml:space="preserve">
+    <value>Cookies</value>
+  </data>
+  <data name="Complimentary delivery on orders over 50 KWD" xml:space="preserve">
+    <value>Complimentary delivery on orders over 50 KWD</value>
+  </data>
+  <data name="New Spring Edit — now in stores" xml:space="preserve">
+    <value>New Spring Edit — now in stores</value>
+  </data>
+  <data name="Pay with KNET, Apple Pay &amp; Tabby" xml:space="preserve">
+    <value>Pay with KNET, Apple Pay &amp; Tabby</value>
+  </data>
+  <data name="Shipping across the GCC" xml:space="preserve">
+    <value>Shipping across the GCC</value>
+  </data>
+  <data name="Account · Addresses" xml:space="preserve">
+    <value>Account · Addresses</value>
+  </data>
+  <data name="Saved addresses." xml:space="preserve">
+    <value>Saved addresses.</value>
+  </data>
+  <data name="Manage where we deliver and bill." xml:space="preserve">
+    <value>Manage where we deliver and bill.</value>
+  </data>
+  <data name="Overview" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Orders</value>
+  </data>
+  <data name="Addresses" xml:space="preserve">
+    <value>Addresses</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="Returns" xml:space="preserve">
+    <value>Returns</value>
+  </data>
+  <data name="Sign out" xml:space="preserve">
+    <value>Sign out</value>
+  </data>
+  <data name="Default · Shipping &amp; Billing" xml:space="preserve">
+    <value>Default · Shipping &amp; Billing</value>
+  </data>
+  <data name="Saved" xml:space="preserve">
+    <value>Saved</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Set default" xml:space="preserve">
+    <value>Set default</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Block" xml:space="preserve">
+    <value>Block</value>
+  </data>
+  <data name="Street" xml:space="preserve">
+    <value>Street</value>
+  </data>
+  <data name="Building" xml:space="preserve">
+    <value>Building</value>
+  </data>
+  <data name="Floor" xml:space="preserve">
+    <value>Floor</value>
+  </data>
+  <data name="Apt" xml:space="preserve">
+    <value>Apt</value>
+  </data>
+  <data name="Kuwait" xml:space="preserve">
+    <value>Kuwait</value>
+  </data>
+  <data name="Add a new address" xml:space="preserve">
+    <value>Add a new address</value>
+  </data>
+  <data name="New address" xml:space="preserve">
+    <value>New address</value>
+  </data>
+  <data name="Edit address" xml:space="preserve">
+    <value>Edit address</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Label (e.g. Home, Office)" xml:space="preserve">
+    <value>Label (e.g. Home, Office)</value>
+  </data>
+  <data name="First name" xml:space="preserve">
+    <value>First name</value>
+  </data>
+  <data name="Last name" xml:space="preserve">
+    <value>Last name</value>
+  </data>
+  <data name="Mobile" xml:space="preserve">
+    <value>Mobile</value>
+  </data>
+  <data name="Saudi Arabia" xml:space="preserve">
+    <value>Saudi Arabia</value>
+  </data>
+  <data name="UAE" xml:space="preserve">
+    <value>UAE</value>
+  </data>
+  <data name="Bahrain" xml:space="preserve">
+    <value>Bahrain</value>
+  </data>
+  <data name="Qatar" xml:space="preserve">
+    <value>Qatar</value>
+  </data>
+  <data name="Oman" xml:space="preserve">
+    <value>Oman</value>
+  </data>
+  <data name="Governorate" xml:space="preserve">
+    <value>Governorate</value>
+  </data>
+  <data name="Area" xml:space="preserve">
+    <value>Area</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>Optional</value>
+  </data>
+  <data name="Apartment" xml:space="preserve">
+    <value>Apartment</value>
+  </data>
+  <data name="Additional directions" xml:space="preserve">
+    <value>Additional directions</value>
+  </data>
+  <data name="e.g. landmark, gate code · optional" xml:space="preserve">
+    <value>e.g. landmark, gate code · optional</value>
+  </data>
+  <data name="Set as default address" xml:space="preserve">
+    <value>Set as default address</value>
+  </data>
+  <data name="Save address" xml:space="preserve">
+    <value>Save address</value>
+  </data>
+  <data name="My Account" xml:space="preserve">
+    <value>My Account</value>
+  </data>
+  <data name="Hello," xml:space="preserve">
+    <value>Hello,</value>
+  </data>
+  <data name="Member since" xml:space="preserve">
+    <value>Member since</value>
+  </data>
+  <data name="Account navigation" xml:space="preserve">
+    <value>Account navigation</value>
+  </data>
+  <data name="Open orders" xml:space="preserve">
+    <value>Open orders</value>
+  </data>
+  <data name="In progress now" xml:space="preserve">
+    <value>In progress now</value>
+  </data>
+  <data name="All caught up" xml:space="preserve">
+    <value>All caught up</value>
+  </data>
+  <data name="on sale" xml:space="preserve">
+    <value>on sale</value>
+  </data>
+  <data name="Saved pieces" xml:space="preserve">
+    <value>Saved pieces</value>
+  </data>
+  <data name="Member tier" xml:space="preserve">
+    <value>Member tier</value>
+  </data>
+  <data name="order" xml:space="preserve">
+    <value>order</value>
+  </data>
+  <data name="all-time" xml:space="preserve">
+    <value>all-time</value>
+  </data>
+  <data name="Store credit" xml:space="preserve">
+    <value>Store credit</value>
+  </data>
+  <data name="Available balance" xml:space="preserve">
+    <value>Available balance</value>
+  </data>
+  <data name="Recent orders" xml:space="preserve">
+    <value>Recent orders</value>
+  </data>
+  <data name="View all" xml:space="preserve">
+    <value>View all</value>
+  </data>
+  <data name="No orders yet — your first order will appear here." xml:space="preserve">
+    <value>No orders yet — your first order will appear here.</value>
+  </data>
+  <data name="Shop the edit" xml:space="preserve">
+    <value>Shop the edit</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Default address" xml:space="preserve">
+    <value>Default address</value>
+  </data>
+  <data name="Manage" xml:space="preserve">
+    <value>Manage</value>
+  </data>
+  <data name="No saved address yet — add one for faster checkout." xml:space="preserve">
+    <value>No saved address yet — add one for faster checkout.</value>
+  </data>
+  <data name="Wishlist preview" xml:space="preserve">
+    <value>Wishlist preview</value>
+  </data>
+  <data name="Nothing saved yet — tap the heart on any piece to keep it here." xml:space="preserve">
+    <value>Nothing saved yet — tap the heart on any piece to keep it here.</value>
+  </data>
+  <data name="The Atelier" xml:space="preserve">
+    <value>The Atelier</value>
+  </data>
+  <data name="Made in Kuwait. Designed for the GCC." xml:space="preserve">
+    <value>Made in Kuwait. Designed for the GCC.</value>
+  </data>
+  <data name="Save your pieces, track orders, and unlock first looks at our SS26 lookbook — exclusively for members." xml:space="preserve">
+    <value>Save your pieces, track orders, and unlock first looks at our SS26 lookbook — exclusively for members.</value>
+  </data>
+  <data name="Sign in" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+  <data name="Create account" xml:space="preserve">
+    <value>Create account</value>
+  </data>
+  <data name="Welcome back." xml:space="preserve">
+    <value>Welcome back.</value>
+  </data>
+  <data name="Sign in to access your orders, wishlist and saved addresses." xml:space="preserve">
+    <value>Sign in to access your orders, wishlist and saved addresses.</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Show password" xml:space="preserve">
+    <value>Show password</value>
+  </data>
+  <data name="Keep me signed in" xml:space="preserve">
+    <value>Keep me signed in</value>
+  </data>
+  <data name="Forgot password?" xml:space="preserve">
+    <value>Forgot password?</value>
+  </data>
+  <data name="or continue with" xml:space="preserve">
+    <value>or continue with</value>
+  </data>
+  <data name="WhatsApp OTP" xml:space="preserve">
+    <value>WhatsApp OTP</value>
+  </data>
+  <data name="Join the atelier." xml:space="preserve">
+    <value>Join the atelier.</value>
+  </data>
+  <data name="Create your account in 30 seconds — never miss an edit." xml:space="preserve">
+    <value>Create your account in 30 seconds — never miss an edit.</value>
+  </data>
+  <data name="Country code" xml:space="preserve">
+    <value>Country code</value>
+  </data>
+  <data name="8+ characters · mix letters &amp; numbers" xml:space="preserve">
+    <value>8+ characters · mix letters &amp; numbers</value>
+  </data>
+  <data name="Strength" xml:space="preserve">
+    <value>Strength</value>
+  </data>
+  <data name="Send me styling notes &amp; new arrivals via email and WhatsApp · I can unsubscribe any time" xml:space="preserve">
+    <value>Send me styling notes &amp; new arrivals via email and WhatsApp · I can unsubscribe any time</value>
+  </data>
+  <data name="I agree to the" xml:space="preserve">
+    <value>I agree to the</value>
+  </data>
+  <data name="Terms of Sale" xml:space="preserve">
+    <value>Terms of Sale</value>
+  </data>
+  <data name="and" xml:space="preserve">
+    <value>and</value>
+  </data>
+  <data name="Privacy Policy" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="Already have an account?" xml:space="preserve">
+    <value>Already have an account?</value>
+  </data>
+  <data name="Sign in instead" xml:space="preserve">
+    <value>Sign in instead</value>
+  </data>
+  <data name="Back to sign in" xml:space="preserve">
+    <value>Back to sign in</value>
+  </data>
+  <data name="Reset your password." xml:space="preserve">
+    <value>Reset your password.</value>
+  </data>
+  <data name="Enter the email on your account and we'll send a reset link." xml:space="preserve">
+    <value>Enter the email on your account and we'll send a reset link.</value>
+  </data>
+  <data name="Check your inbox." xml:space="preserve">
+    <value>Check your inbox.</value>
+  </data>
+  <data name="We've sent a reset link to" xml:space="preserve">
+    <value>We've sent a reset link to</value>
+  </data>
+  <data name="The link expires in 30 minutes." xml:space="preserve">
+    <value>The link expires in 30 minutes.</value>
+  </data>
+  <data name="No email? Check your spam folder, or" xml:space="preserve">
+    <value>No email? Check your spam folder, or</value>
+  </data>
+  <data name="try again" xml:space="preserve">
+    <value>try again</value>
+  </data>
+  <data name="Send reset link" xml:space="preserve">
+    <value>Send reset link</value>
+  </data>
+  <data name="Trouble signing in?" xml:space="preserve">
+    <value>Trouble signing in?</value>
+  </data>
+  <data name="Chat with the atelier on WhatsApp" xml:space="preserve">
+    <value>Chat with the atelier on WhatsApp</value>
+  </data>
+  <data name="Back to orders" xml:space="preserve">
+    <value>Back to orders</value>
+  </data>
+  <data name="Order detail" xml:space="preserve">
+    <value>Order detail</value>
+  </data>
+  <data name="piece" xml:space="preserve">
+    <value>piece</value>
+  </data>
+  <data name="pieces" xml:space="preserve">
+    <value>pieces</value>
+  </data>
+  <data name="cancelled" xml:space="preserve">
+    <value>cancelled</value>
+  </data>
+  <data name="This order was cancelled" xml:space="preserve">
+    <value>This order was cancelled</value>
+  </data>
+  <data name="Any captured payment is returned to the original payment method within 3–5 working days." xml:space="preserve">
+    <value>Any captured payment is returned to the original payment method within 3–5 working days.</value>
+  </data>
+  <data name="refunded" xml:space="preserve">
+    <value>refunded</value>
+  </data>
+  <data name="was refunded to your original payment method." xml:space="preserve">
+    <value>was refunded to your original payment method.</value>
+  </data>
+  <data name="This order was refunded to your original payment method." xml:space="preserve">
+    <value>This order was refunded to your original payment method.</value>
+  </data>
+  <data name="Refunds land in 3–5 working days." xml:space="preserve">
+    <value>Refunds land in 3–5 working days.</value>
+  </data>
+  <data name="placed" xml:space="preserve">
+    <value>placed</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>Payment</value>
+  </data>
+  <data name="confirmed" xml:space="preserve">
+    <value>confirmed</value>
+  </data>
+  <data name="Prepared at the" xml:space="preserve">
+    <value>Prepared at the</value>
+  </data>
+  <data name="Your order is" xml:space="preserve">
+    <value>Your order is</value>
+  </data>
+  <data name="in transit" xml:space="preserve">
+    <value>in transit</value>
+  </data>
+  <data name="Delivered" xml:space="preserve">
+    <value>Delivered</value>
+  </data>
+  <data name="AWB" xml:space="preserve">
+    <value>AWB</value>
+  </data>
+  <data name="We've received your order and emailed a confirmation to" xml:space="preserve">
+    <value>We've received your order and emailed a confirmation to</value>
+  </data>
+  <data name="We'll let you know the moment it's on the move." xml:space="preserve">
+    <value>We'll let you know the moment it's on the move.</value>
+  </data>
+  <data name="Your payment is confirmed — the atelier is preparing your pieces now." xml:space="preserve">
+    <value>Your payment is confirmed — the atelier is preparing your pieces now.</value>
+  </data>
+  <data name="Your pieces are packed at our Kuwait atelier and ready for the courier." xml:space="preserve">
+    <value>Your pieces are packed at our Kuwait atelier and ready for the courier.</value>
+  </data>
+  <data name="Your order left our Kuwait atelier. The courier will WhatsApp before delivery." xml:space="preserve">
+    <value>Your order left our Kuwait atelier. The courier will WhatsApp before delivery.</value>
+  </data>
+  <data name="Your order was delivered. We hope you love it — returns stay open for 14 days." xml:space="preserve">
+    <value>Your order was delivered. We hope you love it — returns stay open for 14 days.</value>
+  </data>
+  <data name="Variant" xml:space="preserve">
+    <value>Variant</value>
+  </data>
+  <data name="Qty" xml:space="preserve">
+    <value>Qty</value>
+  </data>
+  <data name="Return this" xml:space="preserve">
+    <value>Return this</value>
+  </data>
+  <data name="Delivery address" xml:space="preserve">
+    <value>Delivery address</value>
+  </data>
+  <data name="No payment recorded yet." xml:space="preserve">
+    <value>No payment recorded yet.</value>
+  </data>
+  <data name="Subtotal" xml:space="preserve">
+    <value>Subtotal</value>
+  </data>
+  <data name="Gift wrap" xml:space="preserve">
+    <value>Gift wrap</value>
+  </data>
+  <data name="Delivery" xml:space="preserve">
+    <value>Delivery</value>
+  </data>
+  <data name="Free" xml:space="preserve">
+    <value>Free</value>
+  </data>
+  <data name="VAT" xml:space="preserve">
+    <value>VAT</value>
+  </data>
+  <data name="Included" xml:space="preserve">
+    <value>Included</value>
+  </data>
+  <data name="Track shipment" xml:space="preserve">
+    <value>Track shipment</value>
+  </data>
+  <data name="WhatsApp support" xml:space="preserve">
+    <value>WhatsApp support</value>
+  </data>
+  <data name="Request a return" xml:space="preserve">
+    <value>Request a return</value>
+  </data>
+  <data name="Account · Orders" xml:space="preserve">
+    <value>Account · Orders</value>
+  </data>
+  <data name="Your orders." xml:space="preserve">
+    <value>Your orders.</value>
+  </data>
+  <data name="No orders yet" xml:space="preserve">
+    <value>No orders yet</value>
+  </data>
+  <data name="When you place your first order it will appear here." xml:space="preserve">
+    <value>When you place your first order it will appear here.</value>
+  </data>
+  <data name="Shop new arrivals" xml:space="preserve">
+    <value>Shop new arrivals</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Search by order # or product…" xml:space="preserve">
+    <value>Search by order # or product…</value>
+  </data>
+  <data name="item" xml:space="preserve">
+    <value>item</value>
+  </data>
+  <data name="items" xml:space="preserve">
+    <value>items</value>
+  </data>
+  <data name="Return" xml:space="preserve">
+    <value>Return</value>
+  </data>
+  <data name="Pagination" xml:space="preserve">
+    <value>Pagination</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Account · Profile" xml:space="preserve">
+    <value>Account · Profile</value>
+  </data>
+  <data name="Profile &amp; preferences." xml:space="preserve">
+    <value>Profile &amp; preferences.</value>
+  </data>
+  <data name="Manage your personal info, notifications and privacy." xml:space="preserve">
+    <value>Manage your personal info, notifications and privacy.</value>
+  </data>
+  <data name="Personal information" xml:space="preserve">
+    <value>Personal information</value>
+  </data>
+  <data name="Save changes" xml:space="preserve">
+    <value>Save changes</value>
+  </data>
+  <data name="Verified" xml:space="preserve">
+    <value>Verified</value>
+  </data>
+  <data name="Update contact" xml:space="preserve">
+    <value>Update contact</value>
+  </data>
+  <data name="Communication preferences" xml:space="preserve">
+    <value>Communication preferences</value>
+  </data>
+  <data name="You can unsubscribe any time" xml:space="preserve">
+    <value>You can unsubscribe any time</value>
+  </data>
+  <data name="WhatsApp" xml:space="preserve">
+    <value>WhatsApp</value>
+  </data>
+  <data name="SMS" xml:space="preserve">
+    <value>SMS</value>
+  </data>
+  <data name="Order updates" xml:space="preserve">
+    <value>Order updates</value>
+  </data>
+  <data name="Confirmations, shipping, delivery" xml:space="preserve">
+    <value>Confirmations, shipping, delivery</value>
+  </data>
+  <data name="News, sales &amp; lookbooks" xml:space="preserve">
+    <value>News, sales &amp; lookbooks</value>
+  </data>
+  <data name="New arrivals &amp; member early access" xml:space="preserve">
+    <value>New arrivals &amp; member early access</value>
+  </data>
+  <data name="Language &amp; currency" xml:space="preserve">
+    <value>Language &amp; currency</value>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Currency</value>
+  </data>
+  <data name="Save preferences" xml:space="preserve">
+    <value>Save preferences</value>
+  </data>
+  <data name="Current password" xml:space="preserve">
+    <value>Current password</value>
+  </data>
+  <data name="New password" xml:space="preserve">
+    <value>New password</value>
+  </data>
+  <data name="Confirm new password" xml:space="preserve">
+    <value>Confirm new password</value>
+  </data>
+  <data name="Change password" xml:space="preserve">
+    <value>Change password</value>
+  </data>
+  <data name="Privacy &amp; data" xml:space="preserve">
+    <value>Privacy &amp; data</value>
+  </data>
+  <data name="Download my data" xml:space="preserve">
+    <value>Download my data</value>
+  </data>
+  <data name="Get a copy of everything we have on file (orders, addresses, preferences)." xml:space="preserve">
+    <value>Get a copy of everything we have on file (orders, addresses, preferences).</value>
+  </data>
+  <data name="Request export" xml:space="preserve">
+    <value>Request export</value>
+  </data>
+  <data name="Delete my account" xml:space="preserve">
+    <value>Delete my account</value>
+  </data>
+  <data name="Permanently remove your account and personal data. Orders are kept for legal compliance." xml:space="preserve">
+    <value>Permanently remove your account and personal data. Orders are kept for legal compliance.</value>
+  </data>
+  <data name="Delete account" xml:space="preserve">
+    <value>Delete account</value>
+  </data>
+  <data name="Account · Returns" xml:space="preserve">
+    <value>Account · Returns</value>
+  </data>
+  <data name="Returns &amp; exchanges." xml:space="preserve">
+    <value>Returns &amp; exchanges.</value>
+  </data>
+  <data name="14-day window from the day you receive your order." xml:space="preserve">
+    <value>14-day window from the day you receive your order.</value>
+  </data>
+  <data name="Return items" xml:space="preserve">
+    <value>Return items</value>
+  </data>
+  <data name="Don't return" xml:space="preserve">
+    <value>Don't return</value>
+  </data>
+  <data name="Return qty" xml:space="preserve">
+    <value>Return qty</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Reason</value>
+  </data>
+  <data name="Courier pickup" xml:space="preserve">
+    <value>Courier pickup</value>
+  </data>
+  <data name="We collect from your address · 1–2 working days" xml:space="preserve">
+    <value>We collect from your address · 1–2 working days</value>
+  </data>
+  <data name="Atelier drop-off" xml:space="preserve">
+    <value>Atelier drop-off</value>
+  </data>
+  <data name="The Avenues, Phase 4 · any day, 10 AM – 10 PM" xml:space="preserve">
+    <value>The Avenues, Phase 4 · any day, 10 AM – 10 PM</value>
+  </data>
+  <data name="Anything else we should know" xml:space="preserve">
+    <value>Anything else we should know</value>
+  </data>
+  <data name="Submit return request" xml:space="preserve">
+    <value>Submit return request</value>
+  </data>
+  <data name="Start a return" xml:space="preserve">
+    <value>Start a return</value>
+  </data>
+  <data name="Select an eligible order to begin. Most refunds land in 3–5 working days." xml:space="preserve">
+    <value>Select an eligible order to begin. Most refunds land in 3–5 working days.</value>
+  </data>
+  <data name="Eligible order" xml:space="preserve">
+    <value>Eligible order</value>
+  </data>
+  <data name="View orders" xml:space="preserve">
+    <value>View orders</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Approved</value>
+  </data>
+  <data name="No returns yet — start one from a delivered order above." xml:space="preserve">
+    <value>No returns yet — start one from a delivered order above.</value>
+  </data>
+  <data name="Initiated" xml:space="preserve">
+    <value>Initiated</value>
+  </data>
+  <data name="for order" xml:space="preserve">
+    <value>for order</value>
+  </data>
+  <data name="Return request" xml:space="preserve">
+    <value>Return request</value>
+  </data>
+  <data name="Reason:" xml:space="preserve">
+    <value>Reason:</value>
+  </data>
+  <data name="Not eligible for refund" xml:space="preserve">
+    <value>Not eligible for refund</value>
+  </data>
+  <data name="Refund:" xml:space="preserve">
+    <value>Refund:</value>
+  </data>
+  <data name="pending review" xml:space="preserve">
+    <value>pending review</value>
+  </data>
+  <data name="pending receipt" xml:space="preserve">
+    <value>pending receipt</value>
+  </data>
+  <data name="View order" xml:space="preserve">
+    <value>View order</value>
+  </data>
+  <data name="Our returns policy in brief" xml:space="preserve">
+    <value>Our returns policy in brief</value>
+  </data>
+  <data name="Read full policy" xml:space="preserve">
+    <value>Read full policy</value>
+  </data>
+  <data name="14 days" xml:space="preserve">
+    <value>14 days</value>
+  </data>
+  <data name="from the day you receive the order" xml:space="preserve">
+    <value>from the day you receive the order</value>
+  </data>
+  <data name="Pieces must be" xml:space="preserve">
+    <value>Pieces must be</value>
+  </data>
+  <data name="unworn" xml:space="preserve">
+    <value>unworn</value>
+  </data>
+  <data name=", with original tags and packaging" xml:space="preserve">
+    <value>, with original tags and packaging</value>
+  </data>
+  <data name="Sale items can be returned for" xml:space="preserve">
+    <value>Sale items can be returned for</value>
+  </data>
+  <data name="store credit only" xml:space="preserve">
+    <value>store credit only</value>
+  </data>
+  <data name="Refunds land in" xml:space="preserve">
+    <value>Refunds land in</value>
+  </data>
+  <data name="3–5 working days" xml:space="preserve">
+    <value>3–5 working days</value>
+  </data>
+  <data name="to your original payment method" xml:space="preserve">
+    <value>to your original payment method</value>
+  </data>
+  <data name="Final-sale pieces, swimwear and earrings cannot be returned" xml:space="preserve">
+    <value>Final-sale pieces, swimwear and earrings cannot be returned</value>
+  </data>
+  <data name="Account · Wishlist" xml:space="preserve">
+    <value>Account · Wishlist</value>
+  </data>
+  <data name="Saved pieces." xml:space="preserve">
+    <value>Saved pieces.</value>
+  </data>
+  <data name="Your wishlist is empty" xml:space="preserve">
+    <value>Your wishlist is empty</value>
+  </data>
+  <data name="Tap the heart on any piece to keep it here." xml:space="preserve">
+    <value>Tap the heart on any piece to keep it here.</value>
+  </data>
+  <data name="Share wishlist" xml:space="preserve">
+    <value>Share wishlist</value>
+  </data>
+  <data name="Sort wishlist" xml:space="preserve">
+    <value>Sort wishlist</value>
+  </data>
+  <data name="Recently added" xml:space="preserve">
+    <value>Recently added</value>
+  </data>
+  <data name="Price · low to high" xml:space="preserve">
+    <value>Price · low to high</value>
+  </data>
+  <data name="Price · high to low" xml:space="preserve">
+    <value>Price · high to low</value>
+  </data>
+  <data name="On sale first" xml:space="preserve">
+    <value>On sale first</value>
+  </data>
+  <data name="Remove from wishlist" xml:space="preserve">
+    <value>Remove from wishlist</value>
+  </data>
+  <data name="Move to bag" xml:space="preserve">
+    <value>Move to bag</value>
+  </data>
+  <data name="Out of stock" xml:space="preserve">
+    <value>Out of stock</value>
+  </data>
+  <data name="Your bag is empty." xml:space="preserve">
+    <value>Your bag is empty.</value>
+  </data>
+  <data name="Begin with the new arrivals, or pick up where you left off in your wishlist." xml:space="preserve">
+    <value>Begin with the new arrivals, or pick up where you left off in your wishlist.</value>
+  </data>
+  <data name="Shop the new edit" xml:space="preserve">
+    <value>Shop the new edit</value>
+  </data>
+  <data name="Open wishlist" xml:space="preserve">
+    <value>Open wishlist</value>
+  </data>
+  <data name="Step 1 of 3" xml:space="preserve">
+    <value>Step 1 of 3</value>
+  </data>
+  <data name="Your Bag" xml:space="preserve">
+    <value>Your Bag</value>
+  </data>
+  <data name="You've unlocked" xml:space="preserve">
+    <value>You've unlocked</value>
+  </data>
+  <data name="complimentary delivery" xml:space="preserve">
+    <value>complimentary delivery</value>
+  </data>
+  <data name="within Kuwait." xml:space="preserve">
+    <value>within Kuwait.</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="more for complimentary delivery." xml:space="preserve">
+    <value>more for complimentary delivery.</value>
+  </data>
+  <data name="Colour" xml:space="preserve">
+    <value>Colour</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="Only" xml:space="preserve">
+    <value>Only</value>
+  </data>
+  <data name="left in this size — order soon" xml:space="preserve">
+    <value>left in this size — order soon</value>
+  </data>
+  <data name="each" xml:space="preserve">
+    <value>each</value>
+  </data>
+  <data name="Decrease quantity" xml:space="preserve">
+    <value>Decrease quantity</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="Increase quantity" xml:space="preserve">
+    <value>Increase quantity</value>
+  </data>
+  <data name="Save for later" xml:space="preserve">
+    <value>Save for later</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Add atelier gift wrap" xml:space="preserve">
+    <value>Add atelier gift wrap</value>
+  </data>
+  <data name="+ 3.500 KWD · hand-folded, sealed with our wax mark" xml:space="preserve">
+    <value>+ 3.500 KWD · hand-folded, sealed with our wax mark</value>
+  </data>
+  <data name="Add a note to your order" xml:space="preserve">
+    <value>Add a note to your order</value>
+  </data>
+  <data name="Special instructions — gift message, delivery directions, sizing notes…" xml:space="preserve">
+    <value>Special instructions — gift message, delivery directions, sizing notes…</value>
+  </data>
+  <data name="Order notes" xml:space="preserve">
+    <value>Order notes</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Continue shopping" xml:space="preserve">
+    <value>Continue shopping</value>
+  </data>
+  <data name="Order Summary" xml:space="preserve">
+    <value>Order Summary</value>
+  </data>
+  <data name="Promo or gift card" xml:space="preserve">
+    <value>Promo or gift card</value>
+  </data>
+  <data name="Enter code" xml:space="preserve">
+    <value>Enter code</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="Promo" xml:space="preserve">
+    <value>Promo</value>
+  </data>
+  <data name="Remove code" xml:space="preserve">
+    <value>Remove code</value>
+  </data>
+  <data name="Estimated shipping" xml:space="preserve">
+    <value>Estimated shipping</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Checkout securely" xml:space="preserve">
+    <value>Checkout securely</value>
+  </data>
+  <data name="or pay quickly with" xml:space="preserve">
+    <value>or pay quickly with</value>
+  </data>
+  <data name="Pay with Apple Pay" xml:space="preserve">
+    <value>Pay with Apple Pay</value>
+  </data>
+  <data name="Pay with Google Pay" xml:space="preserve">
+    <value>Pay with Google Pay</value>
+  </data>
+  <data name="Pay with KNET" xml:space="preserve">
+    <value>Pay with KNET</value>
+  </data>
+  <data name="Secured by Tap Payments · PCI DSS Level 1" xml:space="preserve">
+    <value>Secured by Tap Payments · PCI DSS Level 1</value>
+  </data>
+  <data name="14-day easy returns · Kuwait &amp; GCC" xml:space="preserve">
+    <value>14-day easy returns · Kuwait &amp; GCC</value>
+  </data>
+  <data name="Free delivery in Kuwait over 50 KWD" xml:space="preserve">
+    <value>Free delivery in Kuwait over 50 KWD</value>
+  </data>
+  <data name="You may also need" xml:space="preserve">
+    <value>You may also need</value>
+  </data>
+  <data name="Complete the bag." xml:space="preserve">
+    <value>Complete the bag.</value>
+  </data>
+  <data name="Quick Add" xml:space="preserve">
+    <value>Quick Add</value>
+  </data>
+  <data name="White Stitches home" xml:space="preserve">
+    <value>White Stitches home</value>
+  </data>
+  <data name="Bag" xml:space="preserve">
+    <value>Bag</value>
+  </data>
+  <data name="Checkout" xml:space="preserve">
+    <value>Checkout</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
+  <data name="Thank you," xml:space="preserve">
+    <value>Thank you,</value>
+  </data>
+  <data name="Your order is confirmed." xml:space="preserve">
+    <value>Your order is confirmed.</value>
+  </data>
+  <data name="A confirmation is on its way to" xml:space="preserve">
+    <value>A confirmation is on its way to</value>
+  </data>
+  <data name="We've also sent you a WhatsApp update on" xml:space="preserve">
+    <value>We've also sent you a WhatsApp update on</value>
+  </data>
+  <data name="Arriving" xml:space="preserve">
+    <value>Arriving</value>
+  </data>
+  <data name="within 2–3 working days" xml:space="preserve">
+    <value>within 2–3 working days</value>
+  </data>
+  <data name="Pay the courier in cash on arrival" xml:space="preserve">
+    <value>Pay the courier in cash on arrival</value>
+  </data>
+  <data name="Payment pending" xml:space="preserve">
+    <value>Payment pending</value>
+  </data>
+  <data name="Payment pending confirmation" xml:space="preserve">
+    <value>Payment pending confirmation</value>
+  </data>
+  <data name="Your pieces" xml:space="preserve">
+    <value>Your pieces</value>
+  </data>
+  <data name="WhatsApp the atelier" xml:space="preserve">
+    <value>WhatsApp the atelier</value>
+  </data>
+  <data name="Sat–Thu · 9 AM – 9 PM Kuwait" xml:space="preserve">
+    <value>Sat–Thu · 9 AM – 9 PM Kuwait</value>
+  </data>
+  <data name="Open WhatsApp" xml:space="preserve">
+    <value>Open WhatsApp</value>
+  </data>
+  <data name="Need to change something?" xml:space="preserve">
+    <value>Need to change something?</value>
+  </data>
+  <data name="You have 1 hour to update size, address, or cancel." xml:space="preserve">
+    <value>You have 1 hour to update size, address, or cancel.</value>
+  </data>
+  <data name="Manage order" xml:space="preserve">
+    <value>Manage order</value>
+  </data>
+  <data name="Create your account" xml:space="preserve">
+    <value>Create your account</value>
+  </data>
+  <data name="Optional · 30 seconds" xml:space="preserve">
+    <value>Optional · 30 seconds</value>
+  </data>
+  <data name="Save this address, track future orders, and unlock early access to lookbooks &amp; private sales." xml:space="preserve">
+    <value>Save this address, track future orders, and unlock early access to lookbooks &amp; private sales.</value>
+  </data>
+  <data name="We'll use the email from your order" xml:space="preserve">
+    <value>We'll use the email from your order</value>
+  </data>
+  <data name="Download invoice (PDF)" xml:space="preserve">
+    <value>Download invoice (PDF)</value>
+  </data>
+  <data name="Paid securely via Tap Payments" xml:space="preserve">
+    <value>Paid securely via Tap Payments</value>
+  </data>
+  <data name="14-day easy returns" xml:space="preserve">
+    <value>14-day easy returns</value>
+  </data>
+  <data name="While you wait" xml:space="preserve">
+    <value>While you wait</value>
+  </data>
+  <data name="You may also like." xml:space="preserve">
+    <value>You may also like.</value>
+  </data>
+  <data name="Back to bag" xml:space="preserve">
+    <value>Back to bag</value>
+  </data>
+  <data name="Secure checkout" xml:space="preserve">
+    <value>Secure checkout</value>
+  </data>
+  <data name="Secure" xml:space="preserve">
+    <value>Secure</value>
+  </data>
+  <data name="Express checkout" xml:space="preserve">
+    <value>Express checkout</value>
+  </data>
+  <data name="or fill in your details" xml:space="preserve">
+    <value>or fill in your details</value>
+  </data>
+  <data name="For order confirmation &amp; tracking" xml:space="preserve">
+    <value>For order confirmation &amp; tracking</value>
+  </data>
+  <data name="We'll WhatsApp delivery updates" xml:space="preserve">
+    <value>We'll WhatsApp delivery updates</value>
+  </data>
+  <data name="Send me styling notes &amp; new arrivals · 1 email a week, never more" xml:space="preserve">
+    <value>Send me styling notes &amp; new arrivals · 1 email a week, never more</value>
+  </data>
+  <data name="Country / region" xml:space="preserve">
+    <value>Country / region</value>
+  </data>
+  <data name="Building / house" xml:space="preserve">
+    <value>Building / house</value>
+  </data>
+  <data name="Save this address for next time" xml:space="preserve">
+    <value>Save this address for next time</value>
+  </data>
+  <data name="Billing address is the same" xml:space="preserve">
+    <value>Billing address is the same</value>
+  </data>
+  <data name="Delivery method" xml:space="preserve">
+    <value>Delivery method</value>
+  </data>
+  <data name="All payments processed by Tap Payments" xml:space="preserve">
+    <value>All payments processed by Tap Payments</value>
+  </data>
+  <data name="Direct debit · most-used in Kuwait" xml:space="preserve">
+    <value>Direct debit · most-used in Kuwait</value>
+  </data>
+  <data name="You will be redirected to KNET's secure page to authenticate this payment." xml:space="preserve">
+    <value>You will be redirected to KNET's secure page to authenticate this payment.</value>
+  </data>
+  <data name="Credit / debit card" xml:space="preserve">
+    <value>Credit / debit card</value>
+  </data>
+  <data name="Visa · Mastercard · AmEx · with 3D Secure" xml:space="preserve">
+    <value>Visa · Mastercard · AmEx · with 3D Secure</value>
+  </data>
+  <data name="Apple Pay" xml:space="preserve">
+    <value>Apple Pay</value>
+  </data>
+  <data name="Confirm with Face ID or Touch ID" xml:space="preserve">
+    <value>Confirm with Face ID or Touch ID</value>
+  </data>
+  <data name="KNET, card &amp; Apple Pay are processed securely by Tap Payments — you'll be redirected to complete your payment." xml:space="preserve">
+    <value>KNET, card &amp; Apple Pay are processed securely by Tap Payments — you'll be redirected to complete your payment.</value>
+  </data>
+  <data name="I've read and agree to the" xml:space="preserve">
+    <value>I've read and agree to the</value>
+  </data>
+  <data name="Returns Policy" xml:space="preserve">
+    <value>Returns Policy</value>
+  </data>
+  <data name="Place order" xml:space="preserve">
+    <value>Place order</value>
+  </data>
+  <data name="By placing this order you authorise White Stitches via Tap Payments to charge the amount above. Your card details are tokenised; we never store them." xml:space="preserve">
+    <value>By placing this order you authorise White Stitches via Tap Payments to charge the amount above. Your card details are tokenised; we never store them.</value>
+  </data>
+  <data name="Show order summary" xml:space="preserve">
+    <value>Show order summary</value>
+  </data>
+  <data name="Hide order summary" xml:space="preserve">
+    <value>Hide order summary</value>
+  </data>
+  <data name="Promo or gift code" xml:space="preserve">
+    <value>Promo or gift code</value>
+  </data>
+  <data name="Encrypted &amp; PCI DSS Level 1" xml:space="preserve">
+    <value>Encrypted &amp; PCI DSS Level 1</value>
+  </data>
+  <data name="Spring 2026 editorial — Noor double-breasted dress" xml:space="preserve">
+    <value>Spring 2026 editorial — Noor double-breasted dress</value>
+  </data>
+  <data name="Spring · Summer 2026" xml:space="preserve">
+    <value>Spring · Summer 2026</value>
+  </data>
+  <data name="The art of" xml:space="preserve">
+    <value>The art of</value>
+  </data>
+  <data name="quiet elegance." xml:space="preserve">
+    <value>quiet elegance.</value>
+  </data>
+  <data name="A curated edit of cuts, fabrics and silhouettes — designed for the woman who measures luxury in stitches, not labels." xml:space="preserve">
+    <value>A curated edit of cuts, fabrics and silhouettes — designed for the woman who measures luxury in stitches, not labels.</value>
+  </data>
+  <data name="Watch the Film" xml:space="preserve">
+    <value>Watch the Film</value>
+  </data>
+  <data name="Lookbook" xml:space="preserve">
+    <value>Lookbook</value>
+  </data>
+  <data name="New Pieces" xml:space="preserve">
+    <value>New Pieces</value>
+  </data>
+  <data name="GCC Markets" xml:space="preserve">
+    <value>GCC Markets</value>
+  </data>
+  <data name="Scroll to explore" xml:space="preserve">
+    <value>Scroll to explore</value>
+  </data>
+  <data name="Scroll" xml:space="preserve">
+    <value>Scroll</value>
+  </data>
+  <data name="Free Delivery in Kuwait" xml:space="preserve">
+    <value>Free Delivery in Kuwait</value>
+  </data>
+  <data name="Crafted at Our Atelier" xml:space="preserve">
+    <value>Crafted at Our Atelier</value>
+  </data>
+  <data name="Shop by Category" xml:space="preserve">
+    <value>Shop by Category</value>
+  </data>
+  <data name="Curated lines, season after season." xml:space="preserve">
+    <value>Curated lines, season after season.</value>
+  </data>
+  <data name="Jackets collection" xml:space="preserve">
+    <value>Jackets collection</value>
+  </data>
+  <data name="Dresses collection" xml:space="preserve">
+    <value>Dresses collection</value>
+  </data>
+  <data name="Suits collection" xml:space="preserve">
+    <value>Suits collection</value>
+  </data>
+  <data name="Tops collection" xml:space="preserve">
+    <value>Tops collection</value>
+  </data>
+  <data name="Just landed." xml:space="preserve">
+    <value>Just landed.</value>
+  </data>
+  <data name="View all →" xml:space="preserve">
+    <value>View all →</value>
+  </data>
+  <data name="The List" xml:space="preserve">
+    <value>The List</value>
+  </data>
+  <data name="Be the first to receive new edits, private events and the SS26 lookbook." xml:space="preserve">
+    <value>Be the first to receive new edits, private events and the SS26 lookbook.</value>
+  </data>
+  <data name="You're on the list." xml:space="preserve">
+    <value>You're on the list.</value>
+  </data>
+  <data name="Welcome — the next edit lands in your inbox first." xml:space="preserve">
+    <value>Welcome — the next edit lands in your inbox first.</value>
+  </data>
+  <data name="Your email address" xml:space="preserve">
+    <value>Your email address</value>
+  </data>
+  <data name="Email address" xml:space="preserve">
+    <value>Email address</value>
+  </data>
+  <data name="Subscribe" xml:space="preserve">
+    <value>Subscribe</value>
+  </data>
+  <data name="Also send me styling tips on WhatsApp" xml:space="preserve">
+    <value>Also send me styling tips on WhatsApp</value>
+  </data>
+  <data name="You're already on the list — we'll keep the edits coming." xml:space="preserve">
+    <value>You're already on the list — we'll keep the edits coming.</value>
+  </data>
+  <data name="Fashion Atelier · Kuwait" xml:space="preserve">
+    <value>Fashion Atelier · Kuwait</value>
+  </data>
+  <data name="Enter the site" xml:space="preserve">
+    <value>Enter the site</value>
+  </data>
+  <data name="Tap to enter" xml:space="preserve">
+    <value>Tap to enter</value>
+  </data>
+  <data name="Atelier closed briefly" xml:space="preserve">
+    <value>Atelier closed briefly</value>
+  </data>
+  <data name="We'll be right back." xml:space="preserve">
+    <value>We'll be right back.</value>
+  </data>
+  <data name="Our site is going through a quick refresh. We're back in roughly" xml:space="preserve">
+    <value>Our site is going through a quick refresh. We're back in roughly</value>
+  </data>
+  <data name="— the atelier itself is still open and you can WhatsApp us in the meantime." xml:space="preserve">
+    <value>— the atelier itself is still open and you can WhatsApp us in the meantime.</value>
+  </data>
+  <data name="Want a heads-up when we're back?" xml:space="preserve">
+    <value>Want a heads-up when we're back?</value>
+  </data>
+  <data name="Notify me" xml:space="preserve">
+    <value>Notify me</value>
+  </data>
+  <data name="We'll email you the moment we're back online." xml:space="preserve">
+    <value>We'll email you the moment we're back online.</value>
+  </data>
+  <data name="or reach us now" xml:space="preserve">
+    <value>or reach us now</value>
+  </data>
+  <data name="Email us" xml:space="preserve">
+    <value>Email us</value>
+  </data>
+  <data name="Instagram" xml:space="preserve">
+    <value>Instagram</value>
+  </data>
+  <data name="TikTok" xml:space="preserve">
+    <value>TikTok</value>
+  </data>
+  <data name="Pinterest" xml:space="preserve">
+    <value>Pinterest</value>
+  </data>
+  <data name="Page not found" xml:space="preserve">
+    <value>Page not found</value>
+  </data>
+  <data name="This page slipped a stitch." xml:space="preserve">
+    <value>This page slipped a stitch.</value>
+  </data>
+  <data name="The link you followed doesn't lead anywhere on our site — maybe a typo, or maybe it's been moved." xml:space="preserve">
+    <value>The link you followed doesn't lead anywhere on our site — maybe a typo, or maybe it's been moved.</value>
+  </data>
+  <data name="Back to home" xml:space="preserve">
+    <value>Back to home</value>
+  </data>
+  <data name="Or try one of these" xml:space="preserve">
+    <value>Or try one of these</value>
+  </data>
+  <data name="Women" xml:space="preserve">
+    <value>Women</value>
+  </data>
+  <data name="Men" xml:space="preserve">
+    <value>Men</value>
+  </data>
+  <data name="Accessories" xml:space="preserve">
+    <value>Accessories</value>
+  </data>
+  <data name="Your account" xml:space="preserve">
+    <value>Your account</value>
+  </data>
+  <data name="Contact us" xml:space="preserve">
+    <value>Contact us</value>
+  </data>
+  <data name="While you're here" xml:space="preserve">
+    <value>While you're here</value>
+  </data>
+  <data name="Mira Draped Midi" xml:space="preserve">
+    <value>Mira Draped Midi</value>
+  </data>
+  <data name="Lina Silk Slip Dress" xml:space="preserve">
+    <value>Lina Silk Slip Dress</value>
+  </data>
+  <data name="Atelier Blazer" xml:space="preserve">
+    <value>Atelier Blazer</value>
+  </data>
+  <data name="Sahar Trouser" xml:space="preserve">
+    <value>Sahar Trouser</value>
+  </data>
+  <data name="Notes from the atelier." xml:space="preserve">
+    <value>Notes from the atelier.</value>
+  </data>
+  <data name="Styling guides, behind-the-scenes from our team, and the stories behind each piece." xml:space="preserve">
+    <value>Styling guides, behind-the-scenes from our team, and the stories behind each piece.</value>
+  </data>
+  <data name="Featured" xml:space="preserve">
+    <value>Featured</value>
+  </data>
+  <data name="Nothing here yet." xml:space="preserve">
+    <value>Nothing here yet.</value>
+  </data>
+  <data name="We haven't published any journal entries under this filter. Check back soon — or browse the full journal." xml:space="preserve">
+    <value>We haven't published any journal entries under this filter. Check back soon — or browse the full journal.</value>
+  </data>
+  <data name="View all articles" xml:space="preserve">
+    <value>View all articles</value>
+  </data>
+  <data name="Previous page" xml:space="preserve">
+    <value>Previous page</value>
+  </data>
+  <data name="Next page" xml:space="preserve">
+    <value>Next page</value>
+  </data>
+  <data name="Back to journal" xml:space="preserve">
+    <value>Back to journal</value>
+  </data>
+  <data name="min read" xml:space="preserve">
+    <value>min read</value>
+  </data>
+  <data name="Share this piece" xml:space="preserve">
+    <value>Share this piece</value>
+  </data>
+  <data name="Share on Instagram" xml:space="preserve">
+    <value>Share on Instagram</value>
+  </data>
+  <data name="Share on WhatsApp" xml:space="preserve">
+    <value>Share on WhatsApp</value>
+  </data>
+  <data name="Share on Pinterest" xml:space="preserve">
+    <value>Share on Pinterest</value>
+  </data>
+  <data name="Copy link" xml:space="preserve">
+    <value>Copy link</value>
+  </data>
+  <data name="Written by" xml:space="preserve">
+    <value>Written by</value>
+  </data>
+  <data name="Writes here about the pieces we make and the people we make them with." xml:space="preserve">
+    <value>Writes here about the pieces we make and the people we make them with.</value>
+  </data>
+  <data name="Read next" xml:space="preserve">
+    <value>Read next</value>
+  </data>
+  <data name="More from the journal." xml:space="preserve">
+    <value>More from the journal.</value>
+  </data>
+  <data name="Made in Kuwait." xml:space="preserve">
+    <value>Made in Kuwait.</value>
+  </data>
+  <data name="For the women of the GCC." xml:space="preserve">
+    <value>For the women of the GCC.</value>
+  </data>
+  <data name="Founded in 2024, White Stitches is a small atelier in the heart of Kuwait City — quietly designing pieces meant to outlast a season." xml:space="preserve">
+    <value>Founded in 2024, White Stitches is a small atelier in the heart of Kuwait City — quietly designing pieces meant to outlast a season.</value>
+  </data>
+  <data name="A letter from our founder" xml:space="preserve">
+    <value>A letter from our founder</value>
+  </data>
+  <data name="We started White Stitches because we were tired of fast fashion that didn't fit our climate, our culture, or our values." xml:space="preserve">
+    <value>We started White Stitches because we were tired of fast fashion that didn't fit our climate, our culture, or our values.</value>
+  </data>
+  <data name="Founder &amp; Creative Director" xml:space="preserve">
+    <value>Founder &amp; Creative Director</value>
+  </data>
+  <data name="Made by hand" xml:space="preserve">
+    <value>Made by hand</value>
+  </data>
+  <data name="Small batches" xml:space="preserve">
+    <value>Small batches</value>
+  </data>
+  <data name="Designed for here" xml:space="preserve">
+    <value>Designed for here</value>
+  </data>
+  <data name="Quiet over loud" xml:space="preserve">
+    <value>Quiet over loud</value>
+  </data>
+  <data name="A small house in Sharq." xml:space="preserve">
+    <value>A small house in Sharq.</value>
+  </data>
+  <data name="Our fabrics" xml:space="preserve">
+    <value>Our fabrics</value>
+  </data>
+  <data name="Sourced for the climate." xml:space="preserve">
+    <value>Sourced for the climate.</value>
+  </data>
+  <data name="Slower, on purpose." xml:space="preserve">
+    <value>Slower, on purpose.</value>
+  </data>
+  <data name="Come visit the atelier." xml:space="preserve">
+    <value>Come visit the atelier.</value>
+  </data>
+  <data name="Block 3, Sharq Tower · Floor 3 · Kuwait City" xml:space="preserve">
+    <value>Block 3, Sharq Tower · Floor 3 · Kuwait City</value>
+  </data>
+  <data name="Sat–Thu · 11 AM – 7 PM · by appointment" xml:space="preserve">
+    <value>Sat–Thu · 11 AM – 7 PM · by appointment</value>
+  </data>
+  <data name="Book an appointment" xml:space="preserve">
+    <value>Book an appointment</value>
+  </data>
+  <data name="We're here to help." xml:space="preserve">
+    <value>We're here to help.</value>
+  </data>
+  <data name="Whether it's sizing, a special request or just to say hello — reach out however suits you." xml:space="preserve">
+    <value>Whether it's sizing, a special request or just to say hello — reach out however suits you.</value>
+  </data>
+  <data name="Fastest response · usually under 15 minutes during business hours." xml:space="preserve">
+    <value>Fastest response · usually under 15 minutes during business hours.</value>
+  </data>
+  <data name="For longer enquiries, returns, partnerships. We reply within 24 hours." xml:space="preserve">
+    <value>For longer enquiries, returns, partnerships. We reply within 24 hours.</value>
+  </data>
+  <data name="Visit the atelier" xml:space="preserve">
+    <value>Visit the atelier</value>
+  </data>
+  <data name="Get directions" xml:space="preserve">
+    <value>Get directions</value>
+  </data>
+  <data name="Send us a message." xml:space="preserve">
+    <value>Send us a message.</value>
+  </data>
+  <data name="For everything else — we'll come back to you within 24 hours." xml:space="preserve">
+    <value>For everything else — we'll come back to you within 24 hours.</value>
+  </data>
+  <data name="Message sent." xml:space="preserve">
+    <value>Message sent.</value>
+  </data>
+  <data name="Thanks" xml:space="preserve">
+    <value>Thanks</value>
+  </data>
+  <data name="we've received your enquiry and will reply within 24 hours." xml:space="preserve">
+    <value>we've received your enquiry and will reply within 24 hours.</value>
+  </data>
+  <data name="Full name" xml:space="preserve">
+    <value>Full name</value>
+  </data>
+  <data name="Mobile (optional)" xml:space="preserve">
+    <value>Mobile (optional)</value>
+  </data>
+  <data name="Order enquiry" xml:space="preserve">
+    <value>Order enquiry</value>
+  </data>
+  <data name="Sizing or fit help" xml:space="preserve">
+    <value>Sizing or fit help</value>
+  </data>
+  <data name="Returns or exchanges" xml:space="preserve">
+    <value>Returns or exchanges</value>
+  </data>
+  <data name="Press &amp; partnerships" xml:space="preserve">
+    <value>Press &amp; partnerships</value>
+  </data>
+  <data name="Wholesale / B2B" xml:space="preserve">
+    <value>Wholesale / B2B</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="What can we help with?" xml:space="preserve">
+    <value>What can we help with?</value>
+  </data>
+  <data name="Order number (if relevant)" xml:space="preserve">
+    <value>Order number (if relevant)</value>
+  </data>
+  <data name="Your message" xml:space="preserve">
+    <value>Your message</value>
+  </data>
+  <data name="I consent to White Stitches contacting me by email and WhatsApp regarding this enquiry. See our" xml:space="preserve">
+    <value>I consent to White Stitches contacting me by email and WhatsApp regarding this enquiry. See our</value>
+  </data>
+  <data name="Send message" xml:space="preserve">
+    <value>Send message</value>
+  </data>
+  <data name="Hours" xml:space="preserve">
+    <value>Hours</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Monday</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Tuesday</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Wednesday</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Thursday</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Friday</value>
+  </data>
+  <data name="Closed" xml:space="preserve">
+    <value>Closed</value>
+  </data>
+  <data name="Find us" xml:space="preserve">
+    <value>Find us</value>
+  </data>
+  <data name="Follow us" xml:space="preserve">
+    <value>Follow us</value>
+  </data>
+  <data name="Legal · Cookies" xml:space="preserve">
+    <value>Legal · Cookies</value>
+  </data>
+  <data name="Cookies policy." xml:space="preserve">
+    <value>Cookies policy.</value>
+  </data>
+  <data name="How we use cookies and similar technologies — and how you can control them." xml:space="preserve">
+    <value>How we use cookies and similar technologies — and how you can control them.</value>
+  </data>
+  <data name="On this page" xml:space="preserve">
+    <value>On this page</value>
+  </data>
+  <data name="What cookies are" xml:space="preserve">
+    <value>What cookies are</value>
+  </data>
+  <data name="The cookies we use" xml:space="preserve">
+    <value>The cookies we use</value>
+  </data>
+  <data name="How to control them" xml:space="preserve">
+    <value>How to control them</value>
+  </data>
+  <data name="Third-party cookies" xml:space="preserve">
+    <value>Third-party cookies</value>
+  </data>
+  <data name="Changes to this policy" xml:space="preserve">
+    <value>Changes to this policy</value>
+  </data>
+  <data name="Essential · always on" xml:space="preserve">
+    <value>Essential · always on</value>
+  </data>
+  <data name="Strictly necessary" xml:space="preserve">
+    <value>Strictly necessary</value>
+  </data>
+  <data name="Functional" xml:space="preserve">
+    <value>Functional</value>
+  </data>
+  <data name="Analytics" xml:space="preserve">
+    <value>Analytics</value>
+  </data>
+  <data name="Performance &amp;amp; analytics" xml:space="preserve">
+    <value>Performance &amp;amp; analytics</value>
+  </data>
+  <data name="Marketing" xml:space="preserve">
+    <value>Marketing</value>
+  </data>
+  <data name="Marketing &amp;amp; advertising" xml:space="preserve">
+    <value>Marketing &amp;amp; advertising</value>
+  </data>
+  <data name="Help · FAQ" xml:space="preserve">
+    <value>Help · FAQ</value>
+  </data>
+  <data name="Frequently asked." xml:space="preserve">
+    <value>Frequently asked.</value>
+  </data>
+  <data name="Quick answers to the questions we get most. Can't find what you're looking for? WhatsApp us." xml:space="preserve">
+    <value>Quick answers to the questions we get most. Can't find what you're looking for? WhatsApp us.</value>
+  </data>
+  <data name="Last updated · 10 May 2026" xml:space="preserve">
+    <value>Last updated · 10 May 2026</value>
+  </data>
+  <data name="Orders &amp; payment" xml:space="preserve">
+    <value>Orders &amp; payment</value>
+  </data>
+  <data name="Product &amp; sizing" xml:space="preserve">
+    <value>Product &amp; sizing</value>
+  </data>
+  <data name="My account &amp; privacy" xml:space="preserve">
+    <value>My account &amp; privacy</value>
+  </data>
+  <data name="How long does it take to process my order?" xml:space="preserve">
+    <value>How long does it take to process my order?</value>
+  </data>
+  <data name="What payment methods do you accept?" xml:space="preserve">
+    <value>What payment methods do you accept?</value>
+  </data>
+  <data name="Can I change or cancel my order after placing it?" xml:space="preserve">
+    <value>Can I change or cancel my order after placing it?</value>
+  </data>
+  <data name="Do you offer gift wrapping?" xml:space="preserve">
+    <value>Do you offer gift wrapping?</value>
+  </data>
+  <data name="Where do you ship?" xml:space="preserve">
+    <value>Where do you ship?</value>
+  </data>
+  <data name="How long does delivery take?" xml:space="preserve">
+    <value>How long does delivery take?</value>
+  </data>
+  <data name="Will I get tracking?" xml:space="preserve">
+    <value>Will I get tracking?</value>
+  </data>
+  <data name="Do you ship to PO boxes?" xml:space="preserve">
+    <value>Do you ship to PO boxes?</value>
+  </data>
+  <data name="What's your returns policy?" xml:space="preserve">
+    <value>What's your returns policy?</value>
+  </data>
+  <data name="Are sale items returnable?" xml:space="preserve">
+    <value>Are sale items returnable?</value>
+  </data>
+  <data name="How do I start a return?" xml:space="preserve">
+    <value>How do I start a return?</value>
+  </data>
+  <data name="Do you cover return shipping?" xml:space="preserve">
+    <value>Do you cover return shipping?</value>
+  </data>
+  <data name="How do your sizes run?" xml:space="preserve">
+    <value>How do your sizes run?</value>
+  </data>
+  <data name="Are pieces restocked?" xml:space="preserve">
+    <value>Are pieces restocked?</value>
+  </data>
+  <data name="How do I care for my pieces?" xml:space="preserve">
+    <value>How do I care for my pieces?</value>
+  </data>
+  <data name="Do I need an account to order?" xml:space="preserve">
+    <value>Do I need an account to order?</value>
+  </data>
+  <data name="How do you use my data?" xml:space="preserve">
+    <value>How do you use my data?</value>
+  </data>
+  <data name="Can I delete my account?" xml:space="preserve">
+    <value>Can I delete my account?</value>
+  </data>
+  <data name="Legal · Privacy" xml:space="preserve">
+    <value>Legal · Privacy</value>
+  </data>
+  <data name="Privacy policy." xml:space="preserve">
+    <value>Privacy policy.</value>
+  </data>
+  <data name="How we collect, use and protect your personal information. We respect your privacy and never sell your data." xml:space="preserve">
+    <value>How we collect, use and protect your personal information. We respect your privacy and never sell your data.</value>
+  </data>
+  <data name="Last updated" xml:space="preserve">
+    <value>Last updated</value>
+  </data>
+  <data name="Who we are" xml:space="preserve">
+    <value>Who we are</value>
+  </data>
+  <data name="What we collect" xml:space="preserve">
+    <value>What we collect</value>
+  </data>
+  <data name="How we use it" xml:space="preserve">
+    <value>How we use it</value>
+  </data>
+  <data name="Who we share it with" xml:space="preserve">
+    <value>Who we share it with</value>
+  </data>
+  <data name="Your rights" xml:space="preserve">
+    <value>Your rights</value>
+  </data>
+  <data name="How long we keep it" xml:space="preserve">
+    <value>How long we keep it</value>
+  </data>
+  <data name="Security" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="Help · Returns policy" xml:space="preserve">
+    <value>Help · Returns policy</value>
+  </data>
+  <data name="14 days from the day you receive your order. Unworn pieces with original tags. Refunds in 3–5 working days." xml:space="preserve">
+    <value>14 days from the day you receive your order. Unworn pieces with original tags. Refunds in 3–5 working days.</value>
+  </data>
+  <data name="The 14-day window" xml:space="preserve">
+    <value>The 14-day window</value>
+  </data>
+  <data name="What can be returned" xml:space="preserve">
+    <value>What can be returned</value>
+  </data>
+  <data name="What cannot be returned" xml:space="preserve">
+    <value>What cannot be returned</value>
+  </data>
+  <data name="How to return" xml:space="preserve">
+    <value>How to return</value>
+  </data>
+  <data name="Exchanges" xml:space="preserve">
+    <value>Exchanges</value>
+  </data>
+  <data name="Return shipping costs" xml:space="preserve">
+    <value>Return shipping costs</value>
+  </data>
+  <data name="Refunds" xml:space="preserve">
+    <value>Refunds</value>
+  </data>
+  <data name="Help · Shipping" xml:space="preserve">
+    <value>Help · Shipping</value>
+  </data>
+  <data name="Shipping &amp; delivery." xml:space="preserve">
+    <value>Shipping &amp; delivery.</value>
+  </data>
+  <data name="Free standard delivery in Kuwait over 50 KWD. Express, same-day and pickup options available." xml:space="preserve">
+    <value>Free standard delivery in Kuwait over 50 KWD. Express, same-day and pickup options available.</value>
+  </data>
+  <data name="Last updated · 5 May 2026" xml:space="preserve">
+    <value>Last updated · 5 May 2026</value>
+  </data>
+  <data name="Within Kuwait" xml:space="preserve">
+    <value>Within Kuwait</value>
+  </data>
+  <data name="Across the GCC" xml:space="preserve">
+    <value>Across the GCC</value>
+  </data>
+  <data name="Tracking your order" xml:space="preserve">
+    <value>Tracking your order</value>
+  </data>
+  <data name="On delivery day" xml:space="preserve">
+    <value>On delivery day</value>
+  </data>
+  <data name="If something goes wrong" xml:space="preserve">
+    <value>If something goes wrong</value>
+  </data>
+  <data name="Standard" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="Express next-day" xml:space="preserve">
+    <value>Express next-day</value>
+  </data>
+  <data name="Same-day · Kuwait City" xml:space="preserve">
+    <value>Same-day · Kuwait City</value>
+  </data>
+  <data name="Atelier pickup" xml:space="preserve">
+    <value>Atelier pickup</value>
+  </data>
+  <data name="Express" xml:space="preserve">
+    <value>Express</value>
+  </data>
+  <data name="Free over" xml:space="preserve">
+    <value>Free over</value>
+  </data>
+  <data name="Help · Size Guide" xml:space="preserve">
+    <value>Help · Size Guide</value>
+  </data>
+  <data name="Size guide." xml:space="preserve">
+    <value>Size guide.</value>
+  </data>
+  <data name="How to measure" xml:space="preserve">
+    <value>How to measure</value>
+  </data>
+  <data name="Women · Clothing" xml:space="preserve">
+    <value>Women · Clothing</value>
+  </data>
+  <data name="Women · Shoes" xml:space="preserve">
+    <value>Women · Shoes</value>
+  </data>
+  <data name="Men · Clothing" xml:space="preserve">
+    <value>Men · Clothing</value>
+  </data>
+  <data name="Still unsure?" xml:space="preserve">
+    <value>Still unsure?</value>
+  </data>
+  <data name="UK" xml:space="preserve">
+    <value>UK</value>
+  </data>
+  <data name="EU" xml:space="preserve">
+    <value>EU</value>
+  </data>
+  <data name="US" xml:space="preserve">
+    <value>US</value>
+  </data>
+  <data name="Bust (cm)" xml:space="preserve">
+    <value>Bust (cm)</value>
+  </data>
+  <data name="Waist (cm)" xml:space="preserve">
+    <value>Waist (cm)</value>
+  </data>
+  <data name="Hips (cm)" xml:space="preserve">
+    <value>Hips (cm)</value>
+  </data>
+  <data name="Foot length (cm)" xml:space="preserve">
+    <value>Foot length (cm)</value>
+  </data>
+  <data name="Chest (cm)" xml:space="preserve">
+    <value>Chest (cm)</value>
+  </data>
+  <data name="Neck (cm)" xml:space="preserve">
+    <value>Neck (cm)</value>
+  </data>
+  <data name="Legal · Terms" xml:space="preserve">
+    <value>Legal · Terms</value>
+  </data>
+  <data name="Terms of sale." xml:space="preserve">
+    <value>Terms of sale.</value>
+  </data>
+  <data name="The agreement between you and White Stitches when you buy from us." xml:space="preserve">
+    <value>The agreement between you and White Stitches when you buy from us.</value>
+  </data>
+  <data name="Your agreement with us" xml:space="preserve">
+    <value>Your agreement with us</value>
+  </data>
+  <data name="Placing an order" xml:space="preserve">
+    <value>Placing an order</value>
+  </data>
+  <data name="Pricing &amp; payment" xml:space="preserve">
+    <value>Pricing &amp; payment</value>
+  </data>
+  <data name="Delivery &amp; risk" xml:space="preserve">
+    <value>Delivery &amp; risk</value>
+  </data>
+  <data name="Returns &amp; refunds" xml:space="preserve">
+    <value>Returns &amp; refunds</value>
+  </data>
+  <data name="Quality &amp; defects" xml:space="preserve">
+    <value>Quality &amp; defects</value>
+  </data>
+  <data name="Intellectual property" xml:space="preserve">
+    <value>Intellectual property</value>
+  </data>
+  <data name="Limits on liability" xml:space="preserve">
+    <value>Limits on liability</value>
+  </data>
+  <data name="Disputes &amp; governing law" xml:space="preserve">
+    <value>Disputes &amp; governing law</value>
+  </data>
+  <data name="Track" xml:space="preserve">
+    <value>Track</value>
+  </data>
+  <data name="Where's my order?" xml:space="preserve">
+    <value>Where's my order?</value>
+  </data>
+  <data name="Enter your order number and email to see the latest. No account needed." xml:space="preserve">
+    <value>Enter your order number and email to see the latest. No account needed.</value>
+  </data>
+  <data name="Order found" xml:space="preserve">
+    <value>Order found</value>
+  </data>
+  <data name="Look up another" xml:space="preserve">
+    <value>Look up another</value>
+  </data>
+  <data name="Order status" xml:space="preserve">
+    <value>Order status</value>
+  </data>
+  <data name="This order is no longer on its way. If you weren't expecting that," xml:space="preserve">
+    <value>This order is no longer on its way. If you weren't expecting that,</value>
+  </data>
+  <data name="reach the atelier on WhatsApp" xml:space="preserve">
+    <value>reach the atelier on WhatsApp</value>
+  </data>
+  <data name="and we'll sort it out." xml:space="preserve">
+    <value>and we'll sort it out.</value>
+  </data>
+  <data name="We couldn't find that order." xml:space="preserve">
+    <value>We couldn't find that order.</value>
+  </data>
+  <data name="Double-check the order number and email match what's in your confirmation. Still stuck?" xml:space="preserve">
+    <value>Double-check the order number and email match what's in your confirmation. Still stuck?</value>
+  </data>
+  <data name="Order number" xml:space="preserve">
+    <value>Order number</value>
+  </data>
+  <data name="From your confirmation email — e.g. #WS-2026-08412" xml:space="preserve">
+    <value>From your confirmation email — e.g. #WS-2026-08412</value>
+  </data>
+  <data name="Email or mobile" xml:space="preserve">
+    <value>Email or mobile</value>
+  </data>
+  <data name="The one you used at checkout" xml:space="preserve">
+    <value>The one you used at checkout</value>
+  </data>
+  <data name="Find my order" xml:space="preserve">
+    <value>Find my order</value>
+  </data>
+  <data name="Can't find your order number?" xml:space="preserve">
+    <value>Can't find your order number?</value>
+  </data>
+  <data name="and we'll look it up." xml:space="preserve">
+    <value>and we'll look it up.</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="You're" xml:space="preserve">
+    <value>You're</value>
+  </data>
+  <data name="away from complimentary delivery." xml:space="preserve">
+    <value>away from complimentary delivery.</value>
+  </data>
+  <data name="Delivery and taxes calculated at checkout." xml:space="preserve">
+    <value>Delivery and taxes calculated at checkout.</value>
+  </data>
+  <data name="View bag" xml:space="preserve">
+    <value>View bag</value>
+  </data>
+  <data name="Start exploring — the SS26 edit is waiting." xml:space="preserve">
+    <value>Start exploring — the SS26 edit is waiting.</value>
+  </data>
+  <data name="Error." xml:space="preserve">
+    <value>Error.</value>
+  </data>
+  <data name="An error occurred while processing your request." xml:space="preserve">
+    <value>An error occurred while processing your request.</value>
+  </data>
+  <data name="Request ID:" xml:space="preserve">
+    <value>Request ID:</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="Add to wishlist" xml:space="preserve">
+    <value>Add to wishlist</value>
+  </data>
+  <data name="Available colours" xml:space="preserve">
+    <value>Available colours</value>
+  </data>
+  <data name="Coming soon" xml:space="preserve">
+    <value>Coming soon</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Sort by" xml:space="preserve">
+    <value>Sort by</value>
+  </data>
+  <data name="Close filters" xml:space="preserve">
+    <value>Close filters</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="Price (KWD)" xml:space="preserve">
+    <value>Price (KWD)</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="Minimum price" xml:space="preserve">
+    <value>Minimum price</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="Maximum price" xml:space="preserve">
+    <value>Maximum price</value>
+  </data>
+  <data name="Availability" xml:space="preserve">
+    <value>Availability</value>
+  </data>
+  <data name="In stock" xml:space="preserve">
+    <value>In stock</value>
+  </data>
+  <data name="Clear all" xml:space="preserve">
+    <value>Clear all</value>
+  </data>
+  <data name="Show results" xml:space="preserve">
+    <value>Show results</value>
+  </data>
+  <data name="No pieces match those filters." xml:space="preserve">
+    <value>No pieces match those filters.</value>
+  </data>
+  <data name="Try widening one of your selections or clearing the filters to see the full edit." xml:space="preserve">
+    <value>Try widening one of your selections or clearing the filters to see the full edit.</value>
+  </data>
+  <data name="Clear all filters" xml:space="preserve">
+    <value>Clear all filters</value>
+  </data>
+  <data name="The" xml:space="preserve">
+    <value>The</value>
+  </data>
+  <data name="Edit · Spring/Summer 2026" xml:space="preserve">
+    <value>Edit · Spring/Summer 2026</value>
+  </data>
+  <data name="Collection" xml:space="preserve">
+    <value>Collection</value>
+  </data>
+  <data name="Product gallery thumbnails" xml:space="preserve">
+    <value>Product gallery thumbnails</value>
+  </data>
+  <data name="VAT included · Free shipping over 50 KWD" xml:space="preserve">
+    <value>VAT included · Free shipping over 50 KWD</value>
+  </data>
+  <data name="Sold out" xml:space="preserve">
+    <value>Sold out</value>
+  </data>
+  <data name="Size guide →" xml:space="preserve">
+    <value>Size guide →</value>
+  </data>
+  <data name="Add to bag" xml:space="preserve">
+    <value>Add to bag</value>
+  </data>
+  <data name="policy" xml:space="preserve">
+    <value>policy</value>
+  </data>
+  <data name="Share" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Fabric &amp; Materials" xml:space="preserve">
+    <value>Fabric &amp; Materials</value>
+  </data>
+  <data name="Size &amp; Fit" xml:space="preserve">
+    <value>Size &amp; Fit</value>
+  </data>
+  <data name="View full size chart →" xml:space="preserve">
+    <value>View full size chart →</value>
+  </data>
+  <data name="Delivery &amp; Returns" xml:space="preserve">
+    <value>Delivery &amp; Returns</value>
+  </data>
+  <data name="Free standard delivery within Kuwait on orders above 50 KWD" xml:space="preserve">
+    <value>Free standard delivery within Kuwait on orders above 50 KWD</value>
+  </data>
+  <data name="Same-day delivery in Kuwait City for orders before 2 PM" xml:space="preserve">
+    <value>Same-day delivery in Kuwait City for orders before 2 PM</value>
+  </data>
+  <data name="GCC delivery 3–5 working days · duties included" xml:space="preserve">
+    <value>GCC delivery 3–5 working days · duties included</value>
+  </data>
+  <data name="Easy returns within 14 days · unworn, with tags · refund to original payment method" xml:space="preserve">
+    <value>Easy returns within 14 days · unworn, with tags · refund to original payment method</value>
+  </data>
+  <data name="Complete the Look" xml:space="preserve">
+    <value>Complete the Look</value>
+  </data>
+  <data name="Styled with this piece." xml:space="preserve">
+    <value>Styled with this piece.</value>
+  </data>
+  <data name="You may also like" xml:space="preserve">
+    <value>You may also like</value>
+  </data>
+  <data name="More from the atelier." xml:space="preserve">
+    <value>More from the atelier.</value>
+  </data>
+  <data name="Search dresses, linen, evening..." xml:space="preserve">
+    <value>Search dresses, linen, evening...</value>
+  </data>
+  <data name="Search the store" xml:space="preserve">
+    <value>Search the store</value>
+  </data>
+  <data name="Clear search" xml:space="preserve">
+    <value>Clear search</value>
+  </data>
+  <data name="result" xml:space="preserve">
+    <value>result</value>
+  </data>
+  <data name="results" xml:space="preserve">
+    <value>results</value>
+  </data>
+  <data name="for" xml:space="preserve">
+    <value>for</value>
+  </data>
+  <data name="Search the edit — dresses, linen, evening and more." xml:space="preserve">
+    <value>Search the edit — dresses, linen, evening and more.</value>
+  </data>
+  <data name="Refine results by type" xml:space="preserve">
+    <value>Refine results by type</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>Products</value>
+  </data>
+  <data name="No results for" xml:space="preserve">
+    <value>No results for</value>
+  </data>
+  <data name="We couldn't find anything matching that. Try a different word, browse a category, or talk to our atelier." xml:space="preserve">
+    <value>We couldn't find anything matching that. Try a different word, browse a category, or talk to our atelier.</value>
+  </data>
+  <data name="Popular searches" xml:space="preserve">
+    <value>Popular searches</value>
+  </data>
+  <data name="Popular searches:" xml:space="preserve">
+    <value>Popular searches:</value>
+  </data>
+  <data name="Browse the Edit" xml:space="preserve">
+    <value>Browse the Edit</value>
+  </data>
+  <data name="Chat with the atelier" xml:space="preserve">
+    <value>Chat with the atelier</value>
+  </data>
+  <data name="You may like" xml:space="preserve">
+    <value>You may like</value>
+  </data>
+  <data name="Popular right now" xml:space="preserve">
+    <value>Popular right now</value>
+  </data>
+  <data name="Pieces from the atelier." xml:space="preserve">
+    <value>Pieces from the atelier.</value>
+  </data>
+  <data name="and we’ll look it up." xml:space="preserve">
+    <value>and we’ll look it up.</value>
+  </data>
+  <data name="and we’ll sort it out." xml:space="preserve">
+    <value>and we’ll sort it out.</value>
+  </data>
+  <data name="Can’t find your order number?" xml:space="preserve">
+    <value>Can’t find your order number?</value>
+  </data>
+  <data name="Double-check the order number and email match what’s in your confirmation. Still stuck?" xml:space="preserve">
+    <value>Double-check the order number and email match what’s in your confirmation. Still stuck?</value>
+  </data>
+  <data name="KNET, card &amp; Apple Pay are processed securely by Tap Payments — you’ll be redirected to complete your payment." xml:space="preserve">
+    <value>KNET, card &amp; Apple Pay are processed securely by Tap Payments — you’ll be redirected to complete your payment.</value>
+  </data>
+  <data name="Our site is going through a quick refresh. We’re back in roughly" xml:space="preserve">
+    <value>Our site is going through a quick refresh. We’re back in roughly</value>
+  </data>
+  <data name="The link you followed doesn’t lead anywhere on our site — maybe a typo, or maybe it’s been moved." xml:space="preserve">
+    <value>The link you followed doesn’t lead anywhere on our site — maybe a typo, or maybe it’s been moved.</value>
+  </data>
+  <data name="This order is no longer on its way. If you weren’t expecting that," xml:space="preserve">
+    <value>This order is no longer on its way. If you weren’t expecting that,</value>
+  </data>
+  <data name="Want a heads-up when we’re back?" xml:space="preserve">
+    <value>Want a heads-up when we’re back?</value>
+  </data>
+  <data name="We couldn’t find that order." xml:space="preserve">
+    <value>We couldn’t find that order.</value>
+  </data>
+  <data name="We’ll be right back." xml:space="preserve">
+    <value>We’ll be right back.</value>
+  </data>
+  <data name="We’ll email you the moment we’re back online." xml:space="preserve">
+    <value>We’ll email you the moment we’re back online.</value>
+  </data>
+  <data name="Where’s my order?" xml:space="preserve">
+    <value>Where’s my order?</value>
+  </data>
+  <data name="While you’re here" xml:space="preserve">
+    <value>While you’re here</value>
+  </data>
+  <data name="You’re on the list." xml:space="preserve">
+    <value>You’re on the list.</value>
+  </data>
+  <data name="atelier" xml:space="preserve">
+    <value>atelier</value>
+  </data>
+  <data name="Cancelled" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="Confirmed" xml:space="preserve">
+    <value>Confirmed</value>
+  </data>
+  <data name="Free delivery in Kuwait" xml:space="preserve">
+    <value>Free delivery in Kuwait</value>
+  </data>
+  <data name="In transit" xml:space="preserve">
+    <value>In transit</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>Order</value>
+  </data>
+  <data name="Order summary" xml:space="preserve">
+    <value>Order summary</value>
+  </data>
+  <data name="Reach the atelier on WhatsApp" xml:space="preserve">
+    <value>Reach the atelier on WhatsApp</value>
+  </data>
+  <data name="Refunded" xml:space="preserve">
+    <value>Refunded</value>
+  </data>
+  <data name="Returns &amp; exchanges" xml:space="preserve">
+    <value>Returns &amp; exchanges</value>
+  </data>
+  <data name="Shipping &amp; delivery" xml:space="preserve">
+    <value>Shipping &amp; delivery</value>
+  </data>
+  <data name="Shop New Arrivals" xml:space="preserve">
+    <value>Shop New Arrivals</value>
+  </data>
+  <data name="Shop the Edit" xml:space="preserve">
+    <value>Shop the Edit</value>
+  </data>
+  <data name="The atelier" xml:space="preserve">
+    <value>The atelier</value>
+  </data>
+  <data name="Track order" xml:space="preserve">
+    <value>Track order</value>
+  </data>
+  <data name="Try again" xml:space="preserve">
+    <value>Try again</value>
+  </data>
+  <data name="Your bag" xml:space="preserve">
+    <value>Your bag</value>
+  </data>
+</root>

@@ -7,13 +7,13 @@
 <section class="adm-toolbar">
     <form method="get" action="/products" class="adm-toolbar__filters">
         <div class="adm-field">
-            <label for="search">Search</label>
-            <input id="search" name="search" type="search" value="@Model.Search" placeholder="Title or slug" />
+            <label for="search">@L["Search"]</label>
+            <input id="search" name="search" type="search" value="@Model.Search" placeholder="@L["Title or slug"]" />
         </div>
         <div class="adm-field">
-            <label for="status">Status</label>
+            <label for="status">@L["Status"]</label>
             <select id="status" name="status">
-                <option value="">All statuses</option>
+                <option value="">@L["All statuses"]</option>
                 @foreach (var st in Enum.GetValues<ProductStatus>())
                 {
                     if (Model.Status == st)
@@ -28,9 +28,9 @@
             </select>
         </div>
         <div class="adm-field">
-            <label for="categoryId">Category</label>
+            <label for="categoryId">@L["Category"]</label>
             <select id="categoryId" name="categoryId">
-                <option value="">All categories</option>
+                <option value="">@L["All categories"]</option>
                 @foreach (var c in Model.Categories)
                 {
                     if (Model.CategoryId == c.Id)
@@ -44,16 +44,16 @@
                 }
             </select>
         </div>
-        <button type="submit" class="adm-btn">Filter</button>
+        <button type="submit" class="adm-btn">@L["Filter"]</button>
     </form>
     <div class="adm-actions">
-        <a href="/products/new" class="adm-btn adm-btn--solid">New product</a>
+        <a href="/products/new" class="adm-btn adm-btn--solid">@L["New product"]</a>
     </div>
 </section>
 
 <section class="adm-panel">
     <header class="adm-panel__head">
-        <h2 class="adm-panel__title">Catalogue</h2>
+        <h2 class="adm-panel__title">@L["Catalogue"]</h2>
         <span>@Model.Products.TotalCount total</span>
     </header>
 
@@ -61,8 +61,8 @@
     {
         <div class="adm-panel__body">
             <div class="adm-empty">
-                <strong>No products found</strong>
-                Adjust the filters, or create the first product.
+                <strong>@L["No products found"]</strong>
+                @L["Adjust the filters, or create the first product."]
             </div>
         </div>
     }
@@ -72,13 +72,13 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>Title</th>
-                    <th>Category</th>
-                    <th>Status</th>
-                    <th>Variants</th>
-                    <th>Price</th>
-                    <th>Stock</th>
-                    <th>Featured</th>
+                    <th>@L["Title"]</th>
+                    <th>@L["Category"]</th>
+                    <th>@L["Status"]</th>
+                    <th>@L["Variants"]</th>
+                    <th>@L["Price"]</th>
+                    <th>@L["Stock"]</th>
+                    <th>@L["Featured"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -103,21 +103,21 @@
                             }
                         </td>
                         <td>
-                            <a href="/products/@p.Id/edit"><strong>@p.TitleEn</strong></a>
+                            <a href="/products/@p.Id/edit"><strong>@p.Title()</strong></a>
                             <div style="color:#6b665c;font-size:12px">@p.Slug</div>
                         </td>
-                        <td>@(p.Category?.NameEn ?? "—")</td>
+                        <td>@(p.Category?.Name() ?? "—")</td>
                         <td>
                             @switch (p.Status)
                             {
                                 case ProductStatus.Active:
-                                    <span class="adm-badge adm-badge--ok">Active</span>
+                                    <span class="adm-badge adm-badge--ok">@L["Active"]</span>
                                     break;
                                 case ProductStatus.Draft:
-                                    <span class="adm-badge adm-badge--warn">Draft</span>
+                                    <span class="adm-badge adm-badge--warn">@L["Draft"]</span>
                                     break;
                                 default:
-                                    <span class="adm-badge">Archived</span>
+                                    <span class="adm-badge">@L["Archived"]</span>
                                     break;
                             }
                         </td>

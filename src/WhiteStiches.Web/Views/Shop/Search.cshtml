@@ -32,7 +32,7 @@
 <section class="search-head">
   <div class="search-head__inner">
     <form class="search-head__form" id="searchForm" role="search" method="get" action="/search">
-      <button type="submit" class="search-head__submit" aria-label="Search">
+      <button type="submit" class="search-head__submit" aria-label="@L["Search"]">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       </button>
       <input
@@ -40,12 +40,12 @@
         id="searchInput"
         name="q"
         class="search-head__input"
-        placeholder="Search dresses, linen, evening..."
-        aria-label="Search the store"
+        placeholder="@L["Search dresses, linen, evening..."]"
+        aria-label="@L["Search the store"]"
         autocomplete="off"
         value="@Model.Query"
       />
-      <button type="button" class="search-head__clear" id="searchClear" aria-label="Clear search">
+      <button type="button" class="search-head__clear" id="searchClear" aria-label="@L["Clear search"]">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
     </form>
@@ -53,20 +53,20 @@
     <div class="search-head__meta" id="searchMeta">
       @if (Model.HasQuery)
       {
-        <span class="search-head__count"><strong id="searchCount">@total</strong> @(total == 1 ? "result" : "results") for <em id="searchQuery">"@Model.Query"</em></span>
+        <span class="search-head__count"><strong id="searchCount">@total</strong> @(total == 1 ? L["result"].Value : L["results"].Value) @L["for"] <em id="searchQuery">"@Model.Query"</em></span>
       }
       else
       {
-        <span class="search-head__count">Search the edit — dresses, linen, evening and more.</span>
+        <span class="search-head__count">@L["Search the edit — dresses, linen, evening and more."]</span>
       }
     </div>
 
     @if (Model.HasQuery)
     {
       <!-- Search refinement chips: type filter at a glance -->
-      <div class="search-refine" role="tablist" aria-label="Refine results by type">
+      <div class="search-refine" role="tablist" aria-label="@L["Refine results by type"]">
         <button type="button" class="search-refine__chip is-active" role="tab" aria-selected="true">
-          Products <em>@total</em>
+          @L["Products"] <em>@total</em>
         </button>
       </div>
     }
@@ -78,7 +78,7 @@
 <!-- ============================ TOOLBAR (reused from collection) ============================ -->
 <section class="coll-toolbar">
   <div class="coll-toolbar__inner">
-    <div class="coll-toolbar__count" id="resultCount">@total @(total == 1 ? "piece" : "pieces")</div>
+    <div class="coll-toolbar__count" id="resultCount">@total @(total == 1 ? L["piece"].Value : L["pieces"].Value)</div>
   </div>
 </section>
 
@@ -103,10 +103,10 @@
             <circle cx="28" cy="28" r="14"/>
             <path d="m48 48-10-10"/>
           </svg>
-          <h3>No results for <em>"@Model.Query"</em></h3>
-          <p>We couldn't find anything matching that. Try a different word, browse a category, or talk to our atelier.</p>
-          <div class="search-empty__chips" aria-label="Popular searches">
-            <span class="search-empty__label">Popular searches:</span>
+          <h3>@L["No results for"] <em>"@Model.Query"</em></h3>
+          <p>@L["We couldn't find anything matching that. Try a different word, browse a category, or talk to our atelier."]</p>
+          <div class="search-empty__chips" aria-label="@L["Popular searches"]">
+            <span class="search-empty__label">@L["Popular searches:"]</span>
             <a href="/search?q=linen" class="search-empty__chip">linen</a>
             <a href="/search?q=dress" class="search-empty__chip">dress</a>
             <a href="/search?q=blazer" class="search-empty__chip">blazer</a>
@@ -114,8 +114,8 @@
             <a href="/search?q=suit" class="search-empty__chip">suit</a>
           </div>
           <div class="search-empty__cta">
-            <a href="/collection" class="btn btn--ghost">Browse the Edit</a>
-            <a href="/contact" class="btn btn--primary">Chat with the atelier</a>
+            <a href="/collection" class="btn btn--ghost">@L["Browse the Edit"]</a>
+            <a href="/contact" class="btn btn--primary">@L["Chat with the atelier"]</a>
           </div>
         </div>
       }
@@ -133,16 +133,16 @@
       @if (totalPages > 1)
       {
         <!-- Pagination (reused) -->
-        <nav class="pagination" aria-label="Pagination">
+        <nav class="pagination" aria-label="@L["Pagination"]">
           @if (Model.Results!.HasPrevious)
           {
-            <a class="pagination__btn pagination__btn--prev" href="@Model.PageUrl(current - 1)" aria-label="Previous page">
+            <a class="pagination__btn pagination__btn--prev" href="@Model.PageUrl(current - 1)" aria-label="@L["Previous page"]">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg>
             </a>
           }
           else
           {
-            <button class="pagination__btn pagination__btn--prev" disabled aria-label="Previous page">
+            <button class="pagination__btn pagination__btn--prev" disabled aria-label="@L["Previous page"]">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg>
             </button>
           }
@@ -165,13 +165,13 @@
           </ol>
           @if (Model.Results!.HasNext)
           {
-            <a class="pagination__btn pagination__btn--next" href="@Model.PageUrl(current + 1)" aria-label="Next page">
+            <a class="pagination__btn pagination__btn--next" href="@Model.PageUrl(current + 1)" aria-label="@L["Next page"]">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 6l6 6-6 6"/></svg>
             </a>
           }
           else
           {
-            <button class="pagination__btn pagination__btn--next" disabled aria-label="Next page">
+            <button class="pagination__btn pagination__btn--next" disabled aria-label="@L["Next page"]">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 6l6 6-6 6"/></svg>
             </button>
           }
@@ -188,8 +188,8 @@
   <!-- ============================ FEATURED SUGGESTIONS ============================ -->
   <section class="products">
     <div class="section-head section-head--center">
-      <span class="eyebrow">@(isEmpty ? "You may like" : "Popular right now")</span>
-      <h2 class="section-title">Pieces from the atelier.</h2>
+      <span class="eyebrow">@(isEmpty ? L["You may like"].Value : L["Popular right now"].Value)</span>
+      <h2 class="section-title">@L["Pieces from the atelier."]</h2>
     </div>
 
     <div class="products__grid">

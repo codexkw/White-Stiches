@@ -21,111 +21,111 @@
     };
 }
 
-<section class="adm-toolbar" aria-label="Customer actions">
+<section class="adm-toolbar" aria-label="@L["Customer actions"]">
     <div class="adm-actions">
-        <a href="/customers" class="adm-btn">&lsaquo; All customers</a>
+        <a href="/customers" class="adm-btn">&lsaquo; @L["All customers"]</a>
         @if (c.IsLockedOut)
         {
-            <span class="adm-badge adm-badge--err">Locked</span>
+            <span class="adm-badge adm-badge--err">@L["Locked"]</span>
         }
         else
         {
-            <span class="adm-badge adm-badge--ok">Active</span>
+            <span class="adm-badge adm-badge--ok">@L["Active"]</span>
         }
     </div>
     <div class="adm-actions">
         @if (c.IsLockedOut)
         {
             <form method="post" asp-controller="Customers" asp-action="Unlock" asp-route-userId="@c.UserId">
-                <button type="submit" class="adm-btn adm-btn--solid">Unlock account</button>
+                <button type="submit" class="adm-btn adm-btn--solid">@L["Unlock account"]</button>
             </form>
         }
         else
         {
             <form method="post" asp-controller="Customers" asp-action="Lock" asp-route-userId="@c.UserId">
-                <button type="submit" class="adm-btn">Lock account</button>
+                <button type="submit" class="adm-btn">@L["Lock account"]</button>
             </form>
         }
     </div>
 </section>
 
-<section class="adm-stats" aria-label="Customer snapshot">
+<section class="adm-stats" aria-label="@L["Customer snapshot"]">
     <div class="adm-card">
-        <div class="adm-card__label">Orders</div>
+        <div class="adm-card__label">@L["Orders"]</div>
         <div class="adm-card__value">@c.OrdersCount</div>
-        <div class="adm-card__hint">placed (excl. drafts)</div>
+        <div class="adm-card__hint">@L["placed (excl. drafts)"]</div>
     </div>
     <div class="adm-card">
-        <div class="adm-card__label">Total spent</div>
+        <div class="adm-card__label">@L["Total spent"]</div>
         <div class="adm-card__value">@c.TotalSpent.ToString("0.000")</div>
-        <div class="adm-card__hint">KWD, excl. cancelled</div>
+        <div class="adm-card__hint">@L["KWD, excl. cancelled"]</div>
     </div>
     <div class="adm-card">
-        <div class="adm-card__label">Wishlist</div>
+        <div class="adm-card__label">@L["Wishlist"]</div>
         <div class="adm-card__value">@c.WishlistCount</div>
-        <div class="adm-card__hint">saved items</div>
+        <div class="adm-card__hint">@L["saved items"]</div>
     </div>
 </section>
 
 <div class="cust-cols">
     <section class="adm-panel">
         <header class="adm-panel__head">
-            <h2 class="adm-panel__title">Identity</h2>
+            <h2 class="adm-panel__title">@L["Identity"]</h2>
         </header>
         <div class="adm-panel__body">
             <dl class="cust-dl">
-                <dt>Name</dt>
+                <dt>@L["Name"]</dt>
                 <dd>@(string.IsNullOrWhiteSpace(c.FullName) ? "—" : c.FullName)</dd>
 
-                <dt>Email</dt>
+                <dt>@L["Email"]</dt>
                 <dd>@c.Email</dd>
 
-                <dt>Phone</dt>
+                <dt>@L["Phone"]</dt>
                 <dd>@(string.IsNullOrWhiteSpace(c.Phone) ? "—" : c.Phone)</dd>
 
-                <dt>Preferred language</dt>
+                <dt>@L["Preferred language"]</dt>
                 <dd>@(c.PreferredLanguage == "ar" ? "Arabic (ar)" : "English (en)")</dd>
 
-                <dt>Registered</dt>
+                <dt>@L["Registered"]</dt>
                 <dd>@c.RegisteredAtUtc.ToString("yyyy-MM-dd HH:mm") UTC</dd>
 
-                <dt>Last login</dt>
-                <dd>@(c.LastLoginAtUtc is DateTime last ? $"{last:yyyy-MM-dd HH:mm} UTC" : "Never")</dd>
+                <dt>@L["Last login"]</dt>
+                <dd>@(c.LastLoginAtUtc is DateTime last ? $"{last:yyyy-MM-dd HH:mm} UTC" : L["Never"].Value)</dd>
             </dl>
         </div>
     </section>
 
     <section class="adm-panel">
         <header class="adm-panel__head">
-            <h2 class="adm-panel__title">Marketing consent</h2>
+            <h2 class="adm-panel__title">@L["Marketing consent"]</h2>
         </header>
         <div class="adm-panel__body">
             <div class="cust-consent">
                 <div class="cust-consent__row">
-                    <span>Email marketing</span>
+                    <span>@L["Email marketing"]</span>
                     @if (c.EmailOptIn)
                     {
-                        <span class="adm-badge adm-badge--ok">Opted in</span>
+                        <span class="adm-badge adm-badge--ok">@L["Opted in"]</span>
                     }
                     else
                     {
-                        <span class="adm-badge">Not opted in</span>
+                        <span class="adm-badge">@L["Not opted in"]</span>
                     }
                 </div>
                 <div class="cust-consent__row">
-                    <span>WhatsApp marketing</span>
+                    <span>@L["WhatsApp marketing"]</span>
                     @if (c.WhatsAppOptIn)
                     {
-                        <span class="adm-badge adm-badge--ok">Opted in</span>
+                        <span class="adm-badge adm-badge--ok">@L["Opted in"]</span>
                     }
                     else
                     {
-                        <span class="adm-badge">Not opted in</span>
+                        <span class="adm-badge">@L["Not opted in"]</span>
                     }
                 </div>
             </div>
             <p class="cust-consent__meta">
-                Consent preferences recorded with the account, registered
+                @L["Consent preferences recorded with the account, registered"]
                 @c.RegisteredAtUtc.ToString("yyyy-MM-dd HH:mm") UTC.
             </p>
         </div>
@@ -134,14 +134,14 @@
 
 <section class="adm-panel">
     <header class="adm-panel__head">
-        <h2 class="adm-panel__title">Addresses</h2>
+        <h2 class="adm-panel__title">@L["Addresses"]</h2>
     </header>
     <div class="adm-panel__body">
         @if (c.Addresses.Count == 0)
         {
             <div class="adm-empty">
-                <strong>No saved addresses</strong>
-                This customer has not added a delivery address yet.
+                <strong>@L["No saved addresses"]</strong>
+                @L["This customer has not added a delivery address yet."]
             </div>
         }
         else
@@ -151,23 +151,23 @@
                 {
                     <article class="cust-addr">
                         <header class="cust-addr__head">
-                            <span class="cust-addr__label">@(string.IsNullOrWhiteSpace(a.Label) ? "Address" : a.Label)</span>
+                            <span class="cust-addr__label">@(string.IsNullOrWhiteSpace(a.Label) ? L["Address"].Value : a.Label)</span>
                             @if (a.IsDefault)
                             {
-                                <span class="adm-badge adm-badge--info">Default</span>
+                                <span class="adm-badge adm-badge--info">@L["Default"]</span>
                             }
                         </header>
                         <div class="cust-addr__body">
                             <div>@a.FirstName @a.LastName</div>
                             <div>@a.Phone</div>
                             <div>@a.Governorate · @a.Area</div>
-                            <div>Block @a.Block, @a.Street, Building @a.Building</div>
+                            <div>@L["Block"] @a.Block, @a.Street, @L["Building"] @a.Building</div>
                             @if (!string.IsNullOrWhiteSpace(a.Floor) || !string.IsNullOrWhiteSpace(a.Apartment))
                             {
                                 <div>
                                     @if (!string.IsNullOrWhiteSpace(a.Floor))
                                     {
-                                        <text>Floor @a.Floor</text>
+                                        <text>@L["Floor"] @a.Floor</text>
                                     }
                                     @if (!string.IsNullOrWhiteSpace(a.Floor) && !string.IsNullOrWhiteSpace(a.Apartment))
                                     {
@@ -175,7 +175,7 @@
                                     }
                                     @if (!string.IsNullOrWhiteSpace(a.Apartment))
                                     {
-                                        <text>Apt @a.Apartment</text>
+                                        <text>@L["Apt"] @a.Apartment</text>
                                     }
                                 </div>
                             }
@@ -193,15 +193,15 @@
 
 <section class="adm-panel">
     <header class="adm-panel__head">
-        <h2 class="adm-panel__title">Recent orders</h2>
+        <h2 class="adm-panel__title">@L["Recent orders"]</h2>
     </header>
 
     @if (c.RecentOrders.Items.Count == 0)
     {
         <div class="adm-panel__body">
             <div class="adm-empty">
-                <strong>No orders yet</strong>
-                Orders placed by this customer will appear here.
+                <strong>@L["No orders yet"]</strong>
+                @L["Orders placed by this customer will appear here."]
             </div>
         </div>
     }
@@ -210,10 +210,10 @@
         <table class="adm-table">
             <thead>
                 <tr>
-                    <th>Order</th>
-                    <th>Date (UTC)</th>
-                    <th>Total</th>
-                    <th>Status</th>
+                    <th>@L["Order"]</th>
+                    <th>@L["Date (UTC)"]</th>
+                    <th>@L["Total"]</th>
+                    <th>@L["Status"]</th>
                 </tr>
             </thead>
             <tbody>

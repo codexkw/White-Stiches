@@ -1,49 +1,193 @@
+@using System.Text.Json
+@using WhiteStiches.Core.Models.Admin.Analytics
+@model DashboardAnalytics
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = L["Dashboard"].Value;
+    var rangeDays = (int)(ViewData["RangeDays"] ?? 30);
+
+    string Kwd(decimal d) => d.ToString("#,##0.000");
+    int Whole(decimal d) => (int)Math.Round(d);
+
+    var seriesJson = JsonSerializer.Serialize(
+        Model.Series.Select(p => new { d = p.Date.ToString("MM-dd"), r = p.Revenue, o = p.Orders }));
+
+    (string cls, string text) Delta(KpiValue k)
+    {
+        if (k.DeltaPct is null) return ("kpi__delta--flat", "—");
+        var pct = k.DeltaPct.Value;
+        var arrow = pct > 0 ? "▲" : pct < 0 ? "▼" : "•";
+        var cls = pct > 0 ? "kpi__delta--up" : pct < 0 ? "kpi__delta--down" : "kpi__delta--flat";
+        return (cls, $"{arrow} {Math.Abs(pct):0.#}%");
+    }
+
+    var ranges = new (int Days, string Label)[] { (7, "7D"), (14, "14D"), (30, "30D"), (90, "90D"), (365, "1Y") };
 }
 
-<section class="adm-stats" aria-label="Store snapshot">
-    <div class="adm-card">
-        <div class="adm-card__label">Products</div>
-        <div class="adm-card__value">@ViewBag.ProductCount</div>
-        <div class="adm-card__hint">in catalogue</div>
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
+
+<div class="dash-toolbar">
+    <span class="dash-panel__sub">@L["Showing"] @Model.FromUtc.ToString("dd MMM") – @Model.ToUtc.ToString("dd MMM yyyy")</span>
+    <div class="dash-range" role="tablist" aria-label="@L["Date range"]">
+        @foreach (var r in ranges)
+        {
+            <a href="/?days=@r.Days" class="@(rangeDays == r.Days ? "is-active" : null)">@r.Label</a>
+        }
     </div>
-    <div class="adm-card">
-        <div class="adm-card__label">Orders</div>
-        <div class="adm-card__value">@ViewBag.OrderCount</div>
-        <div class="adm-card__hint">all time</div>
+</div>
+
+@{
+    void Kpi(string label, string value, KpiValue k)
+    {
+        var d = Delta(k);
+        <div class="kpi">
+            <div class="kpi__label">@label</div>
+            <div class="kpi__value">@Html.Raw(value)</div>
+            <span class="kpi__delta @d.cls">@d.text <span class="kpi__delta--flat">@L["vs prev"]</span></span>
+        </div>
+    }
+}
+
+<section class="kpi-grid" aria-label="@L["Key metrics"]">
+    @{ Kpi(L["Net revenue"].Value, $"{Kwd(Model.NetRevenue.Current)} <small>KWD</small>", Model.NetRevenue); }
+    @{ Kpi(L["Orders"].Value, Whole(Model.Orders.Current).ToString(), Model.Orders); }
+    @{ Kpi(L["Avg. order value"].Value, $"{Kwd(Model.AvgOrderValue.Current)} <small>KWD</small>", Model.AvgOrderValue); }
+    @{ Kpi(L["Units sold"].Value, Whole(Model.UnitsSold.Current).ToString(), Model.UnitsSold); }
+    @{ Kpi(L["New customers"].Value, Whole(Model.NewCustomers.Current).ToString(), Model.NewCustomers); }
+    @{ Kpi(L["Refunds"].Value, $"{Kwd(Model.Refunds.Current)} <small>KWD</small>", Model.Refunds); }
+</section>
+
+<section class="dash-panel">
+    <div class="dash-panel__head">
+        <span class="dash-panel__title">@L["Revenue & orders"]</span>
+        <span class="dash-panel__sub">@L["Discount spend"]: @Kwd(Model.DiscountSpend) KWD · @L["Return rate"]: @Model.ReturnRatePct.ToString("0.#")%</span>
     </div>
-    <div class="adm-card">
-        <div class="adm-card__label">Customers</div>
-        <div class="adm-card__value">@ViewBag.CustomerCount</div>
-        <div class="adm-card__hint">registered</div>
-    </div>
-    <div class="adm-card">
-        <div class="adm-card__label">Pending returns</div>
-        <div class="adm-card__value">@ViewBag.PendingReturns</div>
-        <div class="adm-card__hint">awaiting review</div>
-    </div>
-    <div class="adm-card">
-        <div class="adm-card__label">Messages</div>
-        <div class="adm-card__value">@ViewBag.UnreadMessages</div>
-        <div class="adm-card__hint">unread contact messages</div>
-    </div>
-    <div class="adm-card">
-        <div class="adm-card__label">Newsletter</div>
-        <div class="adm-card__value">@ViewBag.NewsletterCount</div>
-        <div class="adm-card__hint">active subscribers</div>
+    <div class="ws-chart" data-series="#ws-series"></div>
+    <script type="application/json" id="ws-series">@Html.Raw(seriesJson)</script>
+</section>
+
+<div class="dash-cols dash-cols--3">
+    <section class="dash-panel">
+        <div class="dash-panel__head"><span class="dash-panel__title">@L["Payment methods"]</span></div>
+        @{ var maxMethod = Model.PaymentMethods.Any() ? Model.PaymentMethods.Max(m => m.Amount) : 1m; }
+        @if (Model.PaymentMethods.Any())
+        {
+            <div class="barlist">
+                @foreach (var m in Model.PaymentMethods)
+                {
+                    <div class="barlist__row">
+                        <div class="barlist__top"><span>@m.Method.ToUpperInvariant() <span class="pill">@m.Count</span></span><span>@Kwd(m.Amount)</span></div>
+                        <div class="barlist__track"><div class="barlist__fill" style="width:@(((double)(m.Amount / (maxMethod == 0 ? 1 : maxMethod)) * 100).ToString("0.#"))%"></div></div>
+                    </div>
+                }
+            </div>
+        }
+        else { <p class="dash-empty">@L["No data in this period."]</p> }
+    </section>
+
+    <section class="dash-panel">
+        <div class="dash-panel__head"><span class="dash-panel__title">@L["Sales by channel"]</span></div>
+        @{ var maxChannel = Model.Channels.Any() ? Model.Channels.Max(c => c.Revenue) : 1m; }
+        @if (Model.Channels.Any())
+        {
+            <div class="barlist">
+                @foreach (var c in Model.Channels)
+                {
+                    <div class="barlist__row">
+                        <div class="barlist__top"><span>@c.Channel <span class="pill">@c.Orders</span></span><span>@Kwd(c.Revenue)</span></div>
+                        <div class="barlist__track"><div class="barlist__fill" style="width:@(((double)(c.Revenue / (maxChannel == 0 ? 1 : maxChannel)) * 100).ToString("0.#"))%"></div></div>
+                    </div>
+                }
+            </div>
+        }
+        else { <p class="dash-empty">@L["No data in this period."]</p> }
+    </section>
+
+    <section class="dash-panel">
+        <div class="dash-panel__head"><span class="dash-panel__title">@L["Orders by status"]</span></div>
+        @{ var maxStatus = Model.OrderStatuses.Any() ? Model.OrderStatuses.Max(s => s.Count) : 1; }
+        @if (Model.OrderStatuses.Any())
+        {
+            <div class="barlist">
+                @foreach (var s in Model.OrderStatuses)
+                {
+                    <div class="barlist__row">
+                        <div class="barlist__top"><span>@s.Status</span><span>@s.Count</span></div>
+                        <div class="barlist__track"><div class="barlist__fill" style="width:@(((double)s.Count / (maxStatus == 0 ? 1 : maxStatus) * 100).ToString("0.#"))%"></div></div>
+                    </div>
+                }
+            </div>
+        }
+        else { <p class="dash-empty">@L["No data in this period."]</p> }
+    </section>
+</div>
+
+<div class="dash-cols">
+    <section class="dash-panel">
+        <div class="dash-panel__head"><span class="dash-panel__title">@L["Top products"]</span><span class="dash-panel__sub">@L["by revenue"]</span></div>
+        @if (Model.TopProducts.Any())
+        {
+            <table class="dash-table">
+                <thead><tr><th>@L["Product"]</th><th class="num">@L["Units"]</th><th class="num">@L["Revenue"]</th></tr></thead>
+                <tbody>
+                @foreach (var p in Model.TopProducts)
+                {
+                    <tr><td>@p.Title</td><td class="num">@p.Units</td><td class="num">@Kwd(p.Revenue)</td></tr>
+                }
+                </tbody>
+            </table>
+        }
+        else { <p class="dash-empty">@L["No data in this period."]</p> }
+    </section>
+
+    <section class="dash-panel">
+        <div class="dash-panel__head"><span class="dash-panel__title">@L["Top customers"]</span><span class="dash-panel__sub">@L["by spend"]</span></div>
+        @if (Model.TopCustomers.Any())
+        {
+            <table class="dash-table">
+                <thead><tr><th>@L["Customer"]</th><th class="num">@L["Orders"]</th><th class="num">@L["Spent"]</th></tr></thead>
+                <tbody>
+                @foreach (var c in Model.TopCustomers)
+                {
+                    <tr><td>@c.Name</td><td class="num">@c.Orders</td><td class="num">@Kwd(c.Spent)</td></tr>
+                }
+                </tbody>
+            </table>
+        }
+        else { <p class="dash-empty">@L["No data in this period."]</p> }
+    </section>
+</div>
+
+<section class="dash-panel">
+    <div class="dash-panel__head"><span class="dash-panel__title">@L["Needs attention"]</span></div>
+    <div class="ops-grid">
+        <div class="ops @(Model.Operations.PendingFulfilment > 0 ? "is-alert" : null)"><span class="ops__n">@Model.Operations.PendingFulfilment</span><span class="ops__l">@L["Awaiting fulfilment"]</span></div>
+        <div class="ops @(Model.Operations.PendingReturns > 0 ? "is-alert" : null)"><span class="ops__n">@Model.Operations.PendingReturns</span><span class="ops__l">@L["Returns to review"]</span></div>
+        <div class="ops @(Model.Operations.AbandonedPendingPayments > 0 ? "is-alert" : null)"><span class="ops__n">@Model.Operations.AbandonedPendingPayments</span><span class="ops__l">@L["Abandoned payments"]</span></div>
+        <div class="ops @(Model.Operations.LowStockCount > 0 ? "is-alert" : null)"><span class="ops__n">@Model.Operations.LowStockCount</span><span class="ops__l">@L["Low-stock variants"]</span></div>
+        <div class="ops @(Model.Operations.UnreadMessages > 0 ? "is-alert" : null)"><span class="ops__n">@Model.Operations.UnreadMessages</span><span class="ops__l">@L["Unread messages"]</span></div>
+        <div class="ops"><span class="ops__n">@Model.Operations.ActiveProducts</span><span class="ops__l">@L["Active products"]</span></div>
+        <div class="ops"><span class="ops__n">@Model.Operations.ActiveSubscribers</span><span class="ops__l">@L["Subscribers"]</span></div>
     </div>
 </section>
 
-<section class="adm-panel">
-    <header class="adm-panel__head">
-        <h2 class="adm-panel__title">Action queue</h2>
-    </header>
-    <div class="adm-panel__body">
-        <div class="adm-empty">
-            <strong>Modules under construction</strong>
-            Orders, Products, Collections, Customers, Discounts, Content, and Settings
-            land next per the build plan in <code>docs/BUILD-PLAN.md</code>.
-        </div>
-    </div>
-</section>
+@if (Model.LowStock.Any())
+{
+    <section class="dash-panel">
+        <div class="dash-panel__head"><span class="dash-panel__title">@L["Low stock"]</span></div>
+        <table class="dash-table">
+            <thead><tr><th>@L["Product"]</th><th>@L["Variant"]</th><th class="num">@L["Stock"]</th><th class="num">@L["Threshold"]</th></tr></thead>
+            <tbody>
+            @foreach (var v in Model.LowStock)
+            {
+                <tr><td>@v.Product</td><td>@(string.IsNullOrWhiteSpace(v.Variant) ? "—" : v.Variant)</td><td class="num">@v.Stock</td><td class="num">@v.Threshold</td></tr>
+            }
+            </tbody>
+        </table>
+    </section>
+}
+
+@section Scripts {
+    <script src="~/js/charts.js" asp-append-version="true"></script>
+}

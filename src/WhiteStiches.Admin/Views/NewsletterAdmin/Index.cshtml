@@ -6,24 +6,24 @@
 
 <section class="adm-toolbar">
     <div class="adm-toolbar__filters">
-        <span class="adm-badge adm-badge--ok">@Model.Subscribers.TotalCount subscribers</span>
+        <span class="adm-badge adm-badge--ok">@Model.Subscribers.TotalCount @L["subscribers"]</span>
     </div>
     <div class="adm-actions">
-        <a href="/newsletter/export" class="adm-btn adm-btn--solid">Export CSV</a>
+        <a href="/newsletter/export" class="adm-btn adm-btn--solid">@L["Export CSV"]</a>
     </div>
 </section>
 
 <section class="adm-panel">
     <header class="adm-panel__head">
-        <h2 class="adm-panel__title">Subscribers</h2>
+        <h2 class="adm-panel__title">@L["Subscribers"]</h2>
     </header>
 
     @if (Model.Subscribers.Items.Count == 0)
     {
         <div class="adm-panel__body">
             <div class="adm-empty">
-                <strong>No subscribers yet</strong>
-                Signups from the storefront newsletter band will appear here.
+                <strong>@L["No subscribers yet"]</strong>
+                @L["Signups from the storefront newsletter band will appear here."]
             </div>
         </div>
     }
@@ -32,11 +32,11 @@
         <table class="adm-table">
             <thead>
                 <tr>
-                    <th>Email</th>
-                    <th>Language</th>
-                    <th>WhatsApp</th>
-                    <th>Source</th>
-                    <th>Subscribed (UTC)</th>
+                    <th>@L["Email"]</th>
+                    <th>@L["Language"]</th>
+                    <th>@L["WhatsApp"]</th>
+                    <th>@L["Source"]</th>
+                    <th>@L["Subscribed (UTC)"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,11 +48,11 @@
                         <td>
                             @if (s.WhatsAppOptIn)
                             {
-                                <span class="adm-badge adm-badge--ok">Opted in</span>
+                                <span class="adm-badge adm-badge--ok">@L["Opted in"]</span>
                             }
                             else
                             {
-                                <span class="adm-badge">No</span>
+                                <span class="adm-badge">@L["No"]</span>
                             }
                         </td>
                         <td>@(string.IsNullOrEmpty(s.Source) ? "—" : s.Source)</td>

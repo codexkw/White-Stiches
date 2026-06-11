@@ -1,5 +1,11 @@
-﻿<!DOCTYPE html>
-<html lang="en" dir="ltr">
+﻿@using System.Globalization
+@{
+    var ci = CultureInfo.CurrentUICulture;
+    var dir = ci.TextInfo.IsRightToLeft ? "rtl" : "ltr";
+    var lang = ci.TwoLetterISOLanguageName;
+}
+<!DOCTYPE html>
+<html lang="@lang" dir="@dir">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -43,6 +49,7 @@
 
 <link rel="stylesheet" href="~/css/design-system.css?v=2.6" />
 <link rel="stylesheet" href="~/css/site.css?v=2.6" />
+<link rel="stylesheet" href="~/css/rtl.css?v=2.6" />
 </head>
 <body class="co-body">
 

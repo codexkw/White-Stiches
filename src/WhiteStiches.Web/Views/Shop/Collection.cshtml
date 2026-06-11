@@ -67,10 +67,10 @@
 <section class="coll-banner">
   <div class="coll-banner__bg" aria-hidden="true"></div>
   <div class="coll-banner__inner">
-    <span class="eyebrow">Spring · Summer 2026</span>
+    <span class="eyebrow">@L["Spring · Summer 2026"]</span>
     <h1 class="coll-banner__title">@Model.BannerTitle</h1>
     <p class="coll-banner__intro">
-      A curated edit of cuts, fabrics and silhouettes — designed for the woman who measures luxury in stitches, not labels.
+      @L["A curated edit of cuts, fabrics and silhouettes — designed for the woman who measures luxury in stitches, not labels."]
     </p>
   </div>
 </section>
@@ -78,7 +78,7 @@
 <!-- ============================ BREADCRUMB ============================ -->
 <nav class="breadcrumb" aria-label="Breadcrumb">
   <div class="breadcrumb__inner">
-    <a href="/">Home</a>
+    <a href="/">@L["Home"]</a>
     <span class="breadcrumb__sep">/</span>
     <span class="breadcrumb__current">@Model.BannerTitle</span>
   </div>
@@ -89,12 +89,12 @@
   <div class="coll-toolbar__inner">
     <button class="coll-toolbar__filter-btn" id="filterToggle" type="button" aria-controls="filterSidebar" aria-expanded="false">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
-      <span>Filter</span>
+      <span>@L["Filter"]</span>
       <span class="coll-toolbar__filter-count" id="activeFilterCount" hidden="@(Model.ActiveFilterCount == 0)">@Model.ActiveFilterCount</span>
     </button>
-    <div class="coll-toolbar__count" id="resultCount">@total @(total == 1 ? "piece" : "pieces")</div>
+    <div class="coll-toolbar__count" id="resultCount">@total @(total == 1 ? L["piece"].Value : L["pieces"].Value)</div>
     <div class="coll-toolbar__sort">
-      <label for="sortSelect" class="visually-hidden">Sort by</label>
+      <label for="sortSelect" class="visually-hidden">@L["Sort by"]</label>
       <select id="sortSelect" class="sort-select" name="sort" form="filterForm" onchange="this.form && this.form.submit()">
         @foreach (var option in sortOptions)
         {
@@ -113,8 +113,8 @@
     <!-- ── FILTER SIDEBAR (desktop) / SLIDE-IN SHEET (mobile) ────────── -->
     <aside class="filter" id="filterSidebar" aria-label="Filter products">
       <div class="filter__head">
-        <h2 class="filter__title">Filter</h2>
-        <button type="button" class="filter__close" id="filterClose" aria-label="Close filters">
+        <h2 class="filter__title">@L["Filter"]</h2>
+        <button type="button" class="filter__close" id="filterClose" aria-label="@L["Close filters"]">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg>
         </button>
       </div>
@@ -142,13 +142,13 @@
         <!-- Category -->
         <details class="filter-group" open>
           <summary class="filter-group__head">
-            <span>Category</span>
+            <span>@L["Category"]</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
           </summary>
           <div class="filter-group__body">
             @foreach (var category in allCategories)
             {
-              <label class="check"><input type="checkbox" name="category" value="@category.Slug" checked="@(string.Equals(Model.Category, category.Slug, StringComparison.OrdinalIgnoreCase))" /><span>@category.NameEn</span></label>
+              <label class="check"><input type="checkbox" name="category" value="@category.Slug" checked="@(string.Equals(Model.Category, category.Slug, StringComparison.OrdinalIgnoreCase))" /><span>@category.Name()</span></label>
             }
           </div>
         </details>
@@ -156,7 +156,7 @@
         <!-- Size -->
         <details class="filter-group" open>
           <summary class="filter-group__head">
-            <span>Size</span>
+            <span>@L["Size"]</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
           </summary>
           <div class="filter-group__body">
@@ -172,7 +172,7 @@
         <!-- Colour -->
         <details class="filter-group" open>
           <summary class="filter-group__head">
-            <span>Colour</span>
+            <span>@L["Colour"]</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
           </summary>
           <div class="filter-group__body">
@@ -188,15 +188,15 @@
         <!-- Price -->
         <details class="filter-group" open>
           <summary class="filter-group__head">
-            <span>Price (KWD)</span>
+            <span>@L["Price (KWD)"]</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
           </summary>
           <div class="filter-group__body">
             <div class="filter-price">
               <div class="filter-price__inputs">
-                <input type="number" id="priceMin" name="min" value="@(Model.Min?.ToString("0.###", CultureInfo.InvariantCulture))" placeholder="From" min="0" step="any" aria-label="Minimum price" />
+                <input type="number" id="priceMin" name="min" value="@(Model.Min?.ToString("0.###", CultureInfo.InvariantCulture))" placeholder="@L["From"]" min="0" step="any" aria-label="@L["Minimum price"]" />
                 <span>—</span>
-                <input type="number" id="priceMax" name="max" value="@(Model.Max?.ToString("0.###", CultureInfo.InvariantCulture))" placeholder="To" min="0" step="any" aria-label="Maximum price" />
+                <input type="number" id="priceMax" name="max" value="@(Model.Max?.ToString("0.###", CultureInfo.InvariantCulture))" placeholder="@L["To"]" min="0" step="any" aria-label="@L["Maximum price"]" />
               </div>
               <div class="filter-price__quick">
                 @foreach (var range in quickRanges)
@@ -211,17 +211,17 @@
         <!-- Availability -->
         <details class="filter-group">
           <summary class="filter-group__head">
-            <span>Availability</span>
+            <span>@L["Availability"]</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
           </summary>
           <div class="filter-group__body">
-            <label class="check"><input type="checkbox" name="instock" value="true" checked="@Model.InStock" /><span>In stock</span></label>
+            <label class="check"><input type="checkbox" name="instock" value="true" checked="@Model.InStock" /><span>@L["In stock"]</span></label>
           </div>
         </details>
 
         <div class="filter__foot">
-          <a class="btn btn--ghost filter__clear" id="filterClear" href="/collection">Clear all</a>
-          <button type="submit" class="btn btn--primary filter__apply" id="filterApply">Show results</button>
+          <a class="btn btn--ghost filter__clear" id="filterClear" href="/collection">@L["Clear all"]</a>
+          <button type="submit" class="btn btn--primary filter__apply" id="filterApply">@L["Show results"]</button>
         </div>
       </form>
     </aside>
@@ -248,9 +248,9 @@
             <path d="m48 48-10-10"/>
             <path d="M22 28h12M28 22v12" opacity="0"/>
           </svg>
-          <h3>No pieces match those filters.</h3>
-          <p>Try widening one of your selections or clearing the filters to see the full edit.</p>
-          <a class="btn btn--ghost" id="emptyClear" href="/collection">Clear all filters</a>
+          <h3>@L["No pieces match those filters."]</h3>
+          <p>@L["Try widening one of your selections or clearing the filters to see the full edit."]</p>
+          <a class="btn btn--ghost" id="emptyClear" href="/collection">@L["Clear all filters"]</a>
         </div>
       }
       else
@@ -267,16 +267,16 @@
       @if (totalPages > 1)
       {
         <!-- ── PAGINATION ──────────────────────────────────────────────── -->
-        <nav class="pagination" aria-label="Pagination">
+        <nav class="pagination" aria-label="@L["Pagination"]">
           @if (Model.Products.HasPrevious)
           {
-            <a class="pagination__btn pagination__btn--prev" href="@Model.PageUrl(current - 1)" aria-label="Previous page">
+            <a class="pagination__btn pagination__btn--prev" href="@Model.PageUrl(current - 1)" aria-label="@L["Previous page"]">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg>
             </a>
           }
           else
           {
-            <button class="pagination__btn pagination__btn--prev" disabled aria-label="Previous page">
+            <button class="pagination__btn pagination__btn--prev" disabled aria-label="@L["Previous page"]">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg>
             </button>
           }
@@ -299,13 +299,13 @@
           </ol>
           @if (Model.Products.HasNext)
           {
-            <a class="pagination__btn pagination__btn--next" href="@Model.PageUrl(current + 1)" aria-label="Next page">
+            <a class="pagination__btn pagination__btn--next" href="@Model.PageUrl(current + 1)" aria-label="@L["Next page"]">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 6l6 6-6 6"/></svg>
             </a>
           }
           else
           {
-            <button class="pagination__btn pagination__btn--next" disabled aria-label="Next page">
+            <button class="pagination__btn pagination__btn--next" disabled aria-label="@L["Next page"]">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 6l6 6-6 6"/></svg>
             </button>
           }
@@ -314,7 +314,7 @@
 
       <!-- SEO copy block (optional, helps category page rank) -->
       <div class="coll__seo">
-        <h2>The @Model.BannerTitle Edit · Spring/Summer 2026</h2>
+        <h2>@L["The"] @Model.BannerTitle @L["Edit · Spring/Summer 2026"]</h2>
         <p>The SS26 collection from White Stitches is a study in quiet luxury — natural fibers, weightless drape, and a palette borrowed from desert mornings. Every piece is designed and hand-finished in our Kuwait atelier, then shipped across the GCC.</p>
         <p>Browse linen midi dresses, tailored linen-viscose trousers, hand-knit cashmere, and editorial silk pieces — all built for the woman who measures luxury in stitches, not labels. Looking for something specific? Use the filter to narrow by size, colour, or price.</p>
       </div>

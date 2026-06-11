@@ -1,0 +1,1830 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Orders</value>
+  </data>
+  <data name="Returns" xml:space="preserve">
+    <value>Returns</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>Products</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Categories</value>
+  </data>
+  <data name="Collections" xml:space="preserve">
+    <value>Collections</value>
+  </data>
+  <data name="Customers" xml:space="preserve">
+    <value>Customers</value>
+  </data>
+  <data name="Discounts" xml:space="preserve">
+    <value>Discounts</value>
+  </data>
+  <data name="Newsletter" xml:space="preserve">
+    <value>Newsletter</value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>Pages</value>
+  </data>
+  <data name="Journal" xml:space="preserve">
+    <value>Journal</value>
+  </data>
+  <data name="Inbox" xml:space="preserve">
+    <value>Inbox</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Staff &amp; Roles" xml:space="preserve">
+    <value>Staff &amp; Roles</value>
+  </data>
+  <data name="Audit Log" xml:space="preserve">
+    <value>Audit Log</value>
+  </data>
+  <data name="Store" xml:space="preserve">
+    <value>Store</value>
+  </data>
+  <data name="Marketing" xml:space="preserve">
+    <value>Marketing</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>Content</value>
+  </data>
+  <data name="System" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="Sign out" xml:space="preserve">
+    <value>Sign out</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Arabic" xml:space="preserve">
+    <value>Arabic</value>
+  </data>
+  <data name="Action starts with" xml:space="preserve">
+    <value>Action starts with</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Times are UTC. Append-only." xml:space="preserve">
+    <value>Times are UTC. Append-only.</value>
+  </data>
+  <data name="Entries" xml:space="preserve">
+    <value>Entries</value>
+  </data>
+  <data name="No audit entries" xml:space="preserve">
+    <value>No audit entries</value>
+  </data>
+  <data name="Administrative write actions will appear here." xml:space="preserve">
+    <value>Administrative write actions will appear here.</value>
+  </data>
+  <data name="Time (UTC)" xml:space="preserve">
+    <value>Time (UTC)</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="Entity" xml:space="preserve">
+    <value>Entity</value>
+  </data>
+  <data name="IP" xml:space="preserve">
+    <value>IP</value>
+  </data>
+  <data name="Changes" xml:space="preserve">
+    <value>Changes</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Before" xml:space="preserve">
+    <value>Before</value>
+  </data>
+  <data name="After" xml:space="preserve">
+    <value>After</value>
+  </data>
+  <data name="Back office" xml:space="preserve">
+    <value>Back office</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Sign in" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+  <data name="Two-factor verification" xml:space="preserve">
+    <value>Two-factor verification</value>
+  </data>
+  <data name="Authenticator code" xml:space="preserve">
+    <value>Authenticator code</value>
+  </data>
+  <data name="Remember this device" xml:space="preserve">
+    <value>Remember this device</value>
+  </data>
+  <data name="Verify" xml:space="preserve">
+    <value>Verify</value>
+  </data>
+  <data name="Lost your device? Use a recovery code" xml:space="preserve">
+    <value>Lost your device? Use a recovery code</value>
+  </data>
+  <data name="Sign in with recovery code" xml:space="preserve">
+    <value>Sign in with recovery code</value>
+  </data>
+  <data name="Category tree" xml:space="preserve">
+    <value>Category tree</value>
+  </data>
+  <data name="No categories yet" xml:space="preserve">
+    <value>No categories yet</value>
+  </data>
+  <data name="Create the first one on the right." xml:space="preserve">
+    <value>Create the first one on the right.</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Slug" xml:space="preserve">
+    <value>Slug</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Hidden</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Edit category" xml:space="preserve">
+    <value>Edit category</value>
+  </data>
+  <data name="New category" xml:space="preserve">
+    <value>New category</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Name (EN)" xml:space="preserve">
+    <value>Name (EN)</value>
+  </data>
+  <data name="Name (AR)" xml:space="preserve">
+    <value>Name (AR)</value>
+  </data>
+  <data name="Slug (blank = from name)" xml:space="preserve">
+    <value>Slug (blank = from name)</value>
+  </data>
+  <data name="Parent" xml:space="preserve">
+    <value>Parent</value>
+  </data>
+  <data name="Sort order" xml:space="preserve">
+    <value>Sort order</value>
+  </data>
+  <data name="Save category" xml:space="preserve">
+    <value>Save category</value>
+  </data>
+  <data name="Create category" xml:space="preserve">
+    <value>Create category</value>
+  </data>
+  <data name="New collection" xml:space="preserve">
+    <value>New collection</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Back to collections" xml:space="preserve">
+    <value>Back to collections</value>
+  </data>
+  <data name="Title (EN) *" xml:space="preserve">
+    <value>Title (EN) *</value>
+  </data>
+  <data name="Title (AR)" xml:space="preserve">
+    <value>Title (AR)</value>
+  </data>
+  <data name="Slug — blank = auto from EN title" xml:space="preserve">
+    <value>Slug — blank = auto from EN title</value>
+  </data>
+  <data name="Storefront sort order" xml:space="preserve">
+    <value>Storefront sort order</value>
+  </data>
+  <data name="Description (EN)" xml:space="preserve">
+    <value>Description (EN)</value>
+  </data>
+  <data name="Description (AR)" xml:space="preserve">
+    <value>Description (AR)</value>
+  </data>
+  <data name="Hero image (optional)" xml:space="preserve">
+    <value>Hero image (optional)</value>
+  </data>
+  <data name="Current hero image" xml:space="preserve">
+    <value>Current hero image</value>
+  </data>
+  <data name="Banner image (optional)" xml:space="preserve">
+    <value>Banner image (optional)</value>
+  </data>
+  <data name="Current banner image" xml:space="preserve">
+    <value>Current banner image</value>
+  </data>
+  <data name="SEO title (EN)" xml:space="preserve">
+    <value>SEO title (EN)</value>
+  </data>
+  <data name="SEO title (AR)" xml:space="preserve">
+    <value>SEO title (AR)</value>
+  </data>
+  <data name="SEO description (EN)" xml:space="preserve">
+    <value>SEO description (EN)</value>
+  </data>
+  <data name="SEO description (AR)" xml:space="preserve">
+    <value>SEO description (AR)</value>
+  </data>
+  <data name="Active — visible on the storefront" xml:space="preserve">
+    <value>Active — visible on the storefront</value>
+  </data>
+  <data name="Smart collection — products selected by rules" xml:space="preserve">
+    <value>Smart collection — products selected by rules</value>
+  </data>
+  <data name="Create collection" xml:space="preserve">
+    <value>Create collection</value>
+  </data>
+  <data name="Save changes" xml:space="preserve">
+    <value>Save changes</value>
+  </data>
+  <data name="Save the collection first, then curate products (manual) or define rules (smart)." xml:space="preserve">
+    <value>Save the collection first, then curate products (manual) or define rules (smart).</value>
+  </data>
+  <data name="Curated products" xml:space="preserve">
+    <value>Curated products</value>
+  </data>
+  <data name="Find active products to add" xml:space="preserve">
+    <value>Find active products to add</value>
+  </data>
+  <data name="Title, slug, type, vendor or tag…" xml:space="preserve">
+    <value>Title, slug, type, vendor or tag…</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="No matching active products — products already in this collection are hidden." xml:space="preserve">
+    <value>No matching active products — products already in this collection are hidden.</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Product</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="No products yet" xml:space="preserve">
+    <value>No products yet</value>
+  </data>
+  <data name="Search above to find active products and add them to this collection." xml:space="preserve">
+    <value>Search above to find active products and add them to this collection.</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Move up" xml:space="preserve">
+    <value>Move up</value>
+  </data>
+  <data name="Move down" xml:space="preserve">
+    <value>Move down</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Smart rules" xml:space="preserve">
+    <value>Smart rules</value>
+  </data>
+  <data name="No rules saved yet" xml:space="preserve">
+    <value>No rules saved yet</value>
+  </data>
+  <data name="Products must match" xml:space="preserve">
+    <value>Products must match</value>
+  </data>
+  <data name="All rules (AND)" xml:space="preserve">
+    <value>All rules (AND)</value>
+  </data>
+  <data name="Any rule (OR)" xml:space="preserve">
+    <value>Any rule (OR)</value>
+  </data>
+  <data name="Field" xml:space="preserve">
+    <value>Field</value>
+  </data>
+  <data name="Operator" xml:space="preserve">
+    <value>Operator</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="Vendor" xml:space="preserve">
+    <value>Vendor</value>
+  </data>
+  <data name="Price (any active variant, KWD)" xml:space="preserve">
+    <value>Price (any active variant, KWD)</value>
+  </data>
+  <data name="equals" xml:space="preserve">
+    <value>equals</value>
+  </data>
+  <data name="contains" xml:space="preserve">
+    <value>contains</value>
+  </data>
+  <data name="greater than (price)" xml:space="preserve">
+    <value>greater than (price)</value>
+  </data>
+  <data name="less than (price)" xml:space="preserve">
+    <value>less than (price)</value>
+  </data>
+  <data name="e.g. linen or 25.000" xml:space="preserve">
+    <value>e.g. linen or 25.000</value>
+  </data>
+  <data name="Add rule" xml:space="preserve">
+    <value>Add rule</value>
+  </data>
+  <data name="Save rules" xml:space="preserve">
+    <value>Save rules</value>
+  </data>
+  <data name="Rows with an empty value are ignored when saving." xml:space="preserve">
+    <value>Rows with an empty value are ignored when saving.</value>
+  </data>
+  <data name="Preview:" xml:space="preserve">
+    <value>Preview:</value>
+  </data>
+  <data name="Apply rules now" xml:space="preserve">
+    <value>Apply rules now</value>
+  </data>
+  <data name="Danger zone" xml:space="preserve">
+    <value>Danger zone</value>
+  </data>
+  <data name="Delete collection" xml:space="preserve">
+    <value>Delete collection</value>
+  </data>
+  <data name="No collections yet" xml:space="preserve">
+    <value>No collections yet</value>
+  </data>
+  <data name="Create a manual collection and curate products, or a smart collection driven by rules." xml:space="preserve">
+    <value>Create a manual collection and curate products, or a smart collection driven by rules.</value>
+  </data>
+  <data name="Title (EN)" xml:space="preserve">
+    <value>Title (EN)</value>
+  </data>
+  <data name="Updated (UTC)" xml:space="preserve">
+    <value>Updated (UTC)</value>
+  </data>
+  <data name="Smart" xml:space="preserve">
+    <value>Smart</value>
+  </data>
+  <data name="Manual" xml:space="preserve">
+    <value>Manual</value>
+  </data>
+  <data name="Inactive" xml:space="preserve">
+    <value>Inactive</value>
+  </data>
+  <data name="Customer actions" xml:space="preserve">
+    <value>Customer actions</value>
+  </data>
+  <data name="All customers" xml:space="preserve">
+    <value>All customers</value>
+  </data>
+  <data name="Locked" xml:space="preserve">
+    <value>Locked</value>
+  </data>
+  <data name="Unlock account" xml:space="preserve">
+    <value>Unlock account</value>
+  </data>
+  <data name="Lock account" xml:space="preserve">
+    <value>Lock account</value>
+  </data>
+  <data name="Customer snapshot" xml:space="preserve">
+    <value>Customer snapshot</value>
+  </data>
+  <data name="placed (excl. drafts)" xml:space="preserve">
+    <value>placed (excl. drafts)</value>
+  </data>
+  <data name="Total spent" xml:space="preserve">
+    <value>Total spent</value>
+  </data>
+  <data name="KWD, excl. cancelled" xml:space="preserve">
+    <value>KWD, excl. cancelled</value>
+  </data>
+  <data name="Wishlist" xml:space="preserve">
+    <value>Wishlist</value>
+  </data>
+  <data name="saved items" xml:space="preserve">
+    <value>saved items</value>
+  </data>
+  <data name="Identity" xml:space="preserve">
+    <value>Identity</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="Preferred language" xml:space="preserve">
+    <value>Preferred language</value>
+  </data>
+  <data name="Registered" xml:space="preserve">
+    <value>Registered</value>
+  </data>
+  <data name="Last login" xml:space="preserve">
+    <value>Last login</value>
+  </data>
+  <data name="Never" xml:space="preserve">
+    <value>Never</value>
+  </data>
+  <data name="Marketing consent" xml:space="preserve">
+    <value>Marketing consent</value>
+  </data>
+  <data name="Email marketing" xml:space="preserve">
+    <value>Email marketing</value>
+  </data>
+  <data name="Opted in" xml:space="preserve">
+    <value>Opted in</value>
+  </data>
+  <data name="Not opted in" xml:space="preserve">
+    <value>Not opted in</value>
+  </data>
+  <data name="WhatsApp marketing" xml:space="preserve">
+    <value>WhatsApp marketing</value>
+  </data>
+  <data name="Consent preferences recorded with the account, registered" xml:space="preserve">
+    <value>Consent preferences recorded with the account, registered</value>
+  </data>
+  <data name="Addresses" xml:space="preserve">
+    <value>Addresses</value>
+  </data>
+  <data name="No saved addresses" xml:space="preserve">
+    <value>No saved addresses</value>
+  </data>
+  <data name="This customer has not added a delivery address yet." xml:space="preserve">
+    <value>This customer has not added a delivery address yet.</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Block" xml:space="preserve">
+    <value>Block</value>
+  </data>
+  <data name="Building" xml:space="preserve">
+    <value>Building</value>
+  </data>
+  <data name="Floor" xml:space="preserve">
+    <value>Floor</value>
+  </data>
+  <data name="Apt" xml:space="preserve">
+    <value>Apt</value>
+  </data>
+  <data name="Recent orders" xml:space="preserve">
+    <value>Recent orders</value>
+  </data>
+  <data name="No orders yet" xml:space="preserve">
+    <value>No orders yet</value>
+  </data>
+  <data name="Orders placed by this customer will appear here." xml:space="preserve">
+    <value>Orders placed by this customer will appear here.</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>Order</value>
+  </data>
+  <data name="Date (UTC)" xml:space="preserve">
+    <value>Date (UTC)</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Customer filters" xml:space="preserve">
+    <value>Customer filters</value>
+  </data>
+  <data name="Name, email, or phone" xml:space="preserve">
+    <value>Name, email, or phone</value>
+  </data>
+  <data name="Customer directory" xml:space="preserve">
+    <value>Customer directory</value>
+  </data>
+  <data name="No customers found" xml:space="preserve">
+    <value>No customers found</value>
+  </data>
+  <data name="Registered shoppers will appear here." xml:space="preserve">
+    <value>Registered shoppers will appear here.</value>
+  </data>
+  <data name="Try a different name, email, or phone number." xml:space="preserve">
+    <value>Try a different name, email, or phone number.</value>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>Customer</value>
+  </data>
+  <data name="Consent" xml:space="preserve">
+    <value>Consent</value>
+  </data>
+  <data name="Registered (UTC)" xml:space="preserve">
+    <value>Registered (UTC)</value>
+  </data>
+  <data name="WhatsApp" xml:space="preserve">
+    <value>WhatsApp</value>
+  </data>
+  <data name="Create discount code" xml:space="preserve">
+    <value>Create discount code</value>
+  </data>
+  <data name="Edit discount code" xml:space="preserve">
+    <value>Edit discount code</value>
+  </data>
+  <data name="Back to list" xml:space="preserve">
+    <value>Back to list</value>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="Value (% for percentage, KWD for fixed amount)" xml:space="preserve">
+    <value>Value (% for percentage, KWD for fixed amount)</value>
+  </data>
+  <data name="Minimum purchase (KWD, optional)" xml:space="preserve">
+    <value>Minimum purchase (KWD, optional)</value>
+  </data>
+  <data name="Minimum quantity (optional)" xml:space="preserve">
+    <value>Minimum quantity (optional)</value>
+  </data>
+  <data name="Usage limit — total (blank = unlimited)" xml:space="preserve">
+    <value>Usage limit — total (blank = unlimited)</value>
+  </data>
+  <data name="Usage limit — per customer (blank = unlimited)" xml:space="preserve">
+    <value>Usage limit — per customer (blank = unlimited)</value>
+  </data>
+  <data name="Starts at (UTC, optional)" xml:space="preserve">
+    <value>Starts at (UTC, optional)</value>
+  </data>
+  <data name="Ends at (UTC, optional)" xml:space="preserve">
+    <value>Ends at (UTC, optional)</value>
+  </data>
+  <data name="Eligibility rules (JSON, optional)" xml:space="preserve">
+    <value>Eligibility rules (JSON, optional)</value>
+  </data>
+  <data name="Used {0} times" xml:space="preserve">
+    <value>Used {0} times</value>
+  </data>
+  <data name="Create discount" xml:space="preserve">
+    <value>Create discount</value>
+  </data>
+  <data name="Search code" xml:space="preserve">
+    <value>Search code</value>
+  </data>
+  <data name="e.g. WELCOME10" xml:space="preserve">
+    <value>e.g. WELCOME10</value>
+  </data>
+  <data name="Active only" xml:space="preserve">
+    <value>Active only</value>
+  </data>
+  <data name="New discount" xml:space="preserve">
+    <value>New discount</value>
+  </data>
+  <data name="Discount codes" xml:space="preserve">
+    <value>Discount codes</value>
+  </data>
+  <data name="No discount codes found" xml:space="preserve">
+    <value>No discount codes found</value>
+  </data>
+  <data name="Adjust the filters, or create the first code." xml:space="preserve">
+    <value>Adjust the filters, or create the first code.</value>
+  </data>
+  <data name="Minimums" xml:space="preserve">
+    <value>Minimums</value>
+  </data>
+  <data name="Schedule (UTC)" xml:space="preserve">
+    <value>Schedule (UTC)</value>
+  </data>
+  <data name="Usage" xml:space="preserve">
+    <value>Usage</value>
+  </data>
+  <data name="Percentage" xml:space="preserve">
+    <value>Percentage</value>
+  </data>
+  <data name="Fixed amount" xml:space="preserve">
+    <value>Fixed amount</value>
+  </data>
+  <data name="Free shipping" xml:space="preserve">
+    <value>Free shipping</value>
+  </data>
+  <data name="Always" xml:space="preserve">
+    <value>Always</value>
+  </data>
+  <data name="(no subject)" xml:space="preserve">
+    <value>(no subject)</value>
+  </data>
+  <data name="Reply via email" xml:space="preserve">
+    <value>Reply via email</value>
+  </data>
+  <data name="Back to inbox" xml:space="preserve">
+    <value>Back to inbox</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="Received (UTC)" xml:space="preserve">
+    <value>Received (UTC)</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>Read</value>
+  </data>
+  <data name="Replying opens your mail client — in-app SMTP sending lands in Phase 1C." xml:space="preserve">
+    <value>Replying opens your mail client — in-app SMTP sending lands in Phase 1C.</value>
+  </data>
+  <data name="Unread" xml:space="preserve">
+    <value>Unread</value>
+  </data>
+  <data name="All messages" xml:space="preserve">
+    <value>All messages</value>
+  </data>
+  <data name="Unread messages" xml:space="preserve">
+    <value>Unread messages</value>
+  </data>
+  <data name="Inbox zero" xml:space="preserve">
+    <value>Inbox zero</value>
+  </data>
+  <data name="No messages" xml:space="preserve">
+    <value>No messages</value>
+  </data>
+  <data name="No unread contact messages right now." xml:space="preserve">
+    <value>No unread contact messages right now.</value>
+  </data>
+  <data name="Nothing has come through the contact form yet." xml:space="preserve">
+    <value>Nothing has come through the contact form yet.</value>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+  <data name="New post" xml:space="preserve">
+    <value>New post</value>
+  </data>
+  <data name="Edit post" xml:space="preserve">
+    <value>Edit post</value>
+  </data>
+  <data name="Back to journal" xml:space="preserve">
+    <value>Back to journal</value>
+  </data>
+  <data name="Please fix the highlighted fields below." xml:space="preserve">
+    <value>Please fix the highlighted fields below.</value>
+  </data>
+  <data name="auto-generated from EN title" xml:space="preserve">
+    <value>auto-generated from EN title</value>
+  </data>
+  <data name="Leave blank to generate from the English title. Collisions get -2, -3…" xml:space="preserve">
+    <value>Leave blank to generate from the English title. Collisions get -2, -3…</value>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="— No category —" xml:space="preserve">
+    <value>— No category —</value>
+  </data>
+  <data name="Or create a category" xml:space="preserve">
+    <value>Or create a category</value>
+  </data>
+  <data name="e.g. Behind the Seams" xml:space="preserve">
+    <value>e.g. Behind the Seams</value>
+  </data>
+  <data name="When filled, this category is created and assigned instead of the selection." xml:space="preserve">
+    <value>When filled, this category is created and assigned instead of the selection.</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="comma, separated, tags" xml:space="preserve">
+    <value>comma, separated, tags</value>
+  </data>
+  <data name="Reading time (minutes)" xml:space="preserve">
+    <value>Reading time (minutes)</value>
+  </data>
+  <data name="Hero image" xml:space="preserve">
+    <value>Hero image</value>
+  </data>
+  <data name="Optional — leave empty to keep the current image." xml:space="preserve">
+    <value>Optional — leave empty to keep the current image.</value>
+  </data>
+  <data name="Excerpt (EN)" xml:space="preserve">
+    <value>Excerpt (EN)</value>
+  </data>
+  <data name="Excerpt (AR)" xml:space="preserve">
+    <value>Excerpt (AR)</value>
+  </data>
+  <data name="Body EN (HTML)" xml:space="preserve">
+    <value>Body EN (HTML)</value>
+  </data>
+  <data name="Formatted with the editor; sanitized on save before it renders on the storefront." xml:space="preserve">
+    <value>Formatted with the editor; sanitized on save before it renders on the storefront.</value>
+  </data>
+  <data name="Body AR (HTML)" xml:space="preserve">
+    <value>Body AR (HTML)</value>
+  </data>
+  <data name="Published" xml:space="preserve">
+    <value>Published</value>
+  </data>
+  <data name="Publish date (UTC)" xml:space="preserve">
+    <value>Publish date (UTC)</value>
+  </data>
+  <data name="Optional. A future date schedules the post; blank publishes immediately." xml:space="preserve">
+    <value>Optional. A future date schedules the post; blank publishes immediately.</value>
+  </data>
+  <data name="Create post" xml:space="preserve">
+    <value>Create post</value>
+  </data>
+  <data name="Delete post" xml:space="preserve">
+    <value>Delete post</value>
+  </data>
+  <data name="Yes, permanently delete" xml:space="preserve">
+    <value>Yes, permanently delete</value>
+  </data>
+  <data name="Title or slug" xml:space="preserve">
+    <value>Title or slug</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Posts" xml:space="preserve">
+    <value>Posts</value>
+  </data>
+  <data name="No posts found" xml:space="preserve">
+    <value>No posts found</value>
+  </data>
+  <data name="Write the first journal post." xml:space="preserve">
+    <value>Write the first journal post.</value>
+  </data>
+  <data name="Try a different search term." xml:space="preserve">
+    <value>Try a different search term.</value>
+  </data>
+  <data name="Scheduled" xml:space="preserve">
+    <value>Scheduled</value>
+  </data>
+  <data name="Draft" xml:space="preserve">
+    <value>Draft</value>
+  </data>
+  <data name="subscribers" xml:space="preserve">
+    <value>subscribers</value>
+  </data>
+  <data name="Export CSV" xml:space="preserve">
+    <value>Export CSV</value>
+  </data>
+  <data name="No subscribers yet" xml:space="preserve">
+    <value>No subscribers yet</value>
+  </data>
+  <data name="Signups from the storefront newsletter band will appear here." xml:space="preserve">
+    <value>Signups from the storefront newsletter band will appear here.</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="Subscribed (UTC)" xml:space="preserve">
+    <value>Subscribed (UTC)</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Placed" xml:space="preserve">
+    <value>Placed</value>
+  </data>
+  <data name="item(s)" xml:space="preserve">
+    <value>item(s)</value>
+  </data>
+  <data name="Back to orders" xml:space="preserve">
+    <value>Back to orders</value>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>Items</value>
+  </data>
+  <data name="Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="Unit price" xml:space="preserve">
+    <value>Unit price</value>
+  </data>
+  <data name="Qty" xml:space="preserve">
+    <value>Qty</value>
+  </data>
+  <data name="Line total" xml:space="preserve">
+    <value>Line total</value>
+  </data>
+  <data name="Subtotal" xml:space="preserve">
+    <value>Subtotal</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>Discount</value>
+  </data>
+  <data name="Shipping" xml:space="preserve">
+    <value>Shipping</value>
+  </data>
+  <data name="Gift wrap" xml:space="preserve">
+    <value>Gift wrap</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>Tax</value>
+  </data>
+  <data name="Paid" xml:space="preserve">
+    <value>Paid</value>
+  </data>
+  <data name="Refunded" xml:space="preserve">
+    <value>Refunded</value>
+  </data>
+  <data name="Refundable" xml:space="preserve">
+    <value>Refundable</value>
+  </data>
+  <data name="Payments" xml:space="preserve">
+    <value>Payments</value>
+  </data>
+  <data name="No payments recorded." xml:space="preserve">
+    <value>No payments recorded.</value>
+  </data>
+  <data name="Provider" xml:space="preserve">
+    <value>Provider</value>
+  </data>
+  <data name="Method" xml:space="preserve">
+    <value>Method</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="Reference" xml:space="preserve">
+    <value>Reference</value>
+  </data>
+  <data name="Processed (UTC)" xml:space="preserve">
+    <value>Processed (UTC)</value>
+  </data>
+  <data name="Refunds" xml:space="preserve">
+    <value>Refunds</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Reason</value>
+  </data>
+  <data name="Shipments" xml:space="preserve">
+    <value>Shipments</value>
+  </data>
+  <data name="Carrier" xml:space="preserve">
+    <value>Carrier</value>
+  </data>
+  <data name="AWB" xml:space="preserve">
+    <value>AWB</value>
+  </data>
+  <data name="Tracking" xml:space="preserve">
+    <value>Tracking</value>
+  </data>
+  <data name="Created (UTC)" xml:space="preserve">
+    <value>Created (UTC)</value>
+  </data>
+  <data name="Track" xml:space="preserve">
+    <value>Track</value>
+  </data>
+  <data name="Return requests" xml:space="preserve">
+    <value>Return requests</value>
+  </data>
+  <data name="RMA" xml:space="preserve">
+    <value>RMA</value>
+  </data>
+  <data name="Timeline" xml:space="preserve">
+    <value>Timeline</value>
+  </data>
+  <data name="Staff comment" xml:space="preserve">
+    <value>Staff comment</value>
+  </data>
+  <data name="Visible to staff only" xml:space="preserve">
+    <value>Visible to staff only</value>
+  </data>
+  <data name="Add comment" xml:space="preserve">
+    <value>Add comment</value>
+  </data>
+  <data name="No events yet." xml:space="preserve">
+    <value>No events yet.</value>
+  </data>
+  <data name="by" xml:space="preserve">
+    <value>by</value>
+  </data>
+  <data name="Name:" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="Email:" xml:space="preserve">
+    <value>Email:</value>
+  </data>
+  <data name="Phone:" xml:space="preserve">
+    <value>Phone:</value>
+  </data>
+  <data name="Language:" xml:space="preserve">
+    <value>Language:</value>
+  </data>
+  <data name="View customer" xml:space="preserve">
+    <value>View customer</value>
+  </data>
+  <data name="Guest checkout" xml:space="preserve">
+    <value>Guest checkout</value>
+  </data>
+  <data name="Customer note:" xml:space="preserve">
+    <value>Customer note:</value>
+  </data>
+  <data name="Shipping address" xml:space="preserve">
+    <value>Shipping address</value>
+  </data>
+  <data name="Change status" xml:space="preserve">
+    <value>Change status</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Mark paid (manual)" xml:space="preserve">
+    <value>Mark paid (manual)</value>
+  </data>
+  <data name="Amount (KWD)" xml:space="preserve">
+    <value>Amount (KWD)</value>
+  </data>
+  <data name="Mark paid" xml:space="preserve">
+    <value>Mark paid</value>
+  </data>
+  <data name="Fulfil &amp;amp; ship" xml:space="preserve">
+    <value>Fulfil &amp;amp; ship</value>
+  </data>
+  <data name="Tracking / AWB" xml:space="preserve">
+    <value>Tracking / AWB</value>
+  </data>
+  <data name="Tracking URL" xml:space="preserve">
+    <value>Tracking URL</value>
+  </data>
+  <data name="Create shipment" xml:space="preserve">
+    <value>Create shipment</value>
+  </data>
+  <data name="Refund" xml:space="preserve">
+    <value>Refund</value>
+  </data>
+  <data name="Refundable:" xml:space="preserve">
+    <value>Refundable:</value>
+  </data>
+  <data name="Cancel order" xml:space="preserve">
+    <value>Cancel order</value>
+  </data>
+  <data name="Restock items" xml:space="preserve">
+    <value>Restock items</value>
+  </data>
+  <data name="Cancelled" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="Internal note" xml:space="preserve">
+    <value>Internal note</value>
+  </data>
+  <data name="Staff-only note" xml:space="preserve">
+    <value>Staff-only note</value>
+  </data>
+  <data name="Save note" xml:space="preserve">
+    <value>Save note</value>
+  </data>
+  <data name="Draft orders" xml:space="preserve">
+    <value>Draft orders</value>
+  </data>
+  <data name="Channel" xml:space="preserve">
+    <value>Channel</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Number, email, name, phone" xml:space="preserve">
+    <value>Number, email, name, phone</value>
+  </data>
+  <data name="All orders" xml:space="preserve">
+    <value>All orders</value>
+  </data>
+  <data name="New draft" xml:space="preserve">
+    <value>New draft</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="No draft orders" xml:space="preserve">
+    <value>No draft orders</value>
+  </data>
+  <data name="Create one for an Instagram, WhatsApp, or phone sale." xml:space="preserve">
+    <value>Create one for an Instagram, WhatsApp, or phone sale.</value>
+  </data>
+  <data name="Back to drafts" xml:space="preserve">
+    <value>Back to drafts</value>
+  </data>
+  <data name="No items yet" xml:space="preserve">
+    <value>No items yet</value>
+  </data>
+  <data name="Use the product picker below to add items." xml:space="preserve">
+    <value>Use the product picker below to add items.</value>
+  </data>
+  <data name="Add products" xml:space="preserve">
+    <value>Add products</value>
+  </data>
+  <data name="Search active products" xml:space="preserve">
+    <value>Search active products</value>
+  </data>
+  <data name="Title, handle, or SKU" xml:space="preserve">
+    <value>Title, handle, or SKU</value>
+  </data>
+  <data name="No active products match" xml:space="preserve">
+    <value>No active products match</value>
+  </data>
+  <data name="Product / variant" xml:space="preserve">
+    <value>Product / variant</value>
+  </data>
+  <data name="Stock" xml:space="preserve">
+    <value>Stock</value>
+  </data>
+  <data name="(oversell ok)" xml:space="preserve">
+    <value>(oversell ok)</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="Totals" xml:space="preserve">
+    <value>Totals</value>
+  </data>
+  <data name="Draft details" xml:space="preserve">
+    <value>Draft details</value>
+  </data>
+  <data name="Shipping (KWD)" xml:space="preserve">
+    <value>Shipping (KWD)</value>
+  </data>
+  <data name="Manual discount (KWD)" xml:space="preserve">
+    <value>Manual discount (KWD)</value>
+  </data>
+  <data name="First name" xml:space="preserve">
+    <value>First name</value>
+  </data>
+  <data name="Last name" xml:space="preserve">
+    <value>Last name</value>
+  </data>
+  <data name="Shipping phone" xml:space="preserve">
+    <value>Shipping phone</value>
+  </data>
+  <data name="Governorate" xml:space="preserve">
+    <value>Governorate</value>
+  </data>
+  <data name="Area" xml:space="preserve">
+    <value>Area</value>
+  </data>
+  <data name="Street" xml:space="preserve">
+    <value>Street</value>
+  </data>
+  <data name="Apartment" xml:space="preserve">
+    <value>Apartment</value>
+  </data>
+  <data name="Directions" xml:space="preserve">
+    <value>Directions</value>
+  </data>
+  <data name="Customer note" xml:space="preserve">
+    <value>Customer note</value>
+  </data>
+  <data name="Save draft" xml:space="preserve">
+    <value>Save draft</value>
+  </data>
+  <data name="Finish" xml:space="preserve">
+    <value>Finish</value>
+  </data>
+  <data name="Convert to order" xml:space="preserve">
+    <value>Convert to order</value>
+  </data>
+  <data name="Validates items, decrements stock, and places the order as" xml:space="preserve">
+    <value>Validates items, decrements stock, and places the order as</value>
+  </data>
+  <data name="Delete draft" xml:space="preserve">
+    <value>Delete draft</value>
+  </data>
+  <data name="Permanently removes this draft and its items." xml:space="preserve">
+    <value>Permanently removes this draft and its items.</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>Payment</value>
+  </data>
+  <data name="Placed (UTC)" xml:space="preserve">
+    <value>Placed (UTC)</value>
+  </data>
+  <data name="Fulfilment" xml:space="preserve">
+    <value>Fulfilment</value>
+  </data>
+  <data name="No orders found" xml:space="preserve">
+    <value>No orders found</value>
+  </data>
+  <data name="Try adjusting the filters above." xml:space="preserve">
+    <value>Try adjusting the filters above.</value>
+  </data>
+  <data name="Customer &amp; channel" xml:space="preserve">
+    <value>Customer &amp; channel</value>
+  </data>
+  <data name="Draft orders are built by staff for Instagram, WhatsApp, or phone sales. Provide at least an email address or a phone number." xml:space="preserve">
+    <value>Draft orders are built by staff for Instagram, WhatsApp, or phone sales. Provide at least an email address or a phone number.</value>
+  </data>
+  <data name="Create draft" xml:space="preserve">
+    <value>Create draft</value>
+  </data>
+  <data name="New page" xml:space="preserve">
+    <value>New page</value>
+  </data>
+  <data name="Edit page" xml:space="preserve">
+    <value>Edit page</value>
+  </data>
+  <data name="Back to pages" xml:space="preserve">
+    <value>Back to pages</value>
+  </data>
+  <data name="Published (visible on the storefront)" xml:space="preserve">
+    <value>Published (visible on the storefront)</value>
+  </data>
+  <data name="Create page" xml:space="preserve">
+    <value>Create page</value>
+  </data>
+  <data name="Delete page" xml:space="preserve">
+    <value>Delete page</value>
+  </data>
+  <data name="Static pages" xml:space="preserve">
+    <value>Static pages</value>
+  </data>
+  <data name="No pages yet" xml:space="preserve">
+    <value>No pages yet</value>
+  </data>
+  <data name="Create the first static page — About, Shipping, Returns, Privacy, Terms…" xml:space="preserve">
+    <value>Create the first static page — About, Shipping, Returns, Privacy, Terms…</value>
+  </data>
+  <data name="Create product" xml:space="preserve">
+    <value>Create product</value>
+  </data>
+  <data name="Edit product" xml:space="preserve">
+    <value>Edit product</value>
+  </data>
+  <data name="Inventory" xml:space="preserve">
+    <value>Inventory</value>
+  </data>
+  <data name="Slug (blank = from title)" xml:space="preserve">
+    <value>Slug (blank = from title)</value>
+  </data>
+  <data name="auto" xml:space="preserve">
+    <value>auto</value>
+  </data>
+  <data name="— none —" xml:space="preserve">
+    <value>— none —</value>
+  </data>
+  <data name="e.g. Jacket" xml:space="preserve">
+    <value>e.g. Jacket</value>
+  </data>
+  <data name="Tags (comma separated)" xml:space="preserve">
+    <value>Tags (comma separated)</value>
+  </data>
+  <data name="linen, summer, eid" xml:space="preserve">
+    <value>linen, summer, eid</value>
+  </data>
+  <data name="Publish at (UTC, optional)" xml:space="preserve">
+    <value>Publish at (UTC, optional)</value>
+  </data>
+  <data name="Featured on home" xml:space="preserve">
+    <value>Featured on home</value>
+  </data>
+  <data name="Description (EN, HTML)" xml:space="preserve">
+    <value>Description (EN, HTML)</value>
+  </data>
+  <data name="Description (AR, HTML)" xml:space="preserve">
+    <value>Description (AR, HTML)</value>
+  </data>
+  <data name="Material &amp; care (EN, HTML)" xml:space="preserve">
+    <value>Material &amp; care (EN, HTML)</value>
+  </data>
+  <data name="Material &amp; care (AR, HTML)" xml:space="preserve">
+    <value>Material &amp; care (AR, HTML)</value>
+  </data>
+  <data name="Size &amp; fit (EN, HTML)" xml:space="preserve">
+    <value>Size &amp; fit (EN, HTML)</value>
+  </data>
+  <data name="Size &amp; fit (AR, HTML)" xml:space="preserve">
+    <value>Size &amp; fit (AR, HTML)</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="Defining options regenerates the variant matrix" xml:space="preserve">
+    <value>Defining options regenerates the variant matrix</value>
+  </data>
+  <data name="Option 1 name" xml:space="preserve">
+    <value>Option 1 name</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="Option 1 values (comma separated)" xml:space="preserve">
+    <value>Option 1 values (comma separated)</value>
+  </data>
+  <data name="XS,S,M,L" xml:space="preserve">
+    <value>XS,S,M,L</value>
+  </data>
+  <data name="Option 2 name" xml:space="preserve">
+    <value>Option 2 name</value>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="Option 2 values" xml:space="preserve">
+    <value>Option 2 values</value>
+  </data>
+  <data name="Option 3 name" xml:space="preserve">
+    <value>Option 3 name</value>
+  </data>
+  <data name="Option 3 values" xml:space="preserve">
+    <value>Option 3 values</value>
+  </data>
+  <data name="Save options" xml:space="preserve">
+    <value>Save options</value>
+  </data>
+  <data name="Variants" xml:space="preserve">
+    <value>Variants</value>
+  </data>
+  <data name="variant(s)" xml:space="preserve">
+    <value>variant(s)</value>
+  </data>
+  <data name="Variant" xml:space="preserve">
+    <value>Variant</value>
+  </data>
+  <data name="SKU" xml:space="preserve">
+    <value>SKU</value>
+  </data>
+  <data name="Compare at" xml:space="preserve">
+    <value>Compare at</value>
+  </data>
+  <data name="Low at" xml:space="preserve">
+    <value>Low at</value>
+  </data>
+  <data name="Oversell" xml:space="preserve">
+    <value>Oversell</value>
+  </data>
+  <data name="Save variants" xml:space="preserve">
+    <value>Save variants</value>
+  </data>
+  <data name="Images" xml:space="preserve">
+    <value>Images</value>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="No images yet" xml:space="preserve">
+    <value>No images yet</value>
+  </data>
+  <data name="Upload product photography above." xml:space="preserve">
+    <value>Upload product photography above.</value>
+  </data>
+  <data name="Alt / colour" xml:space="preserve">
+    <value>Alt / colour</value>
+  </data>
+  <data name="Alt (EN)" xml:space="preserve">
+    <value>Alt (EN)</value>
+  </data>
+  <data name="Alt (AR)" xml:space="preserve">
+    <value>Alt (AR)</value>
+  </data>
+  <data name="Colour" xml:space="preserve">
+    <value>Colour</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Deleting is permanent. Past orders keep their snapshots, but the product disappears from the store. Setting status to" xml:space="preserve">
+    <value>Deleting is permanent. Past orders keep their snapshots, but the product disappears from the store. Setting status to</value>
+  </data>
+  <data name="Archived" xml:space="preserve">
+    <value>Archived</value>
+  </data>
+  <data name="is usually safer." xml:space="preserve">
+    <value>is usually safer.</value>
+  </data>
+  <data name="Type yes to confirm" xml:space="preserve">
+    <value>Type yes to confirm</value>
+  </data>
+  <data name="Delete product" xml:space="preserve">
+    <value>Delete product</value>
+  </data>
+  <data name="All statuses" xml:space="preserve">
+    <value>All statuses</value>
+  </data>
+  <data name="All categories" xml:space="preserve">
+    <value>All categories</value>
+  </data>
+  <data name="New product" xml:space="preserve">
+    <value>New product</value>
+  </data>
+  <data name="Catalogue" xml:space="preserve">
+    <value>Catalogue</value>
+  </data>
+  <data name="No products found" xml:space="preserve">
+    <value>No products found</value>
+  </data>
+  <data name="Adjust the filters, or create the first product." xml:space="preserve">
+    <value>Adjust the filters, or create the first product.</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Featured" xml:space="preserve">
+    <value>Featured</value>
+  </data>
+  <data name="Stock by variant" xml:space="preserve">
+    <value>Stock by variant</value>
+  </data>
+  <data name="Back to product" xml:space="preserve">
+    <value>Back to product</value>
+  </data>
+  <data name="On hand" xml:space="preserve">
+    <value>On hand</value>
+  </data>
+  <data name="Adjust" xml:space="preserve">
+    <value>Adjust</value>
+  </data>
+  <data name="Low" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="±qty" xml:space="preserve">
+    <value>±qty</value>
+  </data>
+  <data name="Note (optional)" xml:space="preserve">
+    <value>Note (optional)</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="Recent movements" xml:space="preserve">
+    <value>Recent movements</value>
+  </data>
+  <data name="No stock movements yet" xml:space="preserve">
+    <value>No stock movements yet</value>
+  </data>
+  <data name="When (UTC)" xml:space="preserve">
+    <value>When (UTC)</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="Recovery codes" xml:space="preserve">
+    <value>Recovery codes</value>
+  </data>
+  <data name="Save your recovery codes" xml:space="preserve">
+    <value>Save your recovery codes</value>
+  </data>
+  <data name="Shown once" xml:space="preserve">
+    <value>Shown once</value>
+  </data>
+  <data name="Store these codes somewhere safe. Each one signs you in" xml:space="preserve">
+    <value>Store these codes somewhere safe. Each one signs you in</value>
+  </data>
+  <data name="once" xml:space="preserve">
+    <value>once</value>
+  </data>
+  <data name="if you lose access to your authenticator app. They will not be shown again." xml:space="preserve">
+    <value>if you lose access to your authenticator app. They will not be shown again.</value>
+  </data>
+  <data name="I've saved them — done" xml:space="preserve">
+    <value>I've saved them — done</value>
+  </data>
+  <data name="1 — Add the key to your authenticator app" xml:space="preserve">
+    <value>1 — Add the key to your authenticator app</value>
+  </data>
+  <data name="Enter this shared key manually in your authenticator app:" xml:space="preserve">
+    <value>Enter this shared key manually in your authenticator app:</value>
+  </data>
+  <data name="Or copy this" xml:space="preserve">
+    <value>Or copy this</value>
+  </data>
+  <data name="URI into an app that accepts pasted/typed setup URIs (no QR code needed):" xml:space="preserve">
+    <value>URI into an app that accepts pasted/typed setup URIs (no QR code needed):</value>
+  </data>
+  <data name="2 — Confirm with a code" xml:space="preserve">
+    <value>2 — Confirm with a code</value>
+  </data>
+  <data name="6-digit code" xml:space="preserve">
+    <value>6-digit code</value>
+  </data>
+  <data name="Verify &amp; enable 2FA" xml:space="preserve">
+    <value>Verify &amp; enable 2FA</value>
+  </data>
+  <data name="Authenticator app (TOTP)" xml:space="preserve">
+    <value>Authenticator app (TOTP)</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
+  <data name="Protect your staff account with time-based one-time passwords. You'll add a shared key to an authenticator app (Google Authenticator, Microsoft Authenticator, 1Password, ...) and confirm with a 6-digit code." xml:space="preserve">
+    <value>Protect your staff account with time-based one-time passwords. You'll add a shared key to an authenticator app (Google Authenticator, Microsoft Authenticator, 1Password, ...) and confirm with a 6-digit code.</value>
+  </data>
+  <data name="Set up authenticator" xml:space="preserve">
+    <value>Set up authenticator</value>
+  </data>
+  <data name="Two-factor authentication is active. You have" xml:space="preserve">
+    <value>Two-factor authentication is active. You have</value>
+  </data>
+  <data name="recovery code" xml:space="preserve">
+    <value>recovery code</value>
+  </data>
+  <data name="left." xml:space="preserve">
+    <value>left.</value>
+  </data>
+  <data name="To rotate the shared key, run setup again — this invalidates the old key and recovery codes." xml:space="preserve">
+    <value>To rotate the shared key, run setup again — this invalidates the old key and recovery codes.</value>
+  </data>
+  <data name="Reset authenticator key" xml:space="preserve">
+    <value>Reset authenticator key</value>
+  </data>
+  <data name="Disable two-factor authentication" xml:space="preserve">
+    <value>Disable two-factor authentication</value>
+  </data>
+  <data name="Current authenticator code" xml:space="preserve">
+    <value>Current authenticator code</value>
+  </data>
+  <data name="Disable 2FA" xml:space="preserve">
+    <value>Disable 2FA</value>
+  </data>
+  <data name="Requested items" xml:space="preserve">
+    <value>Requested items</value>
+  </data>
+  <data name="Unit (KWD)" xml:space="preserve">
+    <value>Unit (KWD)</value>
+  </data>
+  <data name="Line (KWD)" xml:space="preserve">
+    <value>Line (KWD)</value>
+  </data>
+  <data name="Condition" xml:space="preserve">
+    <value>Condition</value>
+  </data>
+  <data name="Restocked" xml:space="preserve">
+    <value>Restocked</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Notes &amp; history" xml:space="preserve">
+    <value>Notes &amp; history</value>
+  </data>
+  <data name="Staff note" xml:space="preserve">
+    <value>Staff note</value>
+  </data>
+  <data name="Return timeline (UTC)" xml:space="preserve">
+    <value>Return timeline (UTC)</value>
+  </data>
+  <data name="No return events yet." xml:space="preserve">
+    <value>No return events yet.</value>
+  </data>
+  <data name="Request" xml:space="preserve">
+    <value>Request</value>
+  </data>
+  <data name="Requested" xml:space="preserve">
+    <value>Requested</value>
+  </data>
+  <data name="Resolved" xml:space="preserve">
+    <value>Resolved</value>
+  </data>
+  <data name="Order totals" xml:space="preserve">
+    <value>Order totals</value>
+  </data>
+  <data name="Staff note (optional)" xml:space="preserve">
+    <value>Staff note (optional)</value>
+  </data>
+  <data name="Approve return" xml:space="preserve">
+    <value>Approve return</value>
+  </data>
+  <data name="Staff note (required)" xml:space="preserve">
+    <value>Staff note (required)</value>
+  </data>
+  <data name="Reject return" xml:space="preserve">
+    <value>Reject return</value>
+  </data>
+  <data name="Restock returned items" xml:space="preserve">
+    <value>Restock returned items</value>
+  </data>
+  <data name="Mark received" xml:space="preserve">
+    <value>Mark received</value>
+  </data>
+  <data name="Refund amount (KWD)" xml:space="preserve">
+    <value>Refund amount (KWD)</value>
+  </data>
+  <data name="Record manual refund" xml:space="preserve">
+    <value>Record manual refund</value>
+  </data>
+  <data name="‹ Back to queue" xml:space="preserve">
+    <value>‹ Back to queue</value>
+  </data>
+  <data name="Returns queue" xml:space="preserve">
+    <value>Returns queue</value>
+  </data>
+  <data name="No return requests" xml:space="preserve">
+    <value>No return requests</value>
+  </data>
+  <data name="Nothing matches this filter." xml:space="preserve">
+    <value>Nothing matches this filter.</value>
+  </data>
+  <data name="Requested (UTC)" xml:space="preserve">
+    <value>Requested (UTC)</value>
+  </data>
+  <data name="Each panel saves independently. Money values are KWD with 3 decimals." xml:space="preserve">
+    <value>Each panel saves independently. Money values are KWD with 3 decimals.</value>
+  </data>
+  <data name="My two-factor authentication" xml:space="preserve">
+    <value>My two-factor authentication</value>
+  </data>
+  <data name="Store details" xml:space="preserve">
+    <value>Store details</value>
+  </data>
+  <data name="Store name (EN)" xml:space="preserve">
+    <value>Store name (EN)</value>
+  </data>
+  <data name="Store name (AR)" xml:space="preserve">
+    <value>Store name (AR)</value>
+  </data>
+  <data name="Contact email" xml:space="preserve">
+    <value>Contact email</value>
+  </data>
+  <data name="Contact phone" xml:space="preserve">
+    <value>Contact phone</value>
+  </data>
+  <data name="WhatsApp number" xml:space="preserve">
+    <value>WhatsApp number</value>
+  </data>
+  <data name="Save store details" xml:space="preserve">
+    <value>Save store details</value>
+  </data>
+  <data name="Social links" xml:space="preserve">
+    <value>Social links</value>
+  </data>
+  <data name="Instagram URL" xml:space="preserve">
+    <value>Instagram URL</value>
+  </data>
+  <data name="TikTok URL" xml:space="preserve">
+    <value>TikTok URL</value>
+  </data>
+  <data name="Pinterest URL" xml:space="preserve">
+    <value>Pinterest URL</value>
+  </data>
+  <data name="Save social links" xml:space="preserve">
+    <value>Save social links</value>
+  </data>
+  <data name="Shipping rates (KWD)" xml:space="preserve">
+    <value>Shipping rates (KWD)</value>
+  </data>
+  <data name="Free shipping threshold" xml:space="preserve">
+    <value>Free shipping threshold</value>
+  </data>
+  <data name="Standard rate" xml:space="preserve">
+    <value>Standard rate</value>
+  </data>
+  <data name="Express rate" xml:space="preserve">
+    <value>Express rate</value>
+  </data>
+  <data name="Same-day rate" xml:space="preserve">
+    <value>Same-day rate</value>
+  </data>
+  <data name="Save shipping rates" xml:space="preserve">
+    <value>Save shipping rates</value>
+  </data>
+  <data name="Cart" xml:space="preserve">
+    <value>Cart</value>
+  </data>
+  <data name="Gift wrap fee (KWD)" xml:space="preserve">
+    <value>Gift wrap fee (KWD)</value>
+  </data>
+  <data name="Save cart settings" xml:space="preserve">
+    <value>Save cart settings</value>
+  </data>
+  <data name="Announcement bar" xml:space="preserve">
+    <value>Announcement bar</value>
+  </data>
+  <data name="Messages — one per line" xml:space="preserve">
+    <value>Messages — one per line</value>
+  </data>
+  <data name="Save announcements" xml:space="preserve">
+    <value>Save announcements</value>
+  </data>
+  <data name="Maintenance" xml:space="preserve">
+    <value>Maintenance</value>
+  </data>
+  <data name="Maintenance mode — storefront shows a holding page" xml:space="preserve">
+    <value>Maintenance mode — storefront shows a holding page</value>
+  </data>
+  <data name="Save maintenance mode" xml:space="preserve">
+    <value>Save maintenance mode</value>
+  </data>
+  <data name="Something went wrong" xml:space="preserve">
+    <value>Something went wrong</value>
+  </data>
+  <data name="An unexpected error occurred. The team has been notified — try again, or head back to the dashboard." xml:space="preserve">
+    <value>An unexpected error occurred. The team has been notified — try again, or head back to the dashboard.</value>
+  </data>
+  <data name="Back to dashboard" xml:space="preserve">
+    <value>Back to dashboard</value>
+  </data>
+  <data name="Pagination" xml:space="preserve">
+    <value>Pagination</value>
+  </data>
+  <data name="Prev" xml:space="preserve">
+    <value>Prev</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="2FA on" xml:space="preserve">
+    <value>2FA on</value>
+  </data>
+  <data name="2FA off" xml:space="preserve">
+    <value>2FA off</value>
+  </data>
+  <data name="Last login (UTC):" xml:space="preserve">
+    <value>Last login (UTC):</value>
+  </data>
+  <data name="Back to staff" xml:space="preserve">
+    <value>Back to staff</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="Staff roles" xml:space="preserve">
+    <value>Staff roles</value>
+  </data>
+  <data name="Save roles" xml:space="preserve">
+    <value>Save roles</value>
+  </data>
+  <data name="Account access" xml:space="preserve">
+    <value>Account access</value>
+  </data>
+  <data name="You cannot lock your own account." xml:space="preserve">
+    <value>You cannot lock your own account.</value>
+  </data>
+  <data name="Reset password" xml:space="preserve">
+    <value>Reset password</value>
+  </data>
+  <data name="New password" xml:space="preserve">
+    <value>New password</value>
+  </data>
+  <data name="staff member" xml:space="preserve">
+    <value>staff member</value>
+  </data>
+  <data name="staff members" xml:space="preserve">
+    <value>staff members</value>
+  </data>
+  <data name="Times are UTC." xml:space="preserve">
+    <value>Times are UTC.</value>
+  </data>
+  <data name="Add staff member" xml:space="preserve">
+    <value>Add staff member</value>
+  </data>
+  <data name="Staff" xml:space="preserve">
+    <value>Staff</value>
+  </data>
+  <data name="No staff yet" xml:space="preserve">
+    <value>No staff yet</value>
+  </data>
+  <data name="Add the first staff member to get started." xml:space="preserve">
+    <value>Add the first staff member to get started.</value>
+  </data>
+  <data name="2FA" xml:space="preserve">
+    <value>2FA</value>
+  </data>
+  <data name="Last login (UTC)" xml:space="preserve">
+    <value>Last login (UTC)</value>
+  </data>
+  <data name="New staff account" xml:space="preserve">
+    <value>New staff account</value>
+  </data>
+  <data name="Temporary password" xml:space="preserve">
+    <value>Temporary password</value>
+  </data>
+  <data name="Create staff member" xml:space="preserve">
+    <value>Create staff member</value>
+  </data>
+  <data name="Abandoned payments" xml:space="preserve">
+    <value>Abandoned payments</value>
+  </data>
+  <data name="Active products" xml:space="preserve">
+    <value>Active products</value>
+  </data>
+  <data name="Awaiting fulfilment" xml:space="preserve">
+    <value>Awaiting fulfilment</value>
+  </data>
+  <data name="by revenue" xml:space="preserve">
+    <value>by revenue</value>
+  </data>
+  <data name="by spend" xml:space="preserve">
+    <value>by spend</value>
+  </data>
+  <data name="Date range" xml:space="preserve">
+    <value>Date range</value>
+  </data>
+  <data name="Discount spend" xml:space="preserve">
+    <value>Discount spend</value>
+  </data>
+  <data name="Key metrics" xml:space="preserve">
+    <value>Key metrics</value>
+  </data>
+  <data name="Low stock" xml:space="preserve">
+    <value>Low stock</value>
+  </data>
+  <data name="Low-stock variants" xml:space="preserve">
+    <value>Low-stock variants</value>
+  </data>
+  <data name="Needs attention" xml:space="preserve">
+    <value>Needs attention</value>
+  </data>
+  <data name="No data in this period." xml:space="preserve">
+    <value>No data in this period.</value>
+  </data>
+  <data name="No rows." xml:space="preserve">
+    <value>No rows.</value>
+  </data>
+  <data name="Orders by status" xml:space="preserve">
+    <value>Orders by status</value>
+  </data>
+  <data name="Payment methods" xml:space="preserve">
+    <value>Payment methods</value>
+  </data>
+  <data name="Return rate" xml:space="preserve">
+    <value>Return rate</value>
+  </data>
+  <data name="Returns to review" xml:space="preserve">
+    <value>Returns to review</value>
+  </data>
+  <data name="Revenue" xml:space="preserve">
+    <value>Revenue</value>
+  </data>
+  <data name="Revenue &amp; orders" xml:space="preserve">
+    <value>Revenue &amp; orders</value>
+  </data>
+  <data name="rows" xml:space="preserve">
+    <value>rows</value>
+  </data>
+  <data name="Sales by channel" xml:space="preserve">
+    <value>Sales by channel</value>
+  </data>
+  <data name="Showing" xml:space="preserve">
+    <value>Showing</value>
+  </data>
+  <data name="Spent" xml:space="preserve">
+    <value>Spent</value>
+  </data>
+  <data name="Threshold" xml:space="preserve">
+    <value>Threshold</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="Top customers" xml:space="preserve">
+    <value>Top customers</value>
+  </data>
+  <data name="Top products" xml:space="preserve">
+    <value>Top products</value>
+  </data>
+  <data name="Units" xml:space="preserve">
+    <value>Units</value>
+  </data>
+  <data name="vs prev" xml:space="preserve">
+    <value>vs prev</value>
+  </data>
+  <data name="Subscribers" xml:space="preserve">
+    <value>Subscribers</value>
+  </data>
+</root>

@@ -1,0 +1,97 @@
+/* ============================================================================
+   WHITE STITCHES ADMIN — Dashboard (Phase 1E‑1)
+============================================================================ */
+
+.dash-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.dash-range { display: inline-flex; gap: 4px; background: var(--adm-panel, #1b1b1b); padding: 4px; border-radius: 10px; }
+.dash-range a {
+  padding: 6px 12px;
+  border-radius: 7px;
+  font-size: 13px;
+  color: #b9b2a4;
+  text-decoration: none;
+  transition: background .12s ease, color .12s ease;
+}
+.dash-range a:hover { color: #e8e2d6; }
+.dash-range a.is-active { background: #c87a3a; color: #1a1208; font-weight: 600; }
+
+/* ── KPI tiles ─────────────────────────────────────────────────────────── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.kpi {
+  background: var(--adm-panel, #1b1b1b);
+  border: 1px solid var(--adm-border, #2a2a2a);
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+.kpi__label { font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: #8c8472; }
+.kpi__value { font-size: 26px; font-weight: 600; margin: 6px 0 4px; color: #f2ede2; }
+.kpi__value small { font-size: 14px; color: #8c8472; font-weight: 400; }
+.kpi__delta { font-size: 12.5px; display: inline-flex; align-items: center; gap: 4px; }
+.kpi__delta--up { color: #5fbf8f; }
+.kpi__delta--down { color: #d98a6a; }
+.kpi__delta--flat { color: #8c8472; }
+
+/* ── Generic panel ─────────────────────────────────────────────────────── */
+.dash-panel {
+  background: var(--adm-panel, #1b1b1b);
+  border: 1px solid var(--adm-border, #2a2a2a);
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 18px;
+}
+.dash-panel__head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; }
+.dash-panel__title { font-size: 14px; font-weight: 600; color: #e8e2d6; }
+.dash-panel__sub { font-size: 12px; color: #8c8472; }
+
+.dash-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.dash-cols--3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 900px) { .dash-cols, .dash-cols--3 { grid-template-columns: 1fr; } }
+
+/* ── Chart ─────────────────────────────────────────────────────────────── */
+.ws-chart { width: 100%; min-height: 260px; }
+.ws-chart__empty { color: #8c8472; font-size: 13px; padding: 40px 0; text-align: center; }
+.ws-chart__grid { stroke: #2a2a2a; stroke-width: 1; }
+.ws-chart__axis { fill: #8c8472; font-size: 10px; }
+.ws-chart__bar { fill: rgba(200, 122, 58, .18); }
+.ws-chart__area { fill: rgba(200, 122, 58, .12); }
+.ws-chart__line { fill: none; stroke: #c87a3a; stroke-width: 2; stroke-linejoin: round; }
+.ws-chart__dot { fill: #c87a3a; stroke: #1b1b1b; stroke-width: 1.5; }
+
+/* ── Mini bar list (breakdowns) ────────────────────────────────────────── */
+.barlist { display: flex; flex-direction: column; gap: 9px; }
+.barlist__row { display: grid; grid-template-columns: 1fr; gap: 4px; }
+.barlist__top { display: flex; justify-content: space-between; font-size: 13px; color: #d8d2c4; }
+.barlist__track { height: 6px; background: #242424; border-radius: 4px; overflow: hidden; }
+.barlist__fill { height: 100%; background: #c87a3a; border-radius: 4px; }
+
+/* ── Tables ────────────────────────────────────────────────────────────── */
+.dash-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.dash-table th { text-align: left; color: #8c8472; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #2a2a2a; }
+.dash-table td { padding: 8px; border-bottom: 1px solid #222; color: #d8d2c4; }
+.dash-table td.num, .dash-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.dash-table tr:last-child td { border-bottom: none; }
+
+.dash-empty { color: #8c8472; font-size: 13px; padding: 18px 0; text-align: center; }
+
+/* ── Operational mini-tiles ────────────────────────────────────────────── */
+.ops-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.ops {
+  display: flex; align-items: center; justify-content: space-between;
+  background: #181818; border: 1px solid #2a2a2a; border-radius: 10px; padding: 12px 14px;
+}
+.ops__n { font-size: 22px; font-weight: 600; color: #f2ede2; }
+.ops__l { font-size: 12px; color: #8c8472; max-width: 60%; text-align: right; }
+.ops.is-alert .ops__n { color: #d98a6a; }
+.pill { font-size: 11px; padding: 1px 7px; border-radius: 20px; background: #242424; color: #b9b2a4; }

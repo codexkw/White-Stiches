@@ -23,33 +23,33 @@
   <div class="acct-head__inner">
     <a href="/account/orders" class="acct-back">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg>
-      <span>Back to orders</span>
+      <span>@L["Back to orders"]</span>
     </a>
-    <span class="eyebrow">Order detail</span>
+    <span class="eyebrow">@L["Order detail"]</span>
     <h1 class="acct-head__title">#@order.OrderNumber</h1>
-    <p class="acct-head__sub">Placed @AccountFormat.Date(order.PlacedAtUtc ?? order.CreatedAtUtc) · @pieceCount @(pieceCount == 1 ? "piece" : "pieces") · @AccountFormat.Money(order.Total)</p>
+    <p class="acct-head__sub">Placed @AccountFormat.Date(order.PlacedAtUtc ?? order.CreatedAtUtc) · @pieceCount @(pieceCount == 1 ? L["piece"].Value : L["pieces"].Value) · @AccountFormat.Money(order.Total)</p>
   </div>
 </section>
 
 <section class="acct">
   <div class="acct__inner">
-    <aside class="acct-nav" aria-label="Account navigation">
+    <aside class="acct-nav" aria-label="@L["Account navigation"]">
   <div class="acct-nav__head">
-    <span class="eyebrow">Account</span>
+    <span class="eyebrow">@L["Account"]</span>
     <strong class="acct-nav__name">@Model.FullName</strong>
     <span class="acct-nav__email">@Model.Email</span>
   </div>
   <nav class="acct-nav__list">
-    <a href="/account" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg><span>Overview</span></a>
-    <a href="/account/orders" class="acct-nav__link is-active" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h18l-2 13H5z"/><path d="M8 7V5a4 4 0 018 0v2"/></svg><span>Orders</span></a>
-    <a href="/account/addresses" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg><span>Addresses</span></a>
-    <a href="/account/wishlist" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>Wishlist</span></a>
-    <a href="/account/profile" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg><span>Profile</span></a>
-    <a href="/account/returns" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 11-9-9"/><path d="M21 4v5h-5"/></svg><span>Returns</span></a>
+    <a href="/account" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg><span>@L["Overview"]</span></a>
+    <a href="/account/orders" class="acct-nav__link is-active" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h18l-2 13H5z"/><path d="M8 7V5a4 4 0 018 0v2"/></svg><span>@L["Orders"]</span></a>
+    <a href="/account/addresses" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg><span>@L["Addresses"]</span></a>
+    <a href="/account/wishlist" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>@L["Wishlist"]</span></a>
+    <a href="/account/profile" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg><span>@L["Profile"]</span></a>
+    <a href="/account/returns" class="acct-nav__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 11-9-9"/><path d="M21 4v5h-5"/></svg><span>@L["Returns"]</span></a>
   </nav>
   <form method="post" action="/account/logout" style="margin: 0;">
     @Html.AntiForgeryToken()
-    <button type="submit" class="acct-nav__signout" style="background: none; border: 0; border-top: 1px solid var(--c-line); width: 100%; cursor: pointer; font-family: inherit; text-align: left;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span>Sign out</span></button>
+    <button type="submit" class="acct-nav__signout" style="background: none; border: 0; border-top: 1px solid var(--c-line); width: 100%; cursor: pointer; font-family: inherit; text-align: left;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span>@L["Sign out"]</span></button>
   </form>
 </aside>
 
@@ -70,11 +70,11 @@
         <section class="oc-card oc-card--eta">
           <div class="oc-card__head">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
-            <h2>Order <strong>cancelled</strong></h2>
-            <span class="status-badge status-badge--cancelled">Cancelled</span>
+            <h2>@L["Order"] <strong>@L["cancelled"]</strong></h2>
+            <span class="status-badge status-badge--cancelled">@L["Cancelled"]</span>
           </div>
           <div class="oc-card__body">
-            <p>This order was cancelled@(string.IsNullOrEmpty(order.CancelReason) ? "" : $" — {order.CancelReason}"). Any captured payment is returned to the original payment method within 3–5 working days.</p>
+            <p>@L["This order was cancelled"]@(string.IsNullOrEmpty(order.CancelReason) ? "" : $" — {order.CancelReason}"). @L["Any captured payment is returned to the original payment method within 3–5 working days."]</p>
           </div>
         </section>
       }
@@ -83,11 +83,11 @@
         <section class="oc-card oc-card--eta">
           <div class="oc-card__head">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 11-9-9"/><path d="M21 4v5h-5"/></svg>
-            <h2>Order <strong>refunded</strong></h2>
-            <span class="status-badge status-badge--delivered">Refunded</span>
+            <h2>@L["Order"] <strong>@L["refunded"]</strong></h2>
+            <span class="status-badge status-badge--delivered">@L["Refunded"]</span>
           </div>
           <div class="oc-card__body">
-            <p>@(order.Refunds.Count > 0 ? $"{AccountFormat.Money(order.Refunds.Sum(r => r.Amount))} was refunded to your original payment method." : "This order was refunded to your original payment method.") Refunds land in 3–5 working days.</p>
+            <p>@(order.Refunds.Count > 0 ? $"{AccountFormat.Money(order.Refunds.Sum(r => r.Amount))} {L["was refunded to your original payment method."].Value}" : L["This order was refunded to your original payment method."].Value) @L["Refunds land in 3–5 working days."]</p>
           </div>
         </section>
       }
@@ -99,43 +99,43 @@
             @switch (order.Status)
             {
               case OrderStatus.Placed:
-                <h2>Order <strong>placed</strong></h2>
+                <h2>@L["Order"] <strong>@L["placed"]</strong></h2>
                 break;
               case OrderStatus.Paid:
-                <h2>Payment <strong>confirmed</strong></h2>
+                <h2>@L["Payment"] <strong>@L["confirmed"]</strong></h2>
                 break;
               case OrderStatus.Fulfilled:
-                <h2>Prepared at the <strong>atelier</strong></h2>
+                <h2>@L["Prepared at the"] <strong>@L["atelier"]</strong></h2>
                 break;
               case OrderStatus.Shipped:
-                <h2>Your order is <strong>in transit</strong></h2>
+                <h2>@L["Your order is"] <strong>@L["in transit"]</strong></h2>
                 break;
               default:
-                <h2>Delivered@(shipment?.DeliveredAtUtc is not null ? Html.Raw($" <strong>{AccountFormat.Date(shipment.DeliveredAtUtc)}</strong>") : null)</h2>
+                <h2>@L["Delivered"]@(shipment?.DeliveredAtUtc is not null ? Html.Raw($" <strong>{AccountFormat.Date(shipment.DeliveredAtUtc)}</strong>") : null)</h2>
                 break;
             }
             @if (!string.IsNullOrEmpty(shipment?.AwbNumber))
             {
-              <span class="oc-card__chip">AWB @shipment.AwbNumber</span>
+              <span class="oc-card__chip">@L["AWB"] @shipment.AwbNumber</span>
             }
           </div>
           <div class="oc-card__body">
             @switch (order.Status)
             {
               case OrderStatus.Placed:
-                <p>We&rsquo;ve received your order and emailed a confirmation to @order.Email. We&rsquo;ll let you know the moment it&rsquo;s on the move.</p>
+                <p>@L["We've received your order and emailed a confirmation to"] @order.Email. @L["We'll let you know the moment it's on the move."]</p>
                 break;
               case OrderStatus.Paid:
-                <p>Your payment is confirmed — the atelier is preparing your pieces now.</p>
+                <p>@L["Your payment is confirmed — the atelier is preparing your pieces now."]</p>
                 break;
               case OrderStatus.Fulfilled:
-                <p>Your pieces are packed at our Kuwait atelier and ready for the courier.</p>
+                <p>@L["Your pieces are packed at our Kuwait atelier and ready for the courier."]</p>
                 break;
               case OrderStatus.Shipped:
-                <p>Your order left our Kuwait atelier. The courier will WhatsApp before delivery.</p>
+                <p>@L["Your order left our Kuwait atelier. The courier will WhatsApp before delivery."]</p>
                 break;
               default:
-                <p>Your order was delivered. We hope you love it — returns stay open for 14 days.</p>
+                <p>@L["Your order was delivered. We hope you love it — returns stay open for 14 days."]</p>
                 break;
             }
             <div class="oc-tracker">
@@ -156,27 +156,27 @@
         <section class="oc-card oc-card--items">
           <div class="oc-card__head">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h18l-2 13H5z"/><path d="M8 7V5a4 4 0 018 0v2"/></svg>
-            <h2>@pieceCount @(pieceCount == 1 ? "piece" : "pieces")</h2>
+            <h2>@pieceCount @(pieceCount == 1 ? L["piece"].Value : L["pieces"].Value)</h2>
           </div>
           <div class="oc-card__body">
             <ul class="oc-items">
               @foreach (var item in order.Items)
               {
                 <li>
-                  <span class="oc-item__media"><img src="@item.ImageUrl" alt="@item.TitleEn" /></span>
+                  <span class="oc-item__media"><img src="@item.ImageUrl" alt="@item.Title()" /></span>
                   <div class="oc-item__body">
-                    <h3 class="oc-item__title">@item.TitleEn</h3>
+                    <h3 class="oc-item__title">@item.Title()</h3>
                     <ul class="oc-item__meta">
                       @if (!string.IsNullOrEmpty(item.VariantDescription))
                       {
-                        <li><span>Variant</span> @item.VariantDescription</li>
+                        <li><span>@L["Variant"]</span> @item.VariantDescription</li>
                       }
-                      <li><span>Qty</span> @item.Quantity</li>
+                      <li><span>@L["Qty"]</span> @item.Quantity</li>
                     </ul>
                     @if (order.Status == OrderStatus.Delivered)
                     {
                       <div class="acct-od-item__links">
-                        <a href="/account/returns/new?order=@order.OrderNumber" class="link-arrow link-arrow--inline">Return this</a>
+                        <a href="/account/returns/new?order=@order.OrderNumber" class="link-arrow link-arrow--inline">@L["Return this"]</a>
                       </div>
                     }
                   </div>
@@ -192,7 +192,7 @@
           <section class="oc-card">
             <div class="oc-card__head">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-              <h2>Delivery address</h2>
+              <h2>@L["Delivery address"]</h2>
             </div>
             <div class="oc-card__body">
               <address class="oc-address">
@@ -209,7 +209,7 @@
           <section class="oc-card">
             <div class="oc-card__head">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="6" width="18" height="13" rx="1"/><path d="M3 10h18"/></svg>
-              <h2>Payment</h2>
+              <h2>@L["Payment"]</h2>
             </div>
             <div class="oc-card__body">
               @if (payment is not null)
@@ -221,20 +221,20 @@
               }
               else
               {
-                <p class="acct-section__meta">No payment recorded yet.</p>
+                <p class="acct-section__meta">@L["No payment recorded yet."]</p>
               }
               <ul class="cart-totals" style="margin-top: var(--s-3); padding-top: var(--s-3); border-top: 1px solid var(--c-line);">
-                <li><span>Subtotal</span><span class="cart-totals__val">@AccountFormat.Money(order.Subtotal)</span></li>
+                <li><span>@L["Subtotal"]</span><span class="cart-totals__val">@AccountFormat.Money(order.Subtotal)</span></li>
                 @if (order.DiscountAmount > 0)
                 {
                   <li><span>Discount@(string.IsNullOrEmpty(order.DiscountCodeSnapshot) ? "" : $" · {order.DiscountCodeSnapshot}")</span><span class="cart-totals__val cart-totals__val--accent">−@AccountFormat.Money(order.DiscountAmount)</span></li>
                 }
                 @if (order.GiftWrap && order.GiftWrapFee > 0)
                 {
-                  <li><span>Gift wrap</span><span class="cart-totals__val">@AccountFormat.Money(order.GiftWrapFee)</span></li>
+                  <li><span>@L["Gift wrap"]</span><span class="cart-totals__val">@AccountFormat.Money(order.GiftWrapFee)</span></li>
                 }
-                <li><span>Delivery</span>@(order.ShippingAmount == 0 ? Html.Raw("<span class=\"cart-totals__val cart-totals__val--accent\">Free</span>") : Html.Raw($"<span class=\"cart-totals__val\">{AccountFormat.Money(order.ShippingAmount)}</span>"))</li>
-                <li><span>VAT</span><span class="cart-totals__val">@(order.TaxAmount == 0 ? "Included" : AccountFormat.Money(order.TaxAmount))</span></li>
+                <li><span>@L["Delivery"]</span>@(order.ShippingAmount == 0 ? Html.Raw($"<span class=\"cart-totals__val cart-totals__val--accent\">{L["Free"].Value}</span>") : Html.Raw($"<span class=\"cart-totals__val\">{AccountFormat.Money(order.ShippingAmount)}</span>"))</li>
+                <li><span>@L["VAT"]</span><span class="cart-totals__val">@(order.TaxAmount == 0 ? L["Included"].Value : AccountFormat.Money(order.TaxAmount))</span></li>
               </ul>
               <div class="cart-totals__grand"><span>Total @(order.PaymentStatus == PaymentStatus.Paid ? "paid" : "")</span><span>@order.Total.ToString("0.000", System.Globalization.CultureInfo.InvariantCulture) <span class="cart-totals__currency">KWD</span></span></div>
               @if (order.Refunds.Count > 0)
@@ -255,12 +255,12 @@
       <div class="acct-od-actions">
         @if (!string.IsNullOrEmpty(trackingUrl))
         {
-          <a href="@trackingUrl" target="_blank" rel="noopener" class="btn btn--ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12h18M15 6l6 6-6 6"/></svg> Track shipment</a>
+          <a href="@trackingUrl" target="_blank" rel="noopener" class="btn btn--ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12h18M15 6l6 6-6 6"/></svg> @L["Track shipment"]</a>
         }
-        <a href="#" class="btn btn--ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 11.5a8.4 8.4 0 0 1-8.4 8.4 8.4 8.4 0 0 1-4-1L3 20l1.1-5.6a8.4 8.4 0 0 1-1-4A8.4 8.4 0 0 1 11.5 2 8.4 8.4 0 0 1 21 11.5z"/></svg> WhatsApp support</a>
+        <a href="#" class="btn btn--ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 11.5a8.4 8.4 0 0 1-8.4 8.4 8.4 8.4 0 0 1-4-1L3 20l1.1-5.6a8.4 8.4 0 0 1-1-4A8.4 8.4 0 0 1 11.5 2 8.4 8.4 0 0 1 21 11.5z"/></svg> @L["WhatsApp support"]</a>
         @if (order.Status == OrderStatus.Delivered)
         {
-          <a href="/account/returns/new?order=@order.OrderNumber" class="btn btn--ghost">Request a return</a>
+          <a href="/account/returns/new?order=@order.OrderNumber" class="btn btn--ghost">@L["Request a return"]</a>
         }
       </div>
 

@@ -10,7 +10,7 @@ namespace WhiteStiches.Admin.Controllers;
 
 /// <summary>Static page editor (AD-CNT-01). Routes under /pages.</summary>
 [Authorize(Roles = $"{AppRoles.SuperAdmin},{AppRoles.Admin},{AppRoles.MarketingManager},{AppRoles.ContentEditor}")]
-public class PagesAdminController(IContentService content, IAuditService audit) : Controller
+public class PagesAdminController(IContentService content, IAuditService audit, IRichTextSanitizer sanitizer) : Controller
 {
     [HttpGet("pages")]
     public async Task<IActionResult> Index(CancellationToken ct)
@@ -98,8 +98,8 @@ public class PagesAdminController(IContentService content, IAuditService audit) 
         page.Slug = slug;
         page.TitleEn = model.TitleEn.Trim();
         page.TitleAr = model.TitleAr?.Trim() ?? string.Empty;
-        page.BodyEn = model.BodyEn;
-        page.BodyAr = model.BodyAr;
+        page.BodyEn = sanitizer.Sanitize(model.BodyEn);
+        page.BodyAr = sanitizer.Sanitize(model.BodyAr);
         page.SeoTitleEn = model.SeoTitleEn;
         page.SeoTitleAr = model.SeoTitleAr;
         page.SeoDescriptionEn = model.SeoDescriptionEn;

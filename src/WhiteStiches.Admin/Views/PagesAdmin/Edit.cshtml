@@ -1,7 +1,7 @@
 @model WhiteStiches.Admin.Models.PageEditViewModel
 @{
     var isNew = Model.Id == 0;
-    ViewData["Title"] = isNew ? "New page" : $"Edit page — {Model.TitleEn}";
+    ViewData["Title"] = isNew ? L["New page"].Value : $"{L["Edit page"].Value} — {Model.TitleEn}";
     ViewData["Nav"] = "pages";
 }
 
@@ -11,68 +11,68 @@
 
 <section class="adm-panel">
     <header class="adm-panel__head">
-        <h2 class="adm-panel__title">@(isNew ? "New page" : "Edit page")</h2>
-        <a href="/pages" class="adm-btn">Back to pages</a>
+        <h2 class="adm-panel__title">@(isNew ? L["New page"] : L["Edit page"])</h2>
+        <a href="/pages" class="adm-btn">@L["Back to pages"]</a>
     </header>
     <div class="adm-panel__body">
         @if (!ViewData.ModelState.IsValid)
         {
-            <div class="adm-toast adm-toast--err" role="alert">Please fix the highlighted fields below.</div>
+            <div class="adm-toast adm-toast--err" role="alert">@L["Please fix the highlighted fields below."]</div>
         }
 
         <form asp-controller="PagesAdmin" asp-action="Save" method="post" class="adm-form-grid">
             <input type="hidden" asp-for="Id" />
 
             <div class="adm-field">
-                <label asp-for="TitleEn">Title (EN)</label>
+                <label asp-for="TitleEn">@L["Title (EN)"]</label>
                 <input asp-for="TitleEn" />
                 <span asp-validation-for="TitleEn"></span>
             </div>
             <div class="adm-field">
-                <label asp-for="TitleAr">Title (AR)</label>
+                <label asp-for="TitleAr">@L["Title (AR)"]</label>
                 <input asp-for="TitleAr" dir="rtl" />
             </div>
 
             <div class="adm-field">
-                <label asp-for="Slug">Slug</label>
-                <input asp-for="Slug" placeholder="auto-generated from EN title" />
-                <span class="cnt-hint">Leave blank to generate from the English title. Collisions get -2, -3…</span>
+                <label asp-for="Slug">@L["Slug"]</label>
+                <input asp-for="Slug" placeholder="@L["auto-generated from EN title"]" />
+                <span class="cnt-hint">@L["Leave blank to generate from the English title. Collisions get -2, -3…"]</span>
             </div>
             <div class="adm-field adm-field--check">
                 <input asp-for="IsPublished" />
-                <label asp-for="IsPublished">Published (visible on the storefront)</label>
+                <label asp-for="IsPublished">@L["Published (visible on the storefront)"]</label>
             </div>
 
             <div class="adm-field is-full">
-                <label asp-for="BodyEn">Body EN (HTML)</label>
-                <textarea asp-for="BodyEn" rows="12" spellcheck="false"></textarea>
-                <span class="cnt-hint">Raw HTML — rendered as-is on the storefront.</span>
+                <label asp-for="BodyEn">@L["Body EN (HTML)"]</label>
+                <textarea asp-for="BodyEn" rows="12" spellcheck="false" data-editor="rich" data-dir="ltr"></textarea>
+                <span class="cnt-hint">@L["Formatted with the editor; sanitized on save before it renders on the storefront."]</span>
             </div>
             <div class="adm-field is-full">
-                <label asp-for="BodyAr">Body AR (HTML)</label>
-                <textarea asp-for="BodyAr" rows="12" dir="rtl" spellcheck="false"></textarea>
+                <label asp-for="BodyAr">@L["Body AR (HTML)"]</label>
+                <textarea asp-for="BodyAr" rows="12" dir="rtl" spellcheck="false" data-editor="rich" data-dir="rtl"></textarea>
             </div>
 
             <div class="adm-field">
-                <label asp-for="SeoTitleEn">SEO title (EN)</label>
+                <label asp-for="SeoTitleEn">@L["SEO title (EN)"]</label>
                 <input asp-for="SeoTitleEn" />
             </div>
             <div class="adm-field">
-                <label asp-for="SeoTitleAr">SEO title (AR)</label>
+                <label asp-for="SeoTitleAr">@L["SEO title (AR)"]</label>
                 <input asp-for="SeoTitleAr" dir="rtl" />
             </div>
             <div class="adm-field">
-                <label asp-for="SeoDescriptionEn">SEO description (EN)</label>
+                <label asp-for="SeoDescriptionEn">@L["SEO description (EN)"]</label>
                 <textarea asp-for="SeoDescriptionEn" rows="3"></textarea>
             </div>
             <div class="adm-field">
-                <label asp-for="SeoDescriptionAr">SEO description (AR)</label>
+                <label asp-for="SeoDescriptionAr">@L["SEO description (AR)"]</label>
                 <textarea asp-for="SeoDescriptionAr" rows="3" dir="rtl"></textarea>
             </div>
 
             <div class="adm-actions is-full">
-                <button type="submit" class="adm-btn adm-btn--solid">@(isNew ? "Create page" : "Save changes")</button>
-                <a href="/pages" class="adm-btn">Cancel</a>
+                <button type="submit" class="adm-btn adm-btn--solid">@(isNew ? L["Create page"] : L["Save changes"])</button>
+                <a href="/pages" class="adm-btn">@L["Cancel"]</a>
             </div>
         </form>
     </div>
@@ -82,15 +82,15 @@
 {
     <section class="adm-panel cnt-danger">
         <header class="adm-panel__head">
-            <h2 class="adm-panel__title">Delete page</h2>
+            <h2 class="adm-panel__title">@L["Delete page"]</h2>
         </header>
         <div class="adm-panel__body">
             <form asp-controller="PagesAdmin" asp-action="Delete" asp-route-id="@Model.Id" method="post" class="adm-actions">
                 <label class="adm-field--check">
                     <input type="checkbox" name="confirm" value="yes" />
-                    Yes, permanently delete “@Model.TitleEn”
+                    @L["Yes, permanently delete"] "@Model.TitleEn"
                 </label>
-                <button type="submit" class="adm-btn">Delete page</button>
+                <button type="submit" class="adm-btn">@L["Delete page"]</button>
             </form>
         </div>
     </section>

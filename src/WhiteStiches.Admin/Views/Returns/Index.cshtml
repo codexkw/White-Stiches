@@ -29,20 +29,20 @@
 
 <section class="adm-panel">
     <header class="adm-panel__head">
-        <h2 class="adm-panel__title">Returns queue</h2>
+        <h2 class="adm-panel__title">@L["Returns queue"]</h2>
         <form method="get" action="/returns" class="adm-toolbar__filters">
             <div class="adm-field">
-                <label for="status">Status</label>
+                <label for="status">@L["Status"]</label>
                 <select id="status" name="status">
                     @{ var current = Model.StatusFilter; }
-                    <option value="" selected="@(current == string.Empty)">All</option>
+                    <option value="" selected="@(current == string.Empty)">@L["All"]</option>
                     @foreach (var s in Enum.GetValues<ReturnStatus>())
                     {
                         <option value="@s" selected="@(current == s.ToString())">@s</option>
                     }
                 </select>
             </div>
-            <button type="submit" class="adm-btn">Filter</button>
+            <button type="submit" class="adm-btn">@L["Filter"]</button>
         </form>
     </header>
 
@@ -50,8 +50,8 @@
     {
         <div class="adm-panel__body">
             <div class="adm-empty">
-                <strong>No return requests</strong>
-                Nothing matches this filter.
+                <strong>@L["No return requests"]</strong>
+                @L["Nothing matches this filter."]
             </div>
         </div>
     }
@@ -60,13 +60,13 @@
         <table class="adm-table">
             <thead>
             <tr>
-                <th>RMA</th>
-                <th>Order</th>
-                <th>Customer</th>
-                <th>Items</th>
-                <th>Reason</th>
-                <th>Requested (UTC)</th>
-                <th>Status</th>
+                <th>@L["RMA"]</th>
+                <th>@L["Order"]</th>
+                <th>@L["Customer"]</th>
+                <th>@L["Items"]</th>
+                <th>@L["Reason"]</th>
+                <th>@L["Requested (UTC)"]</th>
+                <th>@L["Status"]</th>
             </tr>
             </thead>
             <tbody>

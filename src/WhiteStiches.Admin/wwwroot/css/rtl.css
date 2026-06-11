@@ -1,0 +1,41 @@
+/* ============================================================================
+   WHITE STITCHES ADMIN — RTL overrides (Phase 1E‑3)
+   Scoped to [dir="rtl"]; inert in the LTR layout. Baseline pass that mirrors the
+   shell (sidebar to the right, right-aligned tables/forms) and switches to the
+   Arabic typeface. Fine-grained component mirroring is layered on in QA.
+============================================================================ */
+
+[dir="rtl"] body,
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select,
+[dir="rtl"] button {
+  font-family: "Tajawal", "Inter Tight", system-ui, sans-serif;
+}
+
+/* Flip the shell so the sidebar sits on the right and content flows RTL. */
+[dir="rtl"] .adm { direction: rtl; }
+[dir="rtl"] .adm-nav a,
+[dir="rtl"] .adm-side__label { text-align: right; }
+
+/* Top bar: title on the right, user/actions on the left. */
+[dir="rtl"] .adm-top { flex-direction: row-reverse; }
+[dir="rtl"] .adm-top__user { flex-direction: row-reverse; }
+
+/* Tables, cards and forms read right-to-left. */
+[dir="rtl"] .adm-table th,
+[dir="rtl"] .adm-table td,
+[dir="rtl"] .adm-card,
+[dir="rtl"] .adm-field label,
+[dir="rtl"] .adm-content { text-align: right; }
+
+[dir="rtl"] .adm-field input,
+[dir="rtl"] .adm-field textarea { direction: rtl; }
+
+/* Keep numeric / code-like values LTR even inside RTL context. */
+[dir="rtl"] .adm-num,
+[dir="rtl"] [data-ltr] {
+  direction: ltr;
+  unicode-bidi: embed;
+  display: inline-block;
+}

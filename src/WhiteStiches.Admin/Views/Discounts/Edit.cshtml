@@ -11,8 +11,8 @@
 
 <section class="adm-panel">
     <header class="adm-panel__head">
-        <h2 class="adm-panel__title">@(isNew ? "Create discount code" : "Edit discount code")</h2>
-        <a href="/discounts" class="adm-btn">Back to list</a>
+        <h2 class="adm-panel__title">@(isNew ? L["Create discount code"] : L["Edit discount code"])</h2>
+        <a href="/discounts" class="adm-btn">@L["Back to list"]</a>
     </header>
     <div class="adm-panel__body">
 
@@ -25,74 +25,74 @@
             <input type="hidden" asp-for="Id" />
 
             <div class="adm-field">
-                <label asp-for="Code">Code</label>
+                <label asp-for="Code">@L["Code"]</label>
                 <input asp-for="Code" placeholder="WELCOME10" />
                 <span asp-validation-for="Code"></span>
             </div>
 
             <div class="adm-field">
-                <label asp-for="Type">Type</label>
+                <label asp-for="Type">@L["Type"]</label>
                 <select asp-for="Type" asp-items="Html.GetEnumSelectList<DiscountType>()"></select>
             </div>
 
             <div class="adm-field">
-                <label asp-for="Value">Value (% for percentage, KWD for fixed amount)</label>
+                <label asp-for="Value">@L["Value (% for percentage, KWD for fixed amount)"]</label>
                 <input asp-for="Value" type="number" step="0.001" min="0" />
                 <span asp-validation-for="Value"></span>
             </div>
 
             <div class="adm-field">
-                <label asp-for="MinPurchaseAmount">Minimum purchase (KWD, optional)</label>
+                <label asp-for="MinPurchaseAmount">@L["Minimum purchase (KWD, optional)"]</label>
                 <input asp-for="MinPurchaseAmount" type="number" step="0.001" min="0" />
                 <span asp-validation-for="MinPurchaseAmount"></span>
             </div>
 
             <div class="adm-field">
-                <label asp-for="MinQuantity">Minimum quantity (optional)</label>
+                <label asp-for="MinQuantity">@L["Minimum quantity (optional)"]</label>
                 <input asp-for="MinQuantity" type="number" min="0" />
             </div>
 
             <div class="adm-field">
-                <label asp-for="UsageLimitTotal">Usage limit — total (blank = unlimited)</label>
+                <label asp-for="UsageLimitTotal">@L["Usage limit — total (blank = unlimited)"]</label>
                 <input asp-for="UsageLimitTotal" type="number" min="0" />
             </div>
 
             <div class="adm-field">
-                <label asp-for="UsageLimitPerCustomer">Usage limit — per customer (blank = unlimited)</label>
+                <label asp-for="UsageLimitPerCustomer">@L["Usage limit — per customer (blank = unlimited)"]</label>
                 <input asp-for="UsageLimitPerCustomer" type="number" min="0" />
             </div>
 
             <div class="adm-field">
-                <label asp-for="StartsAtUtc">Starts at (UTC, optional)</label>
+                <label asp-for="StartsAtUtc">@L["Starts at (UTC, optional)"]</label>
                 <input asp-for="StartsAtUtc" type="datetime-local" />
             </div>
 
             <div class="adm-field">
-                <label asp-for="EndsAtUtc">Ends at (UTC, optional)</label>
+                <label asp-for="EndsAtUtc">@L["Ends at (UTC, optional)"]</label>
                 <input asp-for="EndsAtUtc" type="datetime-local" />
                 <span asp-validation-for="EndsAtUtc"></span>
             </div>
 
             <div class="adm-field adm-field--check">
                 <input asp-for="IsActive" />
-                <label asp-for="IsActive">Active</label>
+                <label asp-for="IsActive">@L["Active"]</label>
             </div>
 
             <div class="adm-field is-full">
-                <label asp-for="EligibilityJson">Eligibility rules (JSON, optional)</label>
+                <label asp-for="EligibilityJson">@L["Eligibility rules (JSON, optional)"]</label>
                 <textarea asp-for="EligibilityJson" rows="4" placeholder='{"collections":[],"products":[]}'></textarea>
             </div>
 
             @if (!isNew)
             {
                 <div class="is-full">
-                    <span class="adm-badge">Used @Model.TimesUsed times</span>
+                    <span class="adm-badge">@L["Used {0} times", Model.TimesUsed]</span>
                 </div>
             }
 
             <div class="adm-actions is-full">
-                <button type="submit" class="adm-btn adm-btn--solid">@(isNew ? "Create discount" : "Save changes")</button>
-                <a href="/discounts" class="adm-btn">Cancel</a>
+                <button type="submit" class="adm-btn adm-btn--solid">@(isNew ? L["Create discount"] : L["Save changes"])</button>
+                <a href="/discounts" class="adm-btn">@L["Cancel"]</a>
             </div>
         </form>
     </div>

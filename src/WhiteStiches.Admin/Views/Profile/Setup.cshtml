@@ -10,15 +10,14 @@
 
 <section class="adm-panel">
     <header class="adm-panel__head">
-        <h2 class="adm-panel__title">1 — Add the key to your authenticator app</h2>
+        <h2 class="adm-panel__title">@L["1 — Add the key to your authenticator app"]</h2>
     </header>
     <div class="adm-panel__body">
-        <p>Enter this shared key manually in your authenticator app:</p>
+        <p>@L["Enter this shared key manually in your authenticator app:"]</p>
         <p class="set-key">@Model.SharedKey</p>
 
         <p>
-            Or copy this <code>otpauth://</code> URI into an app that accepts pasted/typed
-            setup URIs (no QR code needed):
+            @L["Or copy this"] <code>otpauth://</code> @L["URI into an app that accepts pasted/typed setup URIs (no QR code needed):"]
         </p>
         <p class="set-uri"><code>@Model.OtpAuthUri</code></p>
     </div>
@@ -26,19 +25,19 @@
 
 <section class="adm-panel">
     <header class="adm-panel__head">
-        <h2 class="adm-panel__title">2 — Confirm with a code</h2>
+        <h2 class="adm-panel__title">@L["2 — Confirm with a code"]</h2>
     </header>
     <div class="adm-panel__body">
         <form asp-controller="Profile" asp-action="Verify" method="post">
             <div class="adm-form-grid">
                 <div class="adm-field">
-                    <label for="verify-code">6-digit code</label>
+                    <label for="verify-code">@L["6-digit code"]</label>
                     <input id="verify-code" name="code" inputmode="numeric" autocomplete="one-time-code" autofocus required />
                 </div>
             </div>
             <div class="adm-actions set-actions">
-                <button type="submit" class="adm-btn adm-btn--solid">Verify &amp; enable 2FA</button>
-                <a class="adm-btn" href="/profile/2fa">Cancel</a>
+                <button type="submit" class="adm-btn adm-btn--solid">@L["Verify & enable 2FA"]</button>
+                <a class="adm-btn" href="/profile/2fa">@L["Cancel"]</a>
             </div>
         </form>
     </div>

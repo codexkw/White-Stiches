@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WhiteStiches.Core.Interfaces;
 using WhiteStiches.Infrastructure.Identity;
+using WhiteStiches.Infrastructure.Localization;
 using WhiteStiches.Web.Infrastructure;
 using WhiteStiches.Web.Models.Auth;
 
@@ -73,6 +74,8 @@ public class CustomerAuthController : Controller
             {
                 user.LastLoginAtUtc = DateTime.UtcNow;
                 await _userManager.UpdateAsync(user);
+                // Their saved language wins on sign-in (LOC-02).
+                WhiteStichesLocalization.WriteCultureCookie(HttpContext, user.PreferredLanguage);
                 await MergeGuestCartAsync(user.Id, ct);
                 return RedirectToReturnUrlOrAccount(returnUrl);
             }

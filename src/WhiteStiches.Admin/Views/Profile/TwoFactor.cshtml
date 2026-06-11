@@ -10,57 +10,55 @@
 
 <section class="adm-panel">
     <header class="adm-panel__head">
-        <h2 class="adm-panel__title">Authenticator app (TOTP)</h2>
+        <h2 class="adm-panel__title">@L["Authenticator app (TOTP)"]</h2>
         @if (Model.Enabled)
         {
-            <span class="adm-badge adm-badge--ok">Enabled</span>
+            <span class="adm-badge adm-badge--ok">@L["Enabled"]</span>
         }
         else
         {
-            <span class="adm-badge adm-badge--warn">Disabled</span>
+            <span class="adm-badge adm-badge--warn">@L["Disabled"]</span>
         }
     </header>
     <div class="adm-panel__body">
         @if (!Model.Enabled)
         {
             <p>
-                Protect your staff account with time-based one-time passwords. You'll add a shared
-                key to an authenticator app (Google Authenticator, Microsoft Authenticator, 1Password, ...)
-                and confirm with a 6-digit code.
+                @L["Protect your staff account with time-based one-time passwords. You'll add a shared key to an authenticator app (Google Authenticator, Microsoft Authenticator, 1Password, ...) and confirm with a 6-digit code."]
             </p>
             <form asp-controller="Profile" asp-action="Start" method="post">
                 <div class="adm-actions set-actions">
-                    <button type="submit" class="adm-btn adm-btn--solid">Set up authenticator</button>
+                    <button type="submit" class="adm-btn adm-btn--solid">@L["Set up authenticator"]</button>
                 </div>
             </form>
         }
         else
         {
             <p>
-                Two-factor authentication is active. You have
-                <strong>@Model.RecoveryCodesLeft</strong> recovery code@(Model.RecoveryCodesLeft == 1 ? "" : "s") left.
+                @L["Two-factor authentication is active. You have"]
+                <strong>@Model.RecoveryCodesLeft</strong> @(Model.RecoveryCodesLeft == 1 ? L["recovery code"] : L["recovery codes"]) @L["left."]
             </p>
             <p class="set-note">
-                To rotate the shared key, run setup again — this invalidates the old key and recovery codes.
+                @L["To rotate the shared key, run setup again — this invalidates the old key and recovery codes."]
             </p>
             <div class="adm-actions set-actions">
                 <form asp-controller="Profile" asp-action="Start" method="post">
-                    <button type="submit" class="adm-btn">Reset authenticator key</button>
+                    <button type="submit" class="adm-btn">@L["Reset authenticator key"]</button>
                 </form>
             </div>
 
             <hr class="set-divider" />
 
-            <h3 class="set-subtitle">Disable two-factor authentication</h3>
+            <h3 class="set-subtitle">@L["Disable two-factor authentication"]</h3>
             <form asp-controller="Profile" asp-action="Disable" method="post">
                 <div class="adm-form-grid">
                     <div class="adm-field">
-                        <label for="disable-code">Current authenticator code</label>
+                        <label for="disable-code">@L["Current authenticator code"]</label>
                         <input id="disable-code" name="code" inputmode="numeric" autocomplete="one-time-code" required />
                     </div>
                 </div>
                 <div class="adm-actions set-actions">
-                    <button type="submit" class="adm-btn">Disable 2FA</button>
+                    <button type="submit" class="adm-btn">@L["Disable 2FA"]</button>
                 </div>
             </form>
         }

@@ -12,7 +12,7 @@ namespace WhiteStiches.Admin.Controllers;
 
 /// <summary>Products back office: CRUD, images, options/variants, inventory (AD-PRD-01..05).</summary>
 [Route("products")]
-public class ProductsController(ICatalogService catalog, IFileStorage storage, IAuditService audit) : Controller
+public class ProductsController(ICatalogService catalog, IFileStorage storage, IAuditService audit, IRichTextSanitizer sanitizer) : Controller
 {
     private Guid? UserId =>
         Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var id) ? id : null;
@@ -422,16 +422,18 @@ public class ProductsController(ICatalogService catalog, IFileStorage storage, I
         CategoryId = p.CategoryId
     };
 
-    private static void Apply(ProductFormModel form, Product p)
+    private void Apply(ProductFormModel form, Product p)
     {
         p.TitleEn = form.TitleEn.Trim();
         p.TitleAr = form.TitleAr?.Trim() ?? string.Empty;
-        p.DescriptionEn = Clean(form.DescriptionEn);
-        p.DescriptionAr = Clean(form.DescriptionAr);
-        p.MaterialCareEn = Clean(form.MaterialCareEn);
-        p.MaterialCareAr = Clean(form.MaterialCareAr);
-        p.SizeFitEn = Clean(form.SizeFitEn);
-        p.SizeFitAr = Clean(form.SizeFitAr);
+        // Rich-text fields are authored in the WYSIWYG and rendered raw on the storefront —
+        // sanitize the HTML on the way in (Phase 1E‑2).
+        p.DescriptionEn = sanitizer.Sanitize(form.DescriptionEn);
+        p.DescriptionAr = sanitizer.Sanitize(form.DescriptionAr);
+        p.MaterialCareEn = sanitizer.Sanitize(form.MaterialCareEn);
+        p.MaterialCareAr = sanitizer.Sanitize(form.MaterialCareAr);
+        p.SizeFitEn = sanitizer.Sanitize(form.SizeFitEn);
+        p.SizeFitAr = sanitizer.Sanitize(form.SizeFitAr);
         p.SeoTitleEn = Clean(form.SeoTitleEn);
         p.SeoTitleAr = Clean(form.SeoTitleAr);
         p.SeoDescriptionEn = Clean(form.SeoDescriptionEn);

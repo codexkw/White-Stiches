@@ -5,17 +5,17 @@
     ViewData["Nav"] = "customers";
 }
 
-<section class="adm-toolbar" aria-label="Customer filters">
+<section class="adm-toolbar" aria-label="@L["Customer filters"]">
     <form method="get" action="/customers" class="adm-toolbar__filters">
         <div class="adm-field">
-            <label for="q">Search</label>
-            <input type="search" id="q" name="q" value="@Model.Search" placeholder="Name, email, or phone" />
+            <label for="q">@L["Search"]</label>
+            <input type="search" id="q" name="q" value="@Model.Search" placeholder="@L["Name, email, or phone"]" />
         </div>
         <div class="adm-actions">
-            <button type="submit" class="adm-btn adm-btn--solid">Search</button>
+            <button type="submit" class="adm-btn adm-btn--solid">@L["Search"]</button>
             @if (!string.IsNullOrWhiteSpace(Model.Search))
             {
-                <a href="/customers" class="adm-btn">Clear</a>
+                <a href="/customers" class="adm-btn">@L["Clear"]</a>
             }
         </div>
     </form>
@@ -26,17 +26,17 @@
 
 <section class="adm-panel">
     <header class="adm-panel__head">
-        <h2 class="adm-panel__title">Customer directory</h2>
+        <h2 class="adm-panel__title">@L["Customer directory"]</h2>
     </header>
 
     @if (Model.Customers.Items.Count == 0)
     {
         <div class="adm-panel__body">
             <div class="adm-empty">
-                <strong>No customers found</strong>
+                <strong>@L["No customers found"]</strong>
                 @(string.IsNullOrWhiteSpace(Model.Search)
-                    ? "Registered shoppers will appear here."
-                    : "Try a different name, email, or phone number.")
+                    ? L["Registered shoppers will appear here."].Value
+                    : L["Try a different name, email, or phone number."].Value)
             </div>
         </div>
     }
@@ -45,14 +45,14 @@
         <table class="adm-table">
             <thead>
                 <tr>
-                    <th>Customer</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Orders</th>
-                    <th>Total spent</th>
-                    <th>Consent</th>
-                    <th>Registered (UTC)</th>
-                    <th>Status</th>
+                    <th>@L["Customer"]</th>
+                    <th>@L["Email"]</th>
+                    <th>@L["Phone"]</th>
+                    <th>@L["Orders"]</th>
+                    <th>@L["Total spent"]</th>
+                    <th>@L["Consent"]</th>
+                    <th>@L["Registered (UTC)"]</th>
+                    <th>@L["Status"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -71,11 +71,11 @@
                         <td>
                             @if (c.EmailOptIn)
                             {
-                                <span class="adm-badge adm-badge--ok">Email</span>
+                                <span class="adm-badge adm-badge--ok">@L["Email"]</span>
                             }
                             @if (c.WhatsAppOptIn)
                             {
-                                <span class="adm-badge adm-badge--ok">WhatsApp</span>
+                                <span class="adm-badge adm-badge--ok">@L["WhatsApp"]</span>
                             }
                             @if (!c.EmailOptIn && !c.WhatsAppOptIn)
                             {
@@ -86,11 +86,11 @@
                         <td>
                             @if (c.IsLockedOut)
                             {
-                                <span class="adm-badge adm-badge--err">Locked</span>
+                                <span class="adm-badge adm-badge--err">@L["Locked"]</span>
                             }
                             else
                             {
-                                <span class="adm-badge adm-badge--ok">Active</span>
+                                <span class="adm-badge adm-badge--ok">@L["Active"]</span>
                             }
                         </td>
                     </tr>

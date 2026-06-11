@@ -1,5 +1,14 @@
+@using System.Globalization
+@{
+    var ci = CultureInfo.CurrentUICulture;
+    var dir = ci.TextInfo.IsRightToLeft ? "rtl" : "ltr";
+    var lang = ci.TwoLetterISOLanguageName;
+    var otherLang = lang == "ar" ? "en" : "ar";
+    var langLabel = lang == "ar" ? "EN" : "ع";
+    var returnPath = Uri.EscapeDataString(Context.Request.Path + Context.Request.QueryString);
+}
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="@lang" dir="@dir">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,6 +20,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600&family=Inter+Tight:wght@300;400;500;600&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/design-system.css" />
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/rtl.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/editor.css" asp-append-version="true" />
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
@@ -23,28 +34,29 @@
 
         <nav class="adm-nav" aria-label="Admin navigation">
             @{ var nav = ViewData["Nav"] as string; }
-            <div class="adm-side__label">Store</div>
-            <a href="/" class="@(nav == "dashboard" ? "is-active" : null)">Dashboard</a>
-            <a href="/orders" class="@(nav == "orders" ? "is-active" : null)">Orders</a>
-            <a href="/returns" class="@(nav == "returns" ? "is-active" : null)">Returns</a>
-            <a href="/products" class="@(nav == "products" ? "is-active" : null)">Products</a>
-            <a href="/categories" class="@(nav == "categories" ? "is-active" : null)">Categories</a>
-            <a href="/collections" class="@(nav == "collections" ? "is-active" : null)">Collections</a>
-            <a href="/customers" class="@(nav == "customers" ? "is-active" : null)">Customers</a>
+            <div class="adm-side__label">@L["Store"]</div>
+            <a href="/" class="@(nav == "dashboard" ? "is-active" : null)">@L["Dashboard"]</a>
+            <a href="/orders" class="@(nav == "orders" ? "is-active" : null)">@L["Orders"]</a>
+            <a href="/returns" class="@(nav == "returns" ? "is-active" : null)">@L["Returns"]</a>
+            <a href="/products" class="@(nav == "products" ? "is-active" : null)">@L["Products"]</a>
+            <a href="/categories" class="@(nav == "categories" ? "is-active" : null)">@L["Categories"]</a>
+            <a href="/collections" class="@(nav == "collections" ? "is-active" : null)">@L["Collections"]</a>
+            <a href="/customers" class="@(nav == "customers" ? "is-active" : null)">@L["Customers"]</a>
 
-            <div class="adm-side__label">Marketing</div>
-            <a href="/discounts" class="@(nav == "discounts" ? "is-active" : null)">Discounts</a>
-            <a href="/newsletter" class="@(nav == "newsletter" ? "is-active" : null)">Newsletter</a>
+            <div class="adm-side__label">@L["Marketing"]</div>
+            <a href="/discounts" class="@(nav == "discounts" ? "is-active" : null)">@L["Discounts"]</a>
+            <a href="/newsletter" class="@(nav == "newsletter" ? "is-active" : null)">@L["Newsletter"]</a>
 
-            <div class="adm-side__label">Content</div>
-            <a href="/pages" class="@(nav == "pages" ? "is-active" : null)">Pages</a>
-            <a href="/journal" class="@(nav == "journal" ? "is-active" : null)">Journal</a>
-            <a href="/inbox" class="@(nav == "inbox" ? "is-active" : null)">Inbox</a>
+            <div class="adm-side__label">@L["Content"]</div>
+            <a href="/pages" class="@(nav == "pages" ? "is-active" : null)">@L["Pages"]</a>
+            <a href="/journal" class="@(nav == "journal" ? "is-active" : null)">@L["Journal"]</a>
+            <a href="/inbox" class="@(nav == "inbox" ? "is-active" : null)">@L["Inbox"]</a>
 
-            <div class="adm-side__label">System</div>
-            <a href="/settings" class="@(nav == "settings" ? "is-active" : null)">Settings</a>
-            <a href="/staff" class="@(nav == "staff" ? "is-active" : null)">Staff &amp; Roles</a>
-            <a href="/audit" class="@(nav == "audit" ? "is-active" : null)">Audit Log</a>
+            <div class="adm-side__label">@L["System"]</div>
+            <a href="/reports" class="@(nav == "reports" ? "is-active" : null)">@L["Reports"]</a>
+            <a href="/settings" class="@(nav == "settings" ? "is-active" : null)">@L["Settings"]</a>
+            <a href="/staff" class="@(nav == "staff" ? "is-active" : null)">@L["Staff & Roles"]</a>
+            <a href="/audit" class="@(nav == "audit" ? "is-active" : null)">@L["Audit Log"]</a>
         </nav>
     </aside>
 
@@ -52,9 +64,10 @@
         <header class="adm-top">
             <h1 class="adm-top__title">@ViewData["Title"]</h1>
             <div class="adm-top__user">
+                <a class="adm-btn adm-btn--ghost" href="/set-culture?culture=@otherLang&returnUrl=@returnPath" title="@L["Language"]">@langLabel</a>
                 <span>@User.Identity?.Name</span>
                 <form asp-controller="Auth" asp-action="Logout" method="post">
-                    <button type="submit" class="adm-btn">Sign out</button>
+                    <button type="submit" class="adm-btn">@L["Sign out"]</button>
                 </form>
             </div>
         </header>
@@ -73,6 +86,7 @@
     </div>
 
 </div>
+<script src="~/js/editor.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -1,0 +1,20 @@
+@using WhiteStiches.Core.Models.Admin.Reports
+@model IReadOnlyList<ReportMeta>
+@{
+    ViewData["Title"] = L["Reports"].Value;
+    ViewData["Nav"] = "reports";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/reports.css" asp-append-version="true" />
+}
+
+<div class="rep-grid">
+    @foreach (var r in Model)
+    {
+        <a class="rep-card" href="/reports/@r.Key">
+            <span class="rep-card__title">@L[r.Title]</span>
+            <span class="rep-card__desc">@L[r.Description]</span>
+        </a>
+    }
+</div>

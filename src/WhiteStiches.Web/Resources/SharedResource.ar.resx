@@ -1,0 +1,2220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Jackets" xml:space="preserve">
+    <value>السترات</value>
+  </data>
+  <data name="Dresses" xml:space="preserve">
+    <value>الفساتين</value>
+  </data>
+  <data name="Suits" xml:space="preserve">
+    <value>البدلات</value>
+  </data>
+  <data name="Tops" xml:space="preserve">
+    <value>البلوزات</value>
+  </data>
+  <data name="Sale" xml:space="preserve">
+    <value>تخفيضات</value>
+  </data>
+  <data name="Shop" xml:space="preserve">
+    <value>تسوّقي</value>
+  </data>
+  <data name="New Arrivals" xml:space="preserve">
+    <value>وصل حديثاً</value>
+  </data>
+  <data name="Gift Cards" xml:space="preserve">
+    <value>بطاقات الهدايا</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>المساعدة</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>اتصلي بنا</value>
+  </data>
+  <data name="Size Guide" xml:space="preserve">
+    <value>دليل المقاسات</value>
+  </data>
+  <data name="Shipping &amp; Delivery" xml:space="preserve">
+    <value>الشحن والتوصيل</value>
+  </data>
+  <data name="Returns &amp; Exchanges" xml:space="preserve">
+    <value>الإرجاع والاستبدال</value>
+  </data>
+  <data name="Track Order" xml:space="preserve">
+    <value>تتبّع الطلب</value>
+  </data>
+  <data name="FAQ" xml:space="preserve">
+    <value>الأسئلة الشائعة</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>عن الدار</value>
+  </data>
+  <data name="Our Story" xml:space="preserve">
+    <value>قصتنا</value>
+  </data>
+  <data name="Atelier" xml:space="preserve">
+    <value>الورشة</value>
+  </data>
+  <data name="Sustainability" xml:space="preserve">
+    <value>الاستدامة</value>
+  </data>
+  <data name="Journal" xml:space="preserve">
+    <value>المجلة</value>
+  </data>
+  <data name="Careers" xml:space="preserve">
+    <value>الوظائف</value>
+  </data>
+  <data name="Preferences" xml:space="preserve">
+    <value>التفضيلات</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>الدولة</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>اللغة</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>حسابي</value>
+  </data>
+  <data name="Wishlist" xml:space="preserve">
+    <value>المفضلة</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>بحث</value>
+  </data>
+  <data name="Switch language" xml:space="preserve">
+    <value>تغيير اللغة</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>الخصوصية</value>
+  </data>
+  <data name="Terms" xml:space="preserve">
+    <value>الشروط</value>
+  </data>
+  <data name="Cookies" xml:space="preserve">
+    <value>ملفات الارتباط</value>
+  </data>
+  <data name="Complimentary delivery on orders over 50 KWD" xml:space="preserve">
+    <value>توصيل مجاني للطلبات فوق ٥٠ د.ك</value>
+  </data>
+  <data name="New Spring Edit — now in stores" xml:space="preserve">
+    <value>تشكيلة الربيع الجديدة — متوفرة الآن</value>
+  </data>
+  <data name="Pay with KNET, Apple Pay &amp; Tabby" xml:space="preserve">
+    <value>ادفعي عبر كي‑نت وآبل باي وتابي</value>
+  </data>
+  <data name="Shipping across the GCC" xml:space="preserve">
+    <value>الشحن إلى دول الخليج</value>
+  </data>
+  <data name="Account · Addresses" xml:space="preserve">
+    <value>الحساب · العناوين</value>
+  </data>
+  <data name="Saved addresses." xml:space="preserve">
+    <value>عناوينك المحفوظة.</value>
+  </data>
+  <data name="Manage where we deliver and bill." xml:space="preserve">
+    <value>أدّيري عناوين التوصيل والفوترة.</value>
+  </data>
+  <data name="Overview" xml:space="preserve">
+    <value>نظرة عامة</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>طلباتي</value>
+  </data>
+  <data name="Addresses" xml:space="preserve">
+    <value>العناوين</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>الملف الشخصي</value>
+  </data>
+  <data name="Returns" xml:space="preserve">
+    <value>المرتجعات</value>
+  </data>
+  <data name="Sign out" xml:space="preserve">
+    <value>تسجيل الخروج</value>
+  </data>
+  <data name="Default · Shipping &amp; Billing" xml:space="preserve">
+    <value>افتراضي · الشحن والفوترة</value>
+  </data>
+  <data name="Saved" xml:space="preserve">
+    <value>محفوظ</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>تعديل</value>
+  </data>
+  <data name="Set default" xml:space="preserve">
+    <value>تعيين كافتراضي</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="Block" xml:space="preserve">
+    <value>قطعة</value>
+  </data>
+  <data name="Street" xml:space="preserve">
+    <value>شارع</value>
+  </data>
+  <data name="Building" xml:space="preserve">
+    <value>بناية</value>
+  </data>
+  <data name="Floor" xml:space="preserve">
+    <value>الطابق</value>
+  </data>
+  <data name="Apt" xml:space="preserve">
+    <value>شقة</value>
+  </data>
+  <data name="Kuwait" xml:space="preserve">
+    <value>الكويت</value>
+  </data>
+  <data name="Add a new address" xml:space="preserve">
+    <value>إضافة عنوان جديد</value>
+  </data>
+  <data name="New address" xml:space="preserve">
+    <value>عنوان جديد</value>
+  </data>
+  <data name="Edit address" xml:space="preserve">
+    <value>تعديل العنوان</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>إلغاء</value>
+  </data>
+  <data name="Label (e.g. Home, Office)" xml:space="preserve">
+    <value>التسمية (مثال: المنزل، العمل)</value>
+  </data>
+  <data name="First name" xml:space="preserve">
+    <value>الاسم الأول</value>
+  </data>
+  <data name="Last name" xml:space="preserve">
+    <value>اسم العائلة</value>
+  </data>
+  <data name="Mobile" xml:space="preserve">
+    <value>رقم الجوال</value>
+  </data>
+  <data name="Saudi Arabia" xml:space="preserve">
+    <value>المملكة العربية السعودية</value>
+  </data>
+  <data name="UAE" xml:space="preserve">
+    <value>الإمارات</value>
+  </data>
+  <data name="Bahrain" xml:space="preserve">
+    <value>البحرين</value>
+  </data>
+  <data name="Qatar" xml:space="preserve">
+    <value>قطر</value>
+  </data>
+  <data name="Oman" xml:space="preserve">
+    <value>عُمان</value>
+  </data>
+  <data name="Governorate" xml:space="preserve">
+    <value>المحافظة</value>
+  </data>
+  <data name="Area" xml:space="preserve">
+    <value>المنطقة</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>اختياري</value>
+  </data>
+  <data name="Apartment" xml:space="preserve">
+    <value>الشقة</value>
+  </data>
+  <data name="Additional directions" xml:space="preserve">
+    <value>تعليمات إضافية</value>
+  </data>
+  <data name="e.g. landmark, gate code · optional" xml:space="preserve">
+    <value>مثال: معلم قريب، رمز البوابة · اختياري</value>
+  </data>
+  <data name="Set as default address" xml:space="preserve">
+    <value>تعيين كعنوان افتراضي</value>
+  </data>
+  <data name="Save address" xml:space="preserve">
+    <value>حفظ العنوان</value>
+  </data>
+  <data name="My Account" xml:space="preserve">
+    <value>حسابي</value>
+  </data>
+  <data name="Hello," xml:space="preserve">
+    <value>أهلاً،</value>
+  </data>
+  <data name="Member since" xml:space="preserve">
+    <value>عضوة منذ</value>
+  </data>
+  <data name="Account navigation" xml:space="preserve">
+    <value>التنقل في الحساب</value>
+  </data>
+  <data name="Open orders" xml:space="preserve">
+    <value>الطلبات الجارية</value>
+  </data>
+  <data name="In progress now" xml:space="preserve">
+    <value>قيد التنفيذ الآن</value>
+  </data>
+  <data name="All caught up" xml:space="preserve">
+    <value>لا يوجد طلبات معلّقة</value>
+  </data>
+  <data name="on sale" xml:space="preserve">
+    <value>بتخفيض</value>
+  </data>
+  <data name="Saved pieces" xml:space="preserve">
+    <value>قطع محفوظة</value>
+  </data>
+  <data name="Member tier" xml:space="preserve">
+    <value>مستوى العضوية</value>
+  </data>
+  <data name="order" xml:space="preserve">
+    <value>طلب</value>
+  </data>
+  <data name="all-time" xml:space="preserve">
+    <value>إجمالي</value>
+  </data>
+  <data name="Store credit" xml:space="preserve">
+    <value>رصيد المتجر</value>
+  </data>
+  <data name="Available balance" xml:space="preserve">
+    <value>الرصيد المتاح</value>
+  </data>
+  <data name="Recent orders" xml:space="preserve">
+    <value>أحدث الطلبات</value>
+  </data>
+  <data name="View all" xml:space="preserve">
+    <value>عرض الكل</value>
+  </data>
+  <data name="No orders yet — your first order will appear here." xml:space="preserve">
+    <value>لا توجد طلبات بعد — سيظهر طلبك الأول هنا.</value>
+  </data>
+  <data name="Shop the edit" xml:space="preserve">
+    <value>تسوّقي الكولكشن</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>عرض</value>
+  </data>
+  <data name="Default address" xml:space="preserve">
+    <value>العنوان الافتراضي</value>
+  </data>
+  <data name="Manage" xml:space="preserve">
+    <value>إدارة</value>
+  </data>
+  <data name="No saved address yet — add one for faster checkout." xml:space="preserve">
+    <value>لا يوجد عنوان محفوظ بعد — أضيفي عنواناً لإتمام الشراء بسرعة.</value>
+  </data>
+  <data name="Wishlist preview" xml:space="preserve">
+    <value>معاينة المفضلة</value>
+  </data>
+  <data name="Nothing saved yet — tap the heart on any piece to keep it here." xml:space="preserve">
+    <value>لا توجد قطع محفوظة بعد — اضغطي على القلب لحفظ أي قطعة هنا.</value>
+  </data>
+  <data name="The Atelier" xml:space="preserve">
+    <value>الأتيليه</value>
+  </data>
+  <data name="Made in Kuwait. Designed for the GCC." xml:space="preserve">
+    <value>صُنع في الكويت. مصمَّم لدول الخليج.</value>
+  </data>
+  <data name="Save your pieces, track orders, and unlock first looks at our SS26 lookbook — exclusively for members." xml:space="preserve">
+    <value>احفظي قطعك، تابعي طلباتك، واحصلي على أول نظرة حصرية على لوك بوك SS26 — للأعضاء فقط.</value>
+  </data>
+  <data name="Sign in" xml:space="preserve">
+    <value>تسجيل الدخول</value>
+  </data>
+  <data name="Create account" xml:space="preserve">
+    <value>إنشاء حساب</value>
+  </data>
+  <data name="Welcome back." xml:space="preserve">
+    <value>أهلاً بعودتك.</value>
+  </data>
+  <data name="Sign in to access your orders, wishlist and saved addresses." xml:space="preserve">
+    <value>سجّلي دخولك للوصول إلى طلباتك وقائمة أمنياتك وعناوينك المحفوظة.</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>البريد الإلكتروني</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>كلمة المرور</value>
+  </data>
+  <data name="Show password" xml:space="preserve">
+    <value>إظهار كلمة المرور</value>
+  </data>
+  <data name="Keep me signed in" xml:space="preserve">
+    <value>ابقني متصلة</value>
+  </data>
+  <data name="Forgot password?" xml:space="preserve">
+    <value>نسيتِ كلمة المرور؟</value>
+  </data>
+  <data name="or continue with" xml:space="preserve">
+    <value>أو تابعي بـ</value>
+  </data>
+  <data name="WhatsApp OTP" xml:space="preserve">
+    <value>رمز واتساب</value>
+  </data>
+  <data name="Join the atelier." xml:space="preserve">
+    <value>انضمي إلى الأتيليه.</value>
+  </data>
+  <data name="Create your account in 30 seconds — never miss an edit." xml:space="preserve">
+    <value>أنشئي حسابك في 30 ثانية — لا تفوّتي أي تشكيلة جديدة.</value>
+  </data>
+  <data name="Country code" xml:space="preserve">
+    <value>رمز الدولة</value>
+  </data>
+  <data name="8+ characters · mix letters &amp; numbers" xml:space="preserve">
+    <value>٨ أحرف على الأقل · امزجي الحروف والأرقام</value>
+  </data>
+  <data name="Strength" xml:space="preserve">
+    <value>قوة كلمة المرور</value>
+  </data>
+  <data name="Send me styling notes &amp; new arrivals via email and WhatsApp · I can unsubscribe any time" xml:space="preserve">
+    <value>أرسلي لي نصائح الأناقة والوصولات الجديدة عبر البريد الإلكتروني والواتساب · يمكنني إلغاء الاشتراك في أي وقت</value>
+  </data>
+  <data name="I agree to the" xml:space="preserve">
+    <value>أوافق على</value>
+  </data>
+  <data name="Terms of Sale" xml:space="preserve">
+    <value>شروط البيع</value>
+  </data>
+  <data name="and" xml:space="preserve">
+    <value>و</value>
+  </data>
+  <data name="Privacy Policy" xml:space="preserve">
+    <value>سياسة الخصوصية</value>
+  </data>
+  <data name="Already have an account?" xml:space="preserve">
+    <value>لديكِ حساب بالفعل؟</value>
+  </data>
+  <data name="Sign in instead" xml:space="preserve">
+    <value>تسجيل الدخول</value>
+  </data>
+  <data name="Back to sign in" xml:space="preserve">
+    <value>العودة لتسجيل الدخول</value>
+  </data>
+  <data name="Reset your password." xml:space="preserve">
+    <value>إعادة تعيين كلمة المرور.</value>
+  </data>
+  <data name="Enter the email on your account and we'll send a reset link." xml:space="preserve">
+    <value>أدخلي البريد الإلكتروني المرتبط بحسابك وسنرسل لك رابط إعادة التعيين.</value>
+  </data>
+  <data name="Check your inbox." xml:space="preserve">
+    <value>تحققي من بريدك الوارد.</value>
+  </data>
+  <data name="We've sent a reset link to" xml:space="preserve">
+    <value>أرسلنا رابط إعادة التعيين إلى</value>
+  </data>
+  <data name="The link expires in 30 minutes." xml:space="preserve">
+    <value>ينتهي صلاحية الرابط خلال ٣٠ دقيقة.</value>
+  </data>
+  <data name="No email? Check your spam folder, or" xml:space="preserve">
+    <value>لم تصلك رسالة؟ تحققي من مجلد الرسائل غير المرغوب فيها، أو</value>
+  </data>
+  <data name="try again" xml:space="preserve">
+    <value>حاولي مجدداً</value>
+  </data>
+  <data name="Send reset link" xml:space="preserve">
+    <value>إرسال رابط الإعادة</value>
+  </data>
+  <data name="Trouble signing in?" xml:space="preserve">
+    <value>هل تواجهين مشكلة في تسجيل الدخول؟</value>
+  </data>
+  <data name="Chat with the atelier on WhatsApp" xml:space="preserve">
+    <value>تواصلي مع الأتيليه عبر واتساب</value>
+  </data>
+  <data name="Back to orders" xml:space="preserve">
+    <value>العودة إلى طلباتي</value>
+  </data>
+  <data name="Order detail" xml:space="preserve">
+    <value>تفاصيل الطلب</value>
+  </data>
+  <data name="piece" xml:space="preserve">
+    <value>قطعة</value>
+  </data>
+  <data name="pieces" xml:space="preserve">
+    <value>قطع</value>
+  </data>
+  <data name="cancelled" xml:space="preserve">
+    <value>ملغى</value>
+  </data>
+  <data name="This order was cancelled" xml:space="preserve">
+    <value>تم إلغاء هذا الطلب</value>
+  </data>
+  <data name="Any captured payment is returned to the original payment method within 3–5 working days." xml:space="preserve">
+    <value>سيُعاد المبلغ المحتجز إلى وسيلة الدفع الأصلية خلال ٣–٥ أيام عمل.</value>
+  </data>
+  <data name="refunded" xml:space="preserve">
+    <value>مُسترجع</value>
+  </data>
+  <data name="was refunded to your original payment method." xml:space="preserve">
+    <value>تم استرجاعه إلى وسيلة الدفع الأصلية.</value>
+  </data>
+  <data name="This order was refunded to your original payment method." xml:space="preserve">
+    <value>تم استرجاع مبلغ هذا الطلب إلى وسيلة الدفع الأصلية.</value>
+  </data>
+  <data name="Refunds land in 3–5 working days." xml:space="preserve">
+    <value>تصل المبالغ المستردة خلال ٣–٥ أيام عمل.</value>
+  </data>
+  <data name="placed" xml:space="preserve">
+    <value>مُؤكَّد</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>الدفع</value>
+  </data>
+  <data name="confirmed" xml:space="preserve">
+    <value>مُؤكَّد</value>
+  </data>
+  <data name="Prepared at the" xml:space="preserve">
+    <value>جارٍ التحضير في</value>
+  </data>
+  <data name="Your order is" xml:space="preserve">
+    <value>طلبك</value>
+  </data>
+  <data name="in transit" xml:space="preserve">
+    <value>في الطريق إليك</value>
+  </data>
+  <data name="Delivered" xml:space="preserve">
+    <value>تم التوصيل</value>
+  </data>
+  <data name="AWB" xml:space="preserve">
+    <value>رقم الشحنة</value>
+  </data>
+  <data name="We've received your order and emailed a confirmation to" xml:space="preserve">
+    <value>استلمنا طلبك وأرسلنا تأكيداً إلى</value>
+  </data>
+  <data name="We'll let you know the moment it's on the move." xml:space="preserve">
+    <value>سنُخبرك فور تحرّك طلبك.</value>
+  </data>
+  <data name="Your payment is confirmed — the atelier is preparing your pieces now." xml:space="preserve">
+    <value>تم تأكيد دفعتك — الأتيليه يُجهّز قطعك الآن.</value>
+  </data>
+  <data name="Your pieces are packed at our Kuwait atelier and ready for the courier." xml:space="preserve">
+    <value>قطعك جاهزة في أتيليه الكويت وبانتظار المندوب.</value>
+  </data>
+  <data name="Your order left our Kuwait atelier. The courier will WhatsApp before delivery." xml:space="preserve">
+    <value>غادر طلبك أتيليه الكويت. سيتواصل معك المندوب عبر واتساب قبل التوصيل.</value>
+  </data>
+  <data name="Your order was delivered. We hope you love it — returns stay open for 14 days." xml:space="preserve">
+    <value>وصل طلبك بالسلامة. نأمل أن تعجبك القطع — الإرجاع متاح خلال ١٤ يوماً.</value>
+  </data>
+  <data name="Variant" xml:space="preserve">
+    <value>الخيار</value>
+  </data>
+  <data name="Qty" xml:space="preserve">
+    <value>الكمية</value>
+  </data>
+  <data name="Return this" xml:space="preserve">
+    <value>إرجاع هذه القطعة</value>
+  </data>
+  <data name="Delivery address" xml:space="preserve">
+    <value>عنوان التوصيل</value>
+  </data>
+  <data name="No payment recorded yet." xml:space="preserve">
+    <value>لا توجد مدفوعات مسجّلة حتى الآن.</value>
+  </data>
+  <data name="Subtotal" xml:space="preserve">
+    <value>المجموع الفرعي</value>
+  </data>
+  <data name="Gift wrap" xml:space="preserve">
+    <value>تغليف هدايا</value>
+  </data>
+  <data name="Delivery" xml:space="preserve">
+    <value>التوصيل</value>
+  </data>
+  <data name="Free" xml:space="preserve">
+    <value>مجاناً</value>
+  </data>
+  <data name="VAT" xml:space="preserve">
+    <value>ضريبة القيمة المضافة</value>
+  </data>
+  <data name="Included" xml:space="preserve">
+    <value>شامل</value>
+  </data>
+  <data name="Track shipment" xml:space="preserve">
+    <value>تتبع الشحنة</value>
+  </data>
+  <data name="WhatsApp support" xml:space="preserve">
+    <value>تواصل عبر واتساب</value>
+  </data>
+  <data name="Request a return" xml:space="preserve">
+    <value>طلب إرجاع</value>
+  </data>
+  <data name="Account · Orders" xml:space="preserve">
+    <value>الحساب · الطلبات</value>
+  </data>
+  <data name="Your orders." xml:space="preserve">
+    <value>طلباتك.</value>
+  </data>
+  <data name="No orders yet" xml:space="preserve">
+    <value>لا توجد طلبات بعد</value>
+  </data>
+  <data name="When you place your first order it will appear here." xml:space="preserve">
+    <value>بمجرد تقديم طلبك الأول سيظهر هنا.</value>
+  </data>
+  <data name="Shop new arrivals" xml:space="preserve">
+    <value>تسوقي الوصول الجديد</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>الكل</value>
+  </data>
+  <data name="Search by order # or product…" xml:space="preserve">
+    <value>ابحثي برقم الطلب أو المنتج…</value>
+  </data>
+  <data name="item" xml:space="preserve">
+    <value>قطعة</value>
+  </data>
+  <data name="items" xml:space="preserve">
+    <value>قطع</value>
+  </data>
+  <data name="Return" xml:space="preserve">
+    <value>إرجاع</value>
+  </data>
+  <data name="Pagination" xml:space="preserve">
+    <value>التنقل بين الصفحات</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>السابق</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>التالي</value>
+  </data>
+  <data name="Account · Profile" xml:space="preserve">
+    <value>الحساب · الملف الشخصي</value>
+  </data>
+  <data name="Profile &amp; preferences." xml:space="preserve">
+    <value>الملف الشخصي والتفضيلات.</value>
+  </data>
+  <data name="Manage your personal info, notifications and privacy." xml:space="preserve">
+    <value>أدِّري معلوماتك الشخصية والإشعارات والخصوصية.</value>
+  </data>
+  <data name="Personal information" xml:space="preserve">
+    <value>المعلومات الشخصية</value>
+  </data>
+  <data name="Save changes" xml:space="preserve">
+    <value>حفظ التغييرات</value>
+  </data>
+  <data name="Verified" xml:space="preserve">
+    <value>موثّق</value>
+  </data>
+  <data name="Update contact" xml:space="preserve">
+    <value>تحديث بيانات التواصل</value>
+  </data>
+  <data name="Communication preferences" xml:space="preserve">
+    <value>تفضيلات التواصل</value>
+  </data>
+  <data name="You can unsubscribe any time" xml:space="preserve">
+    <value>يمكنك إلغاء الاشتراك في أي وقت</value>
+  </data>
+  <data name="WhatsApp" xml:space="preserve">
+    <value>واتساب</value>
+  </data>
+  <data name="SMS" xml:space="preserve">
+    <value>رسائل SMS</value>
+  </data>
+  <data name="Order updates" xml:space="preserve">
+    <value>تحديثات الطلبات</value>
+  </data>
+  <data name="Confirmations, shipping, delivery" xml:space="preserve">
+    <value>التأكيدات والشحن والتوصيل</value>
+  </data>
+  <data name="News, sales &amp; lookbooks" xml:space="preserve">
+    <value>الأخبار والتخفيضات واللوك بوك</value>
+  </data>
+  <data name="New arrivals &amp; member early access" xml:space="preserve">
+    <value>وصولات جديدة والوصول المبكر للأعضاء</value>
+  </data>
+  <data name="Language &amp; currency" xml:space="preserve">
+    <value>اللغة والعملة</value>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>العملة</value>
+  </data>
+  <data name="Save preferences" xml:space="preserve">
+    <value>حفظ التفضيلات</value>
+  </data>
+  <data name="Current password" xml:space="preserve">
+    <value>كلمة المرور الحالية</value>
+  </data>
+  <data name="New password" xml:space="preserve">
+    <value>كلمة المرور الجديدة</value>
+  </data>
+  <data name="Confirm new password" xml:space="preserve">
+    <value>تأكيد كلمة المرور الجديدة</value>
+  </data>
+  <data name="Change password" xml:space="preserve">
+    <value>تغيير كلمة المرور</value>
+  </data>
+  <data name="Privacy &amp; data" xml:space="preserve">
+    <value>الخصوصية والبيانات</value>
+  </data>
+  <data name="Download my data" xml:space="preserve">
+    <value>تنزيل بياناتي</value>
+  </data>
+  <data name="Get a copy of everything we have on file (orders, addresses, preferences)." xml:space="preserve">
+    <value>احصلي على نسخة من جميع بياناتك المحفوظة (الطلبات والعناوين والتفضيلات).</value>
+  </data>
+  <data name="Request export" xml:space="preserve">
+    <value>طلب تصدير البيانات</value>
+  </data>
+  <data name="Delete my account" xml:space="preserve">
+    <value>حذف حسابي</value>
+  </data>
+  <data name="Permanently remove your account and personal data. Orders are kept for legal compliance." xml:space="preserve">
+    <value>حذف حسابك وبياناتك الشخصية نهائيًا. تُحتفظ بالطلبات للامتثال القانوني.</value>
+  </data>
+  <data name="Delete account" xml:space="preserve">
+    <value>حذف الحساب</value>
+  </data>
+  <data name="Account · Returns" xml:space="preserve">
+    <value>الحساب · المرتجعات</value>
+  </data>
+  <data name="Returns &amp; exchanges." xml:space="preserve">
+    <value>الإرجاع والاستبدال.</value>
+  </data>
+  <data name="14-day window from the day you receive your order." xml:space="preserve">
+    <value>مهلة ١٤ يوماً من تاريخ استلام طلبك.</value>
+  </data>
+  <data name="Return items" xml:space="preserve">
+    <value>إرجاع المنتجات</value>
+  </data>
+  <data name="Don't return" xml:space="preserve">
+    <value>بدون إرجاع</value>
+  </data>
+  <data name="Return qty" xml:space="preserve">
+    <value>كمية الإرجاع</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>السبب</value>
+  </data>
+  <data name="Courier pickup" xml:space="preserve">
+    <value>استلام بالكوريه</value>
+  </data>
+  <data name="We collect from your address · 1–2 working days" xml:space="preserve">
+    <value>نستلم منك من عنوانك · ١–٢ أيام عمل</value>
+  </data>
+  <data name="Atelier drop-off" xml:space="preserve">
+    <value>التسليم في الأتيليه</value>
+  </data>
+  <data name="The Avenues, Phase 4 · any day, 10 AM – 10 PM" xml:space="preserve">
+    <value>أفنيوز، المرحلة ٤ · يومياً، ١٠ ص – ١٠ م</value>
+  </data>
+  <data name="Anything else we should know" xml:space="preserve">
+    <value>هل هناك شيء آخر تودّين إضافته؟</value>
+  </data>
+  <data name="Submit return request" xml:space="preserve">
+    <value>تقديم طلب الإرجاع</value>
+  </data>
+  <data name="Start a return" xml:space="preserve">
+    <value>ابدئي طلب الإرجاع</value>
+  </data>
+  <data name="Select an eligible order to begin. Most refunds land in 3–5 working days." xml:space="preserve">
+    <value>اختاري طلباً مؤهلاً للبدء. تصل معظم المبالغ المستردة خلال ٣–٥ أيام عمل.</value>
+  </data>
+  <data name="Eligible order" xml:space="preserve">
+    <value>الطلب المؤهل</value>
+  </data>
+  <data name="View orders" xml:space="preserve">
+    <value>عرض الطلبات</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>قيد المراجعة</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>مقبول</value>
+  </data>
+  <data name="No returns yet — start one from a delivered order above." xml:space="preserve">
+    <value>لا يوجد مرتجعات حتى الآن — ابدئي من أحد الطلبات المستلمة أعلاه.</value>
+  </data>
+  <data name="Initiated" xml:space="preserve">
+    <value>تاريخ الطلب</value>
+  </data>
+  <data name="for order" xml:space="preserve">
+    <value>للطلب</value>
+  </data>
+  <data name="Return request" xml:space="preserve">
+    <value>طلب إرجاع</value>
+  </data>
+  <data name="Reason:" xml:space="preserve">
+    <value>السبب:</value>
+  </data>
+  <data name="Not eligible for refund" xml:space="preserve">
+    <value>غير مؤهل للاسترداد</value>
+  </data>
+  <data name="Refund:" xml:space="preserve">
+    <value>المبلغ المسترد:</value>
+  </data>
+  <data name="pending review" xml:space="preserve">
+    <value>قيد المراجعة</value>
+  </data>
+  <data name="pending receipt" xml:space="preserve">
+    <value>في انتظار الاستلام</value>
+  </data>
+  <data name="View order" xml:space="preserve">
+    <value>عرض الطلب</value>
+  </data>
+  <data name="Our returns policy in brief" xml:space="preserve">
+    <value>سياسة الإرجاع باختصار</value>
+  </data>
+  <data name="Read full policy" xml:space="preserve">
+    <value>اقرئي السياسة كاملة</value>
+  </data>
+  <data name="14 days" xml:space="preserve">
+    <value>١٤ يوماً</value>
+  </data>
+  <data name="from the day you receive the order" xml:space="preserve">
+    <value>من تاريخ استلام الطلب</value>
+  </data>
+  <data name="Pieces must be" xml:space="preserve">
+    <value>يجب أن تكون القطعة</value>
+  </data>
+  <data name="unworn" xml:space="preserve">
+    <value>غير مستخدمة</value>
+  </data>
+  <data name=", with original tags and packaging" xml:space="preserve">
+    <value>، مع البطاقات والتغليف الأصلي</value>
+  </data>
+  <data name="Sale items can be returned for" xml:space="preserve">
+    <value>يمكن إرجاع منتجات التخفيضات مقابل</value>
+  </data>
+  <data name="store credit only" xml:space="preserve">
+    <value>رصيد المتجر فقط</value>
+  </data>
+  <data name="Refunds land in" xml:space="preserve">
+    <value>يُعاد المبلغ خلال</value>
+  </data>
+  <data name="3–5 working days" xml:space="preserve">
+    <value>٣–٥ أيام عمل</value>
+  </data>
+  <data name="to your original payment method" xml:space="preserve">
+    <value>إلى وسيلة الدفع الأصلية</value>
+  </data>
+  <data name="Final-sale pieces, swimwear and earrings cannot be returned" xml:space="preserve">
+    <value>لا يمكن إرجاع قطع التخفيض النهائي وملابس السباحة والأقراط</value>
+  </data>
+  <data name="Account · Wishlist" xml:space="preserve">
+    <value>الحساب · المفضلة</value>
+  </data>
+  <data name="Saved pieces." xml:space="preserve">
+    <value>القطع المحفوظة.</value>
+  </data>
+  <data name="Your wishlist is empty" xml:space="preserve">
+    <value>قائمة أمنياتك فارغة</value>
+  </data>
+  <data name="Tap the heart on any piece to keep it here." xml:space="preserve">
+    <value>اضغطي على القلب على أي قطعة لحفظها هنا.</value>
+  </data>
+  <data name="Share wishlist" xml:space="preserve">
+    <value>مشاركة المفضلة</value>
+  </data>
+  <data name="Sort wishlist" xml:space="preserve">
+    <value>ترتيب المفضلة</value>
+  </data>
+  <data name="Recently added" xml:space="preserve">
+    <value>الأحدث إضافةً</value>
+  </data>
+  <data name="Price · low to high" xml:space="preserve">
+    <value>السعر · من الأقل للأعلى</value>
+  </data>
+  <data name="Price · high to low" xml:space="preserve">
+    <value>السعر · من الأعلى للأقل</value>
+  </data>
+  <data name="On sale first" xml:space="preserve">
+    <value>التخفيضات أولاً</value>
+  </data>
+  <data name="Remove from wishlist" xml:space="preserve">
+    <value>إزالة من المفضلة</value>
+  </data>
+  <data name="Move to bag" xml:space="preserve">
+    <value>نقل إلى الحقيبة</value>
+  </data>
+  <data name="Out of stock" xml:space="preserve">
+    <value>نفذ من المخزون</value>
+  </data>
+  <data name="Your bag is empty." xml:space="preserve">
+    <value>حقيبتك فارغة.</value>
+  </data>
+  <data name="Begin with the new arrivals, or pick up where you left off in your wishlist." xml:space="preserve">
+    <value>ابدئي بالوصولات الجديدة، أو أكملي من قائمة أمنياتك.</value>
+  </data>
+  <data name="Shop the new edit" xml:space="preserve">
+    <value>تسوّقي التشكيلة الجديدة</value>
+  </data>
+  <data name="Open wishlist" xml:space="preserve">
+    <value>افتحي قائمة الأمنيات</value>
+  </data>
+  <data name="Step 1 of 3" xml:space="preserve">
+    <value>الخطوة ١ من ٣</value>
+  </data>
+  <data name="Your Bag" xml:space="preserve">
+    <value>حقيبتك</value>
+  </data>
+  <data name="You've unlocked" xml:space="preserve">
+    <value>لقد حصلتِ على</value>
+  </data>
+  <data name="complimentary delivery" xml:space="preserve">
+    <value>توصيل مجاني</value>
+  </data>
+  <data name="within Kuwait." xml:space="preserve">
+    <value>داخل الكويت.</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>أضيفي</value>
+  </data>
+  <data name="more for complimentary delivery." xml:space="preserve">
+    <value>للحصول على توصيل مجاني.</value>
+  </data>
+  <data name="Colour" xml:space="preserve">
+    <value>اللون</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>المقاس</value>
+  </data>
+  <data name="Only" xml:space="preserve">
+    <value>تبقّى</value>
+  </data>
+  <data name="left in this size — order soon" xml:space="preserve">
+    <value>فقط من هذا المقاس — اطلبي الآن</value>
+  </data>
+  <data name="each" xml:space="preserve">
+    <value>للقطعة</value>
+  </data>
+  <data name="Decrease quantity" xml:space="preserve">
+    <value>تقليل الكمية</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>الكمية</value>
+  </data>
+  <data name="Increase quantity" xml:space="preserve">
+    <value>زيادة الكمية</value>
+  </data>
+  <data name="Save for later" xml:space="preserve">
+    <value>احفظي لوقت لاحق</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>إزالة</value>
+  </data>
+  <data name="Add atelier gift wrap" xml:space="preserve">
+    <value>أضيفي تغليف هدايا أتيليه</value>
+  </data>
+  <data name="+ 3.500 KWD · hand-folded, sealed with our wax mark" xml:space="preserve">
+    <value>+ ٣٫٥٠٠ د.ك · مطوي يدوياً ومختوم بشمعنا الخاص</value>
+  </data>
+  <data name="Add a note to your order" xml:space="preserve">
+    <value>أضيفي ملاحظة لطلبك</value>
+  </data>
+  <data name="Special instructions — gift message, delivery directions, sizing notes…" xml:space="preserve">
+    <value>تعليمات خاصة — رسالة هدية، توجيهات التوصيل، ملاحظات المقاسات…</value>
+  </data>
+  <data name="Order notes" xml:space="preserve">
+    <value>ملاحظات الطلب</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>حفظ</value>
+  </data>
+  <data name="Continue shopping" xml:space="preserve">
+    <value>متابعة التسوّق</value>
+  </data>
+  <data name="Order Summary" xml:space="preserve">
+    <value>ملخص الطلب</value>
+  </data>
+  <data name="Promo or gift card" xml:space="preserve">
+    <value>كود خصم أو بطاقة هدية</value>
+  </data>
+  <data name="Enter code" xml:space="preserve">
+    <value>أدخلي الكود</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>تطبيق</value>
+  </data>
+  <data name="Promo" xml:space="preserve">
+    <value>كود الخصم</value>
+  </data>
+  <data name="Remove code" xml:space="preserve">
+    <value>إزالة الكود</value>
+  </data>
+  <data name="Estimated shipping" xml:space="preserve">
+    <value>الشحن التقديري</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>الإجمالي</value>
+  </data>
+  <data name="Checkout securely" xml:space="preserve">
+    <value>إتمام الشراء بأمان</value>
+  </data>
+  <data name="or pay quickly with" xml:space="preserve">
+    <value>أو ادفعي سريعاً بـ</value>
+  </data>
+  <data name="Pay with Apple Pay" xml:space="preserve">
+    <value>الدفع بـ Apple Pay</value>
+  </data>
+  <data name="Pay with Google Pay" xml:space="preserve">
+    <value>الدفع بـ Google Pay</value>
+  </data>
+  <data name="Pay with KNET" xml:space="preserve">
+    <value>الدفع بـ KNET</value>
+  </data>
+  <data name="Secured by Tap Payments · PCI DSS Level 1" xml:space="preserve">
+    <value>مؤمّن بـ Tap Payments · معيار PCI DSS المستوى الأول</value>
+  </data>
+  <data name="14-day easy returns · Kuwait &amp; GCC" xml:space="preserve">
+    <value>إرجاع سهل خلال ١٤ يوماً · الكويت ودول الخليج</value>
+  </data>
+  <data name="Free delivery in Kuwait over 50 KWD" xml:space="preserve">
+    <value>توصيل مجاني داخل الكويت عند الشراء بأكثر من ٥٠ د.ك</value>
+  </data>
+  <data name="You may also need" xml:space="preserve">
+    <value>قد يعجبكِ أيضاً</value>
+  </data>
+  <data name="Complete the bag." xml:space="preserve">
+    <value>أكملي لُكتك.</value>
+  </data>
+  <data name="Quick Add" xml:space="preserve">
+    <value>إضافة سريعة</value>
+  </data>
+  <data name="White Stitches home" xml:space="preserve">
+    <value>الصفحة الرئيسية - وايت ستيتشز</value>
+  </data>
+  <data name="Bag" xml:space="preserve">
+    <value>الحقيبة</value>
+  </data>
+  <data name="Checkout" xml:space="preserve">
+    <value>الدفع</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>تأكيد الطلب</value>
+  </data>
+  <data name="Thank you," xml:space="preserve">
+    <value>شكراً لكِ،</value>
+  </data>
+  <data name="Your order is confirmed." xml:space="preserve">
+    <value>تم تأكيد طلبك.</value>
+  </data>
+  <data name="A confirmation is on its way to" xml:space="preserve">
+    <value>تم إرسال تأكيد الطلب إلى</value>
+  </data>
+  <data name="We've also sent you a WhatsApp update on" xml:space="preserve">
+    <value>وأرسلنا لكِ إشعاراً عبر واتساب على</value>
+  </data>
+  <data name="Arriving" xml:space="preserve">
+    <value>الوصول</value>
+  </data>
+  <data name="within 2–3 working days" xml:space="preserve">
+    <value>خلال ٢–٣ أيام عمل</value>
+  </data>
+  <data name="Pay the courier in cash on arrival" xml:space="preserve">
+    <value>الدفع نقداً عند الاستلام</value>
+  </data>
+  <data name="Payment pending" xml:space="preserve">
+    <value>بانتظار تأكيد الدفع</value>
+  </data>
+  <data name="Payment pending confirmation" xml:space="preserve">
+    <value>بانتظار تأكيد الدفع</value>
+  </data>
+  <data name="Your pieces" xml:space="preserve">
+    <value>قطعكِ</value>
+  </data>
+  <data name="WhatsApp the atelier" xml:space="preserve">
+    <value>تواصلي مع الأتيليه عبر واتساب</value>
+  </data>
+  <data name="Sat–Thu · 9 AM – 9 PM Kuwait" xml:space="preserve">
+    <value>السبت–الخميس · ٩ ص – ٩ م بتوقيت الكويت</value>
+  </data>
+  <data name="Open WhatsApp" xml:space="preserve">
+    <value>افتحي واتساب</value>
+  </data>
+  <data name="Need to change something?" xml:space="preserve">
+    <value>تريدين تعديل الطلب؟</value>
+  </data>
+  <data name="You have 1 hour to update size, address, or cancel." xml:space="preserve">
+    <value>لديكِ ساعة واحدة لتعديل المقاس أو العنوان أو إلغاء الطلب.</value>
+  </data>
+  <data name="Manage order" xml:space="preserve">
+    <value>إدارة الطلب</value>
+  </data>
+  <data name="Create your account" xml:space="preserve">
+    <value>أنشئي حسابك</value>
+  </data>
+  <data name="Optional · 30 seconds" xml:space="preserve">
+    <value>اختياري · ٣٠ ثانية</value>
+  </data>
+  <data name="Save this address, track future orders, and unlock early access to lookbooks &amp; private sales." xml:space="preserve">
+    <value>احفظي عنوانك وتابعي طلباتك القادمة، واحصلي على وصول مبكر لكتالوجات اللوك والتخفيضات الخاصة.</value>
+  </data>
+  <data name="We'll use the email from your order" xml:space="preserve">
+    <value>سنستخدم البريد المسجّل في طلبك</value>
+  </data>
+  <data name="Download invoice (PDF)" xml:space="preserve">
+    <value>تنزيل الفاتورة (PDF)</value>
+  </data>
+  <data name="Paid securely via Tap Payments" xml:space="preserve">
+    <value>دفع آمن عبر Tap Payments</value>
+  </data>
+  <data name="14-day easy returns" xml:space="preserve">
+    <value>إرجاع مجاني خلال ١٤ يوم</value>
+  </data>
+  <data name="While you wait" xml:space="preserve">
+    <value>بينما تنتظرين</value>
+  </data>
+  <data name="You may also like." xml:space="preserve">
+    <value>قد يعجبكِ أيضاً.</value>
+  </data>
+  <data name="Back to bag" xml:space="preserve">
+    <value>العودة إلى الحقيبة</value>
+  </data>
+  <data name="Secure checkout" xml:space="preserve">
+    <value>دفع آمن</value>
+  </data>
+  <data name="Secure" xml:space="preserve">
+    <value>آمن</value>
+  </data>
+  <data name="Express checkout" xml:space="preserve">
+    <value>دفع سريع</value>
+  </data>
+  <data name="or fill in your details" xml:space="preserve">
+    <value>أو أدخلي بياناتك</value>
+  </data>
+  <data name="For order confirmation &amp; tracking" xml:space="preserve">
+    <value>لتأكيد الطلب ومتابعة الشحن</value>
+  </data>
+  <data name="We'll WhatsApp delivery updates" xml:space="preserve">
+    <value>سنرسل لكِ تحديثات التوصيل عبر واتساب</value>
+  </data>
+  <data name="Send me styling notes &amp; new arrivals · 1 email a week, never more" xml:space="preserve">
+    <value>أرسلي لي نصائح الإطلالات والوصولات الجديدة · رسالة واحدة أسبوعياً فقط</value>
+  </data>
+  <data name="Country / region" xml:space="preserve">
+    <value>الدولة / المنطقة</value>
+  </data>
+  <data name="Building / house" xml:space="preserve">
+    <value>البناية / المنزل</value>
+  </data>
+  <data name="Save this address for next time" xml:space="preserve">
+    <value>احفظي هذا العنوان للمرة القادمة</value>
+  </data>
+  <data name="Billing address is the same" xml:space="preserve">
+    <value>عنوان الفاتورة مطابق لعنوان التوصيل</value>
+  </data>
+  <data name="Delivery method" xml:space="preserve">
+    <value>طريقة التوصيل</value>
+  </data>
+  <data name="All payments processed by Tap Payments" xml:space="preserve">
+    <value>جميع المدفوعات تتم عبر Tap Payments</value>
+  </data>
+  <data name="Direct debit · most-used in Kuwait" xml:space="preserve">
+    <value>خصم مباشر · الأكثر استخداماً في الكويت</value>
+  </data>
+  <data name="You will be redirected to KNET's secure page to authenticate this payment." xml:space="preserve">
+    <value>سيتم تحويلكِ إلى صفحة KNET الآمنة لإتمام عملية الدفع.</value>
+  </data>
+  <data name="Credit / debit card" xml:space="preserve">
+    <value>بطاقة ائتمان / مدين</value>
+  </data>
+  <data name="Visa · Mastercard · AmEx · with 3D Secure" xml:space="preserve">
+    <value>فيزا · ماستركارد · أمريكان إكسبريس · مع 3D Secure</value>
+  </data>
+  <data name="Apple Pay" xml:space="preserve">
+    <value>Apple Pay</value>
+  </data>
+  <data name="Confirm with Face ID or Touch ID" xml:space="preserve">
+    <value>تأكيد عبر Face ID أو Touch ID</value>
+  </data>
+  <data name="KNET, card &amp; Apple Pay are processed securely by Tap Payments — you'll be redirected to complete your payment." xml:space="preserve">
+    <value>تتم معالجة مدفوعات KNET والبطاقات وApple Pay بشكل آمن عبر Tap Payments — سيتم تحويلكِ لإتمام الدفع.</value>
+  </data>
+  <data name="I've read and agree to the" xml:space="preserve">
+    <value>لقد قرأتُ وأوافق على</value>
+  </data>
+  <data name="Returns Policy" xml:space="preserve">
+    <value>سياسة الإرجاع</value>
+  </data>
+  <data name="Place order" xml:space="preserve">
+    <value>تأكيد الطلب</value>
+  </data>
+  <data name="By placing this order you authorise White Stitches via Tap Payments to charge the amount above. Your card details are tokenised; we never store them." xml:space="preserve">
+    <value>بتأكيد طلبكِ، تفوّضين وايت ستيتشز عبر Tap Payments بخصم المبلغ المذكور. بيانات بطاقتكِ مشفّرة ولا نحتفظ بها.</value>
+  </data>
+  <data name="Show order summary" xml:space="preserve">
+    <value>عرض ملخص الطلب</value>
+  </data>
+  <data name="Hide order summary" xml:space="preserve">
+    <value>إخفاء ملخص الطلب</value>
+  </data>
+  <data name="Promo or gift code" xml:space="preserve">
+    <value>رمز العرض أو بطاقة الهدية</value>
+  </data>
+  <data name="Encrypted &amp; PCI DSS Level 1" xml:space="preserve">
+    <value>مشفّر ومعتمد PCI DSS المستوى الأول</value>
+  </data>
+  <data name="Spring 2026 editorial — Noor double-breasted dress" xml:space="preserve">
+    <value>إديتوريال ربيع ٢٠٢٦ — فستان نور المزدوج الأزرار</value>
+  </data>
+  <data name="Spring · Summer 2026" xml:space="preserve">
+    <value>ربيع · صيف ٢٠٢٦</value>
+  </data>
+  <data name="The art of" xml:space="preserve">
+    <value>فن</value>
+  </data>
+  <data name="quiet elegance." xml:space="preserve">
+    <value>الأناقة الهادئة.</value>
+  </data>
+  <data name="A curated edit of cuts, fabrics and silhouettes — designed for the woman who measures luxury in stitches, not labels." xml:space="preserve">
+    <value>تشكيلة مختارة من القصّات والأقمشة والسيلويتات — صُمِّمت للمرأة التي تقيس الفخامة بالغرزة لا بالعلامة.</value>
+  </data>
+  <data name="Watch the Film" xml:space="preserve">
+    <value>شاهدي الفيلم</value>
+  </data>
+  <data name="Lookbook" xml:space="preserve">
+    <value>لوك بوك</value>
+  </data>
+  <data name="New Pieces" xml:space="preserve">
+    <value>قطع جديدة</value>
+  </data>
+  <data name="GCC Markets" xml:space="preserve">
+    <value>أسواق الخليج</value>
+  </data>
+  <data name="Scroll to explore" xml:space="preserve">
+    <value>مرّري للاستكشاف</value>
+  </data>
+  <data name="Scroll" xml:space="preserve">
+    <value>مرّري</value>
+  </data>
+  <data name="Free Delivery in Kuwait" xml:space="preserve">
+    <value>توصيل مجاني داخل الكويت</value>
+  </data>
+  <data name="Crafted at Our Atelier" xml:space="preserve">
+    <value>مُصنَّعة في أتيليهاتنا</value>
+  </data>
+  <data name="Shop by Category" xml:space="preserve">
+    <value>تسوّقي حسب الفئة</value>
+  </data>
+  <data name="Curated lines, season after season." xml:space="preserve">
+    <value>تشكيلات مختارة، موسماً بعد موسم.</value>
+  </data>
+  <data name="Jackets collection" xml:space="preserve">
+    <value>مجموعة الجاكيتات</value>
+  </data>
+  <data name="Dresses collection" xml:space="preserve">
+    <value>مجموعة الفساتين</value>
+  </data>
+  <data name="Suits collection" xml:space="preserve">
+    <value>مجموعة البدل</value>
+  </data>
+  <data name="Tops collection" xml:space="preserve">
+    <value>مجموعة التوبات</value>
+  </data>
+  <data name="Just landed." xml:space="preserve">
+    <value>وصلت للتو.</value>
+  </data>
+  <data name="View all →" xml:space="preserve">
+    <value>عرض الكل →</value>
+  </data>
+  <data name="The List" xml:space="preserve">
+    <value>القائمة</value>
+  </data>
+  <data name="Be the first to receive new edits, private events and the SS26 lookbook." xml:space="preserve">
+    <value>كوني أول من تتلقى التشكيلات الجديدة والفعاليات الخاصة ولوك بوك صيف ٢٠٢٦.</value>
+  </data>
+  <data name="You're on the list." xml:space="preserve">
+    <value>أنتِ على القائمة.</value>
+  </data>
+  <data name="Welcome — the next edit lands in your inbox first." xml:space="preserve">
+    <value>أهلاً — ستصلكِ التشكيلة القادمة إلى بريدك أولاً.</value>
+  </data>
+  <data name="Your email address" xml:space="preserve">
+    <value>بريدك الإلكتروني</value>
+  </data>
+  <data name="Email address" xml:space="preserve">
+    <value>البريد الإلكتروني</value>
+  </data>
+  <data name="Subscribe" xml:space="preserve">
+    <value>اشتركي</value>
+  </data>
+  <data name="Also send me styling tips on WhatsApp" xml:space="preserve">
+    <value>أرسلي لي نصائح الستايل على واتساب أيضاً</value>
+  </data>
+  <data name="You're already on the list — we'll keep the edits coming." xml:space="preserve">
+    <value>أنتِ بالفعل على القائمة — سنواصل إرسال التشكيلات.</value>
+  </data>
+  <data name="Fashion Atelier · Kuwait" xml:space="preserve">
+    <value>دار أزياء · الكويت</value>
+  </data>
+  <data name="Enter the site" xml:space="preserve">
+    <value>ادخلي الموقع</value>
+  </data>
+  <data name="Tap to enter" xml:space="preserve">
+    <value>اضغطي للدخول</value>
+  </data>
+  <data name="Atelier closed briefly" xml:space="preserve">
+    <value>الأتيليه مغلق مؤقتاً</value>
+  </data>
+  <data name="We'll be right back." xml:space="preserve">
+    <value>نعود إليكِ بلحظات.</value>
+  </data>
+  <data name="Our site is going through a quick refresh. We're back in roughly" xml:space="preserve">
+    <value>موقعنا يمرّ بتحديث سريع. نعود تقريباً خلال</value>
+  </data>
+  <data name="— the atelier itself is still open and you can WhatsApp us in the meantime." xml:space="preserve">
+    <value>— الأتيليه لا يزال مفتوحاً ويمكنكِ التواصل معنا عبر واتساب في الأثناء.</value>
+  </data>
+  <data name="Want a heads-up when we're back?" xml:space="preserve">
+    <value>تودّين إشعاراً عند عودتنا؟</value>
+  </data>
+  <data name="Notify me" xml:space="preserve">
+    <value>أشعريني</value>
+  </data>
+  <data name="We'll email you the moment we're back online." xml:space="preserve">
+    <value>سنرسل لكِ بريداً إلكترونياً فور عودة الموقع.</value>
+  </data>
+  <data name="or reach us now" xml:space="preserve">
+    <value>أو تواصلي معنا الآن</value>
+  </data>
+  <data name="Email us" xml:space="preserve">
+    <value>راسليني</value>
+  </data>
+  <data name="Instagram" xml:space="preserve">
+    <value>إنستغرام</value>
+  </data>
+  <data name="TikTok" xml:space="preserve">
+    <value>تيك توك</value>
+  </data>
+  <data name="Pinterest" xml:space="preserve">
+    <value>بينتريست</value>
+  </data>
+  <data name="Page not found" xml:space="preserve">
+    <value>الصفحة غير موجودة</value>
+  </data>
+  <data name="This page slipped a stitch." xml:space="preserve">
+    <value>يبدو إن هذي الصفحة ضاعت منّا.</value>
+  </data>
+  <data name="The link you followed doesn't lead anywhere on our site — maybe a typo, or maybe it's been moved." xml:space="preserve">
+    <value>الرابط اللي اتبعتيه ما يوصل لأي مكان عندنا — ربما خطأ في الكتابة، أو تم نقل الصفحة.</value>
+  </data>
+  <data name="Back to home" xml:space="preserve">
+    <value>العودة للرئيسية</value>
+  </data>
+  <data name="Or try one of these" xml:space="preserve">
+    <value>أو جرّبي إحدى هذي</value>
+  </data>
+  <data name="Women" xml:space="preserve">
+    <value>نساء</value>
+  </data>
+  <data name="Men" xml:space="preserve">
+    <value>رجال</value>
+  </data>
+  <data name="Accessories" xml:space="preserve">
+    <value>إكسسوارات</value>
+  </data>
+  <data name="Your account" xml:space="preserve">
+    <value>حسابك</value>
+  </data>
+  <data name="Contact us" xml:space="preserve">
+    <value>تواصلي معنا</value>
+  </data>
+  <data name="While you're here" xml:space="preserve">
+    <value>وما دمتِ هنا</value>
+  </data>
+  <data name="Mira Draped Midi" xml:space="preserve">
+    <value>ميرا دريبد ميدي</value>
+  </data>
+  <data name="Lina Silk Slip Dress" xml:space="preserve">
+    <value>لينا سيلك سليب درس</value>
+  </data>
+  <data name="Atelier Blazer" xml:space="preserve">
+    <value>أتيليه بليزر</value>
+  </data>
+  <data name="Sahar Trouser" xml:space="preserve">
+    <value>بنطلون سحر</value>
+  </data>
+  <data name="Notes from the atelier." xml:space="preserve">
+    <value>ملاحظات من الأتيليه.</value>
+  </data>
+  <data name="Styling guides, behind-the-scenes from our team, and the stories behind each piece." xml:space="preserve">
+    <value>أدلة الأناقة، وكواليس فريقنا، وحكايات كل قطعة.</value>
+  </data>
+  <data name="Featured" xml:space="preserve">
+    <value>مميّز</value>
+  </data>
+  <data name="Nothing here yet." xml:space="preserve">
+    <value>لا يوجد شيء هنا بعد.</value>
+  </data>
+  <data name="We haven't published any journal entries under this filter. Check back soon — or browse the full journal." xml:space="preserve">
+    <value>لم ننشر أي مقالات تحت هذا التصنيف بعد. تفقّدينا قريباً — أو تصفّحي المجلة كاملة.</value>
+  </data>
+  <data name="View all articles" xml:space="preserve">
+    <value>عرض جميع المقالات</value>
+  </data>
+  <data name="Previous page" xml:space="preserve">
+    <value>الصفحة السابقة</value>
+  </data>
+  <data name="Next page" xml:space="preserve">
+    <value>الصفحة التالية</value>
+  </data>
+  <data name="Back to journal" xml:space="preserve">
+    <value>العودة إلى المجلة</value>
+  </data>
+  <data name="min read" xml:space="preserve">
+    <value>دقيقة قراءة</value>
+  </data>
+  <data name="Share this piece" xml:space="preserve">
+    <value>شاركي هذا المقال</value>
+  </data>
+  <data name="Share on Instagram" xml:space="preserve">
+    <value>شاركي على إنستغرام</value>
+  </data>
+  <data name="Share on WhatsApp" xml:space="preserve">
+    <value>شاركي على واتساب</value>
+  </data>
+  <data name="Share on Pinterest" xml:space="preserve">
+    <value>شاركي على پنترست</value>
+  </data>
+  <data name="Copy link" xml:space="preserve">
+    <value>نسخ الرابط</value>
+  </data>
+  <data name="Written by" xml:space="preserve">
+    <value>بقلم</value>
+  </data>
+  <data name="Writes here about the pieces we make and the people we make them with." xml:space="preserve">
+    <value>تكتب هنا عن القطع التي نصنعها والأشخاص الذين نصنعها معهم.</value>
+  </data>
+  <data name="Read next" xml:space="preserve">
+    <value>اقرئي أيضاً</value>
+  </data>
+  <data name="More from the journal." xml:space="preserve">
+    <value>المزيد من المجلة.</value>
+  </data>
+  <data name="Made in Kuwait." xml:space="preserve">
+    <value>صُنع في الكويت.</value>
+  </data>
+  <data name="For the women of the GCC." xml:space="preserve">
+    <value>لنساء الخليج.</value>
+  </data>
+  <data name="Founded in 2024, White Stitches is a small atelier in the heart of Kuwait City — quietly designing pieces meant to outlast a season." xml:space="preserve">
+    <value>تأسّست White Stitches عام 2024 كأتيليه صغير في قلب مدينة الكويت — نصمّم بهدوء قطعاً لا تعرف الموسم.</value>
+  </data>
+  <data name="A letter from our founder" xml:space="preserve">
+    <value>رسالة من مؤسّستنا</value>
+  </data>
+  <data name="We started White Stitches because we were tired of fast fashion that didn't fit our climate, our culture, or our values." xml:space="preserve">
+    <value>بدأنا White Stitches لأنّنا مللنا من الموضة السريعة التي لا تناسب مناخنا ولا ثقافتنا ولا قيمنا.</value>
+  </data>
+  <data name="Founder &amp; Creative Director" xml:space="preserve">
+    <value>المؤسّسة والمديرة الإبداعية</value>
+  </data>
+  <data name="Made by hand" xml:space="preserve">
+    <value>صناعة يدوية</value>
+  </data>
+  <data name="Small batches" xml:space="preserve">
+    <value>كميات محدودة</value>
+  </data>
+  <data name="Designed for here" xml:space="preserve">
+    <value>مصمَّم لهنا</value>
+  </data>
+  <data name="Quiet over loud" xml:space="preserve">
+    <value>الأناقة الهادئة</value>
+  </data>
+  <data name="A small house in Sharq." xml:space="preserve">
+    <value>بيت صغير في الشرق.</value>
+  </data>
+  <data name="Our fabrics" xml:space="preserve">
+    <value>أقمشتنا</value>
+  </data>
+  <data name="Sourced for the climate." xml:space="preserve">
+    <value>مختارة لمناخنا.</value>
+  </data>
+  <data name="Slower, on purpose." xml:space="preserve">
+    <value>ببطء، وعن قصد.</value>
+  </data>
+  <data name="Come visit the atelier." xml:space="preserve">
+    <value>تفضّلي بزيارة الأتيليه.</value>
+  </data>
+  <data name="Block 3, Sharq Tower · Floor 3 · Kuwait City" xml:space="preserve">
+    <value>قطعة 3، برج الشرق · الطابق 3 · مدينة الكويت</value>
+  </data>
+  <data name="Sat–Thu · 11 AM – 7 PM · by appointment" xml:space="preserve">
+    <value>السبت–الخميس · 11 ص – 7 م · بموعد مسبق</value>
+  </data>
+  <data name="Book an appointment" xml:space="preserve">
+    <value>احجزي موعدك</value>
+  </data>
+  <data name="We're here to help." xml:space="preserve">
+    <value>نحن هنا لمساعدتك.</value>
+  </data>
+  <data name="Whether it's sizing, a special request or just to say hello — reach out however suits you." xml:space="preserve">
+    <value>سواء كان عندك سؤال عن المقاس، طلب خاص، أو تبين تقولين مرحبا — تواصلي معنا بالطريقة اللي تناسبك.</value>
+  </data>
+  <data name="Fastest response · usually under 15 minutes during business hours." xml:space="preserve">
+    <value>أسرع وسيلة للرد · عادةً أقل من ١٥ دقيقة خلال أوقات الدوام.</value>
+  </data>
+  <data name="For longer enquiries, returns, partnerships. We reply within 24 hours." xml:space="preserve">
+    <value>للاستفسارات التفصيلية، الإرجاع، والشراكات. نرد خلال ٢٤ ساعة.</value>
+  </data>
+  <data name="Visit the atelier" xml:space="preserve">
+    <value>زوري الأتيليه</value>
+  </data>
+  <data name="Get directions" xml:space="preserve">
+    <value>احصلي على الاتجاهات</value>
+  </data>
+  <data name="Send us a message." xml:space="preserve">
+    <value>أرسلي لنا رسالة.</value>
+  </data>
+  <data name="For everything else — we'll come back to you within 24 hours." xml:space="preserve">
+    <value>لأي شيء آخر — سنرد عليك خلال ٢٤ ساعة.</value>
+  </data>
+  <data name="Message sent." xml:space="preserve">
+    <value>تم إرسال الرسالة.</value>
+  </data>
+  <data name="Thanks" xml:space="preserve">
+    <value>شكراً</value>
+  </data>
+  <data name="we've received your enquiry and will reply within 24 hours." xml:space="preserve">
+    <value>وصلنا استفسارك وسنرد عليك خلال ٢٤ ساعة.</value>
+  </data>
+  <data name="Full name" xml:space="preserve">
+    <value>الاسم الكامل</value>
+  </data>
+  <data name="Mobile (optional)" xml:space="preserve">
+    <value>رقم الجوال (اختياري)</value>
+  </data>
+  <data name="Order enquiry" xml:space="preserve">
+    <value>استفسار عن طلب</value>
+  </data>
+  <data name="Sizing or fit help" xml:space="preserve">
+    <value>مساعدة في المقاسات</value>
+  </data>
+  <data name="Returns or exchanges" xml:space="preserve">
+    <value>الإرجاع والاستبدال</value>
+  </data>
+  <data name="Press &amp; partnerships" xml:space="preserve">
+    <value>الإعلام والشراكات</value>
+  </data>
+  <data name="Wholesale / B2B" xml:space="preserve">
+    <value>البيع بالجملة / الشركات</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>أخرى</value>
+  </data>
+  <data name="What can we help with?" xml:space="preserve">
+    <value>كيف نقدر نساعدك؟</value>
+  </data>
+  <data name="Order number (if relevant)" xml:space="preserve">
+    <value>رقم الطلب (إن وجد)</value>
+  </data>
+  <data name="Your message" xml:space="preserve">
+    <value>رسالتك</value>
+  </data>
+  <data name="I consent to White Stitches contacting me by email and WhatsApp regarding this enquiry. See our" xml:space="preserve">
+    <value>أوافق على تواصل وايت ستيتشز معي عبر الإيميل والواتساب بخصوص هذا الاستفسار. اطلعي على</value>
+  </data>
+  <data name="Send message" xml:space="preserve">
+    <value>إرسال الرسالة</value>
+  </data>
+  <data name="Hours" xml:space="preserve">
+    <value>أوقات العمل</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>السبت</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>الأحد</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>الاثنين</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>الثلاثاء</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>الأربعاء</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>الخميس</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>الجمعة</value>
+  </data>
+  <data name="Closed" xml:space="preserve">
+    <value>مغلق</value>
+  </data>
+  <data name="Find us" xml:space="preserve">
+    <value>موقعنا</value>
+  </data>
+  <data name="Follow us" xml:space="preserve">
+    <value>تابعينا</value>
+  </data>
+  <data name="Legal · Cookies" xml:space="preserve">
+    <value>قانوني · الكوكيز</value>
+  </data>
+  <data name="Cookies policy." xml:space="preserve">
+    <value>سياسة الكوكيز.</value>
+  </data>
+  <data name="How we use cookies and similar technologies — and how you can control them." xml:space="preserve">
+    <value>كيف نستخدم الكوكيز والتقنيات المشابهة — وكيف تتحكمين بها.</value>
+  </data>
+  <data name="On this page" xml:space="preserve">
+    <value>في هذه الصفحة</value>
+  </data>
+  <data name="What cookies are" xml:space="preserve">
+    <value>ما هي الكوكيز</value>
+  </data>
+  <data name="The cookies we use" xml:space="preserve">
+    <value>الكوكيز التي نستخدمها</value>
+  </data>
+  <data name="How to control them" xml:space="preserve">
+    <value>كيف تتحكمين بها</value>
+  </data>
+  <data name="Third-party cookies" xml:space="preserve">
+    <value>كوكيز الجهات الخارجية</value>
+  </data>
+  <data name="Changes to this policy" xml:space="preserve">
+    <value>التغييرات على هذه السياسة</value>
+  </data>
+  <data name="Essential · always on" xml:space="preserve">
+    <value>أساسية · دائماً مفعّلة</value>
+  </data>
+  <data name="Strictly necessary" xml:space="preserve">
+    <value>ضرورية تماماً</value>
+  </data>
+  <data name="Functional" xml:space="preserve">
+    <value>وظيفية</value>
+  </data>
+  <data name="Analytics" xml:space="preserve">
+    <value>التحليلات</value>
+  </data>
+  <data name="Performance &amp;amp; analytics" xml:space="preserve">
+    <value>الأداء والتحليلات</value>
+  </data>
+  <data name="Marketing" xml:space="preserve">
+    <value>التسويق</value>
+  </data>
+  <data name="Marketing &amp;amp; advertising" xml:space="preserve">
+    <value>التسويق والإعلانات</value>
+  </data>
+  <data name="Help · FAQ" xml:space="preserve">
+    <value>المساعدة · الأسئلة الشائعة</value>
+  </data>
+  <data name="Frequently asked." xml:space="preserve">
+    <value>الأسئلة الأكثر شيوعاً.</value>
+  </data>
+  <data name="Quick answers to the questions we get most. Can't find what you're looking for? WhatsApp us." xml:space="preserve">
+    <value>إجابات سريعة على أكثر الأسئلة اللي نتلقاها. ما لقيتي اللي تبحثين عنه؟ راسلينا على واتساب.</value>
+  </data>
+  <data name="Last updated · 10 May 2026" xml:space="preserve">
+    <value>آخر تحديث · 10 مايو 2026</value>
+  </data>
+  <data name="Orders &amp; payment" xml:space="preserve">
+    <value>الطلبات والدفع</value>
+  </data>
+  <data name="Product &amp; sizing" xml:space="preserve">
+    <value>المنتج والمقاسات</value>
+  </data>
+  <data name="My account &amp; privacy" xml:space="preserve">
+    <value>حسابي والخصوصية</value>
+  </data>
+  <data name="How long does it take to process my order?" xml:space="preserve">
+    <value>كم يستغرق تجهيز طلبي؟</value>
+  </data>
+  <data name="What payment methods do you accept?" xml:space="preserve">
+    <value>ما طرق الدفع المتاحة؟</value>
+  </data>
+  <data name="Can I change or cancel my order after placing it?" xml:space="preserve">
+    <value>هل أقدر أعدّل أو أألغي طلبي بعد تأكيده؟</value>
+  </data>
+  <data name="Do you offer gift wrapping?" xml:space="preserve">
+    <value>هل تقدمون خدمة تغليف الهدايا؟</value>
+  </data>
+  <data name="Where do you ship?" xml:space="preserve">
+    <value>لأي مناطق تشحنون؟</value>
+  </data>
+  <data name="How long does delivery take?" xml:space="preserve">
+    <value>كم يستغرق التوصيل؟</value>
+  </data>
+  <data name="Will I get tracking?" xml:space="preserve">
+    <value>هل سأحصل على رقم تتبع؟</value>
+  </data>
+  <data name="Do you ship to PO boxes?" xml:space="preserve">
+    <value>هل تشحنون على صناديق البريد؟</value>
+  </data>
+  <data name="What's your returns policy?" xml:space="preserve">
+    <value>ما سياسة الإرجاع عندكم؟</value>
+  </data>
+  <data name="Are sale items returnable?" xml:space="preserve">
+    <value>هل يمكن إرجاع منتجات التخفيضات؟</value>
+  </data>
+  <data name="How do I start a return?" xml:space="preserve">
+    <value>كيف أبدأ طلب إرجاع؟</value>
+  </data>
+  <data name="Do you cover return shipping?" xml:space="preserve">
+    <value>هل تتحملون تكلفة شحن الإرجاع؟</value>
+  </data>
+  <data name="How do your sizes run?" xml:space="preserve">
+    <value>كيف تكون المقاسات عندكم؟</value>
+  </data>
+  <data name="Are pieces restocked?" xml:space="preserve">
+    <value>هل يُعاد توفير القطع المنتهية؟</value>
+  </data>
+  <data name="How do I care for my pieces?" xml:space="preserve">
+    <value>كيف أعتني بقطعي؟</value>
+  </data>
+  <data name="Do I need an account to order?" xml:space="preserve">
+    <value>هل أحتاج حساباً لإتمام الطلب؟</value>
+  </data>
+  <data name="How do you use my data?" xml:space="preserve">
+    <value>كيف تستخدمون بياناتي؟</value>
+  </data>
+  <data name="Can I delete my account?" xml:space="preserve">
+    <value>هل أقدر أحذف حسابي؟</value>
+  </data>
+  <data name="Legal · Privacy" xml:space="preserve">
+    <value>قانوني · الخصوصية</value>
+  </data>
+  <data name="Privacy policy." xml:space="preserve">
+    <value>سياسة الخصوصية.</value>
+  </data>
+  <data name="How we collect, use and protect your personal information. We respect your privacy and never sell your data." xml:space="preserve">
+    <value>كيف نجمع معلوماتك الشخصية ونستخدمها ونحميها. نحن نحترم خصوصيتك ولا نبيع بياناتك أبدًا.</value>
+  </data>
+  <data name="Last updated" xml:space="preserve">
+    <value>آخر تحديث</value>
+  </data>
+  <data name="Who we are" xml:space="preserve">
+    <value>من نحن</value>
+  </data>
+  <data name="What we collect" xml:space="preserve">
+    <value>ما نجمعه</value>
+  </data>
+  <data name="How we use it" xml:space="preserve">
+    <value>كيف نستخدمه</value>
+  </data>
+  <data name="Who we share it with" xml:space="preserve">
+    <value>مع من نشاركه</value>
+  </data>
+  <data name="Your rights" xml:space="preserve">
+    <value>حقوقك</value>
+  </data>
+  <data name="How long we keep it" xml:space="preserve">
+    <value>مدة الاحتفاظ به</value>
+  </data>
+  <data name="Security" xml:space="preserve">
+    <value>الأمان</value>
+  </data>
+  <data name="Help · Returns policy" xml:space="preserve">
+    <value>المساعدة · سياسة الإرجاع</value>
+  </data>
+  <data name="14 days from the day you receive your order. Unworn pieces with original tags. Refunds in 3–5 working days." xml:space="preserve">
+    <value>١٤ يومًا من تاريخ استلام طلبك. قطع لم تُلبس مع بطاقاتها الأصلية. استرداد المبلغ خلال ٣–٥ أيام عمل.</value>
+  </data>
+  <data name="The 14-day window" xml:space="preserve">
+    <value>مهلة الـ ١٤ يومًا</value>
+  </data>
+  <data name="What can be returned" xml:space="preserve">
+    <value>ما يمكن إرجاعه</value>
+  </data>
+  <data name="What cannot be returned" xml:space="preserve">
+    <value>ما لا يمكن إرجاعه</value>
+  </data>
+  <data name="How to return" xml:space="preserve">
+    <value>كيفية الإرجاع</value>
+  </data>
+  <data name="Exchanges" xml:space="preserve">
+    <value>الاستبدال</value>
+  </data>
+  <data name="Return shipping costs" xml:space="preserve">
+    <value>تكاليف شحن الإرجاع</value>
+  </data>
+  <data name="Refunds" xml:space="preserve">
+    <value>استرداد المبالغ</value>
+  </data>
+  <data name="Help · Shipping" xml:space="preserve">
+    <value>المساعدة · الشحن</value>
+  </data>
+  <data name="Shipping &amp; delivery." xml:space="preserve">
+    <value>الشحن والتوصيل.</value>
+  </data>
+  <data name="Free standard delivery in Kuwait over 50 KWD. Express, same-day and pickup options available." xml:space="preserve">
+    <value>توصيل مجاني داخل الكويت للطلبات فوق ٥٠ د.ك. خيارات إكسبريس وتوصيل في نفس اليوم والاستلام متاحة.</value>
+  </data>
+  <data name="Last updated · 5 May 2026" xml:space="preserve">
+    <value>آخر تحديث · ٥ مايو ٢٠٢٦</value>
+  </data>
+  <data name="Within Kuwait" xml:space="preserve">
+    <value>داخل الكويت</value>
+  </data>
+  <data name="Across the GCC" xml:space="preserve">
+    <value>دول مجلس التعاون</value>
+  </data>
+  <data name="Tracking your order" xml:space="preserve">
+    <value>تتبع طلبك</value>
+  </data>
+  <data name="On delivery day" xml:space="preserve">
+    <value>يوم التوصيل</value>
+  </data>
+  <data name="If something goes wrong" xml:space="preserve">
+    <value>في حال وجود مشكلة</value>
+  </data>
+  <data name="Standard" xml:space="preserve">
+    <value>عادي</value>
+  </data>
+  <data name="Express next-day" xml:space="preserve">
+    <value>إكسبريس في اليوم التالي</value>
+  </data>
+  <data name="Same-day · Kuwait City" xml:space="preserve">
+    <value>نفس اليوم · مدينة الكويت</value>
+  </data>
+  <data name="Atelier pickup" xml:space="preserve">
+    <value>استلام من الأتيليه</value>
+  </data>
+  <data name="Express" xml:space="preserve">
+    <value>إكسبريس</value>
+  </data>
+  <data name="Free over" xml:space="preserve">
+    <value>مجاني فوق</value>
+  </data>
+  <data name="Help · Size Guide" xml:space="preserve">
+    <value>المساعدة · دليل المقاسات</value>
+  </data>
+  <data name="Size guide." xml:space="preserve">
+    <value>دليل المقاسات.</value>
+  </data>
+  <data name="How to measure" xml:space="preserve">
+    <value>كيف تأخذين مقاساتك</value>
+  </data>
+  <data name="Women · Clothing" xml:space="preserve">
+    <value>نساء · ملابس</value>
+  </data>
+  <data name="Women · Shoes" xml:space="preserve">
+    <value>نساء · أحذية</value>
+  </data>
+  <data name="Men · Clothing" xml:space="preserve">
+    <value>رجال · ملابس</value>
+  </data>
+  <data name="Still unsure?" xml:space="preserve">
+    <value>ما زلتِ غير متأكدة؟</value>
+  </data>
+  <data name="UK" xml:space="preserve">
+    <value>UK</value>
+  </data>
+  <data name="EU" xml:space="preserve">
+    <value>EU</value>
+  </data>
+  <data name="US" xml:space="preserve">
+    <value>US</value>
+  </data>
+  <data name="Bust (cm)" xml:space="preserve">
+    <value>الصدر (سم)</value>
+  </data>
+  <data name="Waist (cm)" xml:space="preserve">
+    <value>الخصر (سم)</value>
+  </data>
+  <data name="Hips (cm)" xml:space="preserve">
+    <value>الأرداف (سم)</value>
+  </data>
+  <data name="Foot length (cm)" xml:space="preserve">
+    <value>طول القدم (سم)</value>
+  </data>
+  <data name="Chest (cm)" xml:space="preserve">
+    <value>الصدر (سم)</value>
+  </data>
+  <data name="Neck (cm)" xml:space="preserve">
+    <value>الرقبة (سم)</value>
+  </data>
+  <data name="Legal · Terms" xml:space="preserve">
+    <value>قانوني · الشروط</value>
+  </data>
+  <data name="Terms of sale." xml:space="preserve">
+    <value>شروط البيع.</value>
+  </data>
+  <data name="The agreement between you and White Stitches when you buy from us." xml:space="preserve">
+    <value>الاتفاقية بينك وبين وايت ستيتشز عند شرائك منّا.</value>
+  </data>
+  <data name="Your agreement with us" xml:space="preserve">
+    <value>اتفاقيتك معنا</value>
+  </data>
+  <data name="Placing an order" xml:space="preserve">
+    <value>تقديم طلب</value>
+  </data>
+  <data name="Pricing &amp; payment" xml:space="preserve">
+    <value>الأسعار والدفع</value>
+  </data>
+  <data name="Delivery &amp; risk" xml:space="preserve">
+    <value>التوصيل والمسؤولية</value>
+  </data>
+  <data name="Returns &amp; refunds" xml:space="preserve">
+    <value>الإرجاع والاسترداد</value>
+  </data>
+  <data name="Quality &amp; defects" xml:space="preserve">
+    <value>الجودة والعيوب</value>
+  </data>
+  <data name="Intellectual property" xml:space="preserve">
+    <value>الملكية الفكرية</value>
+  </data>
+  <data name="Limits on liability" xml:space="preserve">
+    <value>حدود المسؤولية</value>
+  </data>
+  <data name="Disputes &amp; governing law" xml:space="preserve">
+    <value>النزاعات والقانون المعمول به</value>
+  </data>
+  <data name="Track" xml:space="preserve">
+    <value>تتبع</value>
+  </data>
+  <data name="Where's my order?" xml:space="preserve">
+    <value>وين طلبي؟</value>
+  </data>
+  <data name="Enter your order number and email to see the latest. No account needed." xml:space="preserve">
+    <value>أدخلي رقم طلبك وإيميلك لتعرفين آخر تحديث. ما تحتاجين حساب.</value>
+  </data>
+  <data name="Order found" xml:space="preserve">
+    <value>الطلب موجود</value>
+  </data>
+  <data name="Look up another" xml:space="preserve">
+    <value>ابحثي عن طلب ثاني</value>
+  </data>
+  <data name="Order status" xml:space="preserve">
+    <value>حالة الطلب</value>
+  </data>
+  <data name="This order is no longer on its way. If you weren't expecting that," xml:space="preserve">
+    <value>هذا الطلب لم يعد في الطريق. إذا ما توقعتي هذا،</value>
+  </data>
+  <data name="reach the atelier on WhatsApp" xml:space="preserve">
+    <value>تواصلي مع الأتيليه على واتساب</value>
+  </data>
+  <data name="and we'll sort it out." xml:space="preserve">
+    <value>وراح نحل الموضوع.</value>
+  </data>
+  <data name="We couldn't find that order." xml:space="preserve">
+    <value>ما قدرنا نلاقي هذا الطلب.</value>
+  </data>
+  <data name="Double-check the order number and email match what's in your confirmation. Still stuck?" xml:space="preserve">
+    <value>تأكدي إن رقم الطلب والإيميل متطابقين مع رسالة التأكيد. ما زلتِ تواجهين مشكلة؟</value>
+  </data>
+  <data name="Order number" xml:space="preserve">
+    <value>رقم الطلب</value>
+  </data>
+  <data name="From your confirmation email — e.g. #WS-2026-08412" xml:space="preserve">
+    <value>من رسالة تأكيد طلبك — مثال: #WS-2026-08412</value>
+  </data>
+  <data name="Email or mobile" xml:space="preserve">
+    <value>الإيميل أو رقم الجوال</value>
+  </data>
+  <data name="The one you used at checkout" xml:space="preserve">
+    <value>اللي استخدمتِه عند الدفع</value>
+  </data>
+  <data name="Find my order" xml:space="preserve">
+    <value>ابحثي عن طلبي</value>
+  </data>
+  <data name="Can't find your order number?" xml:space="preserve">
+    <value>ما تقدرين تلاقين رقم طلبك؟</value>
+  </data>
+  <data name="and we'll look it up." xml:space="preserve">
+    <value>وراح نساعدك تلاقينه.</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>إغلاق</value>
+  </data>
+  <data name="You're" xml:space="preserve">
+    <value>أنتِ على بُعد</value>
+  </data>
+  <data name="away from complimentary delivery." xml:space="preserve">
+    <value>من الحصول على توصيل مجاني.</value>
+  </data>
+  <data name="Delivery and taxes calculated at checkout." xml:space="preserve">
+    <value>يتم احتساب التوصيل والضرائب عند إتمام الطلب.</value>
+  </data>
+  <data name="View bag" xml:space="preserve">
+    <value>عرض الحقيبة</value>
+  </data>
+  <data name="Start exploring — the SS26 edit is waiting." xml:space="preserve">
+    <value>ابدئي التصفح — تشكيلة SS26 بانتظارك.</value>
+  </data>
+  <data name="Error." xml:space="preserve">
+    <value>خطأ.</value>
+  </data>
+  <data name="An error occurred while processing your request." xml:space="preserve">
+    <value>حدث خطأ أثناء معالجة طلبك.</value>
+  </data>
+  <data name="Request ID:" xml:space="preserve">
+    <value>رقم الطلب:</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>جديد</value>
+  </data>
+  <data name="Add to wishlist" xml:space="preserve">
+    <value>أضف إلى المفضلة</value>
+  </data>
+  <data name="Available colours" xml:space="preserve">
+    <value>الألوان المتوفرة</value>
+  </data>
+  <data name="Coming soon" xml:space="preserve">
+    <value>قريباً</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>الرئيسية</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>تصفية</value>
+  </data>
+  <data name="Sort by" xml:space="preserve">
+    <value>ترتيب حسب</value>
+  </data>
+  <data name="Close filters" xml:space="preserve">
+    <value>إغلاق التصفية</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>الفئة</value>
+  </data>
+  <data name="Price (KWD)" xml:space="preserve">
+    <value>السعر (د.ك)</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>من</value>
+  </data>
+  <data name="Minimum price" xml:space="preserve">
+    <value>أدنى سعر</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>إلى</value>
+  </data>
+  <data name="Maximum price" xml:space="preserve">
+    <value>أعلى سعر</value>
+  </data>
+  <data name="Availability" xml:space="preserve">
+    <value>التوفّر</value>
+  </data>
+  <data name="In stock" xml:space="preserve">
+    <value>متوفّر</value>
+  </data>
+  <data name="Clear all" xml:space="preserve">
+    <value>مسح الكل</value>
+  </data>
+  <data name="Show results" xml:space="preserve">
+    <value>عرض النتائج</value>
+  </data>
+  <data name="No pieces match those filters." xml:space="preserve">
+    <value>لا توجد قطع تطابق هذه التصفية.</value>
+  </data>
+  <data name="Try widening one of your selections or clearing the filters to see the full edit." xml:space="preserve">
+    <value>جرّبي توسيع أحد خياراتك أو مسح التصفية لرؤية التشكيلة كاملة.</value>
+  </data>
+  <data name="Clear all filters" xml:space="preserve">
+    <value>مسح كل الفلاتر</value>
+  </data>
+  <data name="The" xml:space="preserve">
+    <value>تشكيلة</value>
+  </data>
+  <data name="Edit · Spring/Summer 2026" xml:space="preserve">
+    <value>· ربيع/صيف 2026</value>
+  </data>
+  <data name="Collection" xml:space="preserve">
+    <value>المجموعة</value>
+  </data>
+  <data name="Product gallery thumbnails" xml:space="preserve">
+    <value>معرض صور المنتج</value>
+  </data>
+  <data name="VAT included · Free shipping over 50 KWD" xml:space="preserve">
+    <value>شامل الضريبة · شحن مجاني للطلبات فوق ٥٠ د.ك</value>
+  </data>
+  <data name="Sold out" xml:space="preserve">
+    <value>نفذت الكمية</value>
+  </data>
+  <data name="Size guide →" xml:space="preserve">
+    <value>دليل المقاسات ←</value>
+  </data>
+  <data name="Add to bag" xml:space="preserve">
+    <value>أضيفي للحقيبة</value>
+  </data>
+  <data name="policy" xml:space="preserve">
+    <value>سياسة الإرجاع</value>
+  </data>
+  <data name="Share" xml:space="preserve">
+    <value>شاركي</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>الوصف</value>
+  </data>
+  <data name="Fabric &amp; Materials" xml:space="preserve">
+    <value>القماش والخامات</value>
+  </data>
+  <data name="Size &amp; Fit" xml:space="preserve">
+    <value>المقاس والمقاس المناسب</value>
+  </data>
+  <data name="View full size chart →" xml:space="preserve">
+    <value>عرض جدول المقاسات الكامل ←</value>
+  </data>
+  <data name="Delivery &amp; Returns" xml:space="preserve">
+    <value>التوصيل والإرجاع</value>
+  </data>
+  <data name="Free standard delivery within Kuwait on orders above 50 KWD" xml:space="preserve">
+    <value>توصيل مجاني داخل الكويت للطلبات فوق ٥٠ د.ك</value>
+  </data>
+  <data name="Same-day delivery in Kuwait City for orders before 2 PM" xml:space="preserve">
+    <value>توصيل في نفس اليوم بمدينة الكويت للطلبات قبل الساعة ٢ ظهراً</value>
+  </data>
+  <data name="GCC delivery 3–5 working days · duties included" xml:space="preserve">
+    <value>التوصيل لدول الخليج ٣–٥ أيام عمل · شامل الرسوم الجمركية</value>
+  </data>
+  <data name="Easy returns within 14 days · unworn, with tags · refund to original payment method" xml:space="preserve">
+    <value>إرجاع سهل خلال ١٤ يوماً · غير مرتدي، مع البطاقات · استرداد للوسيلة الأصلية</value>
+  </data>
+  <data name="Complete the Look" xml:space="preserve">
+    <value>أكملي الإطلالة</value>
+  </data>
+  <data name="Styled with this piece." xml:space="preserve">
+    <value>تنسيقات مع هذه القطعة.</value>
+  </data>
+  <data name="You may also like" xml:space="preserve">
+    <value>قد يعجبكِ أيضاً</value>
+  </data>
+  <data name="More from the atelier." xml:space="preserve">
+    <value>المزيد من الأتيليه.</value>
+  </data>
+  <data name="Search dresses, linen, evening..." xml:space="preserve">
+    <value>ابحثي عن فساتين، كتان، سهرات...</value>
+  </data>
+  <data name="Search the store" xml:space="preserve">
+    <value>ابحثي في المتجر</value>
+  </data>
+  <data name="Clear search" xml:space="preserve">
+    <value>مسح البحث</value>
+  </data>
+  <data name="result" xml:space="preserve">
+    <value>نتيجة</value>
+  </data>
+  <data name="results" xml:space="preserve">
+    <value>نتائج</value>
+  </data>
+  <data name="for" xml:space="preserve">
+    <value>لـ</value>
+  </data>
+  <data name="Search the edit — dresses, linen, evening and more." xml:space="preserve">
+    <value>ابحثي في التشكيلة — فساتين، كتان، سهرات والمزيد.</value>
+  </data>
+  <data name="Refine results by type" xml:space="preserve">
+    <value>تصفية النتائج حسب النوع</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>المنتجات</value>
+  </data>
+  <data name="No results for" xml:space="preserve">
+    <value>لا توجد نتائج لـ</value>
+  </data>
+  <data name="We couldn't find anything matching that. Try a different word, browse a category, or talk to our atelier." xml:space="preserve">
+    <value>ما لقينا شي يطابق بحثك. جربي كلمة ثانية، تصفحي الأقسام، أو تواصلي مع الأتيليه.</value>
+  </data>
+  <data name="Popular searches" xml:space="preserve">
+    <value>الأكثر بحثاً</value>
+  </data>
+  <data name="Popular searches:" xml:space="preserve">
+    <value>الأكثر بحثاً:</value>
+  </data>
+  <data name="Browse the Edit" xml:space="preserve">
+    <value>تصفحي التشكيلة</value>
+  </data>
+  <data name="Chat with the atelier" xml:space="preserve">
+    <value>تحدثي مع الأتيليه</value>
+  </data>
+  <data name="You may like" xml:space="preserve">
+    <value>قد يعجبك</value>
+  </data>
+  <data name="Popular right now" xml:space="preserve">
+    <value>الأكثر رواجاً الآن</value>
+  </data>
+  <data name="Pieces from the atelier." xml:space="preserve">
+    <value>قطع من الأتيليه.</value>
+  </data>
+  <data name="and we’ll look it up." xml:space="preserve">
+    <value>وسنبحث عنه لك.</value>
+  </data>
+  <data name="and we’ll sort it out." xml:space="preserve">
+    <value>وسنحلّ المشكلة.</value>
+  </data>
+  <data name="Can’t find your order number?" xml:space="preserve">
+    <value>لا تجدين رقم طلبك؟</value>
+  </data>
+  <data name="Double-check the order number and email match what’s in your confirmation. Still stuck?" xml:space="preserve">
+    <value>تأكّدي من تطابق رقم الطلب والبريد الإلكتروني مع رسالة التأكيد. ما زلتِ تواجهين مشكلة؟</value>
+  </data>
+  <data name="KNET, card &amp; Apple Pay are processed securely by Tap Payments — you’ll be redirected to complete your payment." xml:space="preserve">
+    <value>تتم معالجة كي‑نت والبطاقة وآبل باي بأمان عبر Tap Payments — سيتم تحويلك لإتمام الدفع.</value>
+  </data>
+  <data name="Our site is going through a quick refresh. We’re back in roughly" xml:space="preserve">
+    <value>موقعنا يمرّ بتحديث سريع. سنعود خلال حوالي</value>
+  </data>
+  <data name="The link you followed doesn’t lead anywhere on our site — maybe a typo, or maybe it’s been moved." xml:space="preserve">
+    <value>الرابط الذي اتبعتِه لا يؤدّي إلى أي صفحة في موقعنا — ربما خطأ مطبعي، أو ربما تم نقله.</value>
+  </data>
+  <data name="This order is no longer on its way. If you weren’t expecting that," xml:space="preserve">
+    <value>لم يعد هذا الطلب في طريقه إليك. إذا لم تكوني تتوقّعين ذلك،</value>
+  </data>
+  <data name="Want a heads-up when we’re back?" xml:space="preserve">
+    <value>تودّين تنبيهك عند عودتنا؟</value>
+  </data>
+  <data name="We couldn’t find that order." xml:space="preserve">
+    <value>لم نتمكّن من العثور على هذا الطلب.</value>
+  </data>
+  <data name="We’ll be right back." xml:space="preserve">
+    <value>سنعود قريباً.</value>
+  </data>
+  <data name="We’ll email you the moment we’re back online." xml:space="preserve">
+    <value>سنرسل لك بريداً إلكترونياً فور عودتنا.</value>
+  </data>
+  <data name="Where’s my order?" xml:space="preserve">
+    <value>أين طلبي؟</value>
+  </data>
+  <data name="While you’re here" xml:space="preserve">
+    <value>وبما أنّكِ هنا</value>
+  </data>
+  <data name="You’re on the list." xml:space="preserve">
+    <value>أنتِ على القائمة.</value>
+  </data>
+  <data name="atelier" xml:space="preserve">
+    <value>الأتيليه</value>
+  </data>
+  <data name="Cancelled" xml:space="preserve">
+    <value>ملغى</value>
+  </data>
+  <data name="Confirmed" xml:space="preserve">
+    <value>مؤكَّد</value>
+  </data>
+  <data name="Free delivery in Kuwait" xml:space="preserve">
+    <value>توصيل مجاني داخل الكويت</value>
+  </data>
+  <data name="In transit" xml:space="preserve">
+    <value>في الطريق</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>الطلب</value>
+  </data>
+  <data name="Order summary" xml:space="preserve">
+    <value>ملخّص الطلب</value>
+  </data>
+  <data name="Reach the atelier on WhatsApp" xml:space="preserve">
+    <value>تواصلي مع الأتيليه عبر واتساب</value>
+  </data>
+  <data name="Refunded" xml:space="preserve">
+    <value>مُسترجَع</value>
+  </data>
+  <data name="Returns &amp; exchanges" xml:space="preserve">
+    <value>الإرجاع والاستبدال</value>
+  </data>
+  <data name="Shipping &amp; delivery" xml:space="preserve">
+    <value>الشحن والتوصيل</value>
+  </data>
+  <data name="Shop New Arrivals" xml:space="preserve">
+    <value>تسوّقي الوصول الجديد</value>
+  </data>
+  <data name="Shop the Edit" xml:space="preserve">
+    <value>تسوّقي التشكيلة</value>
+  </data>
+  <data name="The atelier" xml:space="preserve">
+    <value>الأتيليه</value>
+  </data>
+  <data name="Track order" xml:space="preserve">
+    <value>تتبّع الطلب</value>
+  </data>
+  <data name="Try again" xml:space="preserve">
+    <value>حاولي مجدداً</value>
+  </data>
+  <data name="Your bag" xml:space="preserve">
+    <value>حقيبتكِ</value>
+  </data>
+</root>

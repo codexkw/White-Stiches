@@ -10,142 +10,142 @@
 }
 
 <div class="adm-toolbar">
-    <p class="set-note">Each panel saves independently. Money values are KWD with 3 decimals.</p>
+    <p class="set-note">@L["Each panel saves independently. Money values are KWD with 3 decimals."]</p>
     <div class="adm-actions">
-        <a class="adm-btn" href="/profile/2fa">My two-factor authentication</a>
+        <a class="adm-btn" href="/profile/2fa">@L["My two-factor authentication"]</a>
     </div>
 </div>
 
 <section class="adm-panel">
-    <header class="adm-panel__head"><h2 class="adm-panel__title">Store details</h2></header>
+    <header class="adm-panel__head"><h2 class="adm-panel__title">@L["Store details"]</h2></header>
     <div class="adm-panel__body">
         <form asp-controller="Settings" asp-action="Save" asp-route-group="store" method="post">
             <div class="adm-form-grid">
                 <div class="adm-field">
-                    <label for="set-name-en">Store name (EN)</label>
+                    <label for="set-name-en">@L["Store name (EN)"]</label>
                     <input id="set-name-en" name="store.name.en" value="@Model.Get(SettingKeys.StoreNameEn)" />
                 </div>
                 <div class="adm-field">
-                    <label for="set-name-ar">Store name (AR)</label>
+                    <label for="set-name-ar">@L["Store name (AR)"]</label>
                     <input id="set-name-ar" name="store.name.ar" dir="rtl" value="@Model.Get(SettingKeys.StoreNameAr)" />
                 </div>
                 <div class="adm-field">
-                    <label for="set-email">Contact email</label>
+                    <label for="set-email">@L["Contact email"]</label>
                     <input id="set-email" name="store.contact.email" type="email" value="@Model.Get(SettingKeys.ContactEmail)" />
                 </div>
                 <div class="adm-field">
-                    <label for="set-phone">Contact phone</label>
+                    <label for="set-phone">@L["Contact phone"]</label>
                     <input id="set-phone" name="store.contact.phone" value="@Model.Get(SettingKeys.ContactPhone)" />
                 </div>
                 <div class="adm-field">
-                    <label for="set-whatsapp">WhatsApp number</label>
+                    <label for="set-whatsapp">@L["WhatsApp number"]</label>
                     <input id="set-whatsapp" name="store.whatsapp.number" value="@Model.Get(SettingKeys.WhatsAppNumber)" />
                 </div>
             </div>
             <div class="adm-actions set-actions">
-                <button type="submit" class="adm-btn adm-btn--solid">Save store details</button>
+                <button type="submit" class="adm-btn adm-btn--solid">@L["Save store details"]</button>
             </div>
         </form>
     </div>
 </section>
 
 <section class="adm-panel">
-    <header class="adm-panel__head"><h2 class="adm-panel__title">Social links</h2></header>
+    <header class="adm-panel__head"><h2 class="adm-panel__title">@L["Social links"]</h2></header>
     <div class="adm-panel__body">
         <form asp-controller="Settings" asp-action="Save" asp-route-group="social" method="post">
             <div class="adm-form-grid">
                 <div class="adm-field">
-                    <label for="set-instagram">Instagram URL</label>
+                    <label for="set-instagram">@L["Instagram URL"]</label>
                     <input id="set-instagram" name="store.social.instagram" type="url" value="@Model.Get(SettingKeys.InstagramUrl)" placeholder="https://instagram.com/..." />
                 </div>
                 <div class="adm-field">
-                    <label for="set-tiktok">TikTok URL</label>
+                    <label for="set-tiktok">@L["TikTok URL"]</label>
                     <input id="set-tiktok" name="store.social.tiktok" type="url" value="@Model.Get(SettingKeys.TikTokUrl)" placeholder="https://tiktok.com/@@..." />
                 </div>
                 <div class="adm-field">
-                    <label for="set-pinterest">Pinterest URL</label>
+                    <label for="set-pinterest">@L["Pinterest URL"]</label>
                     <input id="set-pinterest" name="store.social.pinterest" type="url" value="@Model.Get(SettingKeys.PinterestUrl)" placeholder="https://pinterest.com/..." />
                 </div>
             </div>
             <div class="adm-actions set-actions">
-                <button type="submit" class="adm-btn adm-btn--solid">Save social links</button>
+                <button type="submit" class="adm-btn adm-btn--solid">@L["Save social links"]</button>
             </div>
         </form>
     </div>
 </section>
 
 <section class="adm-panel">
-    <header class="adm-panel__head"><h2 class="adm-panel__title">Shipping rates (KWD)</h2></header>
+    <header class="adm-panel__head"><h2 class="adm-panel__title">@L["Shipping rates (KWD)"]</h2></header>
     <div class="adm-panel__body">
         <form asp-controller="Settings" asp-action="Save" asp-route-group="shipping" method="post">
             <div class="adm-form-grid">
                 <div class="adm-field">
-                    <label for="set-free">Free shipping threshold</label>
+                    <label for="set-free">@L["Free shipping threshold"]</label>
                     <input id="set-free" name="shipping.free_threshold" type="number" step="0.001" min="0" value="@Model.GetMoney(SettingKeys.FreeShippingThreshold)" />
                 </div>
                 <div class="adm-field">
-                    <label for="set-standard">Standard rate</label>
+                    <label for="set-standard">@L["Standard rate"]</label>
                     <input id="set-standard" name="shipping.standard_rate" type="number" step="0.001" min="0" value="@Model.GetMoney(SettingKeys.StandardShippingRate)" />
                 </div>
                 <div class="adm-field">
-                    <label for="set-express">Express rate</label>
+                    <label for="set-express">@L["Express rate"]</label>
                     <input id="set-express" name="shipping.express_rate" type="number" step="0.001" min="0" value="@Model.GetMoney(SettingKeys.ExpressShippingRate)" />
                 </div>
                 <div class="adm-field">
-                    <label for="set-sameday">Same-day rate</label>
+                    <label for="set-sameday">@L["Same-day rate"]</label>
                     <input id="set-sameday" name="shipping.same_day_rate" type="number" step="0.001" min="0" value="@Model.GetMoney(SettingKeys.SameDayShippingRate)" />
                 </div>
             </div>
             <div class="adm-actions set-actions">
-                <button type="submit" class="adm-btn adm-btn--solid">Save shipping rates</button>
+                <button type="submit" class="adm-btn adm-btn--solid">@L["Save shipping rates"]</button>
             </div>
         </form>
     </div>
 </section>
 
 <section class="adm-panel">
-    <header class="adm-panel__head"><h2 class="adm-panel__title">Cart</h2></header>
+    <header class="adm-panel__head"><h2 class="adm-panel__title">@L["Cart"]</h2></header>
     <div class="adm-panel__body">
         <form asp-controller="Settings" asp-action="Save" asp-route-group="cart" method="post">
             <div class="adm-form-grid">
                 <div class="adm-field">
-                    <label for="set-giftwrap">Gift wrap fee (KWD)</label>
+                    <label for="set-giftwrap">@L["Gift wrap fee (KWD)"]</label>
                     <input id="set-giftwrap" name="cart.gift_wrap_fee" type="number" step="0.001" min="0" value="@Model.GetMoney(SettingKeys.GiftWrapFee)" />
                 </div>
             </div>
             <div class="adm-actions set-actions">
-                <button type="submit" class="adm-btn adm-btn--solid">Save cart settings</button>
+                <button type="submit" class="adm-btn adm-btn--solid">@L["Save cart settings"]</button>
             </div>
         </form>
     </div>
 </section>
 
 <section class="adm-panel">
-    <header class="adm-panel__head"><h2 class="adm-panel__title">Announcement bar</h2></header>
+    <header class="adm-panel__head"><h2 class="adm-panel__title">@L["Announcement bar"]</h2></header>
     <div class="adm-panel__body">
         <form asp-controller="Settings" asp-action="Save" asp-route-group="announcement" method="post">
             <div class="adm-field">
-                <label for="set-announce">Messages — one per line</label>
+                <label for="set-announce">@L["Messages — one per line"]</label>
                 <textarea id="set-announce" name="store.announcement.messages" rows="4">@Model.Get(SettingKeys.AnnouncementMessages)</textarea>
             </div>
             <div class="adm-actions set-actions">
-                <button type="submit" class="adm-btn adm-btn--solid">Save announcements</button>
+                <button type="submit" class="adm-btn adm-btn--solid">@L["Save announcements"]</button>
             </div>
         </form>
     </div>
 </section>
 
 <section class="adm-panel">
-    <header class="adm-panel__head"><h2 class="adm-panel__title">Maintenance</h2></header>
+    <header class="adm-panel__head"><h2 class="adm-panel__title">@L["Maintenance"]</h2></header>
     <div class="adm-panel__body">
         <form asp-controller="Settings" asp-action="Save" asp-route-group="maintenance" method="post">
             <div class="adm-field adm-field--check">
                 <input type="hidden" name="store.maintenance_mode" value="false" />
                 <input id="set-maintenance" type="checkbox" name="store.maintenance_mode" value="true" checked="@Model.GetBool(SettingKeys.MaintenanceMode)" />
-                <label for="set-maintenance">Maintenance mode — storefront shows a holding page</label>
+                <label for="set-maintenance">@L["Maintenance mode — storefront shows a holding page"]</label>
             </div>
             <div class="adm-actions set-actions">
-                <button type="submit" class="adm-btn adm-btn--solid">Save maintenance mode</button>
+                <button type="submit" class="adm-btn adm-btn--solid">@L["Save maintenance mode"]</button>
             </div>
         </form>
     </div>

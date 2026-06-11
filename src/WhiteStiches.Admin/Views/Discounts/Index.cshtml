@@ -1,29 +1,29 @@
 @model DiscountListViewModel
 @{
-    ViewData["Title"] = "Discounts";
+    ViewData["Title"] = @L["Discounts"];
     ViewData["Nav"] = "discounts";
 }
 
 <section class="adm-toolbar">
     <form method="get" action="/discounts" class="adm-toolbar__filters">
         <div class="adm-field">
-            <label for="search">Search code</label>
-            <input id="search" name="search" type="search" value="@Model.Search" placeholder="e.g. WELCOME10" />
+            <label for="search">@L["Search code"]</label>
+            <input id="search" name="search" type="search" value="@Model.Search" placeholder="@L["e.g. WELCOME10"]" />
         </div>
         <div class="adm-field adm-field--check">
             <input id="activeOnly" name="activeOnly" type="checkbox" value="true" checked="@Model.ActiveOnly" />
-            <label for="activeOnly">Active only</label>
+            <label for="activeOnly">@L["Active only"]</label>
         </div>
-        <button type="submit" class="adm-btn">Filter</button>
+        <button type="submit" class="adm-btn">@L["Filter"]</button>
     </form>
     <div class="adm-actions">
-        <a href="/discounts/new" class="adm-btn adm-btn--solid">New discount</a>
+        <a href="/discounts/new" class="adm-btn adm-btn--solid">@L["New discount"]</a>
     </div>
 </section>
 
 <section class="adm-panel">
     <header class="adm-panel__head">
-        <h2 class="adm-panel__title">Discount codes</h2>
+        <h2 class="adm-panel__title">@L["Discount codes"]</h2>
         <span>@Model.Discounts.TotalCount total</span>
     </header>
 
@@ -31,8 +31,8 @@
     {
         <div class="adm-panel__body">
             <div class="adm-empty">
-                <strong>No discount codes found</strong>
-                Adjust the filters, or create the first code.
+                <strong>@L["No discount codes found"]</strong>
+                @L["Adjust the filters, or create the first code."]
             </div>
         </div>
     }
@@ -41,13 +41,13 @@
         <table class="adm-table">
             <thead>
                 <tr>
-                    <th>Code</th>
-                    <th>Type</th>
-                    <th>Value</th>
-                    <th>Minimums</th>
-                    <th>Schedule (UTC)</th>
-                    <th>Usage</th>
-                    <th>Status</th>
+                    <th>@L["Code"]</th>
+                    <th>@L["Type"]</th>
+                    <th>@L["Value"]</th>
+                    <th>@L["Minimums"]</th>
+                    <th>@L["Schedule (UTC)"]</th>
+                    <th>@L["Usage"]</th>
+                    <th>@L["Status"]</th>
                     <th></th>
                 </tr>
             </thead>
@@ -63,15 +63,15 @@
                         <td>
                             @if (d.Type == DiscountType.Percentage)
                             {
-                                <span class="adm-badge adm-badge--info">Percentage</span>
+                                <span class="adm-badge adm-badge--info">@L["Percentage"]</span>
                             }
                             else if (d.Type == DiscountType.FixedAmount)
                             {
-                                <span class="adm-badge adm-badge--warn">Fixed amount</span>
+                                <span class="adm-badge adm-badge--warn">@L["Fixed amount"]</span>
                             }
                             else
                             {
-                                <span class="adm-badge">Free shipping</span>
+                                <span class="adm-badge">@L["Free shipping"]</span>
                             }
                         </td>
                         <td>
@@ -85,7 +85,7 @@
                         <td>
                             @if (d.StartsAtUtc is null && d.EndsAtUtc is null)
                             {
-                                <text>Always</text>
+                                <text>@L["Always"]</text>
                             }
                             else
                             {
@@ -96,18 +96,18 @@
                         <td>
                             @if (d.IsActive)
                             {
-                                <span class="adm-badge adm-badge--ok">Active</span>
+                                <span class="adm-badge adm-badge--ok">@L["Active"]</span>
                             }
                             else
                             {
-                                <span class="adm-badge adm-badge--err">Inactive</span>
+                                <span class="adm-badge adm-badge--err">@L["Inactive"]</span>
                             }
                         </td>
                         <td>
                             <div class="adm-actions">
-                                <a class="adm-btn" href="/discounts/@d.Id/edit">Edit</a>
+                                <a class="adm-btn" href="/discounts/@d.Id/edit">@L["Edit"]</a>
                                 <form method="post" asp-controller="Discounts" asp-action="Delete" asp-route-id="@d.Id">
-                                    <button type="submit" class="adm-btn">Delete</button>
+                                    <button type="submit" class="adm-btn">@L["Delete"]</button>
                                 </form>
                             </div>
                         </td>

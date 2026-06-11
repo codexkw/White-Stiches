@@ -120,15 +120,143 @@ Admin → Tap partial refund was issued.
 
 ## Phase 1D — Localization & launch QA
 
-- Arabic content rendering (`…Ar` columns), full RTL pass (`dir="rtl"` toggle already in shell), KWD 3-decimal formatting everywhere (LOC-01..05)
+- Arabic content rendering (`…Ar` columns), full RTL pass (`dir="rtl"` toggle already in shell), KWD 3-decimal formatting everywhere (LOC-01..05) — **now planned in full as Phase 1E‑3** (real i18n infra + Arabic admin), this 1D line is the launch-QA sign-off on it
 - Cross-page QA polish pass per PRD §11 Definition of Done
 - Lighthouse / Core Web Vitals pass (NFR-PRF-01)
 - Security pass: rate limiting on auth/checkout/search, headers, pen test (NFR-SEC-01..03)
 
+## ✅ Phase 1E — Admin power-ups & full bilingual platform (DONE · 2026-06-11)
+
+Four work-items requested 2026-06-11, built in the order **1E‑3 foundation → 1E‑2 → 1E‑1 →
+1E‑4 → 1E‑3 string-sweep**. **1E‑1 and 1E‑4 share one `IAnalyticsService`/aggregation layer.**
+The ~71-view string sweep was run as two parallel agent workflows (one agent per view, disjoint
+file ownership), the returned translations merged into the resx by `scripts/merge-i18n.ps1`, and
+coverage proven by `scripts/i18n-coverage.ps1`.
+
+**Verified:** solution builds 0/0 · storefront `smoke-e2e.ps1` 21/21 · admin `smoke-admin.ps1`
+25/25 · all 8 reports + CSV export + filtered report render 200 · dashboard ranges 7/90/365 render ·
+storefront **and** admin render Arabic with `dir="rtl"` (`?culture=ar`) · i18n coverage gate PASS
+(every `@L` key used in the 699 storefront + 569 admin view references has an Arabic translation).
+
+| # | Work | Reqs | Status |
+| --- | --- | --- | --- |
+| 1E‑1 | ✅ Advanced analytics dashboard (`IAnalyticsService` + vanilla SVG charts, KPIs w/ period deltas, breakdowns, leaderboards, ops snapshot, 60s cache) | AD‑DSH‑01..06 | done |
+| 1E‑2 | ✅ Rich-text WYSIWYG (dependency-free `editor.js`) on the 12 HTML fields + **server-side `HtmlSanitizer`** (`IRichTextSanitizer`) on save | AD‑RTE‑01..03 | done |
+| 1E‑3 | ✅ Full bilingual: `RequestLocalization` (en/ar-KW) + cookie/login switcher + RTL CSS + culture-aware DB-content accessors + resx sweep of ~71 views | LOC‑01..09 | done |
+| 1E‑4 | ✅ Reports module: 8 reports (`IReportService`), rich filters, CSV export (UTF‑8 BOM), audit-logged | AD‑RPT‑01..09 | done |
+
+**1E leftovers / notes:**
+- The string sweep covers all interactive UI chrome; **long-form legal/marketing prose** (Terms,
+  Privacy, About, FAQ, Cookies, Shipping, Size Guide, Returns Policy body copy) and the static
+  mega-menu placeholder links were deliberately left in English — bind them to the `StaticPage`
+  editor + translate when those pages go DB-driven (pairs with the 1A/1B static-page follow-up).
+- A few storefront labels with literal `&amp;` double-encode to `&amp;` on screen (resx key vs
+  HTML-entity) — cosmetic, low priority.
+- RTL is a solid baseline (`rtl.css` per app, scoped to `[dir=rtl]`); a fine-grained per-component
+  RTL polish pass belongs in Phase 1D launch QA.
+- Reports XLSX/PDF export (beyond CSV) and saved/scheduled exports remain a stretch (XLSX needs
+  ClosedXML; scheduled email needs 1C‑3 SMTP).
+- New requirement IDs (AD‑DSH/AD‑RTE/AD‑RPT/LOC‑06..09) extend the PRD — fold into PRD on next revision.
+
+### 1E‑1 — Advanced analytics dashboard
+
+Replaces the current `DashboardController` (which queries `DbContext` directly for 6 count
+tiles) with a service-backed, date-range-driven analytics home.
+
+- **New `IAnalyticsService` → `AnalyticsService`** (`Core/Interfaces/Admin` + `Infrastructure/Services/Admin`,
+  registered in `AddWhiteStichesAdminServices`); DTOs in `Core/Models/Admin/Analytics`. Dashboard
+  controller stops touching `DbContext` directly. **Shared with 1E‑4 reports.**
+- **KPI tiles with period-over-period delta** (selected range vs the preceding equal range):
+  net revenue (Σ `Order.Total` for paid/non-cancelled, minus refunds), orders, AOV, units sold
+  (Σ `OrderItem.Quantity`), new customers, refund amount + return rate, discount spend.
+- **Time-series chart**: revenue + order count by day/week/month for the chosen range
+  (`PlacedAtUtc ?? CreatedAtUtc`). **Charting lib decision (none exists today)** — recommend
+  **ApexCharts** (MIT, native RTL, self-hostable to `wwwroot/lib`, no CDN per house convention).
+- **Breakdowns**: revenue by payment method (`Payment.Method`) and by channel (`OrderChannel`);
+  orders by `Status`; top products by units **and** revenue (aggregate `OrderItem` by `ProductId`);
+  top customers by spend; sales by category/collection; new-vs-returning customers.
+- **Operational widgets**: pending fulfilment, pending returns, **abandoned `Pending` Tap orders**
+  (ties to the 1C‑1 sweep TODO), unread contact messages, low-stock variants
+  (`StockQuantity <= LowStockThreshold`).
+- **Rules**: all money KWD 3-decimal; exclude `Cancelled` from revenue; net refunds out; `AsNoTracking`;
+  cache/throttle heavy aggregates (consider a short MemoryCache TTL). Localized + RTL once 1E‑3 lands.
+
+### 1E‑2 — Rich-text (WYSIWYG) editor
+
+Upgrade the **12 genuine-HTML fields** (the rest stay plain textareas) to a WYSIWYG editor.
+
+- **Fields (each its own editor instance, EN + the `dir="rtl"` AR twin):**
+  Products/Edit → `Description`, `MaterialCare`, `SizeFit`; JournalAdmin/Edit → `Body`;
+  PagesAdmin/Edit → `Body`; Collections/Edit → `Description`.
+  **Leave plain:** all SEO meta descriptions, `EligibilityJson` (Discounts), announcement messages,
+  order/return internal & customer notes, journal excerpts.
+- **Library decision (none exists today)** — recommend **Quill 2** (MIT, lightweight, self-hosted,
+  RTL via the direction format), or TinyMCE self-host if richer tables/media are needed. Decide once.
+- **Reusable wiring**: a single init script + partial/tag-helper that upgrades any
+  `<textarea data-editor="rich" data-dir="rtl|ltr">` and syncs HTML back to the textarea on submit
+  (model binding unchanged). Mirror the existing image-upload to `IFileStorage`→`/media` for inline images (stretch).
+- **⚠️ Security — server-side HTML sanitization is mandatory.** These bodies are rendered raw on the
+  storefront (`@Html.Raw`), so a WYSIWYG that emits arbitrary HTML is a stored-XSS vector. Add
+  **`Ganss.Xss` (HtmlSanitizer)** and sanitize on save in the owning admin service/controller before persist.
+
+### 1E‑3 — Full bilingual (Arabic admin + storefront content/UI + missing-string sweep)
+
+Covers the requests "admin should support Arabic" and "check all missing localizations in both
+languages and use all in all screens." **Today: zero i18n infrastructure** — no `.resx`, no
+`IStringLocalizer`, no `RequestLocalization`; the data layer is fully bilingual (9 entities with
+`…Ar`) but the storefront renders English-only, the header switcher only flips the CSS `dir`
+attribute (no text changes), and the **admin is 100% hardcoded English**. `ApplicationUser.PreferredLanguage`
+and `Order.LanguageCode` columns exist but are never read. ~80 views (40 web + 40 admin) are affected.
+
+1. **i18n infrastructure (both apps)**: `AddLocalization` + `UseRequestLocalization` with supported
+   cultures `en` + `ar-KW`; culture providers = cookie (`.AspNetCore.Culture`) → user
+   `PreferredLanguage` → `Accept-Language`. Drive `<html lang dir>` in all three layouts from the
+   current culture (currently hardcoded `lang="en" dir="ltr"`).
+2. **Real language switcher**: replace the JS `dir`-flip with a `POST /set-culture` that writes the
+   culture cookie and persists `ApplicationUser.PreferredLanguage`; storefront **and** admin both get one.
+3. **DB content localization**: a culture-aware accessor (e.g. `product.Title()` returns `TitleAr`
+   when culture is Arabic, else `TitleEn`, with EN fallback). Sweep storefront views to replace every
+   `.TitleEn/.NameEn/.AltEn/.DescriptionEn/.BodyEn/...` with the accessor; render `OrderItem.TitleAr`
+   on confirmations/account. **This is what finally uses the dormant `…Ar` columns.**
+4. **Static UI-string localization**: introduce a `SharedResource` + `.resx` (en + ar) and
+   `IStringLocalizer`/`IViewLocalizer`; sweep all ~40 storefront + ~40 admin views replacing
+   hardcoded literals (nav, buttons, labels, headings, placeholders, validation/DataAnnotation
+   messages) with keys. This is the bulk of the "missing localizations" work.
+5. **Arabic admin specifically**: wire the same infra into the Admin app, localize nav/labels/
+   buttons/validation, and add an **admin RTL CSS pass** (logical properties / `[dir=rtl]` rules,
+   not just the attribute) + admin language switcher.
+6. **Storefront RTL CSS pass**: ensure real RTL styling beyond the attribute flip.
+7. **Coverage gate**: a grep/checklist script to flag remaining hardcoded literals and assert every
+   resx key has both `en` + `ar` (a missing-translation report) — this is the "all screens" guarantee.
+   Keep KWD at 3-decimal/invariant; localize date display.
+
+### 1E‑4 — Detailed reports module (filter + export)
+
+A dedicated `/reports` area. Today only the newsletter CSV export exists — but the conventions are
+proven: `PagedResult<T>`, the `_Pager` partial (query-string-preserving), the RFC-4180 `Csv()`
+helper, and `audit.LogAsync` on export. Reuse all of them.
+
+- **New `IReportService` → `ReportService`** (`Core/Interfaces/Admin` + `Infrastructure/Services/Admin/Reporting`),
+  registered in `AddWhiteStichesAdminServices`; report DTOs in `Core/Models/Admin/Reports`. Reuses the
+  1E‑1 `IAnalyticsService` aggregations where they overlap.
+- **Report types**: Sales (by day/month — revenue, orders, AOV, tax, shipping, discount, **net** of
+  refunds), Orders, Best-sellers (units + revenue per product/variant), Inventory & stock valuation
+  (`Σ StockQuantity × Cost`, low-stock list), Customers/LTV (new vs returning, top spenders),
+  Discounts (usage + revenue impact), Returns (rate + reasons), Payments (by provider/method, captured
+  vs refunded), Newsletter/acquisition source, Tax/finance summary.
+- **Rich filtering** via the established conditional-`.Where()` + query-string + `_Pager` pattern:
+  date range (presets + custom), status enums, channel, category/collection, payment method, customer,
+  product. Sortable columns.
+- **Export**: CSV for every report (reuse `Csv()`); add **XLSX via ClosedXML**; optional PDF for the
+  finance summary. Stream as `File(...)` downloads with an `audit.LogAsync` entry each (newsletter-export pattern).
+- **Permissions**: gate `/reports` behind an appropriate staff role (admin default-deny already applies).
+- **Stretch** (after 1C‑3 SMTP): saved filters + scheduled emailed exports.
+
 ## Phase 2+ (PRD §10.2/10.3)
 
 GCC markets, mada/BNPL/COD, marketing automations, reviews, loyalty, gift cards,
-multi-location inventory, Instagram inbox, advanced analytics — out of current scope.
+multi-location inventory, Instagram inbox — out of current scope.
+(Advanced analytics & detailed reports were pulled forward into Phase 1E.)
 
 ## Known technical debt / notes
 

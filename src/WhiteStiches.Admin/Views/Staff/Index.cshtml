@@ -10,21 +10,21 @@
 }
 
 <div class="adm-toolbar">
-    <p class="set-note">@Model.Members.Count staff member@(Model.Members.Count == 1 ? "" : "s"). Times are UTC.</p>
+    <p class="set-note">@Model.Members.Count @L[Model.Members.Count == 1 ? "staff member" : "staff members"]. @L["Times are UTC."]</p>
     <div class="adm-actions">
-        <a class="adm-btn" href="/profile/2fa">My two-factor authentication</a>
-        <a class="adm-btn adm-btn--solid" href="/staff/new">Add staff member</a>
+        <a class="adm-btn" href="/profile/2fa">@L["My two-factor authentication"]</a>
+        <a class="adm-btn adm-btn--solid" href="/staff/new">@L["Add staff member"]</a>
     </div>
 </div>
 
 <section class="adm-panel">
-    <header class="adm-panel__head"><h2 class="adm-panel__title">Staff</h2></header>
+    <header class="adm-panel__head"><h2 class="adm-panel__title">@L["Staff"]</h2></header>
     <div class="adm-panel__body">
         @if (Model.Members.Count == 0)
         {
             <div class="adm-empty">
-                <strong>No staff yet</strong>
-                Add the first staff member to get started.
+                <strong>@L["No staff yet"]</strong>
+                @L["Add the first staff member to get started."]
             </div>
         }
         else
@@ -32,12 +32,12 @@
             <table class="adm-table">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Roles</th>
-                    <th>2FA</th>
-                    <th>Status</th>
-                    <th>Last login (UTC)</th>
+                    <th>@L["Name"]</th>
+                    <th>@L["Email"]</th>
+                    <th>@L["Roles"]</th>
+                    <th>@L["2FA"]</th>
+                    <th>@L["Status"]</th>
+                    <th>@L["Last login (UTC)"]</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -56,25 +56,25 @@
                         <td>
                             @if (member.TwoFactorEnabled)
                             {
-                                <span class="adm-badge adm-badge--ok">2FA on</span>
+                                <span class="adm-badge adm-badge--ok">@L["2FA on"]</span>
                             }
                             else
                             {
-                                <span class="adm-badge adm-badge--warn">2FA off</span>
+                                <span class="adm-badge adm-badge--warn">@L["2FA off"]</span>
                             }
                         </td>
                         <td>
                             @if (member.IsLockedOut)
                             {
-                                <span class="adm-badge adm-badge--err">Locked</span>
+                                <span class="adm-badge adm-badge--err">@L["Locked"]</span>
                             }
                             else
                             {
-                                <span class="adm-badge adm-badge--ok">Active</span>
+                                <span class="adm-badge adm-badge--ok">@L["Active"]</span>
                             }
                         </td>
-                        <td>@(member.LastLoginAtUtc?.ToString("yyyy-MM-dd HH:mm") ?? "Never")</td>
-                        <td><a class="adm-btn" href="/staff/@member.UserId/edit">Edit</a></td>
+                        <td>@(member.LastLoginAtUtc?.ToString("yyyy-MM-dd HH:mm") ?? L["Never"].Value)</td>
+                        <td><a class="adm-btn" href="/staff/@member.UserId/edit">@L["Edit"]</a></td>
                     </tr>
                 }
                 </tbody>

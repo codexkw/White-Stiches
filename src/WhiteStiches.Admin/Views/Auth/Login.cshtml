@@ -21,7 +21,7 @@
 <div class="adm-login">
     <div class="adm-login__card">
         <img src="~/assets/logo-full.png" alt="White Stitches" />
-        <span class="adm-login__eyebrow">Back office</span>
+        <span class="adm-login__eyebrow">@L["Back office"]</span>
 
         @if (ViewData.ModelState[string.Empty]?.Errors.Count > 0)
         {
@@ -33,14 +33,14 @@
         <form asp-controller="Auth" asp-action="Login" method="post">
             <input type="hidden" asp-for="ReturnUrl" />
             <div class="adm-field">
-                <label asp-for="Email">Email</label>
+                <label asp-for="Email">@L["Email"]</label>
                 <input asp-for="Email" autocomplete="username" autofocus />
             </div>
             <div class="adm-field">
-                <label asp-for="Password">Password</label>
+                <label asp-for="Password">@L["Password"]</label>
                 <input asp-for="Password" autocomplete="current-password" />
             </div>
-            <button type="submit" class="adm-btn adm-btn--solid adm-login__submit">Sign in</button>
+            <button type="submit" class="adm-btn adm-btn--solid adm-login__submit">@L["Sign in"]</button>
         </form>
     </div>
 </div>

@@ -1,0 +1,133 @@
+@using WhiteStiches.Core.Enums
+@using WhiteStiches.Core.Models.Admin.Reports
+@model ReportTable
+@{
+    var meta = (ReportMeta)ViewBag.Meta;
+    ViewData["Title"] = L[meta.Title].Value;
+    ViewData["Nav"] = "reports";
+    var exportQs = Context.Request.QueryString.Value ?? string.Empty;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/reports.css" asp-append-version="true" />
+}
+
+<div class="rep-head">
+    <a href="/reports" class="rep-back">← @L["Reports"]</a>
+    <a class="adm-btn" href="/reports/@meta.Key/export@(exportQs)">@L["Export CSV"]</a>
+</div>
+
+<form method="get" action="/reports/@meta.Key" class="rep-filters">
+    @if (meta.UsesDate)
+    {
+        <label>@L["From"]<input type="date" name="from" value="@ViewBag.FromStr" /></label>
+        <label>@L["To"]<input type="date" name="to" value="@ViewBag.ToStr" /></label>
+    }
+    @if (meta.UsesStatus)
+    {
+        var statusNames = meta.Type == ReportType.Returns ? Enum.GetNames<ReturnStatus>() : Enum.GetNames<OrderStatus>();
+        <label>@L["Status"]
+            <select name="status">
+                <option value="">@L["All"]</option>
+                @foreach (var opt in statusNames)
+                {
+                    <option value="@opt" selected="@((string?)ViewBag.Status == opt)">@opt</option>
+                }
+            </select>
+        </label>
+    }
+    @if (meta.UsesChannel)
+    {
+        <label>@L["Channel"]
+            <select name="channel">
+                <option value="">@L["All"]</option>
+                @foreach (var opt in Enum.GetNames<OrderChannel>())
+                {
+                    <option value="@opt" selected="@((string?)ViewBag.Channel == opt)">@opt</option>
+                }
+            </select>
+        </label>
+    }
+    @if (meta.UsesMethod)
+    {
+        <label>@L["Method"]
+            <select name="method">
+                <option value="">@L["All"]</option>
+                @foreach (var opt in new[] { "knet", "visa", "mastercard", "applepay", "googlepay" })
+                {
+                    <option value="@opt" selected="@((string?)ViewBag.Method == opt)">@opt</option>
+                }
+            </select>
+        </label>
+    }
+    @if (meta.UsesSearch)
+    {
+        <label>@L["Search"]<input type="search" name="search" value="@ViewBag.Search" placeholder="@L["Search"]" /></label>
+    }
+    <button type="submit" class="adm-btn">@L["Apply"]</button>
+</form>
+
+<div class="rep-meta">@Model.TotalCount @L["rows"]</div>
+
+<div class="rep-table-wrap">
+    <table class="rep-table">
+        <thead>
+            <tr>
+                @foreach (var c in Model.Columns)
+                {
+                    <th class="@(c.Numeric ? "num" : null)">@c.Label</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Rows.Count == 0)
+            {
+                <tr><td colspan="@Model.Columns.Count" class="rep-empty">@L["No rows."]</td></tr>
+            }
+            @foreach (var row in Model.Rows)
+            {
+                <tr>
+                    @for (var i = 0; i < row.Count; i++)
+                    {
+                        <td class="@(i < Model.Columns.Count && Model.Columns[i].Numeric ? "num" : null)">@row[i]</td>
+                    }
+                </tr>
+            }
+        </tbody>
+        @if (Model.TotalsRow is not null)
+        {
+            <tfoot>
+                <tr>
+                    @for (var i = 0; i < Model.TotalsRow.Count; i++)
+                    {
+                        <td class="@(i < Model.Columns.Count && Model.Columns[i].Numeric ? "num" : null)">@Model.TotalsRow[i]</td>
+                    }
+                </tr>
+            </tfoot>
+        }
+    </table>
+</div>
+
+@if (Model.TotalPages > 1)
+{
+    var baseParts = Context.Request.Query
+        .Where(k => k.Key != "page")
+        .Select(k => $"{k.Key}={Uri.EscapeDataString(k.Value.ToString())}")
+        .ToList();
+    Func<int, string> pageUrl = p =>
+    {
+        var parts = new List<string>(baseParts) { $"page={p}" };
+        return $"/reports/{meta.Key}?{string.Join("&", parts)}";
+    };
+    <div class="rep-pager">
+        @if (Model.Page > 1)
+        {
+            <a href="@pageUrl(Model.Page - 1)">← @L["Prev"]</a>
+        }
+        <span>@Model.Page / @Model.TotalPages</span>
+        @if (Model.Page < Model.TotalPages)
+        {
+            <a href="@pageUrl(Model.Page + 1)">@L["Next"] →</a>
+        }
+    </div>
+}

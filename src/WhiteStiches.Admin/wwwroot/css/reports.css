@@ -1,0 +1,52 @@
+/* ============================================================================
+   WHITE STITCHES ADMIN — Reports module (Phase 1E‑4)
+============================================================================ */
+
+.rep-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+.rep-card {
+  display: block;
+  background: var(--adm-panel, #1b1b1b);
+  border: 1px solid var(--adm-border, #2a2a2a);
+  border-radius: 12px;
+  padding: 18px;
+  text-decoration: none;
+  transition: border-color .12s ease, transform .12s ease;
+}
+.rep-card:hover { border-color: #c87a3a; transform: translateY(-2px); }
+.rep-card__title { display: block; font-size: 15px; font-weight: 600; color: #f2ede2; margin-bottom: 6px; }
+.rep-card__desc { display: block; font-size: 13px; color: #8c8472; line-height: 1.5; }
+
+.rep-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; gap: 12px; }
+.rep-back { color: #b9b2a4; text-decoration: none; font-size: 13px; }
+.rep-back:hover { color: #e8e2d6; }
+
+.rep-filters {
+  display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px;
+  background: var(--adm-panel, #1b1b1b);
+  border: 1px solid var(--adm-border, #2a2a2a);
+  border-radius: 12px; padding: 14px; margin-bottom: 14px;
+}
+.rep-filters label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #8c8472; }
+.rep-filters input, .rep-filters select {
+  background: #141414; border: 1px solid #2a2a2a; border-radius: 7px;
+  color: #e8e2d6; padding: 7px 9px; font-size: 13px; min-width: 130px;
+}
+
+.rep-meta { font-size: 12px; color: #8c8472; margin-bottom: 8px; }
+
+.rep-table-wrap { overflow-x: auto; border: 1px solid var(--adm-border, #2a2a2a); border-radius: 12px; }
+.rep-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.rep-table th { text-align: left; color: #8c8472; font-weight: 500; padding: 10px 12px; background: #181818; border-bottom: 1px solid #2a2a2a; white-space: nowrap; }
+.rep-table td { padding: 9px 12px; border-bottom: 1px solid #222; color: #d8d2c4; }
+.rep-table td.num, .rep-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rep-table tbody tr:hover { background: rgba(255,255,255,.02); }
+.rep-table tfoot td { padding: 10px 12px; font-weight: 600; color: #f2ede2; border-top: 1px solid #2a2a2a; background: #181818; }
+.rep-empty { text-align: center; color: #8c8472; padding: 28px 0; }
+
+.rep-pager { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 16px 0; font-size: 13px; color: #8c8472; }
+.rep-pager a { color: #c87a3a; text-decoration: none; }
+.rep-pager a:hover { text-decoration: underline; }

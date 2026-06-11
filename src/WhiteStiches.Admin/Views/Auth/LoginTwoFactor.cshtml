@@ -21,7 +21,7 @@
 <div class="adm-login">
     <div class="adm-login__card">
         <img src="~/assets/logo-full.png" alt="White Stitches" />
-        <span class="adm-login__eyebrow">Two-factor verification</span>
+        <span class="adm-login__eyebrow">@L["Two-factor verification"]</span>
 
         @if (ViewData.ModelState[string.Empty]?.Errors.Count > 0)
         {
@@ -34,24 +34,24 @@
             <input type="hidden" asp-for="ReturnUrl" />
             <input type="hidden" asp-for="RememberMe" />
             <div class="adm-field">
-                <label asp-for="Code">Authenticator code</label>
+                <label asp-for="Code">@L["Authenticator code"]</label>
                 <input asp-for="Code" inputmode="numeric" autocomplete="one-time-code" autofocus />
             </div>
             <div class="adm-field adm-field--check">
                 <input asp-for="RememberMachine" />
-                <label asp-for="RememberMachine">Remember this device</label>
+                <label asp-for="RememberMachine">@L["Remember this device"]</label>
             </div>
-            <button type="submit" class="adm-btn adm-btn--solid adm-login__submit">Verify</button>
+            <button type="submit" class="adm-btn adm-btn--solid adm-login__submit">@L["Verify"]</button>
         </form>
 
         <form asp-controller="Auth" asp-action="LoginRecovery" method="post" style="margin-top: 24px;">
             <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
             <input type="hidden" name="rememberMe" value="@(Model.RememberMe ? "true" : "false")" />
             <div class="adm-field">
-                <label for="recovery-code">Lost your device? Use a recovery code</label>
+                <label for="recovery-code">@L["Lost your device? Use a recovery code"]</label>
                 <input id="recovery-code" name="recoveryCode" autocomplete="off" />
             </div>
-            <button type="submit" class="adm-btn adm-login__submit">Sign in with recovery code</button>
+            <button type="submit" class="adm-btn adm-login__submit">@L["Sign in with recovery code"]</button>
         </form>
     </div>
 </div>

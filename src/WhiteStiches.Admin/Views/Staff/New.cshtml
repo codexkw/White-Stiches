@@ -1,6 +1,6 @@
 @model WhiteStiches.Admin.Models.StaffNewViewModel
 @{
-    ViewData["Title"] = "Add staff member";
+    ViewData["Title"] = L["Add staff member"];
     ViewData["Nav"] = "staff";
 }
 
@@ -10,32 +10,32 @@
 
 <section class="adm-panel">
     <header class="adm-panel__head">
-        <h2 class="adm-panel__title">New staff account</h2>
-        <a class="adm-btn" href="/staff">Back to staff</a>
+        <h2 class="adm-panel__title">@L["New staff account"]</h2>
+        <a class="adm-btn" href="/staff">@L["Back to staff"]</a>
     </header>
     <div class="adm-panel__body">
         <form asp-controller="Staff" asp-action="Create" method="post">
             <div class="adm-form-grid">
                 <div class="adm-field">
-                    <label for="staff-first">First name</label>
+                    <label for="staff-first">@L["First name"]</label>
                     <input id="staff-first" name="firstName" required />
                 </div>
                 <div class="adm-field">
-                    <label for="staff-last">Last name</label>
+                    <label for="staff-last">@L["Last name"]</label>
                     <input id="staff-last" name="lastName" required />
                 </div>
                 <div class="adm-field">
-                    <label for="staff-email">Email</label>
+                    <label for="staff-email">@L["Email"]</label>
                     <input id="staff-email" name="email" type="email" required />
                 </div>
                 <div class="adm-field">
-                    <label for="staff-password">Temporary password</label>
+                    <label for="staff-password">@L["Temporary password"]</label>
                     <input id="staff-password" name="password" type="password" autocomplete="new-password" required />
                 </div>
             </div>
 
             <fieldset class="set-roles">
-                <legend>Roles</legend>
+                <legend>@L["Roles"]</legend>
                 @foreach (var role in Model.StaffRoles)
                 {
                     <div class="adm-field--check set-role">
@@ -49,8 +49,8 @@
             </fieldset>
 
             <div class="adm-actions set-actions">
-                <button type="submit" class="adm-btn adm-btn--solid">Create staff member</button>
-                <a class="adm-btn" href="/staff">Cancel</a>
+                <button type="submit" class="adm-btn adm-btn--solid">@L["Create staff member"]</button>
+                <a class="adm-btn" href="/staff">@L["Cancel"]</a>
             </div>
         </form>
     </div>

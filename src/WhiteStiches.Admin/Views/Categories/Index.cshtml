@@ -8,20 +8,20 @@
 
     <section class="adm-panel">
         <header class="adm-panel__head">
-            <h2 class="adm-panel__title">Category tree</h2>
+            <h2 class="adm-panel__title">@L["Category tree"]</h2>
             <span>@Model.Rows.Count total</span>
         </header>
         @if (Model.Rows.Count == 0)
         {
             <div class="adm-panel__body">
-                <div class="adm-empty"><strong>No categories yet</strong> Create the first one on the right.</div>
+                <div class="adm-empty"><strong>@L["No categories yet"]</strong> @L["Create the first one on the right."]</div>
             </div>
         }
         else
         {
             <table class="adm-table">
                 <thead>
-                    <tr><th>Name</th><th>Slug</th><th>Products</th><th>Status</th><th></th></tr>
+                    <tr><th>@L["Name"]</th><th>@L["Slug"]</th><th>@L["Products"]</th><th>@L["Status"]</th><th></th></tr>
                 </thead>
                 <tbody>
                     @foreach (var row in Model.Rows)
@@ -29,7 +29,7 @@
                         <tr>
                             <td>
                                 @Html.Raw(string.Concat(Enumerable.Repeat("&nbsp;&nbsp;&nbsp;&nbsp;", row.Depth)))
-                                <strong>@row.Category.NameEn</strong>
+                                <strong>@row.Category.Name()</strong>
                                 @if (!string.IsNullOrEmpty(row.Category.NameAr))
                                 {
                                     <span style="color:#6b665c"> · @row.Category.NameAr</span>
@@ -40,19 +40,19 @@
                             <td>
                                 @if (row.Category.IsActive)
                                 {
-                                    <span class="adm-badge adm-badge--ok">Active</span>
+                                    <span class="adm-badge adm-badge--ok">@L["Active"]</span>
                                 }
                                 else
                                 {
-                                    <span class="adm-badge">Hidden</span>
+                                    <span class="adm-badge">@L["Hidden"]</span>
                                 }
                             </td>
                             <td>
                                 <div class="adm-actions">
-                                    <a class="adm-btn" href="/categories?edit=@row.Category.Id">Edit</a>
+                                    <a class="adm-btn" href="/categories?edit=@row.Category.Id">@L["Edit"]</a>
                                     <form action="/categories/@row.Category.Id/delete" method="post">
                                         @Html.AntiForgeryToken()
-                                        <button type="submit" class="adm-btn">Delete</button>
+                                        <button type="submit" class="adm-btn">@L["Delete"]</button>
                                     </form>
                                 </div>
                             </td>
@@ -65,10 +65,10 @@
 
     <section class="adm-panel">
         <header class="adm-panel__head">
-            <h2 class="adm-panel__title">@(Model.IsEditing ? "Edit category" : "New category")</h2>
+            <h2 class="adm-panel__title">@(Model.IsEditing ? L["Edit category"] : L["New category"])</h2>
             @if (Model.IsEditing)
             {
-                <a href="/categories" class="adm-btn">Cancel</a>
+                <a href="/categories" class="adm-btn">@L["Cancel"]</a>
             }
         </header>
         <div class="adm-panel__body">
@@ -76,19 +76,19 @@
                 <input type="hidden" asp-for="Form.Id" />
 
                 <div class="adm-field">
-                    <label asp-for="Form.NameEn">Name (EN)</label>
+                    <label asp-for="Form.NameEn">@L["Name (EN)"]</label>
                     <input asp-for="Form.NameEn" />
                 </div>
                 <div class="adm-field">
-                    <label asp-for="Form.NameAr">Name (AR)</label>
+                    <label asp-for="Form.NameAr">@L["Name (AR)"]</label>
                     <input asp-for="Form.NameAr" dir="rtl" />
                 </div>
                 <div class="adm-field">
-                    <label asp-for="Form.Slug">Slug (blank = from name)</label>
+                    <label asp-for="Form.Slug">@L["Slug (blank = from name)"]</label>
                     <input asp-for="Form.Slug" placeholder="auto" />
                 </div>
                 <div class="adm-field">
-                    <label asp-for="Form.ParentId">Parent</label>
+                    <label asp-for="Form.ParentId">@L["Parent"]</label>
                     <select asp-for="Form.ParentId">
                         <option value="">— top level —</option>
                         @foreach (var c in Model.ParentChoices)
@@ -98,16 +98,16 @@
                     </select>
                 </div>
                 <div class="adm-field">
-                    <label asp-for="Form.SortOrder">Sort order</label>
+                    <label asp-for="Form.SortOrder">@L["Sort order"]</label>
                     <input asp-for="Form.SortOrder" type="number" />
                 </div>
                 <div class="adm-field adm-field--check">
                     <input asp-for="Form.IsActive" />
-                    <label asp-for="Form.IsActive">Active</label>
+                    <label asp-for="Form.IsActive">@L["Active"]</label>
                 </div>
 
                 <div class="adm-actions">
-                    <button type="submit" class="adm-btn adm-btn--solid">@(Model.IsEditing ? "Save category" : "Create category")</button>
+                    <button type="submit" class="adm-btn adm-btn--solid">@(Model.IsEditing ? L["Save category"] : L["Create category"])</button>
                 </div>
             </form>
         </div>

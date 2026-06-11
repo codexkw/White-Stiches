@@ -12,7 +12,8 @@ namespace WhiteStiches.Admin.Controllers;
 public class CollectionsController(
     ICollectionAdminService collections,
     IFileStorage files,
-    IAuditService audit) : Controller
+    IAuditService audit,
+    IRichTextSanitizer sanitizer) : Controller
 {
     private const string NavKey = "collections";
     private const string UploadFolder = "collections";
@@ -80,8 +81,8 @@ public class CollectionsController(
             TitleEn = form.TitleEn.Trim(),
             TitleAr = form.TitleAr?.Trim() ?? string.Empty,
             Slug = form.Slug?.Trim() ?? string.Empty,
-            DescriptionEn = NullIfBlank(form.DescriptionEn),
-            DescriptionAr = NullIfBlank(form.DescriptionAr),
+            DescriptionEn = NullIfBlank(sanitizer.Sanitize(form.DescriptionEn)),
+            DescriptionAr = NullIfBlank(sanitizer.Sanitize(form.DescriptionAr)),
             SortOrder = form.SortOrder,
             IsActive = form.IsActive,
             IsSmart = form.IsSmart,

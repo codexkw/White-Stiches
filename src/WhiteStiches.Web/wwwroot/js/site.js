@@ -109,18 +109,12 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
   /* ──────────────────────────────────────────────────────────
-     LANGUAGE TOGGLE — flip dir attribute for instant RTL preview
+     LANGUAGE — the switcher is now a real server round-trip
+     (/set-culture writes the culture cookie and the server renders
+     <html dir>/text in the chosen language). The old client-side
+     dir-flip preview was removed in Phase 1E‑3 so it can't fight
+     the server-rendered direction. Nothing to wire up here.
      ────────────────────────────────────────────────────────── */
-  const langBtn = document.querySelector('.hdr__lang');
-  if (langBtn) {
-    langBtn.addEventListener('click', () => {
-      const html = document.documentElement;
-      const isAR = html.getAttribute('dir') === 'rtl';
-      html.setAttribute('dir', isAR ? 'ltr' : 'rtl');
-      html.setAttribute('lang', isAR ? 'en' : 'ar');
-      langBtn.textContent = isAR ? 'AR' : 'EN';
-    });
-  }
 
   /* ──────────────────────────────────────────────────────────
      HEADER — sticky behavior is handled by CSS position:sticky.

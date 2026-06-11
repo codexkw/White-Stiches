@@ -1,15 +1,15 @@
 @model DraftListViewModel
 @{
-    ViewData["Title"] = "Draft orders";
+    ViewData["Title"] = L["Draft orders"];
     ViewData["Nav"] = "orders";
 }
 
 <section class="adm-toolbar">
     <form method="get" class="adm-toolbar__filters">
         <div class="adm-field">
-            <label for="channel">Channel</label>
+            <label for="channel">@L["Channel"]</label>
             <select id="channel" name="channel">
-                <option value="">All</option>
+                <option value="">@L["All"]</option>
                 @foreach (var c in new[] { OrderChannel.Instagram, OrderChannel.WhatsApp, OrderChannel.Phone })
                 {
                     <option value="@c" selected="@(Model.Channel == c)">@c</option>
@@ -17,32 +17,32 @@
             </select>
         </div>
         <div class="adm-field">
-            <label for="search">Search</label>
+            <label for="search">@L["Search"]</label>
             <input id="search" type="text" name="search" value="@Model.Search"
-                   placeholder="Number, email, name, phone" />
+                   placeholder="@L["Number, email, name, phone"]" />
         </div>
-        <button type="submit" class="adm-btn">Filter</button>
-        <a href="/orders/drafts" class="adm-btn">Reset</a>
+        <button type="submit" class="adm-btn">@L["Filter"]</button>
+        <a href="/orders/drafts" class="adm-btn">@L["Reset"]</a>
     </form>
     <div class="adm-actions">
-        <a href="/orders" class="adm-btn">All orders</a>
-        <a href="/orders/drafts/new" class="adm-btn adm-btn--solid">New draft</a>
+        <a href="/orders" class="adm-btn">@L["All orders"]</a>
+        <a href="/orders/drafts/new" class="adm-btn adm-btn--solid">@L["New draft"]</a>
     </div>
 </section>
 
 <section class="adm-panel">
     <header class="adm-panel__head">
-        <h2 class="adm-panel__title">Draft orders (@Model.Drafts.TotalCount)</h2>
+        <h2 class="adm-panel__title">@L["Draft orders"] (@Model.Drafts.TotalCount)</h2>
     </header>
     <table class="adm-table">
         <thead>
             <tr>
-                <th>Number</th>
-                <th>Created (UTC)</th>
-                <th>Customer</th>
-                <th>Channel</th>
-                <th>Items</th>
-                <th>Total</th>
+                <th>@L["Number"]</th>
+                <th>@L["Created (UTC)"]</th>
+                <th>@L["Customer"]</th>
+                <th>@L["Channel"]</th>
+                <th>@L["Items"]</th>
+                <th>@L["Total"]</th>
                 <th></th>
             </tr>
         </thead>
@@ -52,8 +52,8 @@
             <tr>
                 <td colspan="7">
                     <div class="adm-empty">
-                        <strong>No draft orders</strong>
-                        Create one for an Instagram, WhatsApp, or phone sale.
+                        <strong>@L["No draft orders"]</strong>
+                        @L["Create one for an Instagram, WhatsApp, or phone sale."]
                     </div>
                 </td>
             </tr>
@@ -70,7 +70,7 @@
                 <td>@o.Channel</td>
                 <td>@o.Items.Sum(i => i.Quantity)</td>
                 <td>@o.Total.ToString("0.000") KWD</td>
-                <td><a href="/orders/drafts/@o.Id" class="adm-btn">Edit</a></td>
+                <td><a href="/orders/drafts/@o.Id" class="adm-btn">@L["Edit"]</a></td>
             </tr>
         }
         </tbody>

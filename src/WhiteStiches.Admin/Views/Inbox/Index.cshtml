@@ -6,22 +6,22 @@
 
 <div class="adm-toolbar">
     <div class="adm-toolbar__filters">
-        <a href="/inbox" class="adm-btn @(Model.UnreadOnly ? "adm-btn--solid" : null)">Unread</a>
-        <a href="/inbox?unreadOnly=false" class="adm-btn @(!Model.UnreadOnly ? "adm-btn--solid" : null)">All messages</a>
+        <a href="/inbox" class="adm-btn @(Model.UnreadOnly ? "adm-btn--solid" : null)">@L["Unread"]</a>
+        <a href="/inbox?unreadOnly=false" class="adm-btn @(!Model.UnreadOnly ? "adm-btn--solid" : null)">@L["All messages"]</a>
     </div>
 </div>
 
 <section class="adm-panel">
     <header class="adm-panel__head">
-        <h2 class="adm-panel__title">@(Model.UnreadOnly ? "Unread messages" : "All messages") (@Model.Messages.TotalCount)</h2>
+        <h2 class="adm-panel__title">@(Model.UnreadOnly ? L["Unread messages"].Value : L["All messages"].Value) (@Model.Messages.TotalCount)</h2>
     </header>
 
     @if (Model.Messages.Items.Count == 0)
     {
         <div class="adm-panel__body">
             <div class="adm-empty">
-                <strong>@(Model.UnreadOnly ? "Inbox zero" : "No messages")</strong>
-                @(Model.UnreadOnly ? "No unread contact messages right now." : "Nothing has come through the contact form yet.")
+                <strong>@(Model.UnreadOnly ? L["Inbox zero"].Value : L["No messages"].Value)</strong>
+                @(Model.UnreadOnly ? L["No unread contact messages right now."].Value : L["Nothing has come through the contact form yet."].Value)
             </div>
         </div>
     }
@@ -30,11 +30,11 @@
         <table class="adm-table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Subject</th>
-                    <th>Received (UTC)</th>
-                    <th>Status</th>
+                    <th>@L["Name"]</th>
+                    <th>@L["Email"]</th>
+                    <th>@L["Subject"]</th>
+                    <th>@L["Received (UTC)"]</th>
+                    <th>@L["Status"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,16 +43,16 @@
                     <tr>
                         <td><a href="/inbox/@m.Id">@m.Name</a></td>
                         <td>@m.Email</td>
-                        <td><a href="/inbox/@m.Id">@(string.IsNullOrWhiteSpace(m.Subject) ? "(no subject)" : m.Subject)</a></td>
+                        <td><a href="/inbox/@m.Id">@(string.IsNullOrWhiteSpace(m.Subject) ? L["(no subject)"].Value : m.Subject)</a></td>
                         <td>@m.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm")</td>
                         <td>
                             @if (m.IsRead)
                             {
-                                <span class="adm-badge">Read</span>
+                                <span class="adm-badge">@L["Read"]</span>
                             }
                             else
                             {
-                                <span class="adm-badge adm-badge--warn">Unread</span>
+                                <span class="adm-badge adm-badge--warn">@L["Unread"]</span>
                             }
                         </td>
                     </tr>

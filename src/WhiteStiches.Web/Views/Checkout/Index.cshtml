@@ -23,16 +23,16 @@
 </style>
 
 <header class="co-hdr">  <div class="co-hdr__inner">
-    <a href="/cart" class="co-hdr__back" aria-label="Back to bag">
+    <a href="/cart" class="co-hdr__back" aria-label="@L["Back to bag"]">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6l-6 6 6 6"/></svg>
-      <span>Back to bag</span>
+      <span>@L["Back to bag"]</span>
     </a>
-    <a href="/" class="co-hdr__logo" aria-label="White Stitches home">
+    <a href="/" class="co-hdr__logo" aria-label="@L["White Stitches home"]">
       <img src="~/assets/logo-full.png" alt="White Stitches" class="co-hdr__logo-img" />
     </a>
-    <div class="co-hdr__secure" aria-label="Secure checkout">
+    <div class="co-hdr__secure" aria-label="@L["Secure checkout"]">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V8a5 5 0 0110 0v3"/></svg>
-      <span>Secure</span>
+      <span>@L["Secure"]</span>
     </div>
   </div>
 </header>
@@ -41,9 +41,9 @@
 <div class="co-steps">
   <div class="co-steps__inner">
     <ol>
-      <li class="is-done"><span class="co-steps__num">1</span> Bag</li>
-      <li class="is-active"><span class="co-steps__num">2</span> Checkout</li>
-      <li><span class="co-steps__num">3</span> Confirmation</li>
+      <li class="is-done"><span class="co-steps__num">1</span> @L["Bag"]</li>
+      <li class="is-active"><span class="co-steps__num">2</span> @L["Checkout"]</li>
+      <li><span class="co-steps__num">3</span> @L["Confirmation"]</li>
     </ol>
   </div>
 </div>
@@ -62,39 +62,39 @@
 
       <!-- Express checkout row (top) — placeholders until Tap Payments (Phase 1C) -->
       <div class="co-section co-section--express">
-        <span class="co-express__label">Express checkout</span>
+        <span class="co-express__label">@L["Express checkout"]</span>
         <div class="co-express__row">
-          <button type="button" class="express-btn express-btn--apple" aria-label="Pay with Apple Pay" disabled>
+          <button type="button" class="express-btn express-btn--apple" aria-label="@L["Pay with Apple Pay"]" disabled>
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.01-2.04 1.66-3.02 1.74-3.07-.95-1.39-2.42-1.58-2.94-1.6-1.24-.13-2.43.74-3.06.74-.64 0-1.61-.72-2.66-.7-1.36.02-2.63.79-3.33 2.01-1.42 2.47-.36 6.12 1.02 8.12.68.98 1.49 2.08 2.55 2.04 1.03-.04 1.42-.66 2.66-.66 1.24 0 1.59.66 2.67.64 1.1-.02 1.8-1 2.47-1.99.78-1.14 1.1-2.24 1.12-2.3-.02-.01-2.15-.83-2.17-3.23zM15.07 5.91c.56-.69.95-1.64.84-2.59-.81.04-1.81.55-2.4 1.23-.52.6-.98 1.58-.86 2.51.91.07 1.85-.46 2.42-1.15z"/></svg>
             <span>Apple Pay</span>
           </button>
           <button type="button" class="express-btn express-btn--google" disabled><span>G Pay</span></button>
         </div>
-        <span class="co-express__divider"><em>or fill in your details</em></span>
+        <span class="co-express__divider"><em>@L["or fill in your details"]</em></span>
       </div>
 
       <!-- ── 1 · CONTACT ───────────────────────────────────────────── -->
       <section class="co-section">
         <header class="co-section__head">
           <span class="co-section__num">1</span>
-          <h2>Contact</h2>
+          <h2>@L["Contact"]</h2>
           @if (!(User.Identity?.IsAuthenticated ?? false))
           {
-            <a href="/account/login" class="co-section__link">Already have an account? <strong>Sign in</strong></a>
+            <a href="/account/login" class="co-section__link">@L["Already have an account?"] <strong>@L["Sign in"]</strong></a>
           }
         </header>
 
         <div class="co-section__body">
           <div class="co-field">
             <input type="email" id="email" name="email" value="@Model.Form.Email" required autocomplete="email" placeholder=" " class="@Err("Email")" />
-            <label for="email">Email</label>
-            <span class="field__hint">For order confirmation &amp; tracking</span>
+            <label for="email">@L["Email"]</label>
+            <span class="field__hint">@L["For order confirmation & tracking"]</span>
           </div>
 
           <div class="co-field co-field--phone">
             <span class="field__prefix" id="phonePrefix">
               <span class="flag flag--kw" aria-hidden="true"></span>
-              <select id="phoneCountry" aria-label="Country code">
+              <select id="phoneCountry" aria-label="@L["Country code"]">
                 <option value="+965" selected>+965</option>
                 <option value="+966">+966</option>
                 <option value="+971">+971</option>
@@ -104,13 +104,13 @@
               </select>
             </span>
             <input type="tel" id="phone" name="phone" value="@Model.Form.Phone" required autocomplete="tel" placeholder=" " inputmode="tel" class="@Err("Phone")" />
-            <label for="phone">Mobile</label>
-            <span class="field__hint">We&rsquo;ll WhatsApp delivery updates</span>
+            <label for="phone">@L["Mobile"]</label>
+            <span class="field__hint">@L["We'll WhatsApp delivery updates"]</span>
           </div>
 
           <label class="check co-check">
             <input type="checkbox" id="marketingOptIn" />
-            <span>Send me styling notes &amp; new arrivals · 1 email a week, never more</span>
+            <span>@L["Send me styling notes & new arrivals · 1 email a week, never more"]</span>
           </label>
         </div>
       </section>
@@ -119,7 +119,7 @@
       <section class="co-section">
         <header class="co-section__head">
           <span class="co-section__num">2</span>
-          <h2>Delivery address</h2>
+          <h2>@L["Delivery address"]</h2>
         </header>
 
         <div class="co-section__body">
@@ -127,17 +127,17 @@
             <select id="country" required>
               <option value="KW" selected>Kuwait</option>
             </select>
-            <label for="country">Country / region</label>
+            <label for="country">@L["Country / region"]</label>
           </div>
 
           <div class="co-field-row">
             <div class="co-field">
               <input type="text" id="firstName" name="firstName" value="@Model.Form.FirstName" required autocomplete="given-name" placeholder=" " class="@Err("FirstName")" />
-              <label for="firstName">First name</label>
+              <label for="firstName">@L["First name"]</label>
             </div>
             <div class="co-field">
               <input type="text" id="lastName" name="lastName" value="@Model.Form.LastName" required autocomplete="family-name" placeholder=" " class="@Err("LastName")" />
-              <label for="lastName">Last name</label>
+              <label for="lastName">@L["Last name"]</label>
             </div>
           </div>
 
@@ -150,56 +150,56 @@
                   <option selected="@(Model.Form.Governorate == gov)">@gov</option>
                 }
               </select>
-              <label for="governorate">Governorate</label>
+              <label for="governorate">@L["Governorate"]</label>
             </div>
             <div class="co-field">
               <input type="text" id="area" name="area" value="@Model.Form.Area" required autocomplete="address-level2" placeholder=" " class="@Err("Area")" />
-              <label for="area">Area</label>
+              <label for="area">@L["Area"]</label>
             </div>
           </div>
 
           <div class="co-field-row co-field-row--3">
             <div class="co-field">
               <input type="text" id="block" name="block" value="@Model.Form.Block" required placeholder=" " class="@Err("Block")" />
-              <label for="block">Block</label>
+              <label for="block">@L["Block"]</label>
             </div>
             <div class="co-field">
               <input type="text" id="street" name="street" value="@Model.Form.Street" required placeholder=" " class="@Err("Street")" />
-              <label for="street">Street</label>
+              <label for="street">@L["Street"]</label>
             </div>
             <div class="co-field">
               <input type="text" id="building" name="building" value="@Model.Form.Building" required placeholder=" " class="@Err("Building")" />
-              <label for="building">Building / house</label>
+              <label for="building">@L["Building / house"]</label>
             </div>
           </div>
 
           <div class="co-field-row">
             <div class="co-field">
               <input type="text" id="floor" name="floor" value="@Model.Form.Floor" placeholder=" " />
-              <label for="floor">Floor</label>
-              <span class="field__hint">Optional</span>
+              <label for="floor">@L["Floor"]</label>
+              <span class="field__hint">@L["Optional"]</span>
             </div>
             <div class="co-field">
               <input type="text" id="apartment" name="apartment" value="@Model.Form.Apartment" placeholder=" " />
-              <label for="apartment">Apartment</label>
-              <span class="field__hint">Optional</span>
+              <label for="apartment">@L["Apartment"]</label>
+              <span class="field__hint">@L["Optional"]</span>
             </div>
           </div>
 
           <div class="co-field">
             <textarea id="directions" name="directions" rows="2" placeholder=" ">@Model.Form.Directions</textarea>
-            <label for="directions">Additional directions</label>
-            <span class="field__hint">e.g. landmark, gate code · optional</span>
+            <label for="directions">@L["Additional directions"]</label>
+            <span class="field__hint">@L["e.g. landmark, gate code · optional"]</span>
           </div>
 
           <label class="check co-check">
             <input type="checkbox" id="saveAddress" />
-            <span>Save this address for next time</span>
+            <span>@L["Save this address for next time"]</span>
           </label>
 
           <label class="check co-check">
             <input type="checkbox" id="billingSame" checked />
-            <span>Billing address is the same</span>
+            <span>@L["Billing address is the same"]</span>
           </label>
         </div>
       </section>
@@ -208,7 +208,7 @@
       <section class="co-section">
         <header class="co-section__head">
           <span class="co-section__num">3</span>
-          <h2>Delivery method</h2>
+          <h2>@L["Delivery method"]</h2>
         </header>
 
         <div class="co-section__body">
@@ -219,7 +219,7 @@
               <span class="radio-card__inner">
                 <span class="radio-card__title">@method.Title</span>
                 <span class="radio-card__meta">@method.Meta</span>
-                <span class="radio-card__price">@(method.IsFree ? "Free" : method.Price.ToString("0.000") + " KWD")</span>
+                <span class="radio-card__price">@(method.IsFree ? L["Free"].Value : method.Price.ToString("0.000") + " KWD")</span>
               </span>
             </label>
           }
@@ -230,10 +230,10 @@
       <section class="co-section">
         <header class="co-section__head">
           <span class="co-section__num">4</span>
-          <h2>Payment</h2>
+          <h2>@L["Payment"]</h2>
           <span class="co-section__secure">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V8a5 5 0 0110 0v3"/></svg>
-            All payments processed by Tap Payments
+            @L["All payments processed by Tap Payments"]
           </span>
         </header>
 
@@ -246,10 +246,10 @@
               <span class="pay-card__head">
                 <span class="pay-card__brand pay-card__brand--knet">KNET</span>
                 <span class="pay-card__title">KNET</span>
-                <span class="pay-card__meta">Direct debit · most-used in Kuwait</span>
+                <span class="pay-card__meta">@L["Direct debit · most-used in Kuwait"]</span>
               </span>
               <span class="pay-card__body">
-                You will be redirected to KNET&rsquo;s secure page to authenticate this payment.
+                @L["You will be redirected to KNET's secure page to authenticate this payment."]
               </span>
             </span>
           </label>
@@ -264,8 +264,8 @@
                   <span class="pay-card__brand pay-card__brand--mc"><i></i><i></i></span>
                   <span class="pay-card__brand pay-card__brand--amex">AMEX</span>
                 </span>
-                <span class="pay-card__title">Credit / debit card</span>
-                <span class="pay-card__meta">Visa · Mastercard · AmEx · with 3D Secure</span>
+                <span class="pay-card__title">@L["Credit / debit card"]</span>
+                <span class="pay-card__meta">@L["Visa · Mastercard · AmEx · with 3D Secure"]</span>
               </span>
             </span>
           </label>
@@ -278,13 +278,13 @@
                 <span class="pay-card__brand pay-card__brand--apple">
                   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.04c-.01-2.04 1.66-3.02 1.74-3.07-.95-1.39-2.42-1.58-2.94-1.6-1.24-.13-2.43.74-3.06.74-.64 0-1.61-.72-2.66-.7-1.36.02-2.63.79-3.33 2.01-1.42 2.47-.36 6.12 1.02 8.12.68.98 1.49 2.08 2.55 2.04 1.03-.04 1.42-.66 2.66-.66 1.24 0 1.59.66 2.67.64 1.1-.02 1.8-1 2.47-1.99.78-1.14 1.1-2.24 1.12-2.3-.02-.01-2.15-.83-2.17-3.23zM15.07 5.91c.56-.69.95-1.64.84-2.59-.81.04-1.81.55-2.4 1.23-.52.6-.98 1.58-.86 2.51.91.07 1.85-.46 2.42-1.15z"/></svg>
                 </span>
-                <span class="pay-card__title">Apple Pay</span>
-                <span class="pay-card__meta">Confirm with Face ID or Touch ID</span>
+                <span class="pay-card__title">@L["Apple Pay"]</span>
+                <span class="pay-card__meta">@L["Confirm with Face ID or Touch ID"]</span>
               </span>
             </span>
           </label>
 
-          <p class="co-note-muted">KNET, card &amp; Apple Pay are processed securely by Tap Payments — you’ll be redirected to complete your payment.</p>
+          <p class="co-note-muted">@L["KNET, card & Apple Pay are processed securely by Tap Payments — you’ll be redirected to complete your payment."]</p>
 
         </div>
       </section>
@@ -294,7 +294,7 @@
         <label class="check co-check co-check--required @Err("TermsAccepted")">
           <input type="checkbox" id="termsAccept" name="termsAccepted" value="true" checked="@Model.Form.TermsAccepted" required />
           <span>
-            I&rsquo;ve read and agree to the <a href="/terms" class="link-inline">Terms of Sale</a>, <a href="/privacy" class="link-inline">Privacy Policy</a>, and <a href="/returns-policy" class="link-inline">Returns Policy</a>.
+            @L["I've read and agree to the"] <a href="/terms" class="link-inline">@L["Terms of Sale"]</a>, <a href="/privacy" class="link-inline">@L["Privacy Policy"]</a>, @L["and"] <a href="/returns-policy" class="link-inline">@L["Returns Policy"]</a>.
           </span>
         </label>
 
@@ -311,32 +311,32 @@
         }
 
         <button type="submit" class="btn btn--primary co-place">
-          <span>Place order · <strong>@Model.Summary.Total.ToString("0.000") KWD</strong></span>
+          <span>@L["Place order"] · <strong>@Model.Summary.Total.ToString("0.000") KWD</strong></span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </button>
 
         <p class="co-disclaimer">
-          By placing this order you authorise White Stitches via Tap Payments to charge the amount above. Your card details are tokenised; we never store them.
+          @L["By placing this order you authorise White Stitches via Tap Payments to charge the amount above. Your card details are tokenised; we never store them."]
         </p>
       </section>
 
     </form>
 
     <!-- ── SUMMARY column ─────────────────────────────────────────── -->
-    <aside class="co__summary" aria-label="Order summary">
+    <aside class="co__summary" aria-label="@L["Order summary"]">
 
       <!-- Mobile-only collapsible header -->
       <button type="button" class="co-summary-toggle" id="coSummaryToggle" aria-expanded="false" aria-controls="coSummaryBody">
         <span class="co-summary-toggle__left">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h13v9H3zM16 10h3l2 3v3h-5zM7 19a2 2 0 100-4 2 2 0 000 4zM18 19a2 2 0 100-4 2 2 0 000 4z"/></svg>
-          <span>Show order summary</span>
+          <span>@L["Show order summary"]</span>
           <svg class="co-summary-toggle__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
         </span>
         <strong>@Model.Summary.Total.ToString("0.000") KWD</strong>
       </button>
 
       <div class="co-summary" id="coSummaryBody">
-        <h2 class="co-summary__title">Order Summary</h2>
+        <h2 class="co-summary__title">@L["Order Summary"]</h2>
 
         <ul class="co-items">
           @foreach (var item in Model.Items)
@@ -366,8 +366,8 @@
           @Html.AntiForgeryToken()
           <input type="hidden" name="returnUrl" value="/checkout" />
           <div class="cart-discount__row">
-            <input type="text" name="code" class="cart-discount__input" placeholder="Promo or gift code" autocomplete="off" />
-            <button type="submit" class="cart-discount__btn">Apply</button>
+            <input type="text" name="code" class="cart-discount__input" placeholder="@L["Promo or gift code"]" autocomplete="off" />
+            <button type="submit" class="cart-discount__btn">@L["Apply"]</button>
           </div>
           @if (Model.Summary.DiscountAmount > 0 && Model.DiscountCode is not null)
           {
@@ -384,7 +384,7 @@
 
         <ul class="cart-totals">
           <li>
-            <span>Subtotal</span>
+            <span>@L["Subtotal"]</span>
             <span class="cart-totals__val">@Model.Summary.Subtotal.ToString("0.000") KWD</span>
           </li>
           @if (Model.Summary.DiscountAmount > 0)
@@ -397,15 +397,15 @@
           @if (Model.Summary.GiftWrapFee > 0)
           {
             <li>
-              <span>Gift wrap</span>
+              <span>@L["Gift wrap"]</span>
               <span class="cart-totals__val">@Model.Summary.GiftWrapFee.ToString("0.000") KWD</span>
             </li>
           }
           <li>
-            <span>Delivery</span>
+            <span>@L["Delivery"]</span>
             @if (Model.Summary.EstimatedShipping == 0)
             {
-              <span class="cart-totals__val cart-totals__val--accent">Free</span>
+              <span class="cart-totals__val cart-totals__val--accent">@L["Free"]</span>
             }
             else
             {
@@ -413,24 +413,24 @@
             }
           </li>
           <li>
-            <span>VAT</span>
-            <span class="cart-totals__val">Included</span>
+            <span>@L["VAT"]</span>
+            <span class="cart-totals__val">@L["Included"]</span>
           </li>
         </ul>
 
         <div class="cart-totals__grand">
-          <span>Total</span>
+          <span>@L["Total"]</span>
           <span>@Model.Summary.Total.ToString("0.000") <span class="cart-totals__currency">KWD</span></span>
         </div>
 
         <ul class="cart-trust">
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V8a5 5 0 0110 0v3"/></svg>
-            <span>Encrypted &amp; PCI DSS Level 1</span>
+            <span>@L["Encrypted & PCI DSS Level 1"]</span>
           </li>
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 12a9 9 0 11-9-9"/><path d="M21 4v5h-5"/></svg>
-            <span>14-day easy returns</span>
+            <span>@L["14-day easy returns"]</span>
           </li>
         </ul>
       </div>
@@ -453,7 +453,7 @@
       var open = wrap.classList.toggle('is-open');
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       var label = toggle.querySelector('span:nth-child(1) span:nth-child(2)');
-      if (label) label.textContent = open ? 'Hide order summary' : 'Show order summary';
+      if (label) label.textContent = open ? '@L["Hide order summary"]' : '@L["Show order summary"]';
     });
   })();
 </script>

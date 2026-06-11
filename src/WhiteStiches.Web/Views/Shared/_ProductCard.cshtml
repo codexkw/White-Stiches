@@ -5,7 +5,7 @@
     var front = images.FirstOrDefault();
     var back = images.Skip(1).FirstOrDefault();
     var frontUrl = front?.Url ?? "/assets/products/product-1.jpg";
-    var frontAlt = front?.AltEn ?? Model.TitleEn;
+    var frontAlt = front?.Alt() ?? Model.Title();
 
     var variants = Model.Variants.Where(v => v.IsActive).OrderBy(v => v.Position).ThenBy(v => v.Id).ToList();
     var priced = variants.OrderBy(v => v.Price).FirstOrDefault();
@@ -45,18 +45,18 @@
     }
     else if (isNew)
     {
-      <span class="product__badge">New</span>
+      <span class="product__badge">@L["New"]</span>
     }
     @if (quickVariant is not null)
     {
-      <button class="product__quick" type="submit" form="@quickFormId">Quick Add</button>
+      <button class="product__quick" type="submit" form="@quickFormId">@L["Quick Add"]</button>
     }
   </a>
   <form method="post" action="/account/wishlist/add">
     @Html.AntiForgeryToken()
     <input type="hidden" name="productId" value="@Model.Id" />
     <input type="hidden" name="returnUrl" value="@returnUrl" />
-    <button type="submit" class="product__wish" aria-label="Add to wishlist">
+    <button type="submit" class="product__wish" aria-label="@L["Add to wishlist"]">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
     </button>
   </form>
@@ -70,10 +70,10 @@
     </form>
   }
   <div class="product__info">
-    <h3 class="product__title"><a href="@pdpUrl">@Model.TitleEn</a></h3>
+    <h3 class="product__title"><a href="@pdpUrl">@Model.Title()</a></h3>
     @if (colors.Count > 0)
     {
-      <div class="product__swatches" aria-label="Available colours">
+      <div class="product__swatches" aria-label="@L["Available colours"]">
         @foreach (var color in colors)
         {
           var key = color.ToLowerInvariant();
@@ -100,7 +100,7 @@
       }
       else
       {
-        <span>Coming soon</span>
+        <span>@L["Coming soon"]</span>
       }
     </div>
   </div>

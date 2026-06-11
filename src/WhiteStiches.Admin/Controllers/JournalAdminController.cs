@@ -11,7 +11,7 @@ namespace WhiteStiches.Admin.Controllers;
 
 /// <summary>Journal post management incl. drafts, categories, hero images (AD-CNT-02). Routes under /journal.</summary>
 [Authorize(Roles = $"{AppRoles.SuperAdmin},{AppRoles.Admin},{AppRoles.MarketingManager},{AppRoles.ContentEditor}")]
-public class JournalAdminController(IContentService content, IFileStorage files, IAuditService audit) : Controller
+public class JournalAdminController(IContentService content, IFileStorage files, IAuditService audit, IRichTextSanitizer sanitizer) : Controller
 {
     [HttpGet("journal")]
     public async Task<IActionResult> Index(string? search, int page = 1, int size = 20, CancellationToken ct = default)
@@ -151,8 +151,8 @@ public class JournalAdminController(IContentService content, IFileStorage files,
         post.TitleAr = model.TitleAr?.Trim() ?? string.Empty;
         post.ExcerptEn = model.ExcerptEn;
         post.ExcerptAr = model.ExcerptAr;
-        post.BodyEn = model.BodyEn;
-        post.BodyAr = model.BodyAr;
+        post.BodyEn = sanitizer.Sanitize(model.BodyEn);
+        post.BodyAr = sanitizer.Sanitize(model.BodyAr);
         post.JournalCategoryId = categoryId;
         post.Tags = model.Tags;
         post.AuthorName = string.IsNullOrWhiteSpace(model.AuthorName)
