@@ -2,6 +2,7 @@ using WhiteStiches.Infrastructure;
 using WhiteStiches.Infrastructure.Data;
 using WhiteStiches.Infrastructure.Localization;
 using WhiteStiches.Web;
+using WhiteStiches.Web.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +43,10 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Redirect public traffic to /maintenance when the store.maintenance_mode setting is on
+// (after auth so signed-in staff bypass the gate). Admin app is never gated.
+app.UseMiddleware<MaintenanceMiddleware>();
 
 app.MapStaticAssets();
 
