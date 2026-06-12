@@ -137,7 +137,7 @@
       <!-- Inert stub keeps the legacy demo chip module from touching the page -->
       <div class="filter__chips" id="filterChips" style="display:none" hidden></div>
 
-      <form id="filterForm" method="get" action="/collection" style="display:flex;flex-direction:column;gap:var(--s-2)">
+      <form id="filterForm" method="get" action="@Model.BasePath" style="display:flex;flex-direction:column;gap:var(--s-2)">
 
         <!-- Category -->
         <details class="filter-group" open>
@@ -220,7 +220,7 @@
         </details>
 
         <div class="filter__foot">
-          <a class="btn btn--ghost filter__clear" id="filterClear" href="/collection">@L["Clear all"]</a>
+          <a class="btn btn--ghost filter__clear" id="filterClear" href="@Model.BasePath">@L["Clear all"]</a>
           <button type="submit" class="btn btn--primary filter__apply" id="filterApply">@L["Show results"]</button>
         </div>
       </form>
@@ -250,7 +250,7 @@
           </svg>
           <h3>@L["No pieces match those filters."]</h3>
           <p>@L["Try widening one of your selections or clearing the filters to see the full edit."]</p>
-          <a class="btn btn--ghost" id="emptyClear" href="/collection">@L["Clear all filters"]</a>
+          <a class="btn btn--ghost" id="emptyClear" href="@Model.BasePath">@L["Clear all filters"]</a>
         </div>
       }
       else

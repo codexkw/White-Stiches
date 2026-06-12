@@ -1,0 +1,39 @@
+@model WhiteStiches.Web.Models.Nav.NavMenuViewModel
+@*
+    Desktop mega-menu panels. One panel per root category that HAS children,
+    keyed data-menu-panel="{slug}" to match the header trigger's data-menu="{slug}"
+    (site.js openMenu resolves trigger -> panel by this key). Children are chunked
+    into columns; an optional feature image renders when the category has an ImageUrl.
+*@
+@foreach (var category in Model.Categories.Where(c => c.Children.Any()))
+{
+  var columns = category.Children.Chunk(6).ToList();
+  <div class="megamenu" data-menu-panel="@category.Slug" role="region" aria-label="@category.Name() menu">
+    <div class="megamenu__inner">
+      @for (var i = 0; i < columns.Count; i++)
+      {
+        <div class="megamenu__col">
+          <h6>@(i == 0 ? category.Name() : "")</h6>
+          @foreach (var child in columns[i])
+          {
+            <a href="/collection?category=@child.Slug">@child.Name()</a>
+          }
+          @if (i == columns.Count - 1)
+          {
+            <a href="/collection?category=@category.Slug">@L["View all"] @category.Name()</a>
+          }
+        </div>
+      }
+      @if (!string.IsNullOrWhiteSpace(category.ImageUrl))
+      {
+        <a href="/collection?category=@category.Slug" class="megamenu__feature">
+          <img src="@category.ImageUrl" alt="@category.Name()">
+          <div class="megamenu__feature-overlay">
+            <span>@L["Explore"]</span>
+            <h4>@category.Name()</h4>
+          </div>
+        </a>
+      }
+    </div>
+  </div>
+}

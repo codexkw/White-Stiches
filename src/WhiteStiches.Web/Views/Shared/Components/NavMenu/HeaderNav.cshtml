@@ -1,0 +1,21 @@
+@model WhiteStiches.Web.Models.Nav.NavMenuViewModel
+@*
+    Desktop header primary nav — driven by the live category tree.
+    A category with children carries data-menu="{slug}" to open the matching
+    mega-menu panel (see MegaMenu.cshtml, keyed by the same slug). A category
+    with no children is a plain link that navigates straight to its listing.
+*@
+<nav class="hdr__nav hdr__nav--left" aria-label="Primary">
+  @foreach (var category in Model.Categories.Take(WhiteStiches.Web.Models.Nav.NavMenuViewModel.HeaderLimit))
+  {
+    if (category.Children.Any())
+    {
+      <a href="/collection?category=@category.Slug" class="hdr__link" data-menu="@category.Slug">@category.Name()</a>
+    }
+    else
+    {
+      <a href="/collection?category=@category.Slug" class="hdr__link">@category.Name()</a>
+    }
+  }
+  <a href="/collection" class="hdr__link hdr__link--accent">@L["Sale"]</a>
+</nav>

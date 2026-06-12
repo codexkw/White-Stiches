@@ -1,0 +1,18 @@
+@model WhiteStiches.Web.Models.Nav.NavMenuViewModel
+@*
+    Footer "Shop" column — live root categories, then active collections,
+    then the evergreen New Arrivals / Sale links.
+*@
+<div class="ftr__col">
+  <h5>@L["Shop"]</h5>
+  @foreach (var category in Model.Categories)
+  {
+    <a href="/collection?category=@category.Slug">@category.Name()</a>
+  }
+  @foreach (var collection in Model.Collections)
+  {
+    <a href="/collections/@collection.Slug">@collection.Title()</a>
+  }
+  <a href="/collection?sort=newest">@L["New Arrivals"]</a>
+  <a href="/collection">@L["Sale"]</a>
+</div>

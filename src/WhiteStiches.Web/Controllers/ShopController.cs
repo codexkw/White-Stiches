@@ -3,6 +3,7 @@ using WhiteStiches.Core.Entities.Catalog;
 using WhiteStiches.Core.Enums;
 using WhiteStiches.Core.Interfaces;
 using WhiteStiches.Core.Models;
+using WhiteStiches.Infrastructure.Localization;
 using WhiteStiches.Web.Models.Shop;
 
 namespace WhiteStiches.Web.Controllers;
@@ -46,6 +47,49 @@ public class ShopController(ICatalogService catalog) : Controller
             Categories = categories,
             BannerTitle = matched?.NameEn ?? "All",
             Category = category,
+            Size = size,
+            Color = color,
+            Min = min,
+            Max = max,
+            InStock = instock,
+            Sort = sortKey
+        });
+    }
+
+    [Route("collections/{slug}")]
+    public async Task<IActionResult> Collections(
+        string slug, string? size, string? color,
+        decimal? min, decimal? max, bool instock = false,
+        string? sort = null, int page = 1, CancellationToken ct = default)
+    {
+        var collection = await catalog.GetCollectionBySlugAsync(slug, ct);
+        if (collection is null) return NotFound();
+
+        size = Normalize(size);
+        color = Normalize(color);
+        var sortKey = Normalize(sort)?.ToLowerInvariant() ?? "featured";
+
+        var results = await catalog.GetProductsAsync(new ProductQuery
+        {
+            CollectionSlug = slug,
+            Size = size,
+            Color = color,
+            PriceMin = min,
+            PriceMax = max,
+            InStockOnly = instock,
+            Sort = MapSort(sortKey),
+            Page = Math.Max(1, page),
+            PageSize = StorefrontPageSize
+        }, ct);
+
+        var categories = await catalog.GetCategoryTreeAsync(ct);
+
+        return View("Collection", new CollectionViewModel
+        {
+            Products = results,
+            Categories = categories,
+            BannerTitle = collection.Title(),
+            CollectionSlug = slug,
             Size = size,
             Color = color,
             Min = min,

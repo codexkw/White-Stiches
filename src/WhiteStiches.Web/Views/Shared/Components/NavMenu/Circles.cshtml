@@ -1,0 +1,29 @@
+@model WhiteStiches.Web.Models.Nav.NavMenuViewModel
+@*
+    Homepage "Shop by Category" circles — live root categories (top 4 to fit the
+    4-up grid). Uses the category's own ImageUrl when set, otherwise a rotating
+    studio fallback so the strip always looks intentional.
+*@
+@{
+    var fallbacks = new[]
+    {
+        "~/assets/products/product-4.jpg",
+        "~/assets/products/product-3.jpg",
+        "~/assets/products/product-2.jpg",
+        "~/assets/products/product-1.jpg"
+    };
+    var circles = Model.Categories.Take(WhiteStiches.Web.Models.Nav.NavMenuViewModel.CirclesLimit).ToList();
+}
+<div class="cat-circles cat-circles--four">
+  @for (var i = 0; i < circles.Count; i++)
+  {
+    var category = circles[i];
+    var img = string.IsNullOrWhiteSpace(category.ImageUrl) ? Url.Content(fallbacks[i % fallbacks.Length]) : category.ImageUrl;
+    <a href="/collection?category=@category.Slug" class="cat-circle">
+      <div class="cat-circle__img">
+        <img src="@img" alt="@category.Name()" />
+      </div>
+      <span class="cat-circle__label">@category.Name() <span class="cat-circle__arrow">→</span></span>
+    </a>
+  }
+</div>

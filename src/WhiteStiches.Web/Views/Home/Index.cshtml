@@ -83,37 +83,7 @@
     <h2 class="section-title">@L["Curated lines, season after season."]</h2>
   </div>
 
-  <div class="cat-circles cat-circles--four">
-
-    <a href="/collection?category=jackets" class="cat-circle">
-      <div class="cat-circle__img">
-        <img src="~/assets/products/product-4.jpg" alt="@L["Jackets collection"]" />
-      </div>
-      <span class="cat-circle__label">@L["Jackets"] <span class="cat-circle__arrow">→</span></span>
-    </a>
-
-    <a href="/collection?category=dresses" class="cat-circle">
-      <div class="cat-circle__img">
-        <img src="~/assets/products/product-3.jpg" alt="@L["Dresses collection"]" />
-      </div>
-      <span class="cat-circle__label">@L["Dresses"] <span class="cat-circle__arrow">→</span></span>
-    </a>
-
-    <a href="/collection?category=suits" class="cat-circle">
-      <div class="cat-circle__img">
-        <img src="~/assets/products/product-2.jpg" alt="@L["Suits collection"]" />
-      </div>
-      <span class="cat-circle__label">@L["Suits"] <span class="cat-circle__arrow">→</span></span>
-    </a>
-
-    <a href="/collection?category=tops" class="cat-circle">
-      <div class="cat-circle__img">
-        <img src="~/assets/products/product-1.jpg" alt="@L["Tops collection"]" />
-      </div>
-      <span class="cat-circle__label">@L["Tops"] <span class="cat-circle__arrow">→</span></span>
-    </a>
-
-  </div>
+  @await Component.InvokeAsync("NavMenu", new { section = "Circles" })
 </section>
 
 <!-- ============================ FEATURED PRODUCTS ============================ -->

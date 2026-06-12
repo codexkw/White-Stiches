@@ -2238,4 +2238,10 @@
   <data name="Request a new link" xml:space="preserve">
     <value>طلب رابط جديد</value>
   </data>
+  <data name="Explore" xml:space="preserve">
+    <value>استكشفي</value>
+  </data>
+  <data name="Collections" xml:space="preserve">
+    <value>المجموعات</value>
+  </data>
 </root>

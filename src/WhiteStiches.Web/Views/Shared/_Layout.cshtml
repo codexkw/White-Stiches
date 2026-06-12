@@ -111,13 +111,7 @@
       <span></span>
     </button>
 
-    <nav class="hdr__nav hdr__nav--left" aria-label="Primary">
-      <a href="/collection?category=jackets" class="hdr__link" data-menu="jackets">@L["Jackets"]</a>
-      <a href="/collection?category=dresses" class="hdr__link" data-menu="dresses">@L["Dresses"]</a>
-      <a href="/collection?category=suits" class="hdr__link" data-menu="suits">@L["Suits"]</a>
-      <a href="/collection?category=tops" class="hdr__link" data-menu="tops">@L["Tops"]</a>
-      <a href="/collection" class="hdr__link hdr__link--accent">@L["Sale"]</a>
-    </nav>
+    @await Component.InvokeAsync("NavMenu", new { section = "HeaderNav" })
 
     <a href="/" class="hdr__logo" aria-label="White Stitches home">
       <img src="~/assets/logo-full.png" alt="White Stitches" class="hdr__logo-img" />
@@ -142,124 +136,7 @@
 
   </div>
 
-  <!-- ── MEGA MENU: WOMEN ────────────────────────────────────────────── -->
-  <div class="megamenu" data-menu-panel="women" role="region" aria-label="Women menu">
-    <div class="megamenu__inner">
-      <div class="megamenu__col">
-        <h6>Clothing</h6>
-        <a href="/collection?category=dresses">Dresses</a>
-        <a href="/collection?category=tops">Tops & Blouses</a>
-        <a href="#">Trousers</a>
-        <a href="#">Skirts</a>
-        <a href="#">Knitwear</a>
-        <a href="#">Outerwear</a>
-        <a href="#">Abayas & Kaftans</a>
-      </div>
-      <div class="megamenu__col">
-        <h6>Occasion</h6>
-        <a href="#">Evening</a>
-        <a href="#">Workwear</a>
-        <a href="#">Resort & Vacation</a>
-        <a href="#">Ramadan & Eid</a>
-        <a href="#">Wedding Guest</a>
-        <a href="#">Everyday</a>
-      </div>
-      <div class="megamenu__col">
-        <h6>Edits</h6>
-        <a href="#">SS26 Lookbook</a>
-        <a href="#">A Study in Linen</a>
-        <a href="#">The Black Edit</a>
-        <a href="#">Best Sellers</a>
-        <a href="#">Just Landed</a>
-        <a href="#">Last Pieces</a>
-      </div>
-      <a href="#" class="megamenu__feature">
-        <img src="~/assets/products/product-1.jpg" alt="The Mira Collection — Spring 2026">
-        <div class="megamenu__feature-overlay">
-          <span>Featured</span>
-          <h4>The Mira Collection</h4>
-        </div>
-      </a>
-    </div>
-  </div>
-
-  <!-- ── MEGA MENU: MEN ──────────────────────────────────────────────── -->
-  <div class="megamenu" data-menu-panel="men" role="region" aria-label="Men menu">
-    <div class="megamenu__inner">
-      <div class="megamenu__col">
-        <h6>Clothing</h6>
-        <a href="#">Shirts</a>
-        <a href="#">Polos & Tees</a>
-        <a href="#">Trousers</a>
-        <a href="#">Knitwear</a>
-        <a href="/collection?category=suits">Suits & Blazers</a>
-        <a href="#">Outerwear</a>
-        <a href="#">Dishdasha</a>
-      </div>
-      <div class="megamenu__col">
-        <h6>Occasion</h6>
-        <a href="#">Tailoring</a>
-        <a href="#">Smart Casual</a>
-        <a href="#">Resort</a>
-        <a href="#">Diwaniya</a>
-        <a href="#">Workwear</a>
-        <a href="#">Weekend</a>
-      </div>
-      <div class="megamenu__col">
-        <h6>Edits</h6>
-        <a href="#">SS26 Lookbook</a>
-        <a href="#">The Linen Edit</a>
-        <a href="#">Black & Stone</a>
-        <a href="#">Best Sellers</a>
-        <a href="#">Just Landed</a>
-      </div>
-      <a href="#" class="megamenu__feature">
-        <img src="~/assets/products/product-2.jpg" alt="The Tailoring Edit">
-        <div class="megamenu__feature-overlay">
-          <span>Featured</span>
-          <h4>The Tailoring Edit</h4>
-        </div>
-      </a>
-    </div>
-  </div>
-
-  <!-- ── MEGA MENU: ACCESSORIES ──────────────────────────────────────── -->
-  <div class="megamenu" data-menu-panel="accessories" role="region" aria-label="Accessories menu">
-    <div class="megamenu__inner">
-      <div class="megamenu__col">
-        <h6>Bags</h6>
-        <a href="#">Tote Bags</a>
-        <a href="#">Shoulder Bags</a>
-        <a href="#">Crossbody</a>
-        <a href="#">Clutches</a>
-        <a href="#">Backpacks</a>
-        <a href="#">Travel</a>
-      </div>
-      <div class="megamenu__col">
-        <h6>Jewellery</h6>
-        <a href="#">Necklaces</a>
-        <a href="#">Earrings</a>
-        <a href="#">Bracelets</a>
-        <a href="#">Rings</a>
-        <a href="#">Sets</a>
-      </div>
-      <div class="megamenu__col">
-        <h6>Other</h6>
-        <a href="#">Scarves & Shawls</a>
-        <a href="#">Belts</a>
-        <a href="#">Sunglasses</a>
-        <a href="#">Hair Accessories</a>
-        <a href="#">Gift Cards</a>
-      </div>
-      <a href="#" class="megamenu__feature">
-        <img src="~/assets/products/product-3.jpg" alt="Heritage Silk Scarves">
-        <div class="megamenu__feature-overlay">
-          <span>New In</span>
-          <h4>Heritage Silk Scarves</h4>
-        </div>
-      </a>
-    </div>
-  </div>
+  @await Component.InvokeAsync("NavMenu", new { section = "MegaMenu" })
 
 </header>
 
@@ -277,84 +154,7 @@
 
     <nav class="drawer__nav" aria-label="Mobile primary">
 
-      <div class="drawer__group">
-        <button type="button" class="drawer__top drawer__toggle" aria-expanded="false">
-          <span>Jackets</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="drawer__sub">
-          <h6>Styles</h6>
-          <a href="/collection">Tailored Blazers</a>
-          <a href="/collection?category=jackets">Cropped Jackets</a>
-          <a href="/collection">Trench Coats</a>
-          <a href="/collection?category=jackets">Safari Jackets</a>
-          <a href="/collection">Leather Pieces</a>
-          <h6>Occasion</h6>
-          <a href="/collection">Workwear</a>
-          <a href="/collection">Evening</a>
-          <a href="/collection">Resort</a>
-        </div>
-      </div>
-
-      <div class="drawer__group">
-        <button type="button" class="drawer__top drawer__toggle" aria-expanded="false">
-          <span>Dresses</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="drawer__sub">
-          <h6>Styles</h6>
-          <a href="/collection">Double-Breasted</a>
-          <a href="/collection">Evening Gowns</a>
-          <a href="/collection?category=dresses">Midi Dresses</a>
-          <a href="/collection?category=dresses">Maxi Dresses</a>
-          <a href="/collection?category=dresses">Wrap Dresses</a>
-          <a href="/collection">Abayas &amp; Kaftans</a>
-          <h6>Occasion</h6>
-          <a href="/collection">Wedding Guest</a>
-          <a href="/collection">Evening</a>
-          <a href="/collection">Ramadan &amp; Eid</a>
-        </div>
-      </div>
-
-      <div class="drawer__group">
-        <button type="button" class="drawer__top drawer__toggle" aria-expanded="false">
-          <span>Suits</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="drawer__sub">
-          <h6>Styles</h6>
-          <a href="/collection?category=suits">Two-Piece Suits</a>
-          <a href="/collection?category=suits">Three-Piece Suits</a>
-          <a href="/collection?category=suits">Safari Suits</a>
-          <a href="/collection">Linen Co-ords</a>
-          <a href="/collection">Wide-Leg Sets</a>
-          <h6>Occasion</h6>
-          <a href="/collection">Workwear</a>
-          <a href="/collection">Smart Casual</a>
-          <a href="/collection">Resort</a>
-        </div>
-      </div>
-
-      <div class="drawer__group">
-        <button type="button" class="drawer__top drawer__toggle" aria-expanded="false">
-          <span>Tops</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="drawer__sub">
-          <h6>Styles</h6>
-          <a href="/collection">Blouses</a>
-          <a href="/collection">Shirts</a>
-          <a href="/collection?category=tops">Sheer-Collar Tops</a>
-          <a href="/collection">Knitwear</a>
-          <a href="/collection">Bodysuits</a>
-          <h6>Occasion</h6>
-          <a href="/collection">Workwear</a>
-          <a href="/collection">Evening</a>
-          <a href="/collection">Everyday</a>
-        </div>
-      </div>
-
-      <a href="/collection" class="drawer__top drawer__top--solo drawer__top--accent">Sale</a>
+      @await Component.InvokeAsync("NavMenu", new { section = "Drawer" })
 
     </nav>
 
@@ -396,16 +196,7 @@
       </div>
     </div>
 
-    <div class="ftr__col">
-      <h5>@L["Shop"]</h5>
-      <a href="/collection?category=jackets">@L["Jackets"]</a>
-      <a href="/collection?category=dresses">@L["Dresses"]</a>
-      <a href="/collection?category=suits">@L["Suits"]</a>
-      <a href="/collection?category=tops">@L["Tops"]</a>
-      <a href="/collection">@L["New Arrivals"]</a>
-      <a href="/collection">@L["Sale"]</a>
-      <a href="#">@L["Gift Cards"]</a>
-    </div>
+    @await Component.InvokeAsync("NavMenu", new { section = "Footer" })
 
     <div class="ftr__col">
       <h5>@L["Help"]</h5>

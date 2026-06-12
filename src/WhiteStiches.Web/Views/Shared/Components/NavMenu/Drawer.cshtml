@@ -1,0 +1,47 @@
+@model WhiteStiches.Web.Models.Nav.NavMenuViewModel
+@*
+    Mobile drawer nav — driven by the live catalog. Categories with children
+    become accordion groups (drawer__toggle is wired in site.js); leaf categories
+    are solo links. Active collections render as their own group when present.
+*@
+@foreach (var category in Model.Categories)
+{
+  if (category.Children.Any())
+  {
+    <div class="drawer__group">
+      <button type="button" class="drawer__top drawer__toggle" aria-expanded="false">
+        <span>@category.Name()</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="drawer__sub">
+        @foreach (var child in category.Children)
+        {
+          <a href="/collection?category=@child.Slug">@child.Name()</a>
+        }
+        <a href="/collection?category=@category.Slug">@L["View all"] @category.Name()</a>
+      </div>
+    </div>
+  }
+  else
+  {
+    <a href="/collection?category=@category.Slug" class="drawer__top drawer__top--solo">@category.Name()</a>
+  }
+}
+
+@if (Model.Collections.Any())
+{
+  <div class="drawer__group">
+    <button type="button" class="drawer__top drawer__toggle" aria-expanded="false">
+      <span>@L["Collections"]</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <div class="drawer__sub">
+      @foreach (var collection in Model.Collections)
+      {
+        <a href="/collections/@collection.Slug">@collection.Title()</a>
+      }
+    </div>
+  </div>
+}
+
+<a href="/collection" class="drawer__top drawer__top--solo drawer__top--accent">@L["Sale"]</a>

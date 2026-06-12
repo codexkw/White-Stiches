@@ -12,8 +12,16 @@ public class CollectionViewModel
     public required PagedResult<Product> Products { get; init; }
     public IReadOnlyList<Category> Categories { get; init; } = [];
 
-    /// <summary>Matched category NameEn, or "All" when browsing everything.</summary>
+    /// <summary>Matched category NameEn / collection title, or "All" when browsing everything.</summary>
     public string BannerTitle { get; init; } = "All";
+
+    /// <summary>When set, this is a collection page (/collections/{slug}); filters/paging stay within it.</summary>
+    public string? CollectionSlug { get; init; }
+
+    /// <summary>Base path for the filter form, paging, and clear links — collection route or the global catalog.</summary>
+    public string BasePath => CollectionSlug is null
+        ? "/collection"
+        : $"/collections/{Uri.EscapeDataString(CollectionSlug)}";
 
     // Current filter state (echoes the query string)
     public string? Category { get; init; }
@@ -64,7 +72,7 @@ public class CollectionViewModel
         };
     }
 
-    private static string BuildUrl(
+    private string BuildUrl(
         string? category, string? size, string? color,
         decimal? min, decimal? max, bool instock, string? sort, int page)
     {
@@ -83,6 +91,6 @@ public class CollectionViewModel
         if (!string.IsNullOrEmpty(sort) && !string.Equals(sort, "featured", StringComparison.OrdinalIgnoreCase)) Add("sort", sort);
         if (page > 1) parts.Add($"page={page}");
 
-        return parts.Count == 0 ? "/collection" : "/collection?" + string.Join('&', parts);
+        return parts.Count == 0 ? BasePath : BasePath + "?" + string.Join('&', parts);
     }
 }
