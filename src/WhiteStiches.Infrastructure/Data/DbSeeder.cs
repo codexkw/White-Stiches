@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WhiteStiches.Core.Entities.Catalog;
+using WhiteStiches.Core.Entities.Content;
 using WhiteStiches.Core.Entities.Settings;
 using WhiteStiches.Core.Interfaces;
 using WhiteStiches.Infrastructure.Identity;
@@ -91,6 +92,39 @@ public static class DbSeeder
             if (!existingKeys.Contains(key))
             {
                 db.StoreSettings.Add(new StoreSetting { Key = key, Value = value, Group = group });
+            }
+        }
+
+        await db.SaveChangesAsync();
+
+        // ---- Static content pages (AD-CNT-01) ----
+        // Seeded as UNPUBLISHED drafts so they appear in the Admin "Pages" editor for the
+        // slugs the storefront reads; until staff publish a body, the storefront keeps
+        // rendering its bespoke Razor design (PagesController falls back when no body exists).
+        var pageSeeds = new (string Slug, string TitleEn, string TitleAr)[]
+        {
+            ("about", "Our Story", "قصتنا"),
+            ("faq", "Frequently Asked Questions", "الأسئلة الشائعة"),
+            ("size-guide", "Size Guide", "دليل المقاسات"),
+            ("shipping", "Shipping & Delivery", "الشحن والتوصيل"),
+            ("returns-policy", "Returns & Exchanges", "الإرجاع والاستبدال"),
+            ("privacy", "Privacy Policy", "سياسة الخصوصية"),
+            ("terms", "Terms of Sale", "شروط البيع"),
+            ("cookies", "Cookies Policy", "سياسة ملفات تعريف الارتباط")
+        };
+
+        var existingPageSlugs = await db.StaticPages.Select(p => p.Slug).ToListAsync();
+        foreach (var (slug, titleEn, titleAr) in pageSeeds)
+        {
+            if (!existingPageSlugs.Contains(slug))
+            {
+                db.StaticPages.Add(new StaticPage
+                {
+                    Slug = slug,
+                    TitleEn = titleEn,
+                    TitleAr = titleAr,
+                    IsPublished = false
+                });
             }
         }
 

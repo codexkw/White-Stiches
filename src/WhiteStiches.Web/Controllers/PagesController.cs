@@ -9,7 +9,7 @@ namespace WhiteStiches.Web.Controllers;
 public class PagesController(IContentService contentService, IOrderService orderService) : Controller
 {
     [Route("about")]
-    public IActionResult About() => View();
+    public Task<IActionResult> About(CancellationToken ct = default) => RenderContentPageAsync("about", "About", ct);
 
     [HttpGet("contact")]
     public IActionResult Contact() => View();
@@ -64,25 +64,33 @@ public class PagesController(IContentService contentService, IOrderService order
     }
 
     [Route("faq")]
-    public IActionResult Faq() => View();
+    public Task<IActionResult> Faq(CancellationToken ct = default) => RenderContentPageAsync("faq", "Faq", ct);
 
     [Route("size-guide")]
-    public IActionResult SizeGuide() => View();
+    public Task<IActionResult> SizeGuide(CancellationToken ct = default) => RenderContentPageAsync("size-guide", "SizeGuide", ct);
 
     [Route("shipping")]
-    public IActionResult Shipping() => View();
+    public Task<IActionResult> Shipping(CancellationToken ct = default) => RenderContentPageAsync("shipping", "Shipping", ct);
 
     [Route("returns-policy")]
-    public IActionResult ReturnsPolicy() => View();
+    public Task<IActionResult> ReturnsPolicy(CancellationToken ct = default) => RenderContentPageAsync("returns-policy", "ReturnsPolicy", ct);
 
     [Route("privacy")]
-    public IActionResult Privacy() => View();
+    public Task<IActionResult> Privacy(CancellationToken ct = default) => RenderContentPageAsync("privacy", "Privacy", ct);
 
     [Route("terms")]
-    public IActionResult Terms() => View();
+    public Task<IActionResult> Terms(CancellationToken ct = default) => RenderContentPageAsync("terms", "Terms", ct);
 
     [Route("cookies")]
-    public IActionResult Cookies() => View();
+    public Task<IActionResult> Cookies(CancellationToken ct = default) => RenderContentPageAsync("cookies", "Cookies", ct);
+
+    /// <summary>Generic admin-authored page (/page/{slug}); 404 when the page is missing or unpublished.</summary>
+    [HttpGet("page/{slug}")]
+    public async Task<IActionResult> Page(string slug, CancellationToken ct = default)
+    {
+        var page = await contentService.GetPageBySlugAsync(slug, ct);
+        return page is null ? NotFound() : View("Content", page);
+    }
 
     [HttpGet("track")]
     public IActionResult Track() => View(new TrackViewModel());
@@ -107,5 +115,18 @@ public class PagesController(IContentService contentService, IOrderService order
             OrderNumber = number,
             Order = order
         });
+    }
+
+    /// <summary>
+    /// Renders a static content page from its admin-authored <see cref="StaticPage"/> when one is
+    /// published for the slug and has a body; otherwise falls back to the bespoke Razor design, so
+    /// the storefront is never worse off than before the CMS read-path was wired in.
+    /// </summary>
+    private async Task<IActionResult> RenderContentPageAsync(string slug, string fallbackView, CancellationToken ct)
+    {
+        var page = await contentService.GetPageBySlugAsync(slug, ct);
+        var hasBody = page is not null &&
+            (!string.IsNullOrWhiteSpace(page.BodyEn) || !string.IsNullOrWhiteSpace(page.BodyAr));
+        return hasBody ? View("Content", page) : View(fallbackView);
     }
 }

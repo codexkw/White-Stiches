@@ -1,0 +1,25 @@
+@model WhiteStiches.Core.Entities.Content.StaticPage
+@{
+    var seoTitle = LocalizedContent.Pick(Model.SeoTitleEn, Model.SeoTitleAr);
+    ViewData["Title"] = (string.IsNullOrWhiteSpace(seoTitle) ? Model.Title() : seoTitle) + " · White Stitches";
+    var metaDescription = LocalizedContent.Pick(Model.SeoDescriptionEn, Model.SeoDescriptionAr);
+    if (!string.IsNullOrWhiteSpace(metaDescription))
+    {
+        ViewData["MetaDescription"] = metaDescription;
+    }
+}
+
+<section class="page-hero">
+  <div class="page-hero__inner">
+    <h1 class="page-hero__title">@Model.Title()</h1>
+  </div>
+</section>
+
+<section class="policy">
+  <div class="policy__inner">
+    <main class="policy__main page-cms">
+      @* Body is admin-authored, sanitized rich text (IRichTextSanitizer on save). *@
+      @Html.Raw(Model.Body())
+    </main>
+  </div>
+</section>
