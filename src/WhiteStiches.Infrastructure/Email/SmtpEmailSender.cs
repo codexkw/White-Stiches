@@ -51,6 +51,15 @@ public sealed class SmtpEmailSender(IOptions<SmtpOptions> options, ILogger<SmtpE
                 ? new MailAddress(toEmail)
                 : new MailAddress(toEmail, toName, Encoding.UTF8));
 
+            // Deliverability: a real Reply-To (the From is a no-reply postmaster alias) and a
+            // List-Unsubscribe header both improve Gmail/Yahoo reputation. Only added when a brand
+            // mailbox is configured. DNS-side SPF/DKIM/DMARC alignment is handled outside the app.
+            if (!string.IsNullOrWhiteSpace(_opts.ReplyToEmail))
+            {
+                message.ReplyToList.Add(new MailAddress(_opts.ReplyToEmail));
+                message.Headers.Add("List-Unsubscribe", $"<mailto:{_opts.ReplyToEmail}?subject=unsubscribe>");
+            }
+
             await client.SendMailAsync(message, ct);
             logger.LogInformation("SMTP: sent '{Subject}' to {To}.", subject, toEmail);
             return true;

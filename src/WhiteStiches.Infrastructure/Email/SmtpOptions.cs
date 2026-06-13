@@ -27,6 +27,13 @@ public class SmtpOptions
     /// <summary>Public storefront origin (https) used to build absolute links inside emails.</summary>
     public string? BaseUrl { get; set; }
 
+    /// <summary>Optional monitored brand mailbox set as Reply-To (and List-Unsubscribe) on every email.</summary>
+    public string? ReplyToEmail { get; set; }
+
+    /// <summary>Optional staff address that receives new-order / new-return / charge-mismatch alerts.
+    /// Alerts are silently skipped when this is empty.</summary>
+    public string? AdminNotifyEmail { get; set; }
+
     /// <summary>True only when enough is set to actually send (host + credentials + From).</summary>
     public bool IsConfigured =>
         Enabled

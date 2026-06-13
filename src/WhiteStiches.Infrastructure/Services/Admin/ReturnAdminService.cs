@@ -11,7 +11,7 @@ using WhiteStiches.Infrastructure.Data;
 namespace WhiteStiches.Infrastructure.Services.Admin;
 
 /// <summary>Returns queue transitions (AD-ORD-10). Reuses IOrderService for the shared status + event plumbing.</summary>
-public class ReturnAdminService(WhiteStichesDbContext db, IOrderService orders) : IReturnAdminService
+public class ReturnAdminService(WhiteStichesDbContext db, IOrderService orders, IEmailService emailService) : IReturnAdminService
 {
     public Task<PagedResult<ReturnRequest>> GetQueueAsync(ReturnStatus? status,
         int page = 1, int pageSize = 25, CancellationToken ct = default) =>
@@ -38,6 +38,13 @@ public class ReturnAdminService(WhiteStichesDbContext db, IOrderService orders) 
         var note = string.IsNullOrWhiteSpace(staffNote) ? null : staffNote.Trim();
         await orders.UpdateReturnStatusAsync(id, ReturnStatus.Approved, note, staffUserId, ct);
 
+        var order = await db.Orders.FirstOrDefaultAsync(o => o.Id == request.OrderId, ct);
+        if (order is not null)
+        {
+            request.StaffNote = note;
+            await emailService.SendReturnApprovedAsync(order, request, ct);
+        }
+
         return new ReturnActionResult(true, $"Return {request.RmaNumber} approved.",
             request.OrderId, request.RmaNumber,
             nameof(ReturnStatus.Pending), nameof(ReturnStatus.Approved));
@@ -59,6 +66,13 @@ public class ReturnAdminService(WhiteStichesDbContext db, IOrderService orders) 
         }
 
         await orders.UpdateReturnStatusAsync(id, ReturnStatus.Rejected, staffNote.Trim(), staffUserId, ct);
+
+        var order = await db.Orders.FirstOrDefaultAsync(o => o.Id == request.OrderId, ct);
+        if (order is not null)
+        {
+            request.StaffNote = staffNote.Trim();
+            await emailService.SendReturnRejectedAsync(order, request, ct);
+        }
 
         return new ReturnActionResult(true, $"Return {request.RmaNumber} rejected.",
             request.OrderId, request.RmaNumber,
@@ -151,7 +165,7 @@ public class ReturnAdminService(WhiteStichesDbContext db, IOrderService orders) 
             .Where(r => r.Status == RefundStatus.Completed)
             .Sum(r => r.Amount);
 
-        db.Refunds.Add(new Refund
+        var refund = new Refund
         {
             OrderId = order.Id,
             Amount = amount,
@@ -159,7 +173,8 @@ public class ReturnAdminService(WhiteStichesDbContext db, IOrderService orders) 
             Status = RefundStatus.Completed,
             StaffUserId = staffUserId,
             ProcessedAtUtc = DateTime.UtcNow
-        });
+        };
+        db.Refunds.Add(refund);
 
         var totalRefunded = previouslyRefunded + amount;
         order.PaymentStatus = totalRefunded >= order.Total
@@ -180,6 +195,9 @@ public class ReturnAdminService(WhiteStichesDbContext db, IOrderService orders) 
         });
 
         await db.SaveChangesAsync(ct);
+
+        // Confirm the refund to the customer (same template as a standalone order refund). Guarded.
+        await emailService.SendOrderRefundedAsync(order, refund, ct);
 
         return new ReturnActionResult(true,
             $"Return {request.RmaNumber} refunded — KWD {amountText}.",

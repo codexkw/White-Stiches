@@ -111,6 +111,8 @@ public class PaymentService(
                                 + $"but order total is {order.Total.ToString("0.000")} {order.Currency}. Needs review."
                 });
                 await db.SaveChangesAsync(ct);
+                // Push a staff alert: money is captured at Tap but the order is held for manual review.
+                await emailService.SendChargeMismatchAlertAsync(order, chargeId, amount, ct);
                 return new OrderFinalizeResult(OrderFinalizeOutcome.AmountMismatch, order.OrderNumber);
             }
         }
@@ -181,6 +183,7 @@ public class PaymentService(
         // Confirmation email — fired AFTER commit (outside the transaction) so a slow/failed SMTP
         // never holds DB locks or rolls back a captured payment. The service swallows its own errors.
         await emailService.SendOrderConfirmationAsync(order, ct);
+        await emailService.SendNewOrderNotificationAsync(order, ct);
 
         logger.LogInformation("Order {OrderNumber} finalized from Tap charge {ChargeId}.", order.OrderNumber, chargeId);
         return new OrderFinalizeResult(OrderFinalizeOutcome.Finalized, order.OrderNumber);
@@ -217,6 +220,11 @@ public class PaymentService(
         });
 
         await db.SaveChangesAsync(ct);
+
+        // Nudge the customer that the payment didn't complete and their bag is saved. Guarded; after commit.
+        var order = await db.Orders.FirstOrDefaultAsync(o => o.Id == payment.OrderId, ct);
+        if (order is not null)
+            await emailService.SendPaymentFailedAsync(order, ct);
     }
 
     private static int CurrencyDecimals(string currency) => currency.ToUpperInvariant() switch

@@ -87,7 +87,9 @@ public class CheckoutController(
             UserId = User.GetUserId(),
             Email = form.Email.Trim(),
             Phone = form.Phone.Trim(),
-            LanguageCode = "en",
+            // Notification language follows the shopper's active culture so AR customers get AR mail
+            // (the bilingual order templates were dead code while this was hardcoded "en").
+            LanguageCode = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ar" ? "ar" : "en",
             Currency = "KWD",
             Channel = OrderChannel.Web,
             Subtotal = summary.Subtotal,

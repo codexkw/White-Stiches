@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Net;
 using System.Text;
 using WhiteStiches.Core.Entities.Orders;
+using WhiteStiches.Core.Enums;
 
 namespace WhiteStiches.Infrastructure.Email;
 
@@ -105,6 +106,203 @@ public static class EmailTemplates
         inner.Append(ItemsTable(order, ar));
 
         return (subject, Shell(storeName, ar, inner.ToString(), subject));
+    }
+
+    public static (string Subject, string Html) OrderRefunded(string storeName, Order order, Refund refund, string lang)
+    {
+        var ar = IsAr(lang);
+        var subject = ar
+            ? $"تم استرداد مبلغ لطلبك {order.OrderNumber} - {storeName}"
+            : $"Refund issued for order {order.OrderNumber} - {storeName}";
+
+        var greeting = ar ? $"مرحباً {Enc(order.ShipFirstName)}،" : $"Hi {Enc(order.ShipFirstName)},";
+        var intro = ar
+            ? $"لقد قمنا باسترداد مبلغ لطلبك رقم <strong>{Enc(order.OrderNumber)}</strong>."
+            : $"We've issued a refund for your order <strong>{Enc(order.OrderNumber)}</strong>.";
+        var card = Card(
+            KeyVal(ar ? "المبلغ المسترد" : "Refund amount", Money(refund.Amount, order.Currency), ar)
+            + (string.IsNullOrWhiteSpace(refund.Reason) ? string.Empty
+                : KeyVal(ar ? "السبب" : "Reason", Enc(refund.Reason), ar)));
+        var note = ar
+            ? "قد يستغرق ظهور المبلغ في كشف حسابك من 5 إلى 10 أيام عمل، حسب البنك."
+            : "It can take 5–10 business days to appear on your statement, depending on your bank.";
+
+        var inner = new StringBuilder()
+            .Append(P(greeting, ar)).Append(P(intro, ar))
+            .Append(card).Append(P(note, ar, muted: true))
+            .ToString();
+
+        return (subject, Shell(storeName, ar, inner, subject));
+    }
+
+    public static (string Subject, string Html) OrderCancelled(string storeName, Order order, string lang)
+    {
+        var ar = IsAr(lang);
+        var subject = ar
+            ? $"تم إلغاء طلبك {order.OrderNumber} - {storeName}"
+            : $"Your order {order.OrderNumber} was cancelled - {storeName}";
+
+        var greeting = ar ? $"مرحباً {Enc(order.ShipFirstName)}،" : $"Hi {Enc(order.ShipFirstName)},";
+        var intro = ar
+            ? $"نأسف لإبلاغك بأنه تم إلغاء طلبك رقم <strong>{Enc(order.OrderNumber)}</strong>."
+            : $"We're writing to let you know that your order <strong>{Enc(order.OrderNumber)}</strong> has been cancelled.";
+
+        var inner = new StringBuilder().Append(P(greeting, ar)).Append(P(intro, ar));
+        if (!string.IsNullOrWhiteSpace(order.CancelReason))
+            inner.Append(Card(KeyVal(ar ? "السبب" : "Reason", Enc(order.CancelReason), ar)));
+
+        var charged = order.PaymentStatus is PaymentStatus.Paid or PaymentStatus.PartiallyRefunded;
+        var refundNote = charged
+            ? (ar ? "إذا كان قد تم خصم المبلغ، فسيتم رده إلى طريقة الدفع الأصلية."
+                  : "If you were charged, a refund will be issued to your original payment method.")
+            : (ar ? "لم يتم خصم أي مبلغ من حسابك لهذا الطلب."
+                  : "You have not been charged for this order.");
+        inner.Append(P(refundNote, ar, muted: true));
+
+        return (subject, Shell(storeName, ar, inner.ToString(), subject));
+    }
+
+    public static (string Subject, string Html) OrderDelivered(string storeName, Order order, string lang)
+    {
+        var ar = IsAr(lang);
+        var subject = ar
+            ? $"تم توصيل طلبك {order.OrderNumber} - {storeName}"
+            : $"Your order {order.OrderNumber} was delivered - {storeName}";
+
+        var greeting = ar ? $"مرحباً {Enc(order.ShipFirstName)}،" : $"Hi {Enc(order.ShipFirstName)},";
+        var intro = ar
+            ? $"تم توصيل طلبك رقم <strong>{Enc(order.OrderNumber)}</strong>. نتمنى أن ينال إعجابك!"
+            : $"Your order <strong>{Enc(order.OrderNumber)}</strong> has been delivered. We hope you love it!";
+        var help = ar
+            ? "إذا كان هناك أي مشكلة في طلبك، تواصل معنا وسنكون سعداء بمساعدتك."
+            : "If anything isn't right with your order, just reply or contact us — we're happy to help.";
+
+        var inner = new StringBuilder().Append(P(greeting, ar)).Append(P(intro, ar)).Append(P(help, ar, muted: true)).ToString();
+        return (subject, Shell(storeName, ar, inner, subject));
+    }
+
+    public static (string Subject, string Html) ReturnRequested(string storeName, Order order, ReturnRequest request, string lang)
+    {
+        var ar = IsAr(lang);
+        var subject = ar
+            ? $"تم استلام طلب الإرجاع {request.RmaNumber} - {storeName}"
+            : $"Return request {request.RmaNumber} received - {storeName}";
+
+        var greeting = ar ? $"مرحباً {Enc(order.ShipFirstName)}،" : $"Hi {Enc(order.ShipFirstName)},";
+        var intro = ar
+            ? $"لقد استلمنا طلب الإرجاع الخاص بك للطلب رقم <strong>{Enc(order.OrderNumber)}</strong>."
+            : $"We've received your return request for order <strong>{Enc(order.OrderNumber)}</strong>.";
+        var card = Card(KeyVal(ar ? "رقم الإرجاع" : "Return number", Enc(request.RmaNumber), ar));
+        var next = ar
+            ? "سيقوم فريقنا بمراجعة طلبك خلال 24 ساعة وسنرسل لك الخطوات التالية عبر البريد الإلكتروني."
+            : "Our team will review it within 24 hours and email you the next steps.";
+
+        var inner = new StringBuilder().Append(P(greeting, ar)).Append(P(intro, ar)).Append(card).Append(P(next, ar, muted: true)).ToString();
+        return (subject, Shell(storeName, ar, inner, subject));
+    }
+
+    public static (string Subject, string Html) ReturnApproved(string storeName, Order order, ReturnRequest request, string lang)
+    {
+        var ar = IsAr(lang);
+        var subject = ar
+            ? $"تمت الموافقة على إرجاعك {request.RmaNumber} - {storeName}"
+            : $"Your return {request.RmaNumber} is approved - {storeName}";
+
+        var greeting = ar ? $"مرحباً {Enc(order.ShipFirstName)}،" : $"Hi {Enc(order.ShipFirstName)},";
+        var intro = ar
+            ? $"أخبار جيدة — تمت الموافقة على طلب الإرجاع <strong>{Enc(request.RmaNumber)}</strong>."
+            : $"Good news — your return <strong>{Enc(request.RmaNumber)}</strong> has been approved.";
+
+        var pickup = string.Equals(request.Method, "pickup", StringComparison.OrdinalIgnoreCase);
+        var instr = pickup
+            ? (ar ? "سنقوم بترتيب استلام القطعة (القطع) من عنوانك وسنتواصل معك لتحديد الموعد."
+                  : "We'll arrange a pickup of the item(s) from your address and contact you to schedule it.")
+            : (ar ? "يرجى إعادة القطعة (القطع) إلينا مع ذكر رقم الإرجاع أعلاه. سنبدأ في معالجة استردادك بمجرد وصولها."
+                  : "Please return the item(s) to us quoting your return number above. We'll process your refund as soon as it arrives.");
+
+        var inner = new StringBuilder().Append(P(greeting, ar)).Append(P(intro, ar)).Append(P(instr, ar));
+        if (!string.IsNullOrWhiteSpace(request.StaffNote))
+            inner.Append(Card(KeyVal(ar ? "ملاحظة" : "Note", Enc(request.StaffNote), ar)));
+
+        return (subject, Shell(storeName, ar, inner.ToString(), subject));
+    }
+
+    public static (string Subject, string Html) ReturnRejected(string storeName, Order order, ReturnRequest request, string lang)
+    {
+        var ar = IsAr(lang);
+        var subject = ar
+            ? $"تحديث بشأن طلب الإرجاع {request.RmaNumber} - {storeName}"
+            : $"Update on your return {request.RmaNumber} - {storeName}";
+
+        var greeting = ar ? $"مرحباً {Enc(order.ShipFirstName)}،" : $"Hi {Enc(order.ShipFirstName)},";
+        var intro = ar
+            ? $"بعد المراجعة، لم نتمكّن من الموافقة على طلب الإرجاع <strong>{Enc(request.RmaNumber)}</strong>."
+            : $"After review, we were unable to approve your return <strong>{Enc(request.RmaNumber)}</strong>.";
+
+        var inner = new StringBuilder().Append(P(greeting, ar)).Append(P(intro, ar));
+        if (!string.IsNullOrWhiteSpace(request.StaffNote))
+            inner.Append(Card(KeyVal(ar ? "السبب" : "Reason", Enc(request.StaffNote), ar)));
+        var help = ar
+            ? "إذا كان لديك أي استفسار، فلا تتردّد في التواصل معنا."
+            : "If you have any questions, please get in touch — we're happy to help.";
+        inner.Append(P(help, ar, muted: true));
+
+        return (subject, Shell(storeName, ar, inner.ToString(), subject));
+    }
+
+    public static (string Subject, string Html) ReturnReceived(string storeName, Order order, ReturnRequest request, string lang)
+    {
+        var ar = IsAr(lang);
+        var subject = ar
+            ? $"استلمنا إرجاعك {request.RmaNumber} - {storeName}"
+            : $"We received your return {request.RmaNumber} - {storeName}";
+
+        var greeting = ar ? $"مرحباً {Enc(order.ShipFirstName)}،" : $"Hi {Enc(order.ShipFirstName)},";
+        var intro = ar
+            ? $"لقد استلمنا القطعة (القطع) المُرجعة ضمن طلب الإرجاع <strong>{Enc(request.RmaNumber)}</strong>، ونقوم الآن بمعالجة استردادك."
+            : $"We've received the returned item(s) for <strong>{Enc(request.RmaNumber)}</strong> and are now processing your refund.";
+        var next = ar
+            ? "سنرسل لك تأكيداً بمجرّد إصدار المبلغ المسترد."
+            : "You'll get a confirmation as soon as the refund is issued.";
+
+        var inner = new StringBuilder().Append(P(greeting, ar)).Append(P(intro, ar)).Append(P(next, ar, muted: true)).ToString();
+        return (subject, Shell(storeName, ar, inner, subject));
+    }
+
+    public static (string Subject, string Html) PaymentFailed(string storeName, Order order, string? retryUrl, string lang)
+    {
+        var ar = IsAr(lang);
+        var subject = ar
+            ? $"لم تكتمل عملية الدفع لطلبك {order.OrderNumber} - {storeName}"
+            : $"Your payment didn't go through - order {order.OrderNumber} - {storeName}";
+
+        var greeting = ar ? $"مرحباً {Enc(order.ShipFirstName)}،" : $"Hi {Enc(order.ShipFirstName)},";
+        var intro = ar
+            ? $"لم نتمكّن من إتمام عملية الدفع لطلبك رقم <strong>{Enc(order.OrderNumber)}</strong>، لذا لم يتم تأكيده بعد. لا تقلق — حقيبتك محفوظة."
+            : $"We couldn't complete the payment for your order <strong>{Enc(order.OrderNumber)}</strong>, so it isn't confirmed yet. Don't worry — your bag is saved.";
+
+        var inner = new StringBuilder().Append(P(greeting, ar)).Append(P(intro, ar));
+        if (!string.IsNullOrWhiteSpace(retryUrl))
+            inner.Append(Button(ar ? "أكمل طلبك" : "Complete your order", retryUrl!, ar));
+        var help = ar
+            ? "إذا واجهت أي مشكلة، تواصل معنا وسنساعدك."
+            : "If you run into any trouble, contact us and we'll help.";
+        inner.Append(P(help, ar, muted: true));
+
+        return (subject, Shell(storeName, ar, inner.ToString(), subject));
+    }
+
+    /// <summary>Internal staff alert (English only). Renders a bold heading + a Card of key/value rows.</summary>
+    public static (string Subject, string Html) AdminAlert(string storeName, string subject, string heading,
+        IReadOnlyList<(string Key, string Value)> rows)
+    {
+        var body = new StringBuilder();
+        foreach (var (k, v) in rows) body.Append(KeyVal(k, Enc(v), ar: false));
+        var inner = new StringBuilder()
+            .Append(P($"<strong>{Enc(heading)}</strong>", ar: false))
+            .Append(Card(body.ToString()))
+            .ToString();
+        return (subject, Shell(storeName, ar: false, inner, subject));
     }
 
     // ── Building blocks ──────────────────────────────────────────────────────

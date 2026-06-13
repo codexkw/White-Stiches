@@ -60,7 +60,7 @@ public class OrderAdminService(WhiteStichesDbContext db, IOrderService orders, I
     public async Task<Payment> MarkPaidAsync(int orderId, decimal? amount, string? reference,
         Guid? staffUserId = null, string? staffName = null, CancellationToken ct = default)
     {
-        var order = await db.Orders.FirstOrDefaultAsync(o => o.Id == orderId, ct)
+        var order = await db.Orders.Include(o => o.Items).FirstOrDefaultAsync(o => o.Id == orderId, ct)
             ?? throw new InvalidOperationException($"Order {orderId} not found.");
 
         // Snapshot before we flip it — guards the discount-usage increment below against double
@@ -107,6 +107,14 @@ public class OrderAdminService(WhiteStichesDbContext db, IOrderService orders, I
             await db.DiscountCodes
                 .Where(d => d.Id == discountCodeId)
                 .ExecuteUpdateAsync(s => s.SetProperty(d => d.TimesUsed, d => d.TimesUsed + 1), ct);
+        }
+
+        // A manually-marked-paid order (converted draft / Instagram sale paid via link) gets the same
+        // customer confirmation + staff alert as the Tap capture path. Guarded; fired after commit.
+        if (wasUnpaid)
+        {
+            await emailService.SendOrderConfirmationAsync(order, ct);
+            await emailService.SendNewOrderNotificationAsync(order, ct);
         }
 
         return payment;
@@ -243,6 +251,10 @@ public class OrderAdminService(WhiteStichesDbContext db, IOrderService orders, I
         });
 
         await db.SaveChangesAsync(ct);
+
+        // Tell the customer their refund was issued (amount + reason). Guarded; after commit.
+        await emailService.SendOrderRefundedAsync(order, refund, ct);
+
         return refund;
     }
 

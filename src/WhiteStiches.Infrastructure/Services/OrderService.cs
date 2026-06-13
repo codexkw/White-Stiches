@@ -7,7 +7,7 @@ using WhiteStiches.Infrastructure.Data;
 
 namespace WhiteStiches.Infrastructure.Services;
 
-public class OrderService(WhiteStichesDbContext db) : IOrderService
+public class OrderService(WhiteStichesDbContext db, IEmailService emailService) : IOrderService
 {
     private const int OrderNumberSeedBase = 10000;
 
@@ -118,6 +118,10 @@ public class OrderService(WhiteStichesDbContext db) : IOrderService
         });
 
         await db.SaveChangesAsync(ct);
+
+        // A delivery confirmation is the one status change customers care about by email. Guarded.
+        if (status == OrderStatus.Delivered)
+            await emailService.SendOrderDeliveredAsync(order, ct);
     }
 
     public async Task AddEventAsync(int orderId, string kind, string description,
@@ -172,6 +176,9 @@ public class OrderService(WhiteStichesDbContext db) : IOrderService
         });
 
         await db.SaveChangesAsync(ct);
+
+        // Notify the customer their order was cancelled (+ a refund note if it was paid). Guarded.
+        await emailService.SendOrderCancelledAsync(order, ct);
     }
 
     public async Task<ReturnRequest> CreateReturnRequestAsync(ReturnRequest request, CancellationToken ct = default)
@@ -192,6 +199,15 @@ public class OrderService(WhiteStichesDbContext db) : IOrderService
         });
 
         await db.SaveChangesAsync(ct);
+
+        // Acknowledge the RMA to the customer and alert staff that a return needs review. Guarded.
+        var order = await db.Orders.FirstOrDefaultAsync(o => o.Id == request.OrderId, ct);
+        if (order is not null)
+        {
+            await emailService.SendReturnRequestedAsync(order, request, ct);
+            await emailService.SendNewReturnNotificationAsync(order, request, ct);
+        }
+
         return request;
     }
 
