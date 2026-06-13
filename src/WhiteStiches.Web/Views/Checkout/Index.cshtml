@@ -215,7 +215,7 @@
           @foreach (var method in Model.ShippingMethods)
           {
             <label class="radio-card">
-              <input type="radio" name="shippingMethod" value="@method.Value" checked="@(Model.Form.ShippingMethod == method.Value)" />
+              <input type="radio" name="shippingMethod" value="@method.Value" checked="@(Model.Form.ShippingMethod == method.Value)" data-shipping-rate="@method.Price.ToString("0.000", System.Globalization.CultureInfo.InvariantCulture)" />
               <span class="radio-card__inner">
                 <span class="radio-card__title">@method.Title</span>
                 <span class="radio-card__meta">@method.Meta</span>
@@ -311,7 +311,7 @@
         }
 
         <button type="submit" class="btn btn--primary co-place">
-          <span>@L["Place order"] · <strong>@Model.Summary.Total.ToString("0.000") KWD</strong></span>
+          <span>@L["Place order"] · <strong id="coPlaceTotal">@Model.GrandTotal.ToString("0.000") KWD</strong></span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </button>
 
@@ -332,7 +332,7 @@
           <span>@L["Show order summary"]</span>
           <svg class="co-summary-toggle__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 9l6 6 6-6"/></svg>
         </span>
-        <strong>@Model.Summary.Total.ToString("0.000") KWD</strong>
+        <strong>@Model.GrandTotal.ToString("0.000") KWD</strong>
       </button>
 
       <div class="co-summary" id="coSummaryBody">
@@ -403,14 +403,10 @@
           }
           <li>
             <span>@L["Delivery"]</span>
-            @if (Model.Summary.EstimatedShipping == 0)
-            {
-              <span class="cart-totals__val cart-totals__val--accent">@L["Free"]</span>
-            }
-            else
-            {
-              <span class="cart-totals__val">@Model.Summary.EstimatedShipping.ToString("0.000") KWD</span>
-            }
+            <span class="cart-totals__val @(Model.SelectedShipping == 0 ? "cart-totals__val--accent" : "")"
+                  id="coDeliveryVal" data-free-label="@L["Free"].Value">
+              @(Model.SelectedShipping == 0 ? L["Free"].Value : Model.SelectedShipping.ToString("0.000") + " KWD")
+            </span>
           </li>
           <li>
             <span>@L["VAT"]</span>
@@ -420,7 +416,7 @@
 
         <div class="cart-totals__grand">
           <span>@L["Total"]</span>
-          <span>@Model.Summary.Total.ToString("0.000") <span class="cart-totals__currency">KWD</span></span>
+          <span id="coGrandTotal" data-base-total="@Model.BaseTotal.ToString("0.000", System.Globalization.CultureInfo.InvariantCulture)">@Model.GrandTotal.ToString("0.000") <span class="cart-totals__currency">KWD</span></span>
         </div>
 
         <ul class="cart-trust">

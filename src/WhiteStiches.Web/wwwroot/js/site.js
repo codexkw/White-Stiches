@@ -713,181 +713,52 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /* ============================================================================
-   CHECKOUT PAGE — runs only on /checkout
+   CHECKOUT PAGE - live total recompute when the delivery method changes.
+   Runs only on /checkout (guards on the real shippingMethod radios). Each radio
+   carries its server-computed cost in data-shipping-rate, and the grand-total
+   element carries the shipping-independent base in data-base-total, so the
+   displayed total always matches what POST /checkout/place charges. The server
+   recomputes authoritatively at submit - this is display only.
 ============================================================================ */
 document.addEventListener('DOMContentLoaded', function() {
-  const co = document.getElementById('checkoutMain');
-  if (!co) return;
+  const radios = document.querySelectorAll('input[name="shippingMethod"]');
+  if (!radios.length) return;
 
-  const SUBTOTAL = 186.5;
-  let discountAmt = 0;
-  let discountCode = '';
+  const deliveryVal = document.getElementById('coDeliveryVal');
+  const grandTotal = document.getElementById('coGrandTotal');
+  const placeTotal = document.getElementById('coPlaceTotal');
+  const toggleTotal = document.querySelector('.co-summary-toggle strong');
+
+  const base = grandTotal ? parseFloat(grandTotal.getAttribute('data-base-total') || '0') : 0;
+  const freeLabel = deliveryVal ? (deliveryVal.getAttribute('data-free-label') || 'Free') : 'Free';
 
   function fmt(n) { return n.toFixed(3); }
 
-  function getShippingCost() {
-    const r = document.querySelector('input[name="shipping"]:checked');
-    if (!r) return 0;
-    switch (r.value) {
-      case 'express': return 3.5;
-      case 'same-day': return 5.0;
-      case 'standard':
-      case 'pickup':
-      default: return 0;
-    }
-  }
-
-  function getCodFee() {
-    const r = document.querySelector('input[name="payment"]:checked');
-    return r && r.value === 'cod' ? 1.5 : 0;
+  function selectedRate() {
+    const r = document.querySelector('input[name="shippingMethod"]:checked');
+    const v = r ? parseFloat(r.getAttribute('data-shipping-rate') || '0') : 0;
+    return isNaN(v) ? 0 : v;
   }
 
   function recompute() {
-    const discounted = Math.max(0, SUBTOTAL - discountAmt);
-    const shipping = getShippingCost();
-    const codFee = getCodFee();
-    const total = discounted + shipping + codFee;
+    const ship = selectedRate();
+    const total = base + ship;
 
-    document.getElementById('coSubtotal').textContent = fmt(SUBTOTAL) + ' KWD';
-    document.getElementById('coShipping').textContent = shipping === 0 ? 'Free' : (fmt(shipping) + ' KWD');
-    document.getElementById('coGrandTotal').innerHTML = fmt(total) + ' <span class="cart-totals__currency">KWD</span>';
-
-    const placeStrong = document.getElementById('coPlaceTotal');
-    if (placeStrong) placeStrong.textContent = fmt(total) + ' KWD';
-
-    const toggleTotal = document.querySelector('.co-summary-toggle strong');
+    if (deliveryVal) {
+      if (ship === 0) {
+        deliveryVal.textContent = freeLabel;
+        deliveryVal.classList.add('cart-totals__val--accent');
+      } else {
+        deliveryVal.textContent = fmt(ship) + ' KWD';
+        deliveryVal.classList.remove('cart-totals__val--accent');
+      }
+    }
+    if (grandTotal) grandTotal.innerHTML = fmt(total) + ' <span class="cart-totals__currency">KWD</span>';
+    if (placeTotal) placeTotal.textContent = fmt(total) + ' KWD';
     if (toggleTotal) toggleTotal.textContent = fmt(total) + ' KWD';
-
-    if (discountAmt > 0) {
-      document.getElementById('coDiscountAmt').textContent = '−' + fmt(discountAmt) + ' KWD';
-      document.getElementById('coDiscountCode').textContent = discountCode;
-      document.getElementById('coDiscountRow').hidden = false;
-    } else {
-      document.getElementById('coDiscountRow').hidden = true;
-    }
   }
 
-  // Shipping method change
-  document.querySelectorAll('input[name="shipping"]').forEach(r => {
-    r.addEventListener('change', recompute);
-  });
-
-  // Payment method change
-  document.querySelectorAll('input[name="payment"]').forEach(r => {
-    r.addEventListener('change', recompute);
-  });
-
-  // Country change — show/hide Kuwait-specific fields
-  const countrySelect = document.getElementById('country');
-  const govField = document.getElementById('governorate');
-  if (countrySelect && govField) {
-    countrySelect.addEventListener('change', () => {
-      const isKw = countrySelect.value === 'KW';
-      const govLabel = govField.previousElementSibling;
-      // We don't actually hide — different markets have similar admin divisions —
-      // but in production this would swap options.
-      if (govLabel) {
-        govLabel.textContent = isKw ? 'Governorate' : 'Region / emirate';
-      }
-    });
-  }
-
-  // Card expiry MM/YY auto-format
-  const cardExp = document.getElementById('cardExp');
-  if (cardExp) {
-    cardExp.addEventListener('input', () => {
-      let v = cardExp.value.replace(/[^\d]/g, '').slice(0, 4);
-      if (v.length >= 3) v = v.slice(0, 2) + ' / ' + v.slice(2);
-      cardExp.value = v;
-    });
-  }
-
-  // Card number — group every 4 digits
-  const cardNum = document.getElementById('cardNumber');
-  if (cardNum) {
-    cardNum.addEventListener('input', () => {
-      let v = cardNum.value.replace(/[^\d]/g, '').slice(0, 19);
-      const groups = v.match(/.{1,4}/g);
-      cardNum.value = groups ? groups.join(' ') : '';
-    });
-  }
-
-  // Mobile summary toggle
-  const toggle = document.getElementById('coSummaryToggle');
-  const summaryWrap = document.querySelector('.co__summary');
-  if (toggle && summaryWrap) {
-    toggle.addEventListener('click', () => {
-      const open = summaryWrap.classList.toggle('is-open');
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      toggle.querySelector('span:nth-child(1) span:nth-child(2)').textContent = open ? 'Hide order summary' : 'Show order summary';
-    });
-  }
-
-  // Discount code
-  window.coApplyDiscount = function() {
-    const input = document.getElementById('coDiscountInput');
-    const msg = document.getElementById('coDiscountMsg');
-    const code = (input.value || '').trim().toUpperCase();
-    if (!code) return;
-    const valid = { 'WELCOME10': 10, 'SS26': 15, 'EID2026': 20 };
-    if (valid[code] !== undefined) {
-      discountAmt = valid[code];
-      discountCode = code;
-      msg.hidden = false;
-      msg.className = 'cart-discount__msg is-success';
-      msg.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width:14px;height:14px"><polyline points="20 6 9 17 4 12"/></svg> ' + code + ' applied · ' + fmt(discountAmt) + ' KWD off';
-      input.value = '';
-      recompute();
-    } else {
-      msg.hidden = false;
-      msg.className = 'cart-discount__msg is-error';
-      msg.textContent = 'That code didn\u2019t work. Try WELCOME10 or SS26.';
-    }
-  };
-
-  // Place order — basic validation + simulated processing
-  const placeBtn = document.getElementById('placeOrderBtn');
-  const form = document.getElementById('checkoutForm');
-  if (form && placeBtn) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      // Validation
-      const required = form.querySelectorAll('input[required], select[required]');
-      let firstInvalid = null;
-      required.forEach(el => {
-        if (!el.checkValidity()) {
-          el.style.borderColor = '#c87a3a';
-          if (!firstInvalid) firstInvalid = el;
-        } else {
-          el.style.borderColor = '';
-        }
-      });
-
-      // Terms accept
-      const terms = document.getElementById('termsAccept');
-      if (terms && !terms.checked) {
-        if (!firstInvalid) firstInvalid = terms;
-      }
-
-      if (firstInvalid) {
-        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        firstInvalid.focus();
-        return;
-      }
-
-      // Simulate processing
-      placeBtn.disabled = true;
-      const original = placeBtn.innerHTML;
-      placeBtn.innerHTML = '<span>Processing securely…</span>';
-      setTimeout(() => {
-        placeBtn.innerHTML = '<span>✓ Order placed</span>';
-        setTimeout(() => { window.location.href = '/checkout/confirmation'; }, 600);
-      }, 1800);
-    });
-  }
-
-  // Initial compute
+  radios.forEach(r => r.addEventListener('change', recompute));
   recompute();
 });
 

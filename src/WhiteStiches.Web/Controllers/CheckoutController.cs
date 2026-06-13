@@ -74,14 +74,8 @@ public class CheckoutController(
 
         var summary = await cartService.GetSummaryAsync(cart.Id, ct);
 
-        var shippingAmount = form.ShippingMethod switch
-        {
-            "express" => await settingsService.GetAsync(SettingKeys.ExpressShippingRate, 3.5m, ct),
-            "same-day" => await settingsService.GetAsync(SettingKeys.SameDayShippingRate, 5.0m, ct),
-            _ => summary.QualifiesForFreeShipping
-                ? 0m
-                : await settingsService.GetAsync(SettingKeys.StandardShippingRate, 0m, ct)
-        };
+        var (standardRate, expressRate, sameDayRate) = await LoadShippingRatesAsync(ct);
+        var shippingAmount = ResolveShipping(form.ShippingMethod, summary.QualifiesForFreeShipping, standardRate, expressRate, sameDayRate);
 
         var total = summary.Subtotal - summary.DiscountAmount + summary.GiftWrapFee + shippingAmount;
 
@@ -356,9 +350,7 @@ public class CheckoutController(
     private async Task<CheckoutViewModel> BuildViewModelAsync(Cart cart, CheckoutFormModel form, CancellationToken ct)
     {
         var summary = await cartService.GetSummaryAsync(cart.Id, ct);
-        var standardRate = await settingsService.GetAsync(SettingKeys.StandardShippingRate, 0m, ct);
-        var expressRate = await settingsService.GetAsync(SettingKeys.ExpressShippingRate, 3.5m, ct);
-        var sameDayRate = await settingsService.GetAsync(SettingKeys.SameDayShippingRate, 5.0m, ct);
+        var (standardRate, expressRate, sameDayRate) = await LoadShippingRatesAsync(ct);
 
         var items = cart.Items
             .OrderBy(i => i.Id)
@@ -409,15 +401,45 @@ public class CheckoutController(
             }
         };
 
+        // Make the displayed total method-aware so it matches what Place actually charges:
+        // resolve the chosen method's shipping with the SAME logic POST uses, never the
+        // method-blind summary.Total.
+        var selectedMethod = string.IsNullOrWhiteSpace(form.ShippingMethod) ? "standard" : form.ShippingMethod;
+        var selectedShipping = ResolveShipping(selectedMethod, summary.QualifiesForFreeShipping, standardRate, expressRate, sameDayRate);
+        var baseTotal = summary.Subtotal - summary.DiscountAmount + summary.GiftWrapFee;
+
         return new CheckoutViewModel
         {
             Form = form,
             Items = items,
             Summary = summary,
             ShippingMethods = methods,
-            DiscountCode = cart.DiscountCode?.Code
+            DiscountCode = cart.DiscountCode?.Code,
+            SelectedMethod = selectedMethod,
+            SelectedShipping = selectedShipping,
+            BaseTotal = baseTotal,
+            GrandTotal = baseTotal + selectedShipping
         };
     }
+
+    private async Task<(decimal Standard, decimal Express, decimal SameDay)> LoadShippingRatesAsync(CancellationToken ct) =>
+    (
+        await settingsService.GetAsync(SettingKeys.StandardShippingRate, 0m, ct),
+        await settingsService.GetAsync(SettingKeys.ExpressShippingRate, 3.5m, ct),
+        await settingsService.GetAsync(SettingKeys.SameDayShippingRate, 5.0m, ct)
+    );
+
+    /// <summary>
+    /// The single source of truth for shipping cost by method, shared by the GET total display and
+    /// the POST charge so they can never drift. Standard is free when the bag qualifies; express and
+    /// same-day are always charged their rate.
+    /// </summary>
+    private static decimal ResolveShipping(string? method, bool qualifiesForFreeShipping, decimal standardRate, decimal expressRate, decimal sameDayRate) => method switch
+    {
+        "express" => expressRate,
+        "same-day" => sameDayRate,
+        _ => qualifiesForFreeShipping ? 0m : standardRate
+    };
 
     private static string ShippingMethodName(string method) => method switch
     {
