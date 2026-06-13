@@ -24,7 +24,9 @@ public class CartController(
     {
         var cart = await currentCart.GetCartAsync(ct);
         var summary = await cartService.GetSummaryAsync(cart.Id, ct);
-        var recommendations = await GetRecommendationsAsync(cart, ct);
+        // Cross-sell only renders for a non-empty bag, so skip the query entirely when empty.
+        IReadOnlyList<Core.Entities.Catalog.Product> recommendations =
+            cart.Items.Count > 0 ? await GetRecommendationsAsync(cart, ct) : [];
         return View(new CartIndexViewModel { Cart = cart, Summary = summary, Recommendations = recommendations });
     }
 
