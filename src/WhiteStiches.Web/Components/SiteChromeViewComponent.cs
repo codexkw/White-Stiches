@@ -34,7 +34,18 @@ public class SiteChromeViewComponent(ISettingsService settings) : ViewComponent
         var tiktok = await settings.GetAsync(SettingKeys.TikTokUrl, ct);
         var pinterest = await settings.GetAsync(SettingKeys.PinterestUrl, ct);
         var whatsapp = await settings.GetAsync(SettingKeys.WhatsAppNumber, ct);
-        var announcementRaw = await settings.GetAsync(SettingKeys.AnnouncementMessages, ct);
+
+        // Tickers are bilingual: pick the EN/AR value for the active request culture. Header falls back
+        // to the legacy single-language announcement key so pre-existing content is never lost.
+        var isAr = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ar";
+
+        var headerRaw = await settings.GetAsync(isAr ? SettingKeys.TickerHeaderAr : SettingKeys.TickerHeaderEn, ct);
+        if (string.IsNullOrWhiteSpace(headerRaw))
+            headerRaw = await settings.GetAsync(SettingKeys.AnnouncementMessages, ct);
+        var headerEnabled = await settings.GetAsync(SettingKeys.TickerHeaderEnabled, true, ct);
+
+        var heroRaw = await settings.GetAsync(isAr ? SettingKeys.TickerHeroAr : SettingKeys.TickerHeroEn, ct);
+        var heroEnabled = await settings.GetAsync(SettingKeys.TickerHeroEnabled, true, ct);
 
         var model = new SiteChromeViewModel
         {
@@ -43,7 +54,10 @@ public class SiteChromeViewComponent(ISettingsService settings) : ViewComponent
             PinterestUrl = Clean(pinterest),
             WhatsAppNumber = Clean(whatsapp),
             WhatsAppLink = BuildWhatsAppLink(whatsapp),
-            Announcements = SplitMessages(announcementRaw),
+            HeaderTicker = SplitMessages(headerRaw),
+            HeaderTickerEnabled = headerEnabled,
+            HeroTicker = SplitMessages(heroRaw),
+            HeroTickerEnabled = heroEnabled,
         };
 
         HttpContext.Items[CacheKey] = model;

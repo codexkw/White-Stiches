@@ -267,18 +267,18 @@
 
 <!-- ============================ SEARCH OVERLAY (global) ============================ -->
 <div class="search-overlay" id="searchOverlay" aria-hidden="true">
-  <button type="button" class="search-overlay__backdrop" id="searchOverlayBackdrop" aria-label="Close search"></button>
+  <button type="button" class="search-overlay__backdrop" id="searchOverlayBackdrop" aria-label="@L["Close search"]"></button>
   <div class="search-overlay__panel" role="dialog" aria-modal="true" aria-labelledby="searchOverlayTitle">
     <header class="search-overlay__head">
       <div class="search-overlay__input-wrap">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" class="search-overlay__icon"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input type="search" id="searchOverlayInput" class="search-overlay__input" placeholder="Search pieces, collections, journal…" autocomplete="off" />
-        <button type="button" class="search-overlay__clear" id="searchOverlayClear" aria-label="Clear" hidden>
+        <input type="search" id="searchOverlayInput" class="search-overlay__input" placeholder="@L["Search pieces, collections, journal…"]" autocomplete="off" />
+        <button type="button" class="search-overlay__clear" id="searchOverlayClear" aria-label="@L["Clear"]" hidden>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg>
         </button>
       </div>
       <button type="button" class="search-overlay__close" id="searchOverlayClose">
-        <span>Close</span>
+        <span>@L["Close"]</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
     </header>
@@ -288,23 +288,19 @@
       <!-- Idle state (when nothing typed) -->
       <div class="search-overlay__idle" id="searchOverlayIdle">
         <div class="so-col">
-          <span class="eyebrow">Popular searches</span>
+          <span class="eyebrow">@L["Popular searches"]</span>
           <ul class="so-chips">
-            <li><button type="button">Silk dresses</button></li>
-            <li><button type="button">Linen trousers</button></li>
-            <li><button type="button">Eid edit</button></li>
-            <li><button type="button">Black-tie</button></li>
-            <li><button type="button">Atelier blazer</button></li>
-            <li><button type="button">Heritage scarves</button></li>
+            <li><button type="button" data-q="Silk dresses">@L["Silk dresses"]</button></li>
+            <li><button type="button" data-q="Linen trousers">@L["Linen trousers"]</button></li>
+            <li><button type="button" data-q="Eid edit">@L["Eid edit"]</button></li>
+            <li><button type="button" data-q="Black-tie">@L["Black-tie"]</button></li>
+            <li><button type="button" data-q="Atelier blazer">@L["Atelier blazer"]</button></li>
+            <li><button type="button" data-q="Heritage scarves">@L["Heritage scarves"]</button></li>
           </ul>
         </div>
-        <div class="so-col">
-          <span class="eyebrow">Recent searches</span>
-          <ul class="so-recent">
-            <li><button type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Mira draped midi</button></li>
-            <li><button type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Wide-leg trouser</button></li>
-            <li><button type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Crescent earrings</button></li>
-          </ul>
+        <div class="so-col" id="searchOverlayRecentCol" hidden>
+          <span class="eyebrow">@L["Recent searches"]</span>
+          <ul class="so-recent" id="searchOverlayRecent"></ul>
         </div>
         @await Component.InvokeAsync("SearchTrending")
       </div>
@@ -315,15 +311,15 @@
       <!-- Empty/no results -->
       <div class="search-overlay__noresults" id="searchOverlayNoResults" hidden>
         <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="28" cy="28" r="20"/><path d="m44 44 12 12"/></svg>
-        <h3>No results.</h3>
-        <p>Try a different word, or <button type="button" class="link-arrow link-arrow--inline">WhatsApp the atelier</button> — we’ll find it.</p>
+        <h3>@L["No results."]</h3>
+        <p>@L["Try a different word, or"] <button type="button" class="link-arrow link-arrow--inline">@L["WhatsApp the atelier"]</button> @L["— we’ll find it."]</p>
       </div>
 
     </div>
 
     <footer class="search-overlay__foot">
-      <span class="search-overlay__hint">Press <kbd>Esc</kbd> to close · <kbd>↵</kbd> for full results</span>
-      <a href="/search" class="link-arrow" id="searchOverlayAll">View all results <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <span class="search-overlay__hint">@L["Press"] <kbd>Esc</kbd> @L["to close"] · <kbd>↵</kbd> @L["for full results"]</span>
+      <a href="/search" class="link-arrow" id="searchOverlayAll">@L["View all results"] <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </footer>
   </div>
 </div>

@@ -834,6 +834,9 @@
   <data name="Back to orders" xml:space="preserve">
     <value>Back to orders</value>
   </data>
+  <data name="Download invoice" xml:space="preserve">
+    <value>Download invoice</value>
+  </data>
   <data name="Items" xml:space="preserve">
     <value>Items</value>
   </data>
@@ -1640,6 +1643,33 @@
   </data>
   <data name="Save announcements" xml:space="preserve">
     <value>Save announcements</value>
+  </data>
+  <data name="Tickers" xml:space="preserve">
+    <value>Tickers</value>
+  </data>
+  <data name="Two scrolling tickers — the header bar and the strip under the hero. One message per line, per language. Untick to hide a ticker." xml:space="preserve">
+    <value>Two scrolling tickers — the header bar and the strip under the hero. One message per line, per language. Untick to hide a ticker.</value>
+  </data>
+  <data name="Show header ticker" xml:space="preserve">
+    <value>Show header ticker</value>
+  </data>
+  <data name="Header ticker — messages (EN)" xml:space="preserve">
+    <value>Header ticker — messages (EN)</value>
+  </data>
+  <data name="Header ticker — messages (AR)" xml:space="preserve">
+    <value>Header ticker — messages (AR)</value>
+  </data>
+  <data name="Show hero marquee (under banner)" xml:space="preserve">
+    <value>Show hero marquee (under banner)</value>
+  </data>
+  <data name="Hero marquee — messages (EN)" xml:space="preserve">
+    <value>Hero marquee — messages (EN)</value>
+  </data>
+  <data name="Hero marquee — messages (AR)" xml:space="preserve">
+    <value>Hero marquee — messages (AR)</value>
+  </data>
+  <data name="Save tickers" xml:space="preserve">
+    <value>Save tickers</value>
   </data>
   <data name="Maintenance" xml:space="preserve">
     <value>Maintenance</value>

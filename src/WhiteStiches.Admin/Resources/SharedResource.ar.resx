@@ -834,6 +834,9 @@
   <data name="Back to orders" xml:space="preserve">
     <value>العودة إلى الطلبات</value>
   </data>
+  <data name="Download invoice" xml:space="preserve">
+    <value>تحميل الفاتورة</value>
+  </data>
   <data name="Items" xml:space="preserve">
     <value>العناصر</value>
   </data>
@@ -1640,6 +1643,33 @@
   </data>
   <data name="Save announcements" xml:space="preserve">
     <value>حفظ الإعلانات</value>
+  </data>
+  <data name="Tickers" xml:space="preserve">
+    <value>الأشرطة المتحركة</value>
+  </data>
+  <data name="Two scrolling tickers — the header bar and the strip under the hero. One message per line, per language. Untick to hide a ticker." xml:space="preserve">
+    <value>شريطان متحركان — شريط الترويسة والشريط أسفل البانر. رسالة واحدة لكل سطر، لكل لغة. أزِل التحديد لإخفاء الشريط.</value>
+  </data>
+  <data name="Show header ticker" xml:space="preserve">
+    <value>إظهار شريط الترويسة</value>
+  </data>
+  <data name="Header ticker — messages (EN)" xml:space="preserve">
+    <value>شريط الترويسة — الرسائل (إنجليزي)</value>
+  </data>
+  <data name="Header ticker — messages (AR)" xml:space="preserve">
+    <value>شريط الترويسة — الرسائل (عربي)</value>
+  </data>
+  <data name="Show hero marquee (under banner)" xml:space="preserve">
+    <value>إظهار الشريط المتحرك أسفل البانر</value>
+  </data>
+  <data name="Hero marquee — messages (EN)" xml:space="preserve">
+    <value>الشريط المتحرك — الرسائل (إنجليزي)</value>
+  </data>
+  <data name="Hero marquee — messages (AR)" xml:space="preserve">
+    <value>الشريط المتحرك — الرسائل (عربي)</value>
+  </data>
+  <data name="Save tickers" xml:space="preserve">
+    <value>حفظ الأشرطة</value>
   </data>
   <data name="Maintenance" xml:space="preserve">
     <value>الصيانة</value>

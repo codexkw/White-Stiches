@@ -24,6 +24,15 @@ public static class SettingKeys
     public const string GiftWrapFee = "cart.gift_wrap_fee";
     public const string MaintenanceMode = "store.maintenance_mode";
     public const string AnnouncementMessages = "store.announcement.messages";
+
+    // Admin-managed bilingual tickers (header bar + hero marquee). Messages are newline-delimited,
+    // one per line, per language; the *.enabled keys are "true"/"false" toggles.
+    public const string TickerHeaderEn = "ticker.header.en";
+    public const string TickerHeaderAr = "ticker.header.ar";
+    public const string TickerHeaderEnabled = "ticker.header.enabled";
+    public const string TickerHeroEn = "ticker.hero.en";
+    public const string TickerHeroAr = "ticker.hero.ar";
+    public const string TickerHeroEnabled = "ticker.hero.enabled";
     public const string InstagramUrl = "store.social.instagram";
     public const string TikTokUrl = "store.social.tiktok";
     public const string PinterestUrl = "store.social.pinterest";

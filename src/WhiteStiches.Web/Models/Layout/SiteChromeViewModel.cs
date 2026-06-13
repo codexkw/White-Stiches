@@ -17,8 +17,17 @@ public class SiteChromeViewModel
     /// <summary>Click-to-chat link (<c>https://wa.me/&lt;digits&gt;</c>), or null when no number is set.</summary>
     public string? WhatsAppLink { get; init; }
 
-    /// <summary>Announcement-bar messages (admin-authored). Empty when none configured.</summary>
-    public IReadOnlyList<string> Announcements { get; init; } = [];
+    /// <summary>Header-bar ticker messages in the current language (admin-authored). Empty falls back to defaults.</summary>
+    public IReadOnlyList<string> HeaderTicker { get; init; } = [];
+
+    /// <summary>Whether the header ticker is shown (admin toggle; defaults on).</summary>
+    public bool HeaderTickerEnabled { get; init; } = true;
+
+    /// <summary>Hero marquee messages in the current language (admin-authored). Empty falls back to defaults.</summary>
+    public IReadOnlyList<string> HeroTicker { get; init; } = [];
+
+    /// <summary>Whether the hero marquee (under the banner) is shown (admin toggle; defaults on).</summary>
+    public bool HeroTickerEnabled { get; init; } = true;
 
     public bool HasAnySocial =>
         !string.IsNullOrWhiteSpace(InstagramUrl)

@@ -18,6 +18,7 @@
         · @o.Items.Sum(i => i.Quantity) @L["item(s)"]
         · @o.Total.ToString("0.000") KWD
     </span>
+    <a href="/orders/@o.Id/invoice" class="adm-btn">@L["Download invoice"]</a>
     <a href="/orders" class="adm-btn">@L["Back to orders"]</a>
 </div>
 

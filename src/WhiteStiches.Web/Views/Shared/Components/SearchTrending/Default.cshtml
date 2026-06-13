@@ -15,12 +15,12 @@
         .Count();
 
     <div class="so-col so-col--featured">
-      <span class="eyebrow">Trending right now</span>
+      <span class="eyebrow">@L["Trending right now"]</span>
       <a href="/products/@Model.Slug" class="so-feature">
         <img src="@imgUrl" alt="@(image?.Alt() ?? Model.Title())" />
         <div>
           <strong>@Model.Title()</strong>
-          <span>@price@(colourCount > 1 ? $" · {colourCount} colours" : "")</span>
+          <span>@price@(colourCount > 1 ? $" · {colourCount} {L["colours"].Value}" : "")</span>
         </div>
       </a>
     </div>

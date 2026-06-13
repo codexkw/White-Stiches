@@ -2112,6 +2112,66 @@
   <data name="Popular searches" xml:space="preserve">
     <value>الأكثر بحثاً</value>
   </data>
+  <data name="Search pieces, collections, journal…" xml:space="preserve">
+    <value>ابحثي في القطع والمجموعات والمجلة…</value>
+  </data>
+  <data name="Silk dresses" xml:space="preserve">
+    <value>فساتين الحرير</value>
+  </data>
+  <data name="Linen trousers" xml:space="preserve">
+    <value>بناطيل الكتان</value>
+  </data>
+  <data name="Eid edit" xml:space="preserve">
+    <value>تشكيلة العيد</value>
+  </data>
+  <data name="Black-tie" xml:space="preserve">
+    <value>السهرات الرسمية</value>
+  </data>
+  <data name="Atelier blazer" xml:space="preserve">
+    <value>بليزر الأتيليه</value>
+  </data>
+  <data name="Heritage scarves" xml:space="preserve">
+    <value>أوشحة التراث</value>
+  </data>
+  <data name="Recent searches" xml:space="preserve">
+    <value>عمليات البحث الأخيرة</value>
+  </data>
+  <data name="No results." xml:space="preserve">
+    <value>لا توجد نتائج.</value>
+  </data>
+  <data name="Try a different word, or" xml:space="preserve">
+    <value>جرّبي كلمة أخرى، أو</value>
+  </data>
+  <data name="— we’ll find it." xml:space="preserve">
+    <value>— سنجدها لكِ.</value>
+  </data>
+  <data name="Press" xml:space="preserve">
+    <value>اضغطي</value>
+  </data>
+  <data name="to close" xml:space="preserve">
+    <value>للإغلاق</value>
+  </data>
+  <data name="for full results" xml:space="preserve">
+    <value>لكل النتائج</value>
+  </data>
+  <data name="View all results" xml:space="preserve">
+    <value>عرض كل النتائج</value>
+  </data>
+  <data name="Trending right now" xml:space="preserve">
+    <value>الأكثر رواجاً الآن</value>
+  </data>
+  <data name="colours" xml:space="preserve">
+    <value>ألوان</value>
+  </data>
+  <data name="Pieces" xml:space="preserve">
+    <value>قطع</value>
+  </data>
+  <data name="Close search" xml:space="preserve">
+    <value>إغلاق البحث</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>مسح</value>
+  </data>
   <data name="Popular searches:" xml:space="preserve">
     <value>الأكثر بحثاً:</value>
   </data>

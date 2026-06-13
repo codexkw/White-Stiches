@@ -1,0 +1,36 @@
+@model WhiteStiches.Web.Models.Layout.SiteChromeViewModel
+@{
+    // Admin-authored hero marquee (current language). Empty falls back to the localized defaults so
+    // the strip is never blank. Hidden entirely when the admin toggles the hero marquee off.
+    var messages = Model.HeroTicker;
+}
+@if (Model.HeroTickerEnabled)
+{
+    <!-- ============================ MARQUEE STRIP ============================ -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        @if (messages.Count > 0)
+        {
+            @* Repeat the sequence so the marquee track is long enough to loop seamlessly. *@
+            for (var pass = 0; pass < 4; pass++)
+            {
+                foreach (var m in messages)
+                {
+                    <span>@m</span>
+                }
+            }
+        }
+        else
+        {
+            <span>@L["Shop New Arrivals"]</span>
+            <span>@L["Free Delivery in Kuwait"]</span>
+            <span>@L["Shop New Arrivals"]</span>
+            <span>@L["Crafted at Our Atelier"]</span>
+            <span>@L["Shop New Arrivals"]</span>
+            <span>@L["Free Delivery in Kuwait"]</span>
+            <span>@L["Shop New Arrivals"]</span>
+            <span>@L["Crafted at Our Atelier"]</span>
+        }
+      </div>
+    </div>
+}

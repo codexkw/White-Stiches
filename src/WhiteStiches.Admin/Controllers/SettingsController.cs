@@ -28,7 +28,11 @@ public class SettingsController(ISettingsService settings, IAuditService audit) 
             SettingKeys.ExpressShippingRate, SettingKeys.SameDayShippingRate
         ],
         ["cart"] = [SettingKeys.GiftWrapFee],
-        ["announcement"] = [SettingKeys.AnnouncementMessages],
+        ["ticker"] =
+        [
+            SettingKeys.TickerHeaderEn, SettingKeys.TickerHeaderAr, SettingKeys.TickerHeaderEnabled,
+            SettingKeys.TickerHeroEn, SettingKeys.TickerHeroAr, SettingKeys.TickerHeroEnabled
+        ],
         ["maintenance"] = [SettingKeys.MaintenanceMode]
     };
 
@@ -39,7 +43,7 @@ public class SettingsController(ISettingsService settings, IAuditService audit) 
         ["social"] = "store",
         ["shipping"] = "shipping",
         ["cart"] = "cart",
-        ["announcement"] = "store",
+        ["ticker"] = "ticker",
         ["maintenance"] = "store"
     };
 
@@ -140,7 +144,9 @@ public class SettingsController(ISettingsService settings, IAuditService audit) 
     {
         var values = Request.Form[key];
 
-        if (key == SettingKeys.MaintenanceMode)
+        if (key is SettingKeys.MaintenanceMode
+            or SettingKeys.TickerHeaderEnabled
+            or SettingKeys.TickerHeroEnabled)
         {
             return values.Any(v => string.Equals(v, "true", StringComparison.OrdinalIgnoreCase))
                 ? "true"
@@ -149,7 +155,10 @@ public class SettingsController(ISettingsService settings, IAuditService audit) 
 
         var raw = values.LastOrDefault()?.Trim();
 
-        if (key == SettingKeys.AnnouncementMessages && raw is not null)
+        if (key is SettingKeys.AnnouncementMessages
+                or SettingKeys.TickerHeaderEn or SettingKeys.TickerHeaderAr
+                or SettingKeys.TickerHeroEn or SettingKeys.TickerHeroAr
+            && raw is not null)
         {
             var lines = raw
                 .Split('\n')

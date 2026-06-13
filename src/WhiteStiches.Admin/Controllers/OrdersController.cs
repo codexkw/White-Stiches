@@ -14,6 +14,8 @@ namespace WhiteStiches.Admin.Controllers;
 public class OrdersController(
     IOrderAdminService orderAdmin,
     IOrderService orders,
+    IInvoicePdfService invoicePdf,
+    ISettingsService settings,
     IAuditService audit) : Controller
 {
     private Guid? CurrentUserId =>
@@ -69,6 +71,35 @@ public class OrdersController(
             TotalPaid = order.Payments.Where(p => p.Status == TransactionStatus.Captured).Sum(p => p.Amount),
             TotalRefunded = order.Refunds.Where(r => r.Status == RefundStatus.Completed).Sum(r => r.Amount)
         });
+    }
+
+    // ------------------------------------------------------------- invoice (AD-ORD download)
+
+    [HttpGet("{id:int}/invoice")]
+    public async Task<IActionResult> Invoice(int id, CancellationToken ct = default)
+    {
+        var order = await orderAdmin.GetDetailAsync(id, ct);
+        if (order is null || order.IsDraft)
+        {
+            TempData["Err"] = $"Order #{id} was not found.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        var nameEn = await settings.GetAsync(SettingKeys.StoreNameEn, ct);
+        var nameAr = await settings.GetAsync(SettingKeys.StoreNameAr, ct);
+        var storeName = !string.IsNullOrWhiteSpace(nameEn) ? nameEn!
+            : !string.IsNullOrWhiteSpace(nameAr) ? nameAr! : "White Stitches";
+
+        var branding = new InvoiceBranding(
+            StoreName: storeName,
+            LogoPath: null,
+            ContactEmail: await settings.GetAsync(SettingKeys.ContactEmail, ct),
+            ContactPhone: await settings.GetAsync(SettingKeys.ContactPhone, ct),
+            TotalPaid: order.Payments.Where(p => p.Status == TransactionStatus.Captured).Sum(p => p.Amount),
+            TotalRefunded: order.Refunds.Where(r => r.Status == RefundStatus.Completed).Sum(r => r.Amount));
+
+        var bytes = invoicePdf.Build(order, branding);
+        return File(bytes, "application/pdf", $"invoice-{order.OrderNumber}.pdf");
     }
 
     // ------------------------------------------------------------- order actions

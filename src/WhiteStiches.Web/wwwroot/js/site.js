@@ -1187,6 +1187,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function openSearch() {
     overlay.classList.add('is-open');
     overlay.setAttribute('aria-hidden', 'false');
+    renderRecent();
     lockBodyScroll();
     setTimeout(() => { if (input) input.focus(); }, 100);
   }
@@ -1253,7 +1254,7 @@ document.addEventListener('DOMContentLoaded', function() {
     input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         const q = input.value.trim();
-        if (q) window.location.href = `/search?q=${encodeURIComponent(q)}`;
+        if (q) { recordRecent(q); window.location.href = `/search?q=${encodeURIComponent(q)}`; }
       }
     });
   }
@@ -1264,16 +1265,70 @@ document.addEventListener('DOMContentLoaded', function() {
     setState('idle');
   });
 
-  // Clicking a popular search chip or recent item fills the input
-  overlay.querySelectorAll('.so-chips button, .so-recent button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const term = btn.textContent.trim();
-      if (input) {
-        input.value = term;
-        input.dispatchEvent(new Event('input'));
-        input.focus();
-      }
+  // Fill the input from a chip/recent button. Prefer an explicit data-q (a stable, catalog-matchable
+  // query term) over the visible label, so localized chips still search the right thing.
+  function fillFromButton(btn) {
+    const term = (btn.dataset.q || btn.textContent || '').trim();
+    if (!term || !input) return;
+    input.value = term;
+    input.dispatchEvent(new Event('input'));
+    input.focus();
+  }
+
+  overlay.querySelectorAll('.so-chips button').forEach(btn => {
+    btn.addEventListener('click', () => fillFromButton(btn));
+  });
+
+  // Recent searches — real, stored client-side (newest first, deduped, capped). Rendered fresh each
+  // time the overlay opens; the section stays hidden until there is history.
+  const RECENT_KEY = 'ws_recent_searches';
+  const RECENT_MAX = 6;
+  const recentCol = document.getElementById('searchOverlayRecentCol');
+  const recentList = document.getElementById('searchOverlayRecent');
+  const CLOCK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+
+  function readRecent() {
+    try {
+      const arr = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
+      return Array.isArray(arr) ? arr.filter(s => typeof s === 'string' && s.trim()) : [];
+    } catch (e) { return []; }
+  }
+
+  function recordRecent(q) {
+    const term = (q || '').trim();
+    if (!term) return;
+    try {
+      const list = readRecent().filter(s => s.toLowerCase() !== term.toLowerCase());
+      list.unshift(term);
+      localStorage.setItem(RECENT_KEY, JSON.stringify(list.slice(0, RECENT_MAX)));
+    } catch (e) { /* storage unavailable — ignore */ }
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  function renderRecent() {
+    if (!recentCol || !recentList) return;
+    const list = readRecent();
+    recentList.innerHTML = '';
+    if (list.length === 0) { recentCol.hidden = true; return; }
+    list.forEach(term => {
+      const li = document.createElement('li');
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.dataset.q = term;
+      btn.innerHTML = CLOCK_SVG + ' ' + escapeHtml(term);
+      btn.addEventListener('click', () => fillFromButton(btn));
+      li.appendChild(btn);
+      recentList.appendChild(li);
     });
+    recentCol.hidden = false;
+  }
+
+  // Record the committed term when the user opens full results via the "view all" link.
+  if (viewAllLink) viewAllLink.addEventListener('click', () => {
+    if (input) recordRecent(input.value.trim());
   });
 });
 

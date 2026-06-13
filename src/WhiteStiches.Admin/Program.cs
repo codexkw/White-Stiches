@@ -19,6 +19,10 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddWhiteStichesInfrastructure(builder.Configuration);
 builder.Services.AddWhiteStichesAdminServices();
 
+// QuestPDF Community licence (free for organisations under $1M annual revenue) — must be set
+// once before any invoice PDF is generated, otherwise QuestPDF throws at render time.
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+
 // Per-client-IP rate limiting on the staff sign-in surface (NFR-SEC-02). Over-limit → 429 + Retry-After.
 builder.Services.AddRateLimiter(options =>
 {

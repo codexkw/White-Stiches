@@ -19,6 +19,7 @@ public static class AdminServicesRegistration
         services.AddScoped<IStaffAdminService, StaffAdminService>();
         services.AddScoped<IAnalyticsService, AnalyticsService>();   // 1E‑1 dashboard
         services.AddScoped<IReportService, ReportService>();         // 1E‑4 reports
+        services.AddScoped<IInvoicePdfService, InvoicePdfService>(); // order invoice download
 
         return services;
     }

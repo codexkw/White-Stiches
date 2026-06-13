@@ -1,43 +1,47 @@
 @model WhiteStiches.Web.Models.Layout.SiteChromeViewModel
 @{
-    // Admin-authored messages when configured; otherwise the localized defaults so the bar is
-    // never blank on a fresh store. The sequence is rendered twice so the marquee loops seamlessly.
-    var messages = Model.Announcements;
+    // Admin-authored messages (current language) when configured; otherwise the localized defaults so
+    // the bar is never blank on a fresh store. The sequence is rendered twice so the marquee loops
+    // seamlessly. The whole bar is hidden when the admin toggles the header ticker off.
+    var messages = Model.HeaderTicker;
 }
-<!-- ============================ ANNOUNCEMENT BAR ============================ -->
-<div class="announce" role="region" aria-label="Promotional announcement">
-  <div class="announce__track">
-    @if (messages.Count > 0)
-    {
-        for (var pass = 0; pass < 2; pass++)
+@if (Model.HeaderTickerEnabled)
+{
+    <!-- ============================ ANNOUNCEMENT BAR ============================ -->
+    <div class="announce" role="region" aria-label="Promotional announcement">
+      <div class="announce__track">
+        @if (messages.Count > 0)
         {
-            for (var i = 0; i < messages.Count; i++)
+            for (var pass = 0; pass < 2; pass++)
             {
-                if (!(pass == 0 && i == 0))
+                for (var i = 0; i < messages.Count; i++)
                 {
-                    <span class="announce__dot" aria-hidden="true">◆</span>
+                    if (!(pass == 0 && i == 0))
+                    {
+                        <span class="announce__dot" aria-hidden="true">◆</span>
+                    }
+                    <span>@messages[i]</span>
                 }
-                <span>@messages[i]</span>
             }
         }
-    }
-    else
-    {
-        <span>@L["Complimentary delivery on orders over 50 KWD"]</span>
-        <span class="announce__dot" aria-hidden="true">◆</span>
-        <span>@L["New Spring Edit — now in stores"]</span>
-        <span class="announce__dot" aria-hidden="true">◆</span>
-        <span>@L["Pay with KNET, Apple Pay & Tabby"]</span>
-        <span class="announce__dot" aria-hidden="true">◆</span>
-        <span>@L["Shipping across the GCC"]</span>
-        <span class="announce__dot" aria-hidden="true">◆</span>
-        <span>@L["Complimentary delivery on orders over 50 KWD"]</span>
-        <span class="announce__dot" aria-hidden="true">◆</span>
-        <span>@L["New Spring Edit — now in stores"]</span>
-        <span class="announce__dot" aria-hidden="true">◆</span>
-        <span>@L["Pay with KNET, Apple Pay & Tabby"]</span>
-        <span class="announce__dot" aria-hidden="true">◆</span>
-        <span>@L["Shipping across the GCC"]</span>
-    }
-  </div>
-</div>
+        else
+        {
+            <span>@L["Complimentary delivery on orders over 50 KWD"]</span>
+            <span class="announce__dot" aria-hidden="true">◆</span>
+            <span>@L["New Spring Edit — now in stores"]</span>
+            <span class="announce__dot" aria-hidden="true">◆</span>
+            <span>@L["Pay with KNET, Apple Pay & Tabby"]</span>
+            <span class="announce__dot" aria-hidden="true">◆</span>
+            <span>@L["Shipping across the GCC"]</span>
+            <span class="announce__dot" aria-hidden="true">◆</span>
+            <span>@L["Complimentary delivery on orders over 50 KWD"]</span>
+            <span class="announce__dot" aria-hidden="true">◆</span>
+            <span>@L["New Spring Edit — now in stores"]</span>
+            <span class="announce__dot" aria-hidden="true">◆</span>
+            <span>@L["Pay with KNET, Apple Pay & Tabby"]</span>
+            <span class="announce__dot" aria-hidden="true">◆</span>
+            <span>@L["Shipping across the GCC"]</span>
+        }
+      </div>
+    </div>
+}

@@ -62,19 +62,8 @@
   </button>
 </section>
 
-<!-- ============================ MARQUEE STRIP ============================ -->
-<div class="marquee" aria-hidden="true">
-  <div class="marquee__track">
-    <span>@L["Shop New Arrivals"]</span>
-    <span>@L["Free Delivery in Kuwait"]</span>
-    <span>@L["Shop New Arrivals"]</span>
-    <span>@L["Crafted at Our Atelier"]</span>
-    <span>@L["Shop New Arrivals"]</span>
-    <span>@L["Free Delivery in Kuwait"]</span>
-    <span>@L["Shop New Arrivals"]</span>
-    <span>@L["Crafted at Our Atelier"]</span>
-  </div>
-</div>
+<!-- ============================ MARQUEE STRIP (admin-managed, bilingual) ============================ -->
+@await Component.InvokeAsync("SiteChrome", new { section = "HeroMarquee" })
 
 <!-- ============================ CATEGORY CIRCLES ============================ -->
 <section class="categories section--light" id="categories">

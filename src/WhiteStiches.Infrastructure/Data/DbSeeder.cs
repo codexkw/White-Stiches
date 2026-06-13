@@ -83,7 +83,13 @@ public static class DbSeeder
             [SettingKeys.ExpressShippingRate] = ("3.5", "shipping"),
             [SettingKeys.SameDayShippingRate] = ("5.0", "shipping"),
             [SettingKeys.GiftWrapFee] = ("3.5", "cart"),
-            [SettingKeys.MaintenanceMode] = ("false", "store")
+            [SettingKeys.MaintenanceMode] = ("false", "store"),
+            [SettingKeys.TickerHeaderEn] = ("Complimentary delivery on orders over 50 KWD\nNew Spring Edit — now in stores\nPay with KNET, Apple Pay & Tabby\nShipping across the GCC", "ticker"),
+            [SettingKeys.TickerHeaderAr] = ("توصيل مجاني للطلبات فوق 50 د.ك\nتشكيلة الربيع الجديدة — الآن في المتجر\nادفع عبر كي نت وآبل باي وتابي\nشحن لكل دول الخليج", "ticker"),
+            [SettingKeys.TickerHeaderEnabled] = ("true", "ticker"),
+            [SettingKeys.TickerHeroEn] = ("Shop New Arrivals\nFree Delivery in Kuwait\nCrafted at Our Atelier", "ticker"),
+            [SettingKeys.TickerHeroAr] = ("تسوّقي الوصول الجديد\nتوصيل مجاني داخل الكويت\nمصنوع في أتيليهنا", "ticker"),
+            [SettingKeys.TickerHeroEnabled] = ("true", "ticker")
         };
 
         var existingKeys = await db.StoreSettings.Select(s => s.Key).ToListAsync();

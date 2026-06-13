@@ -121,15 +121,44 @@
 </section>
 
 <section class="adm-panel">
-    <header class="adm-panel__head"><h2 class="adm-panel__title">@L["Announcement bar"]</h2></header>
+    <header class="adm-panel__head"><h2 class="adm-panel__title">@L["Tickers"]</h2></header>
     <div class="adm-panel__body">
-        <form asp-controller="Settings" asp-action="Save" asp-route-group="announcement" method="post">
-            <div class="adm-field">
-                <label for="set-announce">@L["Messages — one per line"]</label>
-                <textarea id="set-announce" name="store.announcement.messages" rows="4">@Model.Get(SettingKeys.AnnouncementMessages)</textarea>
+        <p class="set-note">@L["Two scrolling tickers — the header bar and the strip under the hero. One message per line, per language. Untick to hide a ticker."]</p>
+        <form asp-controller="Settings" asp-action="Save" asp-route-group="ticker" method="post">
+            <div class="adm-field adm-field--check">
+                <input type="hidden" name="ticker.header.enabled" value="false" />
+                <input id="set-th-on" type="checkbox" name="ticker.header.enabled" value="true" checked="@Model.GetBool(SettingKeys.TickerHeaderEnabled)" />
+                <label for="set-th-on">@L["Show header ticker"]</label>
             </div>
+            <div class="adm-form-grid">
+                <div class="adm-field">
+                    <label for="set-th-en">@L["Header ticker — messages (EN)"]</label>
+                    <textarea id="set-th-en" name="ticker.header.en" rows="4">@Model.Get(SettingKeys.TickerHeaderEn)</textarea>
+                </div>
+                <div class="adm-field">
+                    <label for="set-th-ar">@L["Header ticker — messages (AR)"]</label>
+                    <textarea id="set-th-ar" name="ticker.header.ar" dir="rtl" rows="4">@Model.Get(SettingKeys.TickerHeaderAr)</textarea>
+                </div>
+            </div>
+
+            <div class="adm-field adm-field--check">
+                <input type="hidden" name="ticker.hero.enabled" value="false" />
+                <input id="set-hh-on" type="checkbox" name="ticker.hero.enabled" value="true" checked="@Model.GetBool(SettingKeys.TickerHeroEnabled)" />
+                <label for="set-hh-on">@L["Show hero marquee (under banner)"]</label>
+            </div>
+            <div class="adm-form-grid">
+                <div class="adm-field">
+                    <label for="set-hh-en">@L["Hero marquee — messages (EN)"]</label>
+                    <textarea id="set-hh-en" name="ticker.hero.en" rows="4">@Model.Get(SettingKeys.TickerHeroEn)</textarea>
+                </div>
+                <div class="adm-field">
+                    <label for="set-hh-ar">@L["Hero marquee — messages (AR)"]</label>
+                    <textarea id="set-hh-ar" name="ticker.hero.ar" dir="rtl" rows="4">@Model.Get(SettingKeys.TickerHeroAr)</textarea>
+                </div>
+            </div>
+
             <div class="adm-actions set-actions">
-                <button type="submit" class="adm-btn adm-btn--solid">@L["Save announcements"]</button>
+                <button type="submit" class="adm-btn adm-btn--solid">@L["Save tickers"]</button>
             </div>
         </form>
     </div>

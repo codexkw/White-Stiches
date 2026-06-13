@@ -5,7 +5,7 @@
    data-result-count drives the JS results/no-results decision. Links go to the real PDP route.
 *@
 <div class="so-col" data-result-count="@Model.TotalCount">
-  <span class="eyebrow">Pieces · <em id="soProductCount">@Model.TotalCount</em></span>
+  <span class="eyebrow">@L["Pieces"] · <em id="soProductCount">@Model.TotalCount</em></span>
   <ul class="so-results">
     @foreach (var p in Model.Products)
     {
