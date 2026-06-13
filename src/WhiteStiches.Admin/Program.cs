@@ -68,6 +68,8 @@ app.UseForwardedHeaders();
 // scripts/styles + chart init; Google Fonts are allowlisted; images allow data:/blob: (rich-text
 // editor upload previews) and https:. Everything else is same-origin, with object/base/frame-ancestors/
 // form-action locked down (frame-ancestors 'none' blocks clickjacking of the back office).
+// Cloudflare's auto-injected Web Analytics beacon (static.cloudflareinsights.com, which posts to
+// cloudflareinsights.com) is allowlisted so the edge RUM script isn't CSP-blocked in the browser.
 const string contentSecurityPolicy =
     "default-src 'self'; " +
     "base-uri 'self'; " +
@@ -77,8 +79,8 @@ const string contentSecurityPolicy =
     "img-src 'self' data: blob: https:; " +
     "font-src 'self' https://fonts.gstatic.com; " +
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
-    "script-src 'self' 'unsafe-inline'; " +
-    "connect-src 'self'";
+    "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; " +
+    "connect-src 'self' https://cloudflareinsights.com";
 app.UseWhiteStichesSecurityHeaders(contentSecurityPolicy);
 
 if (!app.Environment.IsDevelopment())

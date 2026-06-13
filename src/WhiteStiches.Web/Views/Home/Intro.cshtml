@@ -9,11 +9,14 @@
 <meta name="theme-color" content="#0a0a0a" />
 <meta name="description" content="White Stitches — Kuwait fashion house. Designed for the GCC, finished by hand." />
 <title>White Stitches</title>
+<link rel="icon" type="image/svg+xml" href="~/assets/logo-mark.svg" />
 
 <!-- Preload assets so the animation runs smooth on first paint -->
 <link rel="preload" href="~/assets/pattern-triangles.png" as="image" />
 <link rel="preload" href="~/assets/logo-full.png" as="image" />
-<link rel="preload" href="/" as="document" />
+<!-- Warm the home page so the intro→home hop is instant. prefetch (not preload):
+     a future navigation document has no valid preload `as` value. -->
+<link rel="prefetch" href="/" />
 
 <link rel="stylesheet" href="~/css/design-system.css?v=2.6" />
 
