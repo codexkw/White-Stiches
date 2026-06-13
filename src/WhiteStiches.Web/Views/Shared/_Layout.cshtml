@@ -318,41 +318,8 @@
         </div>
       </div>
 
-      <!-- Live results (typing state) -->
-      <div class="search-overlay__results" id="searchOverlayResults" hidden>
-        <div class="so-col">
-          <span class="eyebrow">Pieces · <em id="soProductCount">4</em></span>
-          <ul class="so-results">
-            <li><a href="/product">
-              <img src="~/assets/products/product-4.jpg" alt="" />
-              <div><strong>Mira Draped Midi</strong><span>Oat · 42.500 KWD</span></div>
-            </a></li>
-            <li><a href="/product">
-              <img src="~/assets/products/product-1.jpg" alt="" />
-              <div><strong>Lina Silk Slip Dress</strong><span>Champagne · 76.000 KWD</span></div>
-            </a></li>
-            <li><a href="/product">
-              <img src="~/assets/products/product-2.jpg" alt="" />
-              <div><strong>Atelier Tailored Blazer</strong><span>Stone · 68.000 KWD</span></div>
-            </a></li>
-            <li><a href="/product">
-              <img src="~/assets/products/product-3.jpg" alt="" />
-              <div><strong>Sahar Wide-Leg Trouser</strong><span>Black · 38.500 KWD</span></div>
-            </a></li>
-          </ul>
-        </div>
-        <div class="so-col">
-          <span class="eyebrow">Collections</span>
-          <ul class="so-results so-results--compact">
-            <li><a href="/collection"><strong>SS26 Edit</strong><span>32 pieces</span></a></li>
-            <li><a href="/collection"><strong>Atelier essentials</strong><span>18 pieces</span></a></li>
-          </ul>
-          <span class="eyebrow" style="margin-top: var(--s-3); display: block;">Journal</span>
-          <ul class="so-results so-results--compact">
-            <li><a href="/journal"><strong>The Mira Draped Midi, three ways</strong><span>Styling · 4 min read</span></a></li>
-          </ul>
-        </div>
-      </div>
+      <!-- Live results (typing state) — populated by site.js via /search/suggest -->
+      <div class="search-overlay__results" id="searchOverlayResults" hidden></div>
 
       <!-- Empty/no results -->
       <div class="search-overlay__noresults" id="searchOverlayNoResults" hidden>

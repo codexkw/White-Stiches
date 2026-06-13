@@ -1340,19 +1340,43 @@ document.addEventListener('DOMContentLoaded', function() {
     if (noResultsEl) noResultsEl.hidden = (state !== 'noresults');
   }
 
+  // Live suggestions: debounced fetch of a real partial from /search/suggest, with the previous
+  // in-flight request aborted on each keystroke so results never arrive out of order.
+  let searchAbort = null;
+  let searchTimer = null;
+
+  function fetchSuggest(q) {
+    if (searchAbort) searchAbort.abort();
+    searchAbort = new AbortController();
+    fetch(`/search/suggest?q=${encodeURIComponent(q)}`, {
+      signal: searchAbort.signal,
+      headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+      .then(r => r.ok ? r.text() : Promise.reject(new Error('http ' + r.status)))
+      .then(html => {
+        if (resultsEl) resultsEl.innerHTML = html;
+        const countEl = resultsEl ? resultsEl.querySelector('[data-result-count]') : null;
+        const count = countEl ? parseInt(countEl.getAttribute('data-result-count') || '0', 10) : 0;
+        setState(count > 0 ? 'results' : 'noresults');
+      })
+      .catch(err => {
+        if (err && err.name === 'AbortError') return; // superseded by a newer keystroke
+        setState('noresults');
+      });
+  }
+
   if (input) {
     input.addEventListener('input', () => {
       const q = input.value.trim();
       if (clearBtn) clearBtn.hidden = !q;
       if (viewAllLink) viewAllLink.href = q ? `/search?q=${encodeURIComponent(q)}` : '/search';
-      if (!q) {
+      if (searchTimer) clearTimeout(searchTimer);
+      if (q.length < 2) {
+        if (searchAbort) searchAbort.abort();
         setState('idle');
-      } else if (q.toLowerCase().startsWith('xyz')) {
-        // Demo no-results trigger
-        setState('noresults');
-      } else {
-        setState('results');
+        return;
       }
+      searchTimer = setTimeout(() => fetchSuggest(q), 220);
     });
 
     input.addEventListener('keydown', (e) => {

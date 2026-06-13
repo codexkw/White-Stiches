@@ -1,0 +1,22 @@
+@model WhiteStiches.Web.Models.Shop.SearchSuggestViewModel
+@using System.Globalization
+@*
+   Live search suggestions for the header overlay. Rendered into #searchOverlayResults by site.js.
+   data-result-count drives the JS results/no-results decision. Links go to the real PDP route.
+*@
+<div class="so-col" data-result-count="@Model.TotalCount">
+  <span class="eyebrow">Pieces · <em id="soProductCount">@Model.TotalCount</em></span>
+  <ul class="so-results">
+    @foreach (var p in Model.Products)
+    {
+        var image = p.Images.OrderBy(i => i.SortOrder).ThenBy(i => i.Id).FirstOrDefault();
+        var imgUrl = image?.Url ?? "/assets/products/product-1.jpg";
+        var priced = p.Variants.Where(v => v.IsActive).OrderBy(v => v.Price).FirstOrDefault();
+        var price = priced is not null ? priced.Price.ToString("0.000", CultureInfo.InvariantCulture) + " KWD" : null;
+        <li><a href="/products/@p.Slug">
+          <img src="@imgUrl" alt="@(image?.Alt() ?? p.Title())" />
+          <div><strong>@p.Title()</strong>@if (price is not null) {<span>@price</span>}</div>
+        </a></li>
+    }
+  </ul>
+</div>

@@ -147,6 +147,38 @@ public class ShopController(ICatalogService catalog) : Controller
         return View(new SearchViewModel { Query = q, Results = results, Suggestions = suggestions });
     }
 
+    /// <summary>
+    /// Live product suggestions for the header search overlay. Returns a small HTML partial
+    /// (injected into #searchOverlayResults by site.js), backed by the same catalog search the
+    /// full /search page uses — so the overlay shows real pieces instead of placeholder cards.
+    /// </summary>
+    [Route("search/suggest")]
+    public async Task<IActionResult> Suggest(string? q, CancellationToken ct = default)
+    {
+        q = Normalize(q);
+
+        IReadOnlyList<Product> products = [];
+        var total = 0;
+        if (q is not null)
+        {
+            var results = await catalog.GetProductsAsync(new ProductQuery
+            {
+                Search = q,
+                Page = 1,
+                PageSize = 6
+            }, ct);
+            products = results.Items;
+            total = results.TotalCount;
+        }
+
+        return PartialView("_SearchSuggest", new SearchSuggestViewModel
+        {
+            Query = q,
+            Products = products,
+            TotalCount = total
+        });
+    }
+
     private static string? Normalize(string? value) =>
         string.IsNullOrWhiteSpace(value) ? null : value.Trim();
 
