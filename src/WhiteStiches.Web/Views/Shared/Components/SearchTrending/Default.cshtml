@@ -1,0 +1,27 @@
+@model WhiteStiches.Core.Entities.Catalog.Product
+@using System.Globalization
+@* "Trending right now" card for the search overlay idle state — a real featured product. *@
+@if (Model is not null)
+{
+    var image = Model.Images.OrderBy(i => i.SortOrder).ThenBy(i => i.Id).FirstOrDefault();
+    var imgUrl = image?.Url ?? "/assets/products/product-3.jpg";
+    var activeVariants = Model.Variants.Where(v => v.IsActive).ToList();
+    var priced = activeVariants.OrderBy(v => v.Price).FirstOrDefault();
+    var price = priced is not null ? priced.Price.ToString("0.000", CultureInfo.InvariantCulture) + " KWD" : null;
+    var colourCount = activeVariants
+        .Select(v => v.Option2)
+        .Where(c => !string.IsNullOrWhiteSpace(c))
+        .Distinct(StringComparer.OrdinalIgnoreCase)
+        .Count();
+
+    <div class="so-col so-col--featured">
+      <span class="eyebrow">Trending right now</span>
+      <a href="/products/@Model.Slug" class="so-feature">
+        <img src="@imgUrl" alt="@(image?.Alt() ?? Model.Title())" />
+        <div>
+          <strong>@Model.Title()</strong>
+          <span>@price@(colourCount > 1 ? $" · {colourCount} colours" : "")</span>
+        </div>
+      </a>
+    </div>
+}
