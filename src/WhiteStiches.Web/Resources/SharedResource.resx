@@ -1005,11 +1005,20 @@
   <data name="Pay the courier in cash on arrival" xml:space="preserve">
     <value>Pay the courier in cash on arrival</value>
   </data>
+  <data name="Payment confirmed" xml:space="preserve">
+    <value>Payment confirmed</value>
+  </data>
+  <data name="Payment failed" xml:space="preserve">
+    <value>Payment failed</value>
+  </data>
   <data name="Payment pending" xml:space="preserve">
     <value>Payment pending</value>
   </data>
   <data name="Payment pending confirmation" xml:space="preserve">
     <value>Payment pending confirmation</value>
+  </data>
+  <data name="We're still waiting for your bank to confirm the transaction. This usually takes a few seconds, but can take up to 30 minutes. We'll email and WhatsApp you the moment it's confirmed." xml:space="preserve">
+    <value>We're still waiting for your bank to confirm the transaction. This usually takes a few seconds, but can take up to 30 minutes. We'll email and WhatsApp you the moment it's confirmed.</value>
   </data>
   <data name="Your pieces" xml:space="preserve">
     <value>Your pieces</value>

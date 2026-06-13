@@ -1005,8 +1005,17 @@
   <data name="Pay the courier in cash on arrival" xml:space="preserve">
     <value>الدفع نقداً عند الاستلام</value>
   </data>
+  <data name="Payment confirmed" xml:space="preserve">
+    <value>تم تأكيد الدفع</value>
+  </data>
+  <data name="Payment failed" xml:space="preserve">
+    <value>فشل الدفع</value>
+  </data>
   <data name="Payment pending" xml:space="preserve">
     <value>بانتظار تأكيد الدفع</value>
+  </data>
+  <data name="We're still waiting for your bank to confirm the transaction. This usually takes a few seconds, but can take up to 30 minutes. We'll email and WhatsApp you the moment it's confirmed." xml:space="preserve">
+    <value>ما زلنا بانتظار تأكيد البنك للعملية. عادةً ما يستغرق ذلك بضع ثوانٍ، وقد يصل إلى 30 دقيقة. سنرسل لك بريداً إلكترونياً ورسالة واتساب فور تأكيد الدفع.</value>
   </data>
   <data name="Payment pending confirmation" xml:space="preserve">
     <value>بانتظار تأكيد الدفع</value>

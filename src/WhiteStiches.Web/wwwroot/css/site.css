@@ -4924,6 +4924,12 @@ body.cart-is-empty .cart-empty { display: block !important; }
   margin-top: 2px;
 }
 
+/* Payment-state colour for the meta line (status-driven via ConfirmationViewModel.PaymentStatusModifier) */
+.oc-pay__meta--is-paid { color: #2f7d52; }
+.oc-pay__meta--is-failed { color: #b23b3b; }
+.oc-pay__meta--is-refunded { color: #c87a3a; }
+/* is-pending keeps the default muted tone */
+
 /* Pending variant */
 .oc-card--pending {
   border-color: #c87a3a;

@@ -155,25 +155,28 @@
               }
               else
               {
-                <span class="oc-pay__meta">@L["Payment pending"] · @order.Total.ToString("0.000") KWD</span>
+                <span class="oc-pay__meta oc-pay__meta--@Model.PaymentStatusModifier">@L[Model.PaymentStatusLabel] · @order.Total.ToString("0.000") KWD</span>
               }
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Pending payment notice — hidden by default; shown if state=pending -->
-      <section class="oc-card oc-card--pending" hidden>
+      @if (Model.IsPaymentPending)
+      {
+      <!-- Pending payment notice — shown only while the bank confirmation is genuinely outstanding -->
+      <section class="oc-card oc-card--pending">
         <div class="oc-card__head">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
           <h2>@L["Payment pending confirmation"]</h2>
         </div>
         <div class="oc-card__body">
           <p>
-            We&rsquo;re still waiting for your bank to confirm the transaction. This usually takes a few seconds, but can take up to 30 minutes. We&rsquo;ll email and WhatsApp you the moment it&rsquo;s confirmed.
+            @L["We're still waiting for your bank to confirm the transaction. This usually takes a few seconds, but can take up to 30 minutes. We'll email and WhatsApp you the moment it's confirmed."]
           </p>
         </div>
       </section>
+      }
 
       <!-- Items detail -->
       <section class="oc-card oc-card--items">
