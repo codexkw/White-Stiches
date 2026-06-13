@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using WhiteStiches.Core.Entities.Catalog;
 using WhiteStiches.Core.Enums;
 using WhiteStiches.Core.Interfaces;
 using WhiteStiches.Core.Models;
+using WhiteStiches.Infrastructure;
 using WhiteStiches.Infrastructure.Localization;
 using WhiteStiches.Web.Models.Shop;
 
@@ -123,6 +125,7 @@ public class ShopController(ICatalogService catalog) : Controller
     }
 
     [Route("search")]
+    [EnableRateLimiting(RateLimitPolicies.Search)]
     public async Task<IActionResult> Search(string? q, int page = 1, CancellationToken ct = default)
     {
         q = Normalize(q);
@@ -153,6 +156,7 @@ public class ShopController(ICatalogService catalog) : Controller
     /// full /search page uses — so the overlay shows real pieces instead of placeholder cards.
     /// </summary>
     [Route("search/suggest")]
+    [EnableRateLimiting(RateLimitPolicies.Search)]
     public async Task<IActionResult> Suggest(string? q, CancellationToken ct = default)
     {
         q = Normalize(q);

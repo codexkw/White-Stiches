@@ -2,8 +2,10 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.WebUtilities;
 using WhiteStiches.Core.Interfaces;
+using WhiteStiches.Infrastructure;
 using WhiteStiches.Infrastructure.Identity;
 using WhiteStiches.Infrastructure.Localization;
 using WhiteStiches.Web.Infrastructure;
@@ -64,6 +66,7 @@ public class CustomerAuthController : Controller
 
     // ── POST /account/login ─────────────────────────────────────────────
     [HttpPost("account/login")]
+    [EnableRateLimiting(RateLimitPolicies.Auth)]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(
         [Bind(Prefix = "SignIn")] SignInFormModel form,
@@ -103,6 +106,7 @@ public class CustomerAuthController : Controller
 
     // ── POST /account/register ──────────────────────────────────────────
     [HttpPost("account/register")]
+    [EnableRateLimiting(RateLimitPolicies.Auth)]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(
         [Bind(Prefix = "Register")] RegisterFormModel form,
@@ -150,6 +154,7 @@ public class CustomerAuthController : Controller
 
     // ── POST /account/forgot ────────────────────────────────────────────
     [HttpPost("account/forgot")]
+    [EnableRateLimiting(RateLimitPolicies.Auth)]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Forgot(
         [Bind(Prefix = "Forgot")] ForgotPasswordFormModel form,
@@ -193,6 +198,7 @@ public class CustomerAuthController : Controller
 
     // ── POST /account/reset-password ────────────────────────────────────
     [HttpPost("account/reset-password")]
+    [EnableRateLimiting(RateLimitPolicies.Auth)]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ResetPassword(ResetPasswordFormModel form)
     {

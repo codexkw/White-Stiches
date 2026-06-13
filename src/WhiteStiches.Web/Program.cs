@@ -1,3 +1,6 @@
+using System.Globalization;
+using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.HttpOverrides;
 using WhiteStiches.Infrastructure;
 using WhiteStiches.Infrastructure.Data;
 using WhiteStiches.Infrastructure.Localization;
@@ -15,6 +18,34 @@ builder.Services.AddWhiteStichesInfrastructure(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<WhiteStiches.Web.Infrastructure.ICurrentCartAccessor, WhiteStiches.Web.Infrastructure.CurrentCartAccessor>();
 
+// Per-client-IP rate limiting on auth / checkout / search (NFR-SEC-02). Over-limit → 429 + Retry-After.
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.AddPolicy(RateLimitPolicies.Auth, ctx => RateLimitPolicies.FixedPerIp(ctx, permitLimit: 10));
+    options.AddPolicy(RateLimitPolicies.Checkout, ctx => RateLimitPolicies.FixedPerIp(ctx, permitLimit: 30));
+    options.AddPolicy(RateLimitPolicies.Search, ctx => RateLimitPolicies.FixedPerIp(ctx, permitLimit: 60));
+    options.OnRejected = async (context, token) =>
+    {
+        if (context.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfter))
+            context.HttpContext.Response.Headers.RetryAfter =
+                ((int)retryAfter.TotalSeconds).ToString(CultureInfo.InvariantCulture);
+        if (!context.HttpContext.Response.HasStarted)
+            await context.HttpContext.Response.WriteAsync("Too many requests. Please wait a moment and try again.", token);
+    };
+});
+
+// Honor the TLS proxy's forwarded client IP so the rate limiter partitions by the real visitor
+// instead of collapsing everyone onto the proxy's IP (which would throttle all users together).
+// KnownProxies/Networks are cleared because the upstream IP isn't known at build time — keep the
+// origin reachable only via the proxy at the infra layer to stop X-Forwarded-For spoofing.
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor;
+    options.KnownNetworks.Clear();
+    options.KnownProxies.Clear();
+});
+
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/account/login";
@@ -24,6 +55,26 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 var app = builder.Build();
+
+// Resolve the real client IP from the proxy first, so the rate limiter (below) partitions correctly.
+app.UseForwardedHeaders();
+
+// Baseline security headers on every response (NFR-SEC-01). 'unsafe-inline' is unavoidable for the
+// inline <script>/<style> blocks and style="" attributes carried over from the static design; the
+// Google Fonts origins are allowlisted; images may be data: URIs or any https source (rich-text
+// bodies). Everything else is same-origin, with object/base/frame-ancestors/form-action locked down.
+const string contentSecurityPolicy =
+    "default-src 'self'; " +
+    "base-uri 'self'; " +
+    "object-src 'none'; " +
+    "frame-ancestors 'none'; " +
+    "form-action 'self'; " +
+    "img-src 'self' data: https:; " +
+    "font-src 'self' https://fonts.gstatic.com; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+    "script-src 'self' 'unsafe-inline'; " +
+    "connect-src 'self'";
+app.UseWhiteStichesSecurityHeaders(contentSecurityPolicy);
 
 if (!app.Environment.IsDevelopment())
 {
@@ -40,6 +91,8 @@ app.UseStatusCodePagesWithReExecute("/not-found");
 app.UseRequestLocalization(WhiteStichesLocalization.BuildOptions());
 
 app.UseRouting();
+
+app.UseRateLimiter();
 
 app.UseAuthentication();
 app.UseAuthorization();

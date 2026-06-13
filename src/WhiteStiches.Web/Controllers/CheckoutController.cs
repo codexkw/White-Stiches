@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using WhiteStiches.Core.Entities.Catalog;
 using WhiteStiches.Core.Entities.Orders;
 using WhiteStiches.Core.Entities.ShoppingCart;
 using WhiteStiches.Core.Enums;
 using WhiteStiches.Core.Interfaces;
+using WhiteStiches.Infrastructure;
 using WhiteStiches.Infrastructure.Identity;
 using WhiteStiches.Web.Infrastructure;
 using WhiteStiches.Web.Models.Checkout;
@@ -42,6 +44,7 @@ public class CheckoutController(
     }
 
     [HttpPost("checkout/place")]
+    [EnableRateLimiting(RateLimitPolicies.Checkout)]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Place(CheckoutFormModel form, CancellationToken ct)
     {

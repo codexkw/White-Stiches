@@ -1,4 +1,7 @@
+using System.Globalization;
+using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.FileProviders;
 using WhiteStiches.Admin;
 using WhiteStiches.Infrastructure;
@@ -15,6 +18,31 @@ builder.Services.AddControllersWithViews()
         options.DataAnnotationLocalizerProvider = (_, factory) => factory.Create(typeof(SharedResource)));
 builder.Services.AddWhiteStichesInfrastructure(builder.Configuration);
 builder.Services.AddWhiteStichesAdminServices();
+
+// Per-client-IP rate limiting on the staff sign-in surface (NFR-SEC-02). Over-limit → 429 + Retry-After.
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.AddPolicy(RateLimitPolicies.Auth, ctx => RateLimitPolicies.FixedPerIp(ctx, permitLimit: 10));
+    options.OnRejected = async (context, token) =>
+    {
+        if (context.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfter))
+            context.HttpContext.Response.Headers.RetryAfter =
+                ((int)retryAfter.TotalSeconds).ToString(CultureInfo.InvariantCulture);
+        if (!context.HttpContext.Response.HasStarted)
+            await context.HttpContext.Response.WriteAsync("Too many requests. Please wait a moment and try again.", token);
+    };
+});
+
+// Honor the TLS proxy's forwarded client IP so the rate limiter sees the real visitor instead of
+// the proxy's IP. KnownProxies/Networks are cleared (upstream IP unknown at build time) — keep the
+// origin reachable only via the proxy at the infra layer to stop X-Forwarded-For spoofing.
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor;
+    options.KnownNetworks.Clear();
+    options.KnownProxies.Clear();
+});
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -33,6 +61,26 @@ builder.Services.AddAuthorizationBuilder()
 
 var app = builder.Build();
 
+// Resolve the real client IP from the proxy first, so the rate limiter (below) partitions correctly.
+app.UseForwardedHeaders();
+
+// Baseline security headers on every response (NFR-SEC-01). 'unsafe-inline' covers the admin's inline
+// scripts/styles + chart init; Google Fonts are allowlisted; images allow data:/blob: (rich-text
+// editor upload previews) and https:. Everything else is same-origin, with object/base/frame-ancestors/
+// form-action locked down (frame-ancestors 'none' blocks clickjacking of the back office).
+const string contentSecurityPolicy =
+    "default-src 'self'; " +
+    "base-uri 'self'; " +
+    "object-src 'none'; " +
+    "frame-ancestors 'none'; " +
+    "form-action 'self'; " +
+    "img-src 'self' data: blob: https:; " +
+    "font-src 'self' https://fonts.gstatic.com; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+    "script-src 'self' 'unsafe-inline'; " +
+    "connect-src 'self'";
+app.UseWhiteStichesSecurityHeaders(contentSecurityPolicy);
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/error");
@@ -45,6 +93,8 @@ app.UseHttpsRedirection();
 app.UseRequestLocalization(WhiteStichesLocalization.BuildOptions());
 
 app.UseRouting();
+
+app.UseRateLimiter();
 
 app.UseAuthentication();
 app.UseAuthorization();

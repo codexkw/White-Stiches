@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using WhiteStiches.Admin.Models;
 using WhiteStiches.Core.Interfaces;
+using WhiteStiches.Infrastructure;
 using WhiteStiches.Infrastructure.Identity;
 using WhiteStiches.Infrastructure.Localization;
 
@@ -27,6 +29,7 @@ public class AuthController(
 
     [AllowAnonymous]
     [HttpPost("login")]
+    [EnableRateLimiting(RateLimitPolicies.Auth)]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginViewModel model)
     {
@@ -81,6 +84,7 @@ public class AuthController(
 
     [AllowAnonymous]
     [HttpPost("login/2fa")]
+    [EnableRateLimiting(RateLimitPolicies.Auth)]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> LoginTwoFactor(LoginTwoFactorViewModel model)
     {
@@ -116,6 +120,7 @@ public class AuthController(
     /// <summary>Fallback when the authenticator device is unavailable: one-time recovery code.</summary>
     [AllowAnonymous]
     [HttpPost("login/2fa/recovery")]
+    [EnableRateLimiting(RateLimitPolicies.Auth)]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> LoginRecovery(string? recoveryCode, string? returnUrl = null, bool rememberMe = false)
     {
