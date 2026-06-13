@@ -1,0 +1,8 @@
+@model WhiteStiches.Web.Models.Layout.SiteChromeViewModel
+@* Floating WhatsApp button — rendered only when a WhatsApp number is configured in Admin. *@
+@if (Model.WhatsAppLink is not null)
+{
+  <a href="@Model.WhatsAppLink" class="wa-float" target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 11.5a8.4 8.4 0 0 1-8.4 8.4 8.4 8.4 0 0 1-4-1L3 20l1.1-5.6a8.4 8.4 0 0 1-1-4A8.4 8.4 0 0 1 11.5 2 8.4 8.4 0 0 1 21 11.5z"/></svg>
+  </a>
+}

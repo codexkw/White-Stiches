@@ -1,0 +1,24 @@
+@model WhiteStiches.Web.Models.Layout.SiteChromeViewModel
+@* Footer social row — each icon renders only when its URL/number is configured in Admin,
+   so there are never dead href="#" links. The whole row is omitted when none are set. *@
+@if (Model.HasAnySocial)
+{
+  <div class="ftr__social">
+    @if (Model.InstagramUrl is not null)
+    {
+      <a href="@Model.InstagramUrl" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+    }
+    @if (Model.TikTokUrl is not null)
+    {
+      <a href="@Model.TikTokUrl" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c0 2.5 2 4.5 4.5 4.5"/></svg></a>
+    }
+    @if (Model.WhatsAppLink is not null)
+    {
+      <a href="@Model.WhatsAppLink" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 11.5a8.4 8.4 0 0 1-8.4 8.4 8.4 8.4 0 0 1-4-1L3 20l1.1-5.6a8.4 8.4 0 0 1-1-4A8.4 8.4 0 0 1 11.5 2 8.4 8.4 0 0 1 21 11.5z"/></svg></a>
+    }
+    @if (Model.PinterestUrl is not null)
+    {
+      <a href="@Model.PinterestUrl" target="_blank" rel="noopener noreferrer" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M11 22c.5-3 .8-4 1.2-5.5"/><path d="M8 9.5C8 7 10 5 12.5 5S17 7 17 9.5c0 3-2 5-4 5-1 0-1.7-.5-2-1.2"/></svg></a>
+    }
+  </div>
+}

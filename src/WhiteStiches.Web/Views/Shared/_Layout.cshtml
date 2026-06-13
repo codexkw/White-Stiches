@@ -80,26 +80,7 @@
 </head>
 <body>
 
-<!-- ============================ ANNOUNCEMENT BAR ============================ -->
-<div class="announce" role="region" aria-label="Promotional announcement">
-  <div class="announce__track">
-    <span>@L["Complimentary delivery on orders over 50 KWD"]</span>
-    <span class="announce__dot" aria-hidden="true">◆</span>
-    <span>@L["New Spring Edit — now in stores"]</span>
-    <span class="announce__dot" aria-hidden="true">◆</span>
-    <span>@L["Pay with KNET, Apple Pay & Tabby"]</span>
-    <span class="announce__dot" aria-hidden="true">◆</span>
-    <span>@L["Shipping across the GCC"]</span>
-    <span class="announce__dot" aria-hidden="true">◆</span>
-    <span>@L["Complimentary delivery on orders over 50 KWD"]</span>
-    <span class="announce__dot" aria-hidden="true">◆</span>
-    <span>@L["New Spring Edit — now in stores"]</span>
-    <span class="announce__dot" aria-hidden="true">◆</span>
-    <span>@L["Pay with KNET, Apple Pay & Tabby"]</span>
-    <span class="announce__dot" aria-hidden="true">◆</span>
-    <span>@L["Shipping across the GCC"]</span>
-  </div>
-</div>
+@await Component.InvokeAsync("SiteChrome", new { section = "Announcement" })
 
 <!-- ============================ HEADER + MEGA MENU ============================ -->
 <header class="hdr" id="hdr">
@@ -188,12 +169,7 @@
     <div class="ftr__brand">
       <img src="~/assets/logo-full.png" alt="White Stitches" class="ftr__logo-img" />
       <p class="ftr__tagline">A Kuwait fashion house.<br>Designed for the GCC, finished by hand.</p>
-      <div class="ftr__social">
-        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
-        <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c0 2.5 2 4.5 4.5 4.5"/></svg></a>
-        <a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 11.5a8.4 8.4 0 0 1-8.4 8.4 8.4 8.4 0 0 1-4-1L3 20l1.1-5.6a8.4 8.4 0 0 1-1-4A8.4 8.4 0 0 1 11.5 2 8.4 8.4 0 0 1 21 11.5z"/></svg></a>
-        <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M11 22c.5-3 .8-4 1.2-5.5"/><path d="M8 9.5C8 7 10 5 12.5 5S17 7 17 9.5c0 3-2 5-4 5-1 0-1.7-.5-2-1.2"/></svg></a>
-      </div>
+      @await Component.InvokeAsync("SiteChrome", new { section = "FooterSocial" })
     </div>
 
     @await Component.InvokeAsync("NavMenu", new { section = "Footer" })
@@ -255,9 +231,7 @@
   </div>
 </footer>
 
-<a href="#" class="wa-float" aria-label="Chat with us on WhatsApp">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 11.5a8.4 8.4 0 0 1-8.4 8.4 8.4 8.4 0 0 1-4-1L3 20l1.1-5.6a8.4 8.4 0 0 1-1-4A8.4 8.4 0 0 1 11.5 2 8.4 8.4 0 0 1 21 11.5z"/></svg>
-</a>
+@await Component.InvokeAsync("SiteChrome", new { section = "WhatsAppFloat" })
 
 <!-- ============================ SVG SYMBOLS (LOGO MARK) ============================ -->
 <svg class="ws-svg-defs" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden;visibility:hidden" aria-hidden="true" focusable="false">
