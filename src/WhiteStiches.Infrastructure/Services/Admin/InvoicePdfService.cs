@@ -54,7 +54,7 @@ public sealed class InvoicePdfService : IInvoicePdfService
                 col.Item().Text(o.OrderNumber).FontSize(16).Bold();
                 col.Item().Text((o.PlacedAtUtc ?? o.CreatedAtUtc).ToString("yyyy-MM-dd HH:mm") + " UTC")
                     .FontSize(9).FontColor(Muted);
-                col.Item().PaddingTop(2).Text($"Payment: {o.PaymentStatus}").FontSize(8.5f).Bold().FontColor(Muted);
+                col.Item().PaddingTop(2).Text($"{o.Status} · {o.PaymentStatus}").FontSize(8.5f).Bold().FontColor(Muted);
             });
         });
     }
@@ -192,7 +192,9 @@ public sealed class InvoicePdfService : IInvoicePdfService
             if (b.TotalPaid > 0) Line("Paid", money(b.TotalPaid));
             if (b.TotalRefunded > 0) Line("Refunded", "−" + money(b.TotalRefunded));
 
-            var balance = o.Total - b.TotalPaid + b.TotalRefunded;
+            // Balance owed BY the customer = total minus what they've paid. Refunds are a separate
+            // outflow back to the customer (shown above) and must not inflate the amount-due line.
+            var balance = o.Total - b.TotalPaid;
             if (balance > 0.0009m)
             {
                 col.Item().Row(row =>
@@ -229,19 +231,28 @@ public sealed class InvoicePdfService : IInvoicePdfService
         });
     }
 
+    // Always non-empty: QuestPDF's Text() rejects/zero-renders an empty string, so guard data gaps.
     private static string Title(OrderItem it) =>
-        !string.IsNullOrWhiteSpace(it.TitleEn) ? it.TitleEn : it.TitleAr;
+        !string.IsNullOrWhiteSpace(it.TitleEn) ? it.TitleEn
+        : !string.IsNullOrWhiteSpace(it.TitleAr) ? it.TitleAr
+        : $"Item #{it.Id}";
+
+    private static string CustomerName(Order o)
+    {
+        var name = $"{o.ShipFirstName} {o.ShipLastName}".Trim();
+        return string.IsNullOrWhiteSpace(name) ? "(no name)" : name;
+    }
 
     private static IEnumerable<string> BillTo(Order o)
     {
-        yield return $"{o.ShipFirstName} {o.ShipLastName}".Trim();
+        yield return CustomerName(o);
         if (!string.IsNullOrWhiteSpace(o.Email)) yield return o.Email;
         if (!string.IsNullOrWhiteSpace(o.Phone)) yield return o.Phone;
     }
 
     private static IEnumerable<string> ShipTo(Order o)
     {
-        yield return $"{o.ShipFirstName} {o.ShipLastName}".Trim();
+        yield return CustomerName(o);
 
         var locality = new[] { o.ShipBlock is { Length: > 0 } ? "Block " + o.ShipBlock : null,
                                o.ShipStreet is { Length: > 0 } ? "Street " + o.ShipStreet : null,

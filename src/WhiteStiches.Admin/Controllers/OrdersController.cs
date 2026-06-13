@@ -79,10 +79,15 @@ public class OrdersController(
     public async Task<IActionResult> Invoice(int id, CancellationToken ct = default)
     {
         var order = await orderAdmin.GetDetailAsync(id, ct);
-        if (order is null || order.IsDraft)
+        if (order is null)
         {
             TempData["Err"] = $"Order #{id} was not found.";
             return RedirectToAction(nameof(Index));
+        }
+        if (order.IsDraft)
+        {
+            TempData["Err"] = "Invoices are not available for draft orders.";
+            return RedirectToAction(nameof(EditDraft), new { id });
         }
 
         var nameEn = await settings.GetAsync(SettingKeys.StoreNameEn, ct);

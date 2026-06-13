@@ -155,8 +155,7 @@ public class SettingsController(ISettingsService settings, IAuditService audit) 
 
         var raw = values.LastOrDefault()?.Trim();
 
-        if (key is SettingKeys.AnnouncementMessages
-                or SettingKeys.TickerHeaderEn or SettingKeys.TickerHeaderAr
+        if (key is SettingKeys.TickerHeaderEn or SettingKeys.TickerHeaderAr
                 or SettingKeys.TickerHeroEn or SettingKeys.TickerHeroAr
             && raw is not null)
         {

@@ -127,7 +127,7 @@
         <form asp-controller="Settings" asp-action="Save" asp-route-group="ticker" method="post">
             <div class="adm-field adm-field--check">
                 <input type="hidden" name="ticker.header.enabled" value="false" />
-                <input id="set-th-on" type="checkbox" name="ticker.header.enabled" value="true" checked="@Model.GetBool(SettingKeys.TickerHeaderEnabled)" />
+                <input id="set-th-on" type="checkbox" name="ticker.header.enabled" value="true" checked="@(Model.GetBool(SettingKeys.TickerHeaderEnabled) ? "checked" : null)" />
                 <label for="set-th-on">@L["Show header ticker"]</label>
             </div>
             <div class="adm-form-grid">
@@ -143,7 +143,7 @@
 
             <div class="adm-field adm-field--check">
                 <input type="hidden" name="ticker.hero.enabled" value="false" />
-                <input id="set-hh-on" type="checkbox" name="ticker.hero.enabled" value="true" checked="@Model.GetBool(SettingKeys.TickerHeroEnabled)" />
+                <input id="set-hh-on" type="checkbox" name="ticker.hero.enabled" value="true" checked="@(Model.GetBool(SettingKeys.TickerHeroEnabled) ? "checked" : null)" />
                 <label for="set-hh-on">@L["Show hero marquee (under banner)"]</label>
             </div>
             <div class="adm-form-grid">
