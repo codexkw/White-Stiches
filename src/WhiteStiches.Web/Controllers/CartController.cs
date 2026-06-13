@@ -16,6 +16,7 @@ namespace WhiteStiches.Web.Controllers;
 public class CartController(
     ICurrentCartAccessor currentCart,
     ICartService cartService,
+    ICatalogService catalog,
     WhiteStichesDbContext db) : Controller
 {
     [HttpGet("cart")]
@@ -23,7 +24,27 @@ public class CartController(
     {
         var cart = await currentCart.GetCartAsync(ct);
         var summary = await cartService.GetSummaryAsync(cart.Id, ct);
-        return View(new CartIndexViewModel { Cart = cart, Summary = summary });
+        var recommendations = await GetRecommendationsAsync(cart, ct);
+        return View(new CartIndexViewModel { Cart = cart, Summary = summary, Recommendations = recommendations });
+    }
+
+    /// <summary>
+    /// Cross-sell for the cart: catalog items related to what's already in the bag (category-aware),
+    /// falling back to featured pieces when the bag has no seed. Products already in the bag are
+    /// filtered out so we never suggest something the shopper just added.
+    /// </summary>
+    private async Task<IReadOnlyList<Core.Entities.Catalog.Product>> GetRecommendationsAsync(
+        Core.Entities.ShoppingCart.Cart cart, CancellationToken ct)
+    {
+        var inCart = cart.Items.Select(i => i.ProductVariant.Product.Id).ToHashSet();
+        var seedProductId = cart.Items.OrderBy(i => i.Id).FirstOrDefault()?.ProductVariant.Product.Id;
+
+        // Pull extras so the grid still fills after dropping items already in the bag.
+        var pool = seedProductId is int seed
+            ? await catalog.GetRelatedProductsAsync(seed, 8, ct)
+            : await catalog.GetFeaturedProductsAsync(8, ct);
+
+        return pool.Where(p => !inCart.Contains(p.Id)).Take(4).ToList();
     }
 
     [HttpPost("cart/items")]

@@ -337,6 +337,8 @@ else
       </div>
     </section>
 
+    @if (Model.Recommendations.Count > 0)
+    {
     <!-- ============================ RECOMMENDED ============================ -->
     <section class="products products--cart-recs">
       <div class="section-head section-head--center">
@@ -344,57 +346,13 @@ else
         <h2 class="section-title">@L["Complete the bag."]</h2>
       </div>
       <div class="products__grid">
-
-        <article class="product">
-          <a href="/product" class="product__media">
-            <img src="~/assets/products/product-3.jpg" alt="Heritage Silk Scarf" class="product__img product__img--front" />
-            <img src="~/assets/products/product-4.jpg" alt="" class="product__img product__img--back" />
-            <button class="product__quick" type="button">@L["Quick Add"]</button>
-          </a>
-          <div class="product__info">
-            <h3 class="product__title"><a href="/product">Heritage Silk Scarf</a></h3>
-            <div class="product__price"><span>22.000 KWD</span></div>
-          </div>
-        </article>
-
-        <article class="product">
-          <a href="/product" class="product__media">
-            <img src="~/assets/products/product-1.jpg" alt="Crescent Drop Earrings" class="product__img product__img--front" />
-            <img src="~/assets/products/product-2.jpg" alt="" class="product__img product__img--back" />
-            <button class="product__quick" type="button">@L["Quick Add"]</button>
-          </a>
-          <div class="product__info">
-            <h3 class="product__title"><a href="/product">Crescent Drop Earrings</a></h3>
-            <div class="product__price"><span>28.500 KWD</span></div>
-          </div>
-        </article>
-
-        <article class="product">
-          <a href="/product" class="product__media">
-            <img src="~/assets/products/product-3.jpg" alt="Saddle Crossbody Bag" class="product__img product__img--front" />
-            <img src="~/assets/products/product-4.jpg" alt="" class="product__img product__img--back" />
-            <button class="product__quick" type="button">@L["Quick Add"]</button>
-          </a>
-          <div class="product__info">
-            <h3 class="product__title"><a href="/product">Saddle Crossbody Bag</a></h3>
-            <div class="product__price"><span>54.000 KWD</span></div>
-          </div>
-        </article>
-
-        <article class="product">
-          <a href="/product" class="product__media">
-            <img src="~/assets/products/product-1.jpg" alt="Sahar Wide-Leg Trouser" class="product__img product__img--front" />
-            <img src="~/assets/products/product-2.jpg" alt="" class="product__img product__img--back" />
-            <button class="product__quick" type="button">@L["Quick Add"]</button>
-          </a>
-          <div class="product__info">
-            <h3 class="product__title"><a href="/product">Sahar Wide-Leg Trouser</a></h3>
-            <div class="product__price"><span>38.500 KWD</span></div>
-          </div>
-        </article>
-
+        @foreach (var rec in Model.Recommendations)
+        {
+          <partial name="_ProductCard" model="rec" />
+        }
       </div>
     </section>
+    }
 }
 
 @section Scripts {
