@@ -12,18 +12,18 @@
         categories.SelectMany(c => new[] { c }.Concat(Flatten(c.Children)));
     var allCategories = Flatten(Model.Categories).ToList();
 
-    var sizes = new[] { "XS", "S", "M", "L", "XL", "XXL" };
-    var colors = new (string Value, string Label, string Hex)[]
+    // Sizes & colours are now sourced from real variant data (Model.SizeOptions / Model.ColorOptions),
+    // so every swatch maps to products that exist. This map only supplies a display hex per colour
+    // name; unrecognised colours fall back to a neutral swatch.
+    var colorHex = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
     {
-        ("black", "Black", "#0a0a0a"),
-        ("oat", "Oat", "#d4cdbc"),
-        ("ivory", "Ivory", "#f5f1ea"),
-        ("sand", "Sand", "#c2a98a"),
-        ("olive", "Olive", "#7a8a76"),
-        ("burgundy", "Burgundy", "#5a2a2a"),
-        ("gold", "Gold", "#c8a96a"),
-        ("charcoal", "Charcoal", "#3a3a3a")
+        ["Black"] = "#0a0a0a", ["Oat"] = "#d4cdbc", ["Ivory"] = "#f5f1ea", ["Sand"] = "#c2a98a",
+        ["Stone"] = "#a8a29a", ["Champagne"] = "#e6d8b8", ["Ink"] = "#1a1f2e", ["White"] = "#f4f4f4",
+        ["Silver"] = "#c7cacb", ["Bone"] = "#e3dccb", ["Olive"] = "#7a8a76", ["Tan"] = "#b08d57",
+        ["Camel"] = "#c19a6b", ["Charcoal"] = "#3a3a3a", ["Gold"] = "#c8a96a", ["Forest"] = "#2b3b2f",
+        ["Burgundy"] = "#5a2a2a"
     };
+    string Hex(string name) => colorHex.TryGetValue(name, out var h) ? h : "#9a9a9a";
     var quickRanges = new (decimal? Min, decimal? Max, string Label)[]
     {
         (null, 30m, "Under 30 KWD"),
@@ -161,7 +161,7 @@
           </summary>
           <div class="filter-group__body">
             <div class="filter-sizes">
-              @foreach (var size in sizes)
+              @foreach (var size in Model.SizeOptions)
               {
                 <label class="size-pill"><input type="checkbox" name="size" value="@size" checked="@(string.Equals(Model.Size, size, StringComparison.OrdinalIgnoreCase))" /><span>@size</span></label>
               }
@@ -177,9 +177,9 @@
           </summary>
           <div class="filter-group__body">
             <div class="filter-colors">
-              @foreach (var color in colors)
+              @foreach (var color in Model.ColorOptions)
               {
-                <label class="color-dot" title="@color.Label"><input type="checkbox" name="color" value="@color.Value" checked="@(string.Equals(Model.Color, color.Value, StringComparison.OrdinalIgnoreCase))" /><span style="background:@color.Hex"></span><em>@color.Label</em></label>
+                <label class="color-dot" title="@color"><input type="checkbox" name="color" value="@color" checked="@(string.Equals(Model.Color, color, StringComparison.OrdinalIgnoreCase))" /><span style="background:@Hex(color)"></span><em>@color</em></label>
               }
             </div>
           </div>

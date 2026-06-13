@@ -32,6 +32,10 @@ public class CollectionViewModel
     public bool InStock { get; init; }
     public string Sort { get; init; } = "featured";
 
+    /// <summary>Filter sidebar options sourced from real variant data (size = Option1, colour = Option2).</summary>
+    public IReadOnlyList<string> SizeOptions { get; init; } = [];
+    public IReadOnlyList<string> ColorOptions { get; init; } = [];
+
     public int ActiveFilterCount =>
         (Category is null ? 0 : 1) +
         (Size is null ? 0 : 1) +

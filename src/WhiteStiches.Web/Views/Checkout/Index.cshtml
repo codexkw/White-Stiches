@@ -60,19 +60,6 @@
         <div class="co-errors" role="alert"><ul><li>@checkoutError</li></ul></div>
       }
 
-      <!-- Express checkout row (top) — placeholders until Tap Payments (Phase 1C) -->
-      <div class="co-section co-section--express">
-        <span class="co-express__label">@L["Express checkout"]</span>
-        <div class="co-express__row">
-          <button type="button" class="express-btn express-btn--apple" aria-label="@L["Pay with Apple Pay"]" disabled>
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.01-2.04 1.66-3.02 1.74-3.07-.95-1.39-2.42-1.58-2.94-1.6-1.24-.13-2.43.74-3.06.74-.64 0-1.61-.72-2.66-.7-1.36.02-2.63.79-3.33 2.01-1.42 2.47-.36 6.12 1.02 8.12.68.98 1.49 2.08 2.55 2.04 1.03-.04 1.42-.66 2.66-.66 1.24 0 1.59.66 2.67.64 1.1-.02 1.8-1 2.47-1.99.78-1.14 1.1-2.24 1.12-2.3-.02-.01-2.15-.83-2.17-3.23zM15.07 5.91c.56-.69.95-1.64.84-2.59-.81.04-1.81.55-2.4 1.23-.52.6-.98 1.58-.86 2.51.91.07 1.85-.46 2.42-1.15z"/></svg>
-            <span>Apple Pay</span>
-          </button>
-          <button type="button" class="express-btn express-btn--google" disabled><span>G Pay</span></button>
-        </div>
-        <span class="co-express__divider"><em>@L["or fill in your details"]</em></span>
-      </div>
-
       <!-- ── 1 · CONTACT ───────────────────────────────────────────── -->
       <section class="co-section">
         <header class="co-section__head">
@@ -239,51 +226,8 @@
 
         <div class="co-section__body">
 
-          <!-- KNET (default for Kuwait) -->
-          <label class="pay-card">
-            <input type="radio" name="paymentMethod" value="knet" checked="@(Model.Form.PaymentMethod == "knet")" />
-            <span class="pay-card__inner">
-              <span class="pay-card__head">
-                <span class="pay-card__brand pay-card__brand--knet">KNET</span>
-                <span class="pay-card__title">KNET</span>
-                <span class="pay-card__meta">@L["Direct debit · most-used in Kuwait"]</span>
-              </span>
-              <span class="pay-card__body">
-                @L["You will be redirected to KNET's secure page to authenticate this payment."]
-              </span>
-            </span>
-          </label>
-
-          <!-- Card -->
-          <label class="pay-card">
-            <input type="radio" name="paymentMethod" value="card" checked="@(Model.Form.PaymentMethod == "card")" />
-            <span class="pay-card__inner">
-              <span class="pay-card__head">
-                <span class="pay-card__brands">
-                  <span class="pay-card__brand pay-card__brand--visa">VISA</span>
-                  <span class="pay-card__brand pay-card__brand--mc"><i></i><i></i></span>
-                  <span class="pay-card__brand pay-card__brand--amex">AMEX</span>
-                </span>
-                <span class="pay-card__title">@L["Credit / debit card"]</span>
-                <span class="pay-card__meta">@L["Visa · Mastercard · AmEx · with 3D Secure"]</span>
-              </span>
-            </span>
-          </label>
-
-          <!-- Apple Pay -->
-          <label class="pay-card">
-            <input type="radio" name="paymentMethod" value="applepay" checked="@(Model.Form.PaymentMethod == "applepay")" />
-            <span class="pay-card__inner">
-              <span class="pay-card__head">
-                <span class="pay-card__brand pay-card__brand--apple">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.04c-.01-2.04 1.66-3.02 1.74-3.07-.95-1.39-2.42-1.58-2.94-1.6-1.24-.13-2.43.74-3.06.74-.64 0-1.61-.72-2.66-.7-1.36.02-2.63.79-3.33 2.01-1.42 2.47-.36 6.12 1.02 8.12.68.98 1.49 2.08 2.55 2.04 1.03-.04 1.42-.66 2.66-.66 1.24 0 1.59.66 2.67.64 1.1-.02 1.8-1 2.47-1.99.78-1.14 1.1-2.24 1.12-2.3-.02-.01-2.15-.83-2.17-3.23zM15.07 5.91c.56-.69.95-1.64.84-2.59-.81.04-1.81.55-2.4 1.23-.52.6-.98 1.58-.86 2.51.91.07 1.85-.46 2.42-1.15z"/></svg>
-                </span>
-                <span class="pay-card__title">@L["Apple Pay"]</span>
-                <span class="pay-card__meta">@L["Confirm with Face ID or Touch ID"]</span>
-              </span>
-            </span>
-          </label>
-
+          @* Payment-method selection removed: every order is processed by Tap, whose hosted page lets
+             the customer choose KNET / card / Apple Pay. The header above already states this. *@
           <p class="co-note-muted">@L["KNET, card & Apple Pay are processed securely by Tap Payments — you’ll be redirected to complete your payment."]</p>
 
         </div>

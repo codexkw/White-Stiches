@@ -25,7 +25,7 @@ public class ShopController(ICatalogService catalog) : Controller
         color = Normalize(color);
         var sortKey = Normalize(sort)?.ToLowerInvariant() ?? "featured";
 
-        var results = await catalog.GetProductsAsync(new ProductQuery
+        var query = new ProductQuery
         {
             CategorySlug = category,
             Size = size,
@@ -36,7 +36,10 @@ public class ShopController(ICatalogService catalog) : Controller
             Sort = MapSort(sortKey),
             Page = Math.Max(1, page),
             PageSize = StorefrontPageSize
-        }, ct);
+        };
+
+        var results = await catalog.GetProductsAsync(query, ct);
+        var facets = await catalog.GetFilterFacetsAsync(query, ct);
 
         var categories = await catalog.GetCategoryTreeAsync(ct);
         var matched = category is null
@@ -54,7 +57,9 @@ public class ShopController(ICatalogService catalog) : Controller
             Min = min,
             Max = max,
             InStock = instock,
-            Sort = sortKey
+            Sort = sortKey,
+            SizeOptions = facets.Sizes,
+            ColorOptions = facets.Colors
         });
     }
 
@@ -71,7 +76,7 @@ public class ShopController(ICatalogService catalog) : Controller
         color = Normalize(color);
         var sortKey = Normalize(sort)?.ToLowerInvariant() ?? "featured";
 
-        var results = await catalog.GetProductsAsync(new ProductQuery
+        var query = new ProductQuery
         {
             CollectionSlug = slug,
             Size = size,
@@ -82,7 +87,10 @@ public class ShopController(ICatalogService catalog) : Controller
             Sort = MapSort(sortKey),
             Page = Math.Max(1, page),
             PageSize = StorefrontPageSize
-        }, ct);
+        };
+
+        var results = await catalog.GetProductsAsync(query, ct);
+        var facets = await catalog.GetFilterFacetsAsync(query, ct);
 
         var categories = await catalog.GetCategoryTreeAsync(ct);
 
@@ -97,7 +105,9 @@ public class ShopController(ICatalogService catalog) : Controller
             Min = min,
             Max = max,
             InStock = instock,
-            Sort = sortKey
+            Sort = sortKey,
+            SizeOptions = facets.Sizes,
+            ColorOptions = facets.Colors
         });
     }
 

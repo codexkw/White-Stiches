@@ -126,6 +126,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
+  color-scheme: dark;
   -webkit-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -166,7 +167,19 @@ button {
 input, select, textarea {
   font-family: inherit;
   font-size: inherit;
-  color: inherit;
+  color: var(--c-text);
+  background-color: var(--c-ink-2);
+}
+
+/* Dark UI: keep native <select> option popups and any unclassed input/textarea legible
+   regardless of OS theme. color-scheme:dark (on html) dark-renders native widgets; these
+   explicit rules guarantee contrast where the UA falls short — option lists were rendering
+   dark-on-dark, and bare inputs inherited white text on a default-light field (e.g. the admin
+   variant table). Component styles (.adm-field/.co-field) keep their own backgrounds via higher
+   specificity, so the visual design is unchanged. */
+option, optgroup {
+  color: var(--c-text);
+  background-color: var(--c-ink);
 }
 
 :focus-visible {

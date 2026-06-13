@@ -41,9 +41,10 @@ public class CheckoutFormModel
     [RegularExpression("^(standard|express|same-day)$", ErrorMessage = "Choose a valid delivery method.")]
     public string ShippingMethod { get; set; } = "standard";
 
-    [Required(ErrorMessage = "Choose a payment method.")]
-    [RegularExpression("^(knet|card|applepay)$", ErrorMessage = "Choose a valid payment method.")]
-    public string PaymentMethod { get; set; } = "knet";
+    // Payment method is no longer chosen in-app — every order goes to Tap, whose hosted page lets the
+    // customer pick KNET / card / Apple Pay. Kept as a constant so the stored Payment.Method and the
+    // confirmation/account display stay sensible. No validator: the form no longer posts this field.
+    public string PaymentMethod { get; set; } = "tap";
 
     public bool TermsAccepted { get; set; }
 

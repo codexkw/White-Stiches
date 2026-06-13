@@ -193,6 +193,7 @@ public static class AccountFormat
         "applepay" => "Apple Pay",
         "googlepay" => "Google Pay",
         "cod" => "Cash on delivery",
+        "tap" => "Tap Payments",
         "" => "Card",
         _ => method
     };

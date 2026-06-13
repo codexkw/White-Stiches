@@ -21,6 +21,13 @@ public interface ICatalogService
     Task<IReadOnlyList<Collection>> GetCollectionsAsync(CancellationToken ct = default);
     Task<Collection?> GetCollectionBySlugAsync(string slug, CancellationToken ct = default);
 
+    /// <summary>
+    /// Distinct size/colour values available for filtering within the given category/collection/search
+    /// scope. Deliberately ignores the size/colour/price/stock selections so picking one value never
+    /// removes the others from the sidebar.
+    /// </summary>
+    Task<ProductFilterFacets> GetFilterFacetsAsync(ProductQuery scope, CancellationToken ct = default);
+
     // ---- Admin writes ----
     Task<Product> CreateProductAsync(Product product, CancellationToken ct = default);
     Task UpdateProductAsync(Product product, CancellationToken ct = default);

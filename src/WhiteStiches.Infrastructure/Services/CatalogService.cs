@@ -102,6 +102,63 @@ public class CatalogService(WhiteStichesDbContext db) : ICatalogService
         return new PagedResult<Product> { Items = items, TotalCount = total, Page = page, PageSize = pageSize };
     }
 
+    public async Task<ProductFilterFacets> GetFilterFacetsAsync(ProductQuery scope, CancellationToken ct = default)
+    {
+        // Scope facets to the current category/collection/search context only — NOT the size/colour/
+        // price/stock selections — so choosing one value never hides the others. Sizes are variant
+        // Option1, colours Option2: the convention the catalog (and seeder) are built on.
+        var products = db.Products.AsNoTracking().AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(scope.CategorySlug))
+            products = products.Where(p => p.Category != null && p.Category.Slug == scope.CategorySlug);
+
+        if (!string.IsNullOrWhiteSpace(scope.CollectionSlug))
+            products = products.Where(p => p.CollectionProducts.Any(cp => cp.Collection.Slug == scope.CollectionSlug));
+
+        if (!string.IsNullOrWhiteSpace(scope.Search))
+        {
+            var term = scope.Search.Trim();
+            products = products.Where(p =>
+                p.TitleEn.Contains(term) || p.TitleAr.Contains(term) ||
+                (p.Tags != null && p.Tags.Contains(term)) ||
+                (p.Type != null && p.Type.Contains(term)));
+        }
+
+        var variants = products.SelectMany(p => p.Variants.Where(v => v.IsActive));
+
+        var sizes = await variants
+            .Where(v => v.Option1 != null && v.Option1 != "")
+            .Select(v => v.Option1!)
+            .Distinct()
+            .ToListAsync(ct);
+
+        var colors = await variants
+            .Where(v => v.Option2 != null && v.Option2 != "")
+            .Select(v => v.Option2!)
+            .Distinct()
+            .ToListAsync(ct);
+
+        return new ProductFilterFacets
+        {
+            Sizes = OrderSizes(sizes),
+            Colors = colors.OrderBy(c => c, StringComparer.OrdinalIgnoreCase).ToList()
+        };
+    }
+
+    // Canonical apparel size order; values not in the list sort last, alphabetically.
+    private static readonly string[] SizeRank =
+        ["XXS", "XS", "S", "M", "L", "XL", "XXL", "XXXL", "2XL", "3XL", "4XL"];
+
+    private static List<string> OrderSizes(IEnumerable<string> sizes) =>
+        sizes
+            .OrderBy(s =>
+            {
+                var i = Array.FindIndex(SizeRank, r => string.Equals(r, s, StringComparison.OrdinalIgnoreCase));
+                return i < 0 ? int.MaxValue : i;
+            })
+            .ThenBy(s => s, StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
     public Task<Product?> GetProductBySlugAsync(string slug, CancellationToken ct = default) =>
         db.Products
             .AsNoTracking()

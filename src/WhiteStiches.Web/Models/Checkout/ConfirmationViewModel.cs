@@ -23,6 +23,7 @@ public class ConfirmationViewModel
         "card" => "Credit / debit card",
         "applepay" => "Apple Pay",
         "cod" => "Cash on delivery",
+        "tap" => "Tap Payments",
         _ => PaymentMethodKey
     };
 
