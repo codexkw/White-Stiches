@@ -63,6 +63,10 @@ public class OrderAdminService(WhiteStichesDbContext db, IOrderService orders, I
         var order = await db.Orders.FirstOrDefaultAsync(o => o.Id == orderId, ct)
             ?? throw new InvalidOperationException($"Order {orderId} not found.");
 
+        // Snapshot before we flip it — guards the discount-usage increment below against double
+        // counting if a manual payment is recorded against an already-paid order.
+        var wasUnpaid = order.PaymentStatus != PaymentStatus.Paid;
+
         var amt = amount is > 0 ? amount.Value : order.Total;
 
         var payment = new Payment
@@ -95,6 +99,16 @@ public class OrderAdminService(WhiteStichesDbContext db, IOrderService orders, I
         });
 
         await db.SaveChangesAsync(ct);
+
+        // Marking a previously-unpaid order paid redeems any discount it carried — count it against
+        // the code's total usage limit, mirroring the Tap finalizer (PaymentService).
+        if (wasUnpaid && order.DiscountCodeId is { } discountCodeId)
+        {
+            await db.DiscountCodes
+                .Where(d => d.Id == discountCodeId)
+                .ExecuteUpdateAsync(s => s.SetProperty(d => d.TimesUsed, d => d.TimesUsed + 1), ct);
+        }
+
         return payment;
     }
 

@@ -157,6 +157,17 @@ public class PaymentService(
             });
         }
 
+        // Count this redemption against the discount code's total usage limit. Atomic increment,
+        // inside the same transaction as the capture, so two orders racing to redeem the last use
+        // of a limited code can't both slip under UsageLimitTotal. Runs exactly once per order —
+        // only the single caller that won the capture claim above reaches this point.
+        if (order.DiscountCodeId is { } discountCodeId)
+        {
+            await db.DiscountCodes
+                .Where(d => d.Id == discountCodeId)
+                .ExecuteUpdateAsync(s => s.SetProperty(d => d.TimesUsed, d => d.TimesUsed + 1), ct);
+        }
+
         db.OrderEvents.Add(new OrderEvent
         {
             OrderId = order.Id,
