@@ -155,9 +155,10 @@ public class ProductsController(ICatalogService catalog, IFileStorage storage, I
             if (file.Length == 0) continue;
 
             var path = await storage.SaveAsync(file.OpenReadStream(), file.FileName, "products", ct);
-            var image = await catalog.AddProductImageAsync(id, path, ct);
+            var kind = MediaKinds.FromFileName(file.FileName);
+            var image = await catalog.AddProductImageAsync(id, path, kind, ct);
             await audit.LogAsync("product.image.add", UserId, UserName, nameof(ProductImage), image.Id.ToString(),
-                after: new { image.ProductId, image.Url, image.SortOrder });
+                after: new { image.ProductId, image.Url, image.MediaKind, image.SortOrder });
             uploaded++;
         }
 

@@ -369,7 +369,7 @@ public class CollectionsController(
                     TitleEn = cp.Product.TitleEn,
                     Slug = cp.Product.Slug,
                     Type = cp.Product.Type,
-                    ImageUrl = cp.Product.Images.OrderBy(i => i.SortOrder).Select(i => i.Url).FirstOrDefault(),
+                    ImageUrl = cp.Product.Images.PrimaryPhoto()?.Url,
                     Price = cp.Product.Variants.Where(v => v.IsActive).OrderBy(v => v.Position)
                         .Select(v => (decimal?)v.Price).FirstOrDefault(),
                     Position = cp.Position
@@ -391,7 +391,7 @@ public class CollectionsController(
                 TitleEn = p.TitleEn,
                 Slug = p.Slug,
                 Type = p.Type,
-                ImageUrl = p.Images.OrderBy(i => i.SortOrder).Select(i => i.Url).FirstOrDefault(),
+                ImageUrl = p.Images.PrimaryPhoto()?.Url,
                 Price = p.Variants.Where(v => v.IsActive).OrderBy(v => v.Position)
                     .Select(v => (decimal?)v.Price).FirstOrDefault()
             }).ToList();

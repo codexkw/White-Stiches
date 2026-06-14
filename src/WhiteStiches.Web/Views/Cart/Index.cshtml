@@ -92,7 +92,7 @@ else
           {
             var variant = item.ProductVariant;
             var product = variant.Product;
-            var image = product.Images.OrderBy(i => i.SortOrder).FirstOrDefault();
+            var image = product.Images.PrimaryPhoto();
             var pdpUrl = $"/products/{product.Slug}";
             var lineTotal = variant.Price * item.Quantity;
             var onSale = variant.CompareAtPrice.HasValue && variant.CompareAtPrice.Value > variant.Price;

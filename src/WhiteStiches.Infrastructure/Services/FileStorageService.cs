@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using WhiteStiches.Core.Enums;
 using WhiteStiches.Core.Interfaces;
 using WhiteStiches.Core.Utils;
 
@@ -7,10 +8,15 @@ namespace WhiteStiches.Infrastructure.Services;
 
 public class FileStorageService(IConfiguration configuration, IHostEnvironment env) : IFileStorage
 {
-    private static readonly HashSet<string> AllowedExtensions = new(StringComparer.OrdinalIgnoreCase)
+    private static readonly HashSet<string> ImageExtensions = new(StringComparer.OrdinalIgnoreCase)
     {
-        ".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif", ".svg", ".mp4"
+        ".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif", ".svg"
     };
+
+    // Images plus the shared video set (MediaKinds.VideoExtensions) so the uploader and the
+    // img-vs-video render decision can never disagree about which formats count as video.
+    private static readonly HashSet<string> AllowedExtensions =
+        new(ImageExtensions.Concat(MediaKinds.VideoExtensions), StringComparer.OrdinalIgnoreCase);
 
     private string Root => StorageSetup.ResolveStorageRoot(configuration, env);
 

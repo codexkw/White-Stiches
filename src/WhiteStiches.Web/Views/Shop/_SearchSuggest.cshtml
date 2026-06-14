@@ -9,7 +9,7 @@
   <ul class="so-results">
     @foreach (var p in Model.Products)
     {
-        var image = p.Images.OrderBy(i => i.SortOrder).ThenBy(i => i.Id).FirstOrDefault();
+        var image = p.Images.PrimaryPhoto();
         var imgUrl = image?.Url ?? "/assets/products/product-1.jpg";
         var priced = p.Variants.Where(v => v.IsActive).OrderBy(v => v.Price).FirstOrDefault();
         var price = priced is not null ? priced.Price.ToString("0.000", CultureInfo.InvariantCulture) + " KWD" : null;

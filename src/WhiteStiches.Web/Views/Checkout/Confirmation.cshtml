@@ -332,7 +332,7 @@
   <div class="products__grid">
     @foreach (var product in Model.CrossSell)
     {
-      var images = product.Images.OrderBy(i => i.SortOrder).ToList();
+      var images = product.Images.Photos();
       var front = images.FirstOrDefault();
       var back = images.Skip(1).FirstOrDefault();
       var price = product.Variants.Count > 0 ? product.Variants.Min(v => v.Price) : 0m;

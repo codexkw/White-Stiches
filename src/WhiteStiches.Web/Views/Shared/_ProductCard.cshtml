@@ -1,7 +1,7 @@
 @model WhiteStiches.Core.Entities.Catalog.Product
 @using System.Globalization
 @{
-    var images = Model.Images.OrderBy(i => i.SortOrder).ThenBy(i => i.Id).ToList();
+    var images = Model.Images.Photos();
     var front = images.FirstOrDefault();
     var back = images.Skip(1).FirstOrDefault();
     var frontUrl = front?.Url ?? "/assets/products/product-1.jpg";

@@ -75,8 +75,8 @@ public interface ICatalogService
     /// <summary>Bulk-saves the spreadsheet variant editor rows; rows for other products are ignored.</summary>
     Task UpdateVariantsAsync(int productId, IReadOnlyList<VariantUpdateRow> rows, CancellationToken ct = default);
 
-    /// <summary>Appends an image (next SortOrder) with the stored /media URL.</summary>
-    Task<ProductImage> AddProductImageAsync(int productId, string url, CancellationToken ct = default);
+    /// <summary>Appends a media item (next SortOrder) with the stored /media URL. <paramref name="kind"/> marks photo vs. video.</summary>
+    Task<ProductImage> AddProductImageAsync(int productId, string url, MediaKind kind = MediaKind.Image, CancellationToken ct = default);
 
     /// <summary>Deletes an image, clears variant references to it, closes the SortOrder gap. Returns its URL, or null when not found.</summary>
     Task<string?> DeleteProductImageAsync(int productId, int imageId, CancellationToken ct = default);

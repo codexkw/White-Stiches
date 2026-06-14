@@ -3,7 +3,7 @@
 @* "Trending right now" card for the search overlay idle state — a real featured product. *@
 @if (Model is not null)
 {
-    var image = Model.Images.OrderBy(i => i.SortOrder).ThenBy(i => i.Id).FirstOrDefault();
+    var image = Model.Images.PrimaryPhoto();
     var imgUrl = image?.Url ?? "/assets/products/product-3.jpg";
     var activeVariants = Model.Variants.Where(v => v.IsActive).ToList();
     var priced = activeVariants.OrderBy(v => v.Price).FirstOrDefault();

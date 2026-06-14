@@ -334,7 +334,7 @@ public class OrderAdminService(WhiteStichesDbContext db, IOrderService orders, I
                 VariantDescription = string.Join(" / ", options) is { Length: > 0 } desc ? desc : null,
                 Sku = variant.Sku,
                 ImageUrl = variant.Image?.Url
-                    ?? variant.Product.Images.OrderBy(i => i.SortOrder).FirstOrDefault()?.Url,
+                    ?? variant.Product.Images.PrimaryPhoto()?.Url,
                 UnitPrice = variant.Price,
                 Quantity = quantity,
                 LineTotal = variant.Price * quantity

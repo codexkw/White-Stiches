@@ -76,7 +76,15 @@
           for (var i = 0; i < images.Count; i++)
           {
             <button class="pdp__thumb @(i == 0 ? "is-active" : null)" data-index="@i" role="tab" aria-selected="@(i == 0 ? "true" : "false")">
-              <img src="@images[i].Url" alt="@(images[i].Alt() ?? p.Title())" />
+              @if (images[i].MediaKind == MediaKind.Video)
+              {
+                <video src="@images[i].Url" muted playsinline preload="metadata"></video>
+                <span class="pdp__thumb-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></span>
+              }
+              else
+              {
+                <img src="@images[i].Url" alt="@(images[i].Alt() ?? p.Title())" />
+              }
             </button>
           }
         }
@@ -96,7 +104,14 @@
             for (var i = 0; i < images.Count; i++)
             {
               <div class="pdp__slide @(i == 0 ? "is-active" : null)" data-index="@i">
-                <img src="@images[i].Url" alt="@(images[i].Alt() ?? p.Title())" />
+                @if (images[i].MediaKind == MediaKind.Video)
+                {
+                  <video src="@images[i].Url" muted loop playsinline controls preload="metadata" autoplay="@(i == 0 ? "autoplay" : null)"></video>
+                }
+                else
+                {
+                  <img src="@images[i].Url" alt="@(images[i].Alt() ?? p.Title())" />
+                }
               </div>
             }
           }
@@ -155,7 +170,7 @@
                 var soldOut = Model.IsColorSoldOut(color);
                 var colorImage = Model.ImageForColor(color);
                 <button type="button" class="color-thumb @(isActive ? "is-active" : null) @(soldOut ? "is-soldout" : null)" role="radio" aria-checked="@(isActive ? "true" : "false")" aria-disabled="@(soldOut ? "true" : null)" data-color="@color">
-                  @if (colorImage is not null)
+                  @if (colorImage is not null && colorImage.MediaKind == MediaKind.Image)
                   {
                     <img src="@colorImage.Url" alt="" />
                   }

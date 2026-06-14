@@ -231,11 +231,12 @@
             <h2 class="adm-panel__title">@L["Images"]</h2>
         </header>
         <div class="adm-panel__body">
-            <form action="/products/@p.Id/images" method="post" enctype="multipart/form-data" class="adm-actions" style="margin-bottom:24px">
+            <form action="/products/@p.Id/images" method="post" enctype="multipart/form-data" class="adm-actions" style="margin-bottom:6px">
                 @Html.AntiForgeryToken()
-                <input type="file" name="files" accept="image/*" multiple />
+                <input type="file" name="files" accept="image/*,video/mp4,video/webm" multiple />
                 <button type="submit" class="adm-btn adm-btn--solid">@L["Upload"]</button>
             </form>
+            <p class="adm-hint" style="margin:0 0 24px">@L["Photos (JPG, PNG, WebP…) and video (MP4 or WebM). Max 64 MB per upload; video plays in the storefront gallery."]</p>
 
             @if (p.Images.Count == 0)
             {
@@ -251,7 +252,17 @@
                         @foreach (var img in p.Images.OrderBy(i => i.SortOrder))
                         {
                             <tr>
-                                <td><img class="adm-thumb" src="@img.Url" alt="" /></td>
+                                <td>
+                                    @if (img.MediaKind == MediaKind.Video)
+                                    {
+                                        <video class="adm-thumb" src="@img.Url" muted playsinline preload="metadata" controls></video>
+                                        <span class="adm-badge adm-badge--info" style="margin-top:4px">@L["Video"]</span>
+                                    }
+                                    else
+                                    {
+                                        <img class="adm-thumb" src="@img.Url" alt="" />
+                                    }
+                                </td>
                                 <td>
                                     <form action="/products/@p.Id/images/@img.Id/meta" method="post" class="adm-actions">
                                         @Html.AntiForgeryToken()

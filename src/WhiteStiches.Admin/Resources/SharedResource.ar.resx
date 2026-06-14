@@ -1311,6 +1311,12 @@
   <data name="Upload product photography above." xml:space="preserve">
     <value>ارفع صور المنتج أعلاه.</value>
   </data>
+  <data name="Photos (JPG, PNG, WebP…) and video (MP4 or WebM). Max 64 MB per upload; video plays in the storefront gallery." xml:space="preserve">
+    <value>صور (JPG، PNG، WebP…) وفيديو (MP4 أو WebM). حد أقصى 64 ميجابايت لكل عملية رفع؛ يُعرض الفيديو في معرض المتجر.</value>
+  </data>
+  <data name="Video" xml:space="preserve">
+    <value>فيديو</value>
+  </data>
   <data name="Alt / colour" xml:space="preserve">
     <value>النص البديل / اللون</value>
   </data>

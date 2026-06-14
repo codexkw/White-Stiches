@@ -516,14 +516,14 @@ public class CatalogService(WhiteStichesDbContext db) : ICatalogService
         await db.SaveChangesAsync(ct);
     }
 
-    public async Task<ProductImage> AddProductImageAsync(int productId, string url, CancellationToken ct = default)
+    public async Task<ProductImage> AddProductImageAsync(int productId, string url, MediaKind kind = MediaKind.Image, CancellationToken ct = default)
     {
         var maxSort = await db.ProductImages
             .Where(i => i.ProductId == productId)
             .Select(i => (int?)i.SortOrder)
             .MaxAsync(ct) ?? -1;
 
-        var image = new ProductImage { ProductId = productId, Url = url, SortOrder = maxSort + 1 };
+        var image = new ProductImage { ProductId = productId, Url = url, MediaKind = kind, SortOrder = maxSort + 1 };
         db.ProductImages.Add(image);
         await db.SaveChangesAsync(ct);
         return image;

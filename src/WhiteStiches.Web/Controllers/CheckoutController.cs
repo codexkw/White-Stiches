@@ -130,7 +130,7 @@ public class CheckoutController(
                 TitleAr = product.TitleAr,
                 VariantDescription = DescribeVariant(variant),
                 Sku = variant.Sku,
-                ImageUrl = product.Images.OrderBy(i => i.SortOrder).FirstOrDefault()?.Url,
+                ImageUrl = product.Images.PrimaryPhoto()?.Url,
                 UnitPrice = variant.Price,
                 Quantity = item.Quantity,
                 LineTotal = variant.Price * item.Quantity
@@ -363,7 +363,7 @@ public class CheckoutController(
             {
                 var variant = i.ProductVariant;
                 var product = variant.Product;
-                var firstImage = product.Images.OrderBy(img => img.SortOrder).FirstOrDefault();
+                var firstImage = product.Images.PrimaryPhoto();
                 var metaParts = new[] { variant.Option2, variant.Option1 }
                     .Where(o => !string.IsNullOrWhiteSpace(o))
                     .ToArray();

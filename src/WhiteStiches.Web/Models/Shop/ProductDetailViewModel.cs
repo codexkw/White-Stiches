@@ -1,4 +1,5 @@
 using WhiteStiches.Core.Entities.Catalog;
+using WhiteStiches.Core.Enums;
 
 namespace WhiteStiches.Web.Models.Shop;
 
@@ -50,9 +51,14 @@ public class ProductDetailViewModel
         Variants.Where(v => string.Equals(v.Option2?.Trim(), color, StringComparison.OrdinalIgnoreCase))
             .All(v => !IsPurchasable(v));
 
-    /// <summary>Image whose ColorName matches, falling back to the first product image.</summary>
+    /// <summary>
+    /// Still photo to use as the color swatch — prefers a color-matched photo, then any photo, then the
+    /// first product image. Videos are skipped as swatches (a clip makes a poor thumbnail).
+    /// </summary>
     public ProductImage? ImageForColor(string color) =>
-        Images.FirstOrDefault(i => string.Equals(i.ColorName?.Trim(), color, StringComparison.OrdinalIgnoreCase))
+        Images.FirstOrDefault(i => i.MediaKind == MediaKind.Image
+            && string.Equals(i.ColorName?.Trim(), color, StringComparison.OrdinalIgnoreCase))
+        ?? Images.FirstOrDefault(i => i.MediaKind == MediaKind.Image)
         ?? Images.FirstOrDefault();
 
     public string SizeLabel =>

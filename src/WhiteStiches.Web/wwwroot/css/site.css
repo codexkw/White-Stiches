@@ -1443,7 +1443,8 @@ body.drawer-open {
   transition: border-color var(--d-base) var(--e-out), opacity var(--d-base) var(--e-out);
   opacity: 0.65;
 }
-.pdp__thumb img {
+.pdp__thumb img,
+.pdp__thumb video {
   width: 100%;
   height: 100%;
   object-fit: cover;

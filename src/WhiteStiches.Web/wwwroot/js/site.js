@@ -227,6 +227,15 @@ document.addEventListener('DOMContentLoaded', function() {
   const slides = document.querySelectorAll('.pdp__slide');
   const dots = document.querySelectorAll('.pdp__dot');
   const counterCurrent = document.querySelector('.pdp__counter-current');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Respect the OS "reduce motion" setting: never autoplay the first-slide video.
+  if (reduceMotion) {
+    slides.forEach(s => {
+      const v = s.querySelector('video');
+      if (v) { v.pause(); v.removeAttribute('autoplay'); }
+    });
+  }
 
   function showSlide(idx) {
     thumbs.forEach(t => {
@@ -238,10 +247,17 @@ document.addEventListener('DOMContentLoaded', function() {
     dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
     if (counterCurrent) counterCurrent.textContent = String(idx + 1).padStart(2, '0');
 
-    // Pause any non-active videos
+    // Play the active slide's video (muted, so autoplay is allowed); pause the rest.
+    // Skip play entirely when the user prefers reduced motion.
     slides.forEach(s => {
       const v = s.querySelector('video');
-      if (v && !s.classList.contains('is-active')) v.pause();
+      if (!v) return;
+      if (s.classList.contains('is-active') && !reduceMotion) {
+        const p = v.play();
+        if (p && typeof p.catch === 'function') p.catch(() => {});
+      } else {
+        v.pause();
+      }
     });
   }
 

@@ -84,7 +84,7 @@
         <div class="acct-wish-grid">
           @foreach (var product in Model.Products)
           {
-            var images = product.Images.OrderBy(i => i.SortOrder).ToList();
+            var images = product.Images.Photos();
             var front = images.ElementAtOrDefault(0);
             var back = images.ElementAtOrDefault(1) ?? front;
             var activeVariants = product.Variants.Where(v => v.IsActive).OrderBy(v => v.Position).ToList();

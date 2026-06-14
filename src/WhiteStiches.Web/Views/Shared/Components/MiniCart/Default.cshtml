@@ -33,7 +33,7 @@
     {
       var variant = item.ProductVariant;
       var product = variant.Product;
-      var image = product.Images.OrderBy(i => i.SortOrder).FirstOrDefault();
+      var image = product.Images.PrimaryPhoto();
       var pdpUrl = $"/products/{product.Slug}";
       var metaParts = new[] { variant.Option2, variant.Option1 }
           .Where(v => !string.IsNullOrWhiteSpace(v))

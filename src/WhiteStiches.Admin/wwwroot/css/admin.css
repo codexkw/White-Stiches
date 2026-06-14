@@ -398,6 +398,13 @@ button { font: inherit; cursor: pointer; }
   background: #1a1a1a;
   display: block;
 }
+video.adm-thumb { background: #000; }
+
+.adm-hint {
+  color: #8a8478;
+  font-size: 13px;
+  line-height: 1.5;
+}
 
 @media (max-width: 900px) {
   .adm { grid-template-columns: 1fr; }

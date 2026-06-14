@@ -84,7 +84,7 @@
             <tbody>
                 @foreach (var p in Model.Products.Items)
                 {
-                    var thumb = p.Images.OrderBy(i => i.SortOrder).FirstOrDefault()?.Url;
+                    var thumb = p.Images.PrimaryPhoto()?.Url;
                     var active = p.Variants.Where(v => v.IsActive).ToList();
                     var priced = active.Count > 0 ? active : p.Variants.ToList();
                     var min = priced.Count > 0 ? priced.Min(v => v.Price) : 0m;

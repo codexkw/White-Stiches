@@ -150,7 +150,7 @@
             <div class="acct-wishpreview">
               @foreach (var product in Model.WishlistPreview)
               {
-                var image = product.Images.OrderBy(i => i.SortOrder).FirstOrDefault();
+                var image = product.Images.PrimaryPhoto();
                 <a href="/products/@product.Slug"><img src="@image?.Url" alt="@(image?.Alt() ?? product.Title())" /></a>
               }
             </div>
