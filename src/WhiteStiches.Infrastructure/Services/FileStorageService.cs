@@ -35,11 +35,22 @@ public class FileStorageService(IConfiguration configuration, IHostEnvironment e
 
         var name = $"{baseName}-{Guid.NewGuid().ToString("N")[..8]}{ext.ToLowerInvariant()}";
         var dir = Path.Combine(Root, safeFolder.Replace('/', Path.DirectorySeparatorChar));
-        Directory.CreateDirectory(dir);
 
-        await using (var fs = new FileStream(Path.Combine(dir, name), FileMode.CreateNew, FileAccess.Write, FileShare.None, 64 * 1024, useAsync: true))
+        try
         {
+            Directory.CreateDirectory(dir);
+
+            await using var fs = new FileStream(Path.Combine(dir, name), FileMode.CreateNew, FileAccess.Write, FileShare.None, 64 * 1024, useAsync: true);
             await content.CopyToAsync(fs, ct);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            // Folder missing or no write permission — surface a clear, catchable reason (with the
+            // resolved root) so callers can show a friendly message instead of a raw 500. Cancellation
+            // (OperationCanceledException) is intentionally not caught here so it propagates normally.
+            throw new StorageWriteException(
+                $"Could not write the upload to '{dir}'. Ensure Storage:Root is an absolute path the app pool can read/write " +
+                $"(it currently resolves to '{Root}').", ex);
         }
 
         return $"/media/{safeFolder}/{name}";

@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using WhiteStiches.Admin.Models;
 using WhiteStiches.Core.Entities.Content;
 using WhiteStiches.Core.Enums;
@@ -13,7 +14,7 @@ namespace WhiteStiches.Admin.Controllers;
 /// <summary>Homepage hero banner CMS (Wave 4 #1): bilingual copy, video/image background, stat counters.</summary>
 [Authorize(Roles = AppRoles.SuperAdmin + "," + AppRoles.Admin)]
 [Route("banners")]
-public class BannersController(IBannerAdminService banners, IFileStorage storage, IAuditService audit) : Controller
+public class BannersController(IBannerAdminService banners, IFileStorage storage, IAuditService audit, ILogger<BannersController> logger) : Controller
 {
     private const string NavKey = "banners";
     private const string UploadFolder = "banners";
@@ -186,19 +187,39 @@ public class BannersController(IBannerAdminService banners, IFileStorage storage
         }
 
         var uploaded = 0;
-        foreach (var file in files ?? [])
+        try
         {
-            if (file.Length == 0) continue;
+            foreach (var file in files ?? [])
+            {
+                if (file.Length == 0) continue;
 
-            await using var stream = file.OpenReadStream();
-            var path = await storage.SaveAsync(stream, file.FileName, UploadFolder, ct);
-            var kind = MediaKinds.FromFileName(file.FileName);
-            var image = await banners.AddImageAsync(id, path, kind, ct);
-            if (image is null) continue;
+                await using var stream = file.OpenReadStream();
+                var path = await storage.SaveAsync(stream, file.FileName, UploadFolder, ct);
+                var kind = MediaKinds.FromFileName(file.FileName);
+                var image = await banners.AddImageAsync(id, path, kind, ct);
+                if (image is null) continue;
 
-            await audit.LogAsync("banner.image.add", UserId, UserName, nameof(BannerImage), image.Id.ToString(),
-                after: new { image.BannerId, image.Url, image.MediaKind });
-            uploaded++;
+                await audit.LogAsync("banner.image.add", UserId, UserName, nameof(BannerImage), image.Id.ToString(),
+                    after: new { image.BannerId, image.Url, image.MediaKind });
+                uploaded++;
+            }
+        }
+        catch (StorageWriteException ex)
+        {
+            // Storage root unwritable (almost always a Storage:Root misconfig on the server). Show a
+            // clear message and log the cause instead of returning an opaque 500.
+            logger.LogError(ex, "Banner media upload failed for banner {BannerId} — media storage is not writable.", id);
+            TempData["Err"] = uploaded > 0
+                ? $"{uploaded} file(s) uploaded; the rest failed because media storage isn't writable on the server. Check the Storage:Root setting."
+                : "Upload failed — media storage isn't writable on the server. Storage:Root must be an absolute folder the app pool can write to.";
+            return RedirectToAction(nameof(Edit), new { id });
+        }
+        catch (InvalidOperationException ex)
+        {
+            // SaveAsync rejects a disallowed file type with this — surface its message to the user.
+            logger.LogWarning(ex, "Banner media upload rejected for banner {BannerId}.", id);
+            TempData["Err"] = ex.Message;
+            return RedirectToAction(nameof(Edit), new { id });
         }
 
         TempData[uploaded > 0 ? "Ok" : "Err"] = uploaded > 0

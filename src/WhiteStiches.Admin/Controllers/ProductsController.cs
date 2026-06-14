@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using WhiteStiches.Admin.Models;
 using WhiteStiches.Core.Entities.Catalog;
 using WhiteStiches.Core.Enums;
@@ -12,7 +13,7 @@ namespace WhiteStiches.Admin.Controllers;
 
 /// <summary>Products back office: CRUD, images, options/variants, inventory (AD-PRD-01..05).</summary>
 [Route("products")]
-public class ProductsController(ICatalogService catalog, IFileStorage storage, IAuditService audit, IRichTextSanitizer sanitizer) : Controller
+public class ProductsController(ICatalogService catalog, IFileStorage storage, IAuditService audit, IRichTextSanitizer sanitizer, ILogger<ProductsController> logger) : Controller
 {
     private Guid? UserId =>
         Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var id) ? id : null;
@@ -150,16 +151,37 @@ public class ProductsController(ICatalogService catalog, IFileStorage storage, I
         }
 
         var uploaded = 0;
-        foreach (var file in files ?? [])
+        try
         {
-            if (file.Length == 0) continue;
+            foreach (var file in files ?? [])
+            {
+                if (file.Length == 0) continue;
 
-            var path = await storage.SaveAsync(file.OpenReadStream(), file.FileName, "products", ct);
-            var kind = MediaKinds.FromFileName(file.FileName);
-            var image = await catalog.AddProductImageAsync(id, path, kind, ct);
-            await audit.LogAsync("product.image.add", UserId, UserName, nameof(ProductImage), image.Id.ToString(),
-                after: new { image.ProductId, image.Url, image.MediaKind, image.SortOrder });
-            uploaded++;
+                await using var stream = file.OpenReadStream();
+                var path = await storage.SaveAsync(stream, file.FileName, "products", ct);
+                var kind = MediaKinds.FromFileName(file.FileName);
+                var image = await catalog.AddProductImageAsync(id, path, kind, ct);
+                await audit.LogAsync("product.image.add", UserId, UserName, nameof(ProductImage), image.Id.ToString(),
+                    after: new { image.ProductId, image.Url, image.MediaKind, image.SortOrder });
+                uploaded++;
+            }
+        }
+        catch (StorageWriteException ex)
+        {
+            // Storage root unwritable (almost always a Storage:Root misconfig on the server). Show a
+            // clear message and log the cause instead of returning an opaque 500.
+            logger.LogError(ex, "Product image upload failed for product {ProductId} — media storage is not writable.", id);
+            TempData["Err"] = uploaded > 0
+                ? $"{uploaded} image(s) uploaded; the rest failed because media storage isn't writable on the server. Check the Storage:Root setting."
+                : "Upload failed — media storage isn't writable on the server. Storage:Root must be an absolute folder the app pool can write to.";
+            return RedirectToAction(nameof(Edit), new { id });
+        }
+        catch (InvalidOperationException ex)
+        {
+            // SaveAsync rejects a disallowed file type with this — surface its message to the user.
+            logger.LogWarning(ex, "Product image upload rejected for product {ProductId}.", id);
+            TempData["Err"] = ex.Message;
+            return RedirectToAction(nameof(Edit), new { id });
         }
 
         if (uploaded > 0)
