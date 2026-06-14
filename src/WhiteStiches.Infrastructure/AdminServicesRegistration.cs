@@ -16,6 +16,7 @@ public static class AdminServicesRegistration
         services.AddScoped<IReturnAdminService, ReturnAdminService>();
         services.AddScoped<ICustomerAdminService, CustomerAdminService>();
         services.AddScoped<ICollectionAdminService, CollectionAdminService>();
+        services.AddScoped<IBannerAdminService, BannerAdminService>();
         services.AddScoped<IStaffAdminService, StaffAdminService>();
         services.AddScoped<IAnalyticsService, AnalyticsService>();   // 1E‑1 dashboard
         services.AddScoped<IReportService, ReportService>();         // 1E‑4 reports

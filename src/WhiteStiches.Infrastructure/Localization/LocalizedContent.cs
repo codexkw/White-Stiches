@@ -46,6 +46,16 @@ public static class LocalizedContent
     public static string Title(this StaticPage p) => Pick(p.TitleEn, p.TitleAr);
     public static string Body(this StaticPage p) => Pick(p.BodyEn, p.BodyAr);
 
+    // ── Homepage hero banner ────────────────────────────────────────────────
+    public static string Eyebrow(this Banner b) => Pick(b.EyebrowEn, b.EyebrowAr);
+    public static string TitleLine1(this Banner b) => Pick(b.TitleLine1En, b.TitleLine1Ar);
+    public static string TitleLine2(this Banner b) => Pick(b.TitleLine2En, b.TitleLine2Ar);
+    public static string Lede(this Banner b) => Pick(b.LedeEn, b.LedeAr);
+    public static string PrimaryCtaText(this Banner b) => Pick(b.PrimaryCtaTextEn, b.PrimaryCtaTextAr);
+    public static string SecondaryCtaText(this Banner b) => Pick(b.SecondaryCtaTextEn, b.SecondaryCtaTextAr);
+    public static string Label(this BannerStat s) => Pick(s.LabelEn, s.LabelAr);
+    public static string Alt(this BannerImage i) => Pick(i.AltEn, i.AltAr);
+
     // ── Orders (line snapshot) ──────────────────────────────────────────────
     public static string Title(this OrderItem i) => Pick(i.TitleEn, i.TitleAr);
 }

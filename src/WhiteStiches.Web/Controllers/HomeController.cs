@@ -1,23 +1,26 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using WhiteStiches.Core.Interfaces;
 using WhiteStiches.Web.Models;
+using WhiteStiches.Web.Models.Home;
 
 namespace WhiteStiches.Web.Controllers;
 
-public class HomeController : Controller
+public class HomeController(IBannerService banners) : Controller
 {
     // Session cookie (no expiry): the splash greets each browsing session once,
     // then every entry point behaves normally. Deep links are never gated.
     private const string IntroSeenCookie = "ws_intro";
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index(CancellationToken ct = default)
     {
         if (!Request.Cookies.ContainsKey(IntroSeenCookie))
         {
             return RedirectToAction(nameof(Intro));
         }
 
-        return View();
+        var hero = await banners.GetActiveHeroAsync(ct);
+        return View(new HomeViewModel { Hero = hero });
     }
 
     [Route("intro")]

@@ -1,0 +1,220 @@
+@model BannerEditViewModel
+@{
+    ViewData["Title"] = Model.IsNew ? "New banner" : $"Banner · {Model.Form.AdminLabel}";
+    ViewData["Nav"] = "banners";
+}
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">@(Model.IsNew ? L["New banner"].Value : L["Banner details"].Value)</h2>
+        <a class="adm-btn" href="/banners">@L["Back to banners"]</a>
+    </header>
+    <div class="adm-panel__body">
+        @if (!Model.IsNew)
+        {
+            <p style="margin:0 0 16px; font-size:12px; color:#6b665c;">
+                Created @Model.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm") UTC
+                @if (Model.UpdatedAtUtc is DateTime updated)
+                {
+                    <text>· Updated @updated.ToString("yyyy-MM-dd HH:mm") UTC</text>
+                }
+            </p>
+        }
+
+        <form method="post" action="/banners/save">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="Id" value="@Model.Form.Id" />
+
+            <div class="adm-form-grid">
+                <div class="adm-field is-full">
+                    <label for="AdminLabel">@L["Internal label — admin only"]</label>
+                    <input id="AdminLabel" name="AdminLabel" value="@Model.Form.AdminLabel" maxlength="160" placeholder="@L["e.g. Spring · Summer 2026"]" />
+                </div>
+
+                <div class="adm-field">
+                    <label for="EyebrowEn">@L["Eyebrow (EN)"]</label>
+                    <input id="EyebrowEn" name="EyebrowEn" value="@Model.Form.EyebrowEn" maxlength="160" />
+                </div>
+                <div class="adm-field">
+                    <label for="EyebrowAr">@L["Eyebrow (AR)"]</label>
+                    <input id="EyebrowAr" name="EyebrowAr" value="@Model.Form.EyebrowAr" dir="rtl" maxlength="160" />
+                </div>
+
+                <div class="adm-field">
+                    <label for="TitleLine1En">@L["Headline line 1 (EN) *"]</label>
+                    <input id="TitleLine1En" name="TitleLine1En" value="@Model.Form.TitleLine1En" required maxlength="200" />
+                </div>
+                <div class="adm-field">
+                    <label for="TitleLine1Ar">@L["Headline line 1 (AR)"]</label>
+                    <input id="TitleLine1Ar" name="TitleLine1Ar" value="@Model.Form.TitleLine1Ar" dir="rtl" maxlength="200" />
+                </div>
+
+                <div class="adm-field">
+                    <label for="TitleLine2En">@L["Headline line 2 (EN)"]</label>
+                    <input id="TitleLine2En" name="TitleLine2En" value="@Model.Form.TitleLine2En" maxlength="200" />
+                </div>
+                <div class="adm-field">
+                    <label for="TitleLine2Ar">@L["Headline line 2 (AR)"]</label>
+                    <input id="TitleLine2Ar" name="TitleLine2Ar" value="@Model.Form.TitleLine2Ar" dir="rtl" maxlength="200" />
+                </div>
+
+                <div class="adm-field is-full">
+                    <label for="LedeEn">@L["Intro text (EN)"]</label>
+                    <textarea id="LedeEn" name="LedeEn" rows="2" maxlength="600">@Model.Form.LedeEn</textarea>
+                </div>
+                <div class="adm-field is-full">
+                    <label for="LedeAr">@L["Intro text (AR)"]</label>
+                    <textarea id="LedeAr" name="LedeAr" rows="2" dir="rtl" maxlength="600">@Model.Form.LedeAr</textarea>
+                </div>
+
+                <div class="adm-field">
+                    <label for="PrimaryCtaTextEn">@L["Primary button text (EN)"]</label>
+                    <input id="PrimaryCtaTextEn" name="PrimaryCtaTextEn" value="@Model.Form.PrimaryCtaTextEn" maxlength="80" />
+                </div>
+                <div class="adm-field">
+                    <label for="PrimaryCtaTextAr">@L["Primary button text (AR)"]</label>
+                    <input id="PrimaryCtaTextAr" name="PrimaryCtaTextAr" value="@Model.Form.PrimaryCtaTextAr" dir="rtl" maxlength="80" />
+                </div>
+                <div class="adm-field is-full">
+                    <label for="PrimaryCtaUrl">@L["Primary button link"]</label>
+                    <input id="PrimaryCtaUrl" name="PrimaryCtaUrl" value="@Model.Form.PrimaryCtaUrl" maxlength="500" placeholder="/collection" />
+                </div>
+
+                <div class="adm-field">
+                    <label for="SecondaryCtaTextEn">@L["Secondary button text (EN)"]</label>
+                    <input id="SecondaryCtaTextEn" name="SecondaryCtaTextEn" value="@Model.Form.SecondaryCtaTextEn" maxlength="80" />
+                </div>
+                <div class="adm-field">
+                    <label for="SecondaryCtaTextAr">@L["Secondary button text (AR)"]</label>
+                    <input id="SecondaryCtaTextAr" name="SecondaryCtaTextAr" value="@Model.Form.SecondaryCtaTextAr" dir="rtl" maxlength="80" />
+                </div>
+                <div class="adm-field is-full">
+                    <label for="SecondaryCtaUrl">@L["Secondary button link"]</label>
+                    <input id="SecondaryCtaUrl" name="SecondaryCtaUrl" value="@Model.Form.SecondaryCtaUrl" maxlength="500" placeholder="/collection" />
+                </div>
+
+                <div class="adm-field">
+                    <label for="SortOrder">@L["Priority — higher shows first"]</label>
+                    <input id="SortOrder" name="SortOrder" type="number" value="@Model.Form.SortOrder" min="0" step="1" />
+                </div>
+
+                <div class="adm-field adm-field--check">
+                    <input type="checkbox" id="IsActive" name="IsActive" value="true" checked="@(Model.Form.IsActive ? "checked" : null)" />
+                    <input type="hidden" name="IsActive" value="false" />
+                    <label for="IsActive">@L["Active — shown on the homepage"]</label>
+                </div>
+                <div class="adm-field adm-field--check">
+                    <input type="checkbox" id="TitleLine2Italic" name="TitleLine2Italic" value="true" checked="@(Model.Form.TitleLine2Italic ? "checked" : null)" />
+                    <input type="hidden" name="TitleLine2Italic" value="false" />
+                    <label for="TitleLine2Italic">@L["Headline line 2 in italic"]</label>
+                </div>
+                <div class="adm-field adm-field--check">
+                    <input type="checkbox" id="ShowStats" name="ShowStats" value="true" checked="@(Model.Form.ShowStats ? "checked" : null)" />
+                    <input type="hidden" name="ShowStats" value="false" />
+                    <label for="ShowStats">@L["Show stat counters"]</label>
+                </div>
+            </div>
+
+            <h3 class="adm-panel__title" style="margin:24px 0 8px; font-size:14px;">@L["Stat counters"]</h3>
+            <p class="adm-hint" style="margin:0 0 12px">@L["Leave a row blank to skip it. Untick “Visible” to hide a counter without deleting it."]</p>
+            <table class="adm-table">
+                <thead>
+                    <tr>
+                        <th style="width:90px">@L["Value"]</th>
+                        <th>@L["Label (EN)"]</th>
+                        <th>@L["Label (AR)"]</th>
+                        <th style="width:80px">@L["Visible"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (var i = 0; i < Model.Form.Stats.Count; i++)
+                    {
+                        <tr>
+                            <td><input name="Stats[@i].Value" value="@Model.Form.Stats[i].Value" maxlength="20" /></td>
+                            <td><input name="Stats[@i].LabelEn" value="@Model.Form.Stats[i].LabelEn" maxlength="80" /></td>
+                            <td><input name="Stats[@i].LabelAr" value="@Model.Form.Stats[i].LabelAr" dir="rtl" maxlength="80" /></td>
+                            <td>
+                                <input type="checkbox" name="Stats[@i].IsVisible" value="true" checked="@(Model.Form.Stats[i].IsVisible ? "checked" : null)" />
+                                <input type="hidden" name="Stats[@i].IsVisible" value="false" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="adm-actions" style="margin-top:20px;">
+                <button type="submit" class="adm-btn adm-btn--solid">@(Model.IsNew ? L["Create banner"].Value : L["Save changes"].Value)</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">@L["Background media"]</h2>
+    </header>
+    <div class="adm-panel__body">
+        @if (Model.IsNew)
+        {
+            <div class="adm-empty">@L["Save the banner first, then add a background image or video here."]</div>
+        }
+        else
+        {
+            <form action="/banners/@Model.Form.Id/images" method="post" enctype="multipart/form-data" class="adm-actions" style="margin-bottom:6px">
+                @Html.AntiForgeryToken()
+                <input type="file" name="files" accept="image/*,video/mp4,video/webm" multiple />
+                <button type="submit" class="adm-btn adm-btn--solid">@L["Upload"]</button>
+            </form>
+            <p class="adm-hint" style="margin:0 0 24px">@L["Image or video (JPG, PNG, WebP, MP4, WebM). Max 64 MB per upload. A video plays as the hero background; an image is used as its poster / fallback."]</p>
+
+            @if (Model.Images.Count == 0)
+            {
+                <div class="adm-empty"><strong>@L["No media yet"]</strong> @L["Upload a background above."]</div>
+            }
+            else
+            {
+                <table class="adm-table">
+                    <thead>
+                        <tr><th></th><th>@L["Type"]</th><th>@L["Order"]</th><th></th></tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var img in Model.Images)
+                        {
+                            <tr>
+                                <td>
+                                    @if (img.MediaKind == MediaKind.Video)
+                                    {
+                                        <video class="adm-thumb" src="@img.Url" muted playsinline preload="metadata" controls></video>
+                                    }
+                                    else
+                                    {
+                                        <img class="adm-thumb" src="@img.Url" alt="" />
+                                    }
+                                </td>
+                                <td><span class="adm-badge @(img.MediaKind == MediaKind.Video ? "adm-badge--info" : null)">@(img.MediaKind == MediaKind.Video ? L["Video"].Value : L["Image"].Value)</span></td>
+                                <td>
+                                    <div class="adm-actions">
+                                        <form action="/banners/@Model.Form.Id/images/@img.Id/move?dir=up" method="post">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="adm-btn">↑</button>
+                                        </form>
+                                        <form action="/banners/@Model.Form.Id/images/@img.Id/move?dir=down" method="post">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="adm-btn">↓</button>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td>
+                                    <form action="/banners/@Model.Form.Id/images/@img.Id/delete" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="adm-btn">@L["Delete"]</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        }
+    </div>
+</section>

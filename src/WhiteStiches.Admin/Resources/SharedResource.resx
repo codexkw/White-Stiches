@@ -1863,4 +1863,142 @@
   <data name="Subscribers" xml:space="preserve">
     <value>Subscribers</value>
   </data>
+  <data name="Banners" xml:space="preserve">
+    <value>Banners</value>
+  </data>
+  <data name="Homepage banners" xml:space="preserve">
+    <value>Homepage banners</value>
+  </data>
+  <data name="New banner" xml:space="preserve">
+    <value>New banner</value>
+  </data>
+  <data name="No banners yet" xml:space="preserve">
+    <value>No banners yet</value>
+  </data>
+  <data name="Create a hero banner for the homepage. The active banner with the highest priority is shown; others stay as drafts." xml:space="preserve">
+    <value>Create a hero banner for the homepage. The active banner with the highest priority is shown; others stay as drafts.</value>
+  </data>
+  <data name="Label" xml:space="preserve">
+    <value>Label</value>
+  </data>
+  <data name="Headline (EN)" xml:space="preserve">
+    <value>Headline (EN)</value>
+  </data>
+  <data name="Priority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="Media" xml:space="preserve">
+    <value>Media</value>
+  </data>
+  <data name="Stats" xml:space="preserve">
+    <value>Stats</value>
+  </data>
+  <data name="Hide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="Publish" xml:space="preserve">
+    <value>Publish</value>
+  </data>
+  <data name="Banner details" xml:space="preserve">
+    <value>Banner details</value>
+  </data>
+  <data name="Back to banners" xml:space="preserve">
+    <value>Back to banners</value>
+  </data>
+  <data name="Internal label — admin only" xml:space="preserve">
+    <value>Internal label — admin only</value>
+  </data>
+  <data name="e.g. Spring · Summer 2026" xml:space="preserve">
+    <value>e.g. Spring · Summer 2026</value>
+  </data>
+  <data name="Eyebrow (EN)" xml:space="preserve">
+    <value>Eyebrow (EN)</value>
+  </data>
+  <data name="Eyebrow (AR)" xml:space="preserve">
+    <value>Eyebrow (AR)</value>
+  </data>
+  <data name="Headline line 1 (EN) *" xml:space="preserve">
+    <value>Headline line 1 (EN) *</value>
+  </data>
+  <data name="Headline line 1 (AR)" xml:space="preserve">
+    <value>Headline line 1 (AR)</value>
+  </data>
+  <data name="Headline line 2 (EN)" xml:space="preserve">
+    <value>Headline line 2 (EN)</value>
+  </data>
+  <data name="Headline line 2 (AR)" xml:space="preserve">
+    <value>Headline line 2 (AR)</value>
+  </data>
+  <data name="Intro text (EN)" xml:space="preserve">
+    <value>Intro text (EN)</value>
+  </data>
+  <data name="Intro text (AR)" xml:space="preserve">
+    <value>Intro text (AR)</value>
+  </data>
+  <data name="Primary button text (EN)" xml:space="preserve">
+    <value>Primary button text (EN)</value>
+  </data>
+  <data name="Primary button text (AR)" xml:space="preserve">
+    <value>Primary button text (AR)</value>
+  </data>
+  <data name="Primary button link" xml:space="preserve">
+    <value>Primary button link</value>
+  </data>
+  <data name="Secondary button text (EN)" xml:space="preserve">
+    <value>Secondary button text (EN)</value>
+  </data>
+  <data name="Secondary button text (AR)" xml:space="preserve">
+    <value>Secondary button text (AR)</value>
+  </data>
+  <data name="Secondary button link" xml:space="preserve">
+    <value>Secondary button link</value>
+  </data>
+  <data name="Priority — higher shows first" xml:space="preserve">
+    <value>Priority — higher shows first</value>
+  </data>
+  <data name="Active — shown on the homepage" xml:space="preserve">
+    <value>Active — shown on the homepage</value>
+  </data>
+  <data name="Headline line 2 in italic" xml:space="preserve">
+    <value>Headline line 2 in italic</value>
+  </data>
+  <data name="Show stat counters" xml:space="preserve">
+    <value>Show stat counters</value>
+  </data>
+  <data name="Stat counters" xml:space="preserve">
+    <value>Stat counters</value>
+  </data>
+  <data name="Leave a row blank to skip it. Untick “Visible” to hide a counter without deleting it." xml:space="preserve">
+    <value>Leave a row blank to skip it. Untick “Visible” to hide a counter without deleting it.</value>
+  </data>
+  <data name="Label (EN)" xml:space="preserve">
+    <value>Label (EN)</value>
+  </data>
+  <data name="Label (AR)" xml:space="preserve">
+    <value>Label (AR)</value>
+  </data>
+  <data name="Visible" xml:space="preserve">
+    <value>Visible</value>
+  </data>
+  <data name="Create banner" xml:space="preserve">
+    <value>Create banner</value>
+  </data>
+  <data name="Background media" xml:space="preserve">
+    <value>Background media</value>
+  </data>
+  <data name="Save the banner first, then add a background image or video here." xml:space="preserve">
+    <value>Save the banner first, then add a background image or video here.</value>
+  </data>
+  <data name="Image or video (JPG, PNG, WebP, MP4, WebM). Max 64 MB per upload. A video plays as the hero background; an image is used as its poster / fallback." xml:space="preserve">
+    <value>Image or video (JPG, PNG, WebP, MP4, WebM). Max 64 MB per upload. A video plays as the hero background; an image is used as its poster / fallback.</value>
+  </data>
+  <data name="No media yet" xml:space="preserve">
+    <value>No media yet</value>
+  </data>
+  <data name="Upload a background above." xml:space="preserve">
+    <value>Upload a background above.</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Image</value>
+  </data>
 </root>

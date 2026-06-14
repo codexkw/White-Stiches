@@ -52,6 +52,9 @@ public class WhiteStichesDbContext(DbContextOptions<WhiteStichesDbContext> optio
     public DbSet<JournalCategory> JournalCategories => Set<JournalCategory>();
     public DbSet<JournalPost> JournalPosts => Set<JournalPost>();
     public DbSet<ContactMessage> ContactMessages => Set<ContactMessage>();
+    public DbSet<Banner> Banners => Set<Banner>();
+    public DbSet<BannerImage> BannerImages => Set<BannerImage>();
+    public DbSet<BannerStat> BannerStats => Set<BannerStat>();
 
     // Settings & audit
     public DbSet<StoreSetting> StoreSettings => Set<StoreSetting>();
@@ -154,6 +157,45 @@ public class WhiteStichesDbContext(DbContextOptions<WhiteStichesDbContext> optio
             e.HasOne(x => x.Product)
                 .WithMany(x => x.CollectionProducts)
                 .HasForeignKey(x => x.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<Banner>(e =>
+        {
+            e.Property(x => x.AdminLabel).HasMaxLength(160);
+            e.Property(x => x.EyebrowEn).HasMaxLength(160);
+            e.Property(x => x.EyebrowAr).HasMaxLength(160);
+            e.Property(x => x.TitleLine1En).HasMaxLength(200);
+            e.Property(x => x.TitleLine1Ar).HasMaxLength(200);
+            e.Property(x => x.TitleLine2En).HasMaxLength(200);
+            e.Property(x => x.TitleLine2Ar).HasMaxLength(200);
+            e.Property(x => x.LedeEn).HasMaxLength(600);
+            e.Property(x => x.LedeAr).HasMaxLength(600);
+            e.Property(x => x.PrimaryCtaTextEn).HasMaxLength(80);
+            e.Property(x => x.PrimaryCtaTextAr).HasMaxLength(80);
+            e.Property(x => x.PrimaryCtaUrl).HasMaxLength(500);
+            e.Property(x => x.SecondaryCtaTextEn).HasMaxLength(80);
+            e.Property(x => x.SecondaryCtaTextAr).HasMaxLength(80);
+            e.Property(x => x.SecondaryCtaUrl).HasMaxLength(500);
+        });
+
+        builder.Entity<BannerImage>(e =>
+        {
+            e.Property(x => x.Url).HasMaxLength(1000);
+            e.HasOne(x => x.Banner)
+                .WithMany(x => x.Images)
+                .HasForeignKey(x => x.BannerId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<BannerStat>(e =>
+        {
+            e.Property(x => x.Value).HasMaxLength(20);
+            e.Property(x => x.LabelEn).HasMaxLength(80);
+            e.Property(x => x.LabelAr).HasMaxLength(80);
+            e.HasOne(x => x.Banner)
+                .WithMany(x => x.Stats)
+                .HasForeignKey(x => x.BannerId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
 

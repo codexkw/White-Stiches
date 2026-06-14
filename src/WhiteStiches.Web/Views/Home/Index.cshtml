@@ -1,66 +1,154 @@
-﻿@{
+﻿@model WhiteStiches.Web.Models.Home.HomeViewModel
+@{
     ViewData["Title"] = "White Stitches — Fashion KW";
     ViewData["MetaDescription"] = "White Stitches — Premium fashion from Kuwait. Curated collections delivered across the GCC.";
 }
 
 <!-- ============================ HERO ============================ -->
-<section class="hero">
-  <div class="hero__pattern" aria-hidden="true"></div>
+@if (Model.Hero is { } hero)
+{
+  var heroVideo = hero.Images.FirstOrDefault(i => i.MediaKind == MediaKind.Video);
+  var heroPoster = hero.Images.FirstOrDefault(i => i.MediaKind == MediaKind.Image);
+  var heroStats = hero.ShowStats
+      ? hero.Stats.Where(s => s.IsVisible && !string.IsNullOrWhiteSpace(s.Value)).ToList()
+      : new List<BannerStat>();
+  var primaryUrl = string.IsNullOrWhiteSpace(hero.PrimaryCtaUrl) ? "/collection" : hero.PrimaryCtaUrl;
+  var secondaryUrl = string.IsNullOrWhiteSpace(hero.SecondaryCtaUrl) ? "/collection" : hero.SecondaryCtaUrl;
 
-  <div class="hero__media hero__media--video">
-    <video class="hero__video"
-           autoplay
-           muted
-           loop
-           playsinline
-           preload="auto"
-           poster="~/assets/products/product-3.jpg"
-           aria-label="@L["Spring 2026 editorial — Noor double-breasted dress"]">
-      <source src="~/assets/video/hero.mp4" type="video/mp4" />
-      <!-- Fallback image for browsers that can't play the video -->
-      <img src="~/assets/products/product-3.jpg"
-           alt="@L["Spring 2026 editorial — Noor double-breasted dress"]" class="hero__img" />
-    </video>
-    <div class="hero__veil" aria-hidden="true"></div>
-  </div>
+  <section class="hero">
+    <div class="hero__pattern" aria-hidden="true"></div>
 
-  <div class="hero__content">
-    <span class="eyebrow">@L["Spring · Summer 2026"]</span>
-    <h1 class="hero__title">
-      <span class="hero__title-line">@L["The art of"]</span>
-      <span class="hero__title-line hero__title-line--italic">@L["quiet elegance."]</span>
-    </h1>
-    <p class="hero__lede">
-      @L["A curated edit of cuts, fabrics and silhouettes — designed for the woman who measures luxury in stitches, not labels."]
-    </p>
-    <div class="hero__ctas">
-      <a href="/collection" class="btn btn--primary">@L["Shop the Edit"]
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
-      <a href="/collection" class="btn btn--ghost">@L["Watch the Film"]</a>
+    <div class="hero__media hero__media--video">
+      @if (heroVideo is not null)
+      {
+        <video class="hero__video"
+               autoplay muted loop playsinline preload="auto"
+               poster="@heroPoster?.Url"
+               aria-label="@heroVideo.Alt()">
+          <source src="@heroVideo.Url" type="@(heroVideo.Url.EndsWith(".webm", StringComparison.OrdinalIgnoreCase) ? "video/webm" : "video/mp4")" />
+          @if (heroPoster is not null)
+          {
+            <img src="@heroPoster.Url" alt="@heroPoster.Alt()" class="hero__img" />
+          }
+        </video>
+      }
+      else if (heroPoster is not null)
+      {
+        <img src="@heroPoster.Url" alt="@heroPoster.Alt()" class="hero__img" />
+      }
+      <div class="hero__veil" aria-hidden="true"></div>
     </div>
-  </div>
 
-  <div class="hero__meta">
-    <div class="hero__meta-item">
-      <span class="hero__meta-num">01</span>
-      <span class="hero__meta-label">@L["Lookbook"]</span>
+    <div class="hero__content">
+      @if (!string.IsNullOrWhiteSpace(hero.Eyebrow()))
+      {
+        <span class="eyebrow">@hero.Eyebrow()</span>
+      }
+      <h1 class="hero__title">
+        <span class="hero__title-line">@hero.TitleLine1()</span>
+        @if (!string.IsNullOrWhiteSpace(hero.TitleLine2()))
+        {
+          <span class="hero__title-line @(hero.TitleLine2Italic ? "hero__title-line--italic" : null)">@hero.TitleLine2()</span>
+        }
+      </h1>
+      @if (!string.IsNullOrWhiteSpace(hero.Lede()))
+      {
+        <p class="hero__lede">@hero.Lede()</p>
+      }
+      <div class="hero__ctas">
+        @if (!string.IsNullOrWhiteSpace(hero.PrimaryCtaText()))
+        {
+          <a href="@primaryUrl" class="btn btn--primary">@hero.PrimaryCtaText()
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        }
+        @if (!string.IsNullOrWhiteSpace(hero.SecondaryCtaText()))
+        {
+          <a href="@secondaryUrl" class="btn btn--ghost">@hero.SecondaryCtaText()</a>
+        }
+      </div>
     </div>
-    <div class="hero__meta-item">
-      <span class="hero__meta-num">28</span>
-      <span class="hero__meta-label">@L["New Pieces"]</span>
-    </div>
-    <div class="hero__meta-item">
-      <span class="hero__meta-num">06</span>
-      <span class="hero__meta-label">@L["GCC Markets"]</span>
-    </div>
-  </div>
 
-  <button class="hero__scroll" aria-label="@L["Scroll to explore"]">
-    <span>@L["Scroll"]</span>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
-  </button>
-</section>
+    @if (heroStats.Count > 0)
+    {
+      <div class="hero__meta">
+        @foreach (var stat in heroStats)
+        {
+          <div class="hero__meta-item">
+            <span class="hero__meta-num">@stat.Value</span>
+            <span class="hero__meta-label">@stat.Label()</span>
+          </div>
+        }
+      </div>
+    }
+
+    <button class="hero__scroll" aria-label="@L["Scroll to explore"]">
+      <span>@L["Scroll"]</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+    </button>
+  </section>
+}
+else
+{
+  <!-- Fallback hero (built-in) — shown only when no banner is published in the admin. -->
+  <section class="hero">
+    <div class="hero__pattern" aria-hidden="true"></div>
+
+    <div class="hero__media hero__media--video">
+      <video class="hero__video"
+             autoplay
+             muted
+             loop
+             playsinline
+             preload="auto"
+             poster="~/assets/products/product-3.jpg"
+             aria-label="@L["Spring 2026 editorial — Noor double-breasted dress"]">
+        <source src="~/assets/video/hero.mp4" type="video/mp4" />
+        <!-- Fallback image for browsers that can't play the video -->
+        <img src="~/assets/products/product-3.jpg"
+             alt="@L["Spring 2026 editorial — Noor double-breasted dress"]" class="hero__img" />
+      </video>
+      <div class="hero__veil" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero__content">
+      <span class="eyebrow">@L["Spring · Summer 2026"]</span>
+      <h1 class="hero__title">
+        <span class="hero__title-line">@L["The art of"]</span>
+        <span class="hero__title-line hero__title-line--italic">@L["quiet elegance."]</span>
+      </h1>
+      <p class="hero__lede">
+        @L["A curated edit of cuts, fabrics and silhouettes — designed for the woman who measures luxury in stitches, not labels."]
+      </p>
+      <div class="hero__ctas">
+        <a href="/collection" class="btn btn--primary">@L["Shop the Edit"]
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="/collection" class="btn btn--ghost">@L["Watch the Film"]</a>
+      </div>
+    </div>
+
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-num">01</span>
+        <span class="hero__meta-label">@L["Lookbook"]</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-num">28</span>
+        <span class="hero__meta-label">@L["New Pieces"]</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-num">06</span>
+        <span class="hero__meta-label">@L["GCC Markets"]</span>
+      </div>
+    </div>
+
+    <button class="hero__scroll" aria-label="@L["Scroll to explore"]">
+      <span>@L["Scroll"]</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M6 13l6 6-6 6"/></svg>
+    </button>
+  </section>
+}
 
 <!-- ============================ MARQUEE STRIP (admin-managed, bilingual) ============================ -->
 @await Component.InvokeAsync("SiteChrome", new { section = "HeroMarquee" })

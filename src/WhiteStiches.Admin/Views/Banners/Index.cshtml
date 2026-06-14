@@ -1,0 +1,68 @@
+@model BannerIndexViewModel
+@{
+    ViewData["Title"] = "Banners";
+    ViewData["Nav"] = "banners";
+}
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">@L["Homepage banners"] (@Model.Banners.TotalCount)</h2>
+        <a class="adm-btn adm-btn--solid" href="/banners/new">@L["New banner"]</a>
+    </header>
+
+    @if (Model.Banners.Items.Count == 0)
+    {
+        <div class="adm-panel__body">
+            <div class="adm-empty">
+                <strong>@L["No banners yet"]</strong>
+                @L["Create a hero banner for the homepage. The active banner with the highest priority is shown; others stay as drafts."]
+            </div>
+        </div>
+    }
+    else
+    {
+        <table class="adm-table">
+            <thead>
+            <tr>
+                <th>@L["Label"]</th>
+                <th>@L["Headline (EN)"]</th>
+                <th>@L["Status"]</th>
+                <th>@L["Priority"]</th>
+                <th>@L["Media"]</th>
+                <th>@L["Stats"]</th>
+                <th>@L["Updated (UTC)"]</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var b in Model.Banners.Items)
+            {
+                <tr>
+                    <td><a href="/banners/@b.Id/edit">@(string.IsNullOrWhiteSpace(b.AdminLabel) ? b.TitleLine1En : b.AdminLabel)</a></td>
+                    <td>@b.TitleLine1En</td>
+                    <td>
+                        <span class="adm-badge @(b.IsActive ? "adm-badge--ok" : "adm-badge--warn")">@(b.IsActive ? L["Active"].Value : L["Draft"].Value)</span>
+                    </td>
+                    <td>@b.SortOrder</td>
+                    <td>@b.MediaCount</td>
+                    <td>@b.StatCount</td>
+                    <td>@b.UpdatedAtUtc.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>
+                        <div class="adm-actions">
+                            <a class="adm-btn" href="/banners/@b.Id/edit">@L["Edit"]</a>
+                            <form action="/banners/@b.Id/toggle" method="post">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="adm-btn">@(b.IsActive ? L["Hide"].Value : L["Publish"].Value)</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+        <div class="adm-panel__body">
+            <partial name="_Pager" model="PagerInfo.From(Model.Banners)" />
+        </div>
+    }
+</section>

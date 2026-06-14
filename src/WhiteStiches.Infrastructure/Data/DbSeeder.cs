@@ -136,6 +136,9 @@ public static class DbSeeder
 
         await db.SaveChangesAsync();
 
+        // NOTE: the default homepage hero banner (Wave 4 #1) is seeded by the AddBanners migration,
+        // not here — so it runs exactly once under the migration lock with no Web/Admin startup race.
+
         // ---- Optional demo catalog (set "SeedSampleData": "true") ----
         if (configuration["SeedSampleData"] == "true")
         {
