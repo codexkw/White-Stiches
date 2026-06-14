@@ -62,7 +62,10 @@ app.UseForwardedHeaders();
 // Baseline security headers on every response (NFR-SEC-01). 'unsafe-inline' is unavoidable for the
 // inline <script>/<style> blocks and style="" attributes carried over from the static design; the
 // Google Fonts origins are allowlisted; images may be data: URIs or any https source (rich-text
-// bodies). Everything else is same-origin, with object/base/frame-ancestors/form-action locked down.
+// bodies). Everything else is same-origin, with object/base/frame-ancestors locked down. form-action
+// also allows Tap's hosted checkout: placing an order POSTs to /checkout/place which 302-redirects to
+// https://checkout.tap.company/… — Chromium enforces form-action on the redirect target of a form
+// submission, so 'self' alone blocks the payment hand-off ("Sending form data … violates form-action").
 // Cloudflare's auto-injected Web Analytics beacon (static.cloudflareinsights.com, which posts to
 // cloudflareinsights.com) is allowlisted so the edge RUM script isn't CSP-blocked in the browser.
 const string contentSecurityPolicy =
@@ -70,7 +73,7 @@ const string contentSecurityPolicy =
     "base-uri 'self'; " +
     "object-src 'none'; " +
     "frame-ancestors 'none'; " +
-    "form-action 'self'; " +
+    "form-action 'self' https://*.tap.company; " +
     "img-src 'self' data: https:; " +
     "font-src 'self' https://fonts.gstatic.com; " +
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
