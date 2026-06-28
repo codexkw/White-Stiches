@@ -387,6 +387,12 @@
   <data name="Already have an account?" xml:space="preserve">
     <value>لديكِ حساب بالفعل؟</value>
   </data>
+  <data name="Continue as guest" xml:space="preserve">
+    <value>المتابعة كضيف</value>
+  </data>
+  <data name="No account needed — just your email &amp; phone for order updates." xml:space="preserve">
+    <value>لا حاجة لإنشاء حساب — فقط بريدك الإلكتروني ورقمك لتحديثات الطلب.</value>
+  </data>
   <data name="Sign in instead" xml:space="preserve">
     <value>تسجيل الدخول</value>
   </data>

@@ -2502,16 +2502,13 @@ body.drawer-open {
   gap: 10px;
 }
 
-/* Filter footer (sticky on mobile) */
+/* Filter footer — static Apply/Clear row on desktop; sticky bottom bar inside the mobile drawer */
 .filter__foot {
-  display: none; /* shown only on mobile */
-  position: sticky;
-  bottom: 0;
-  background: var(--c-ink);
-  padding: 12px 20px;
-  padding-bottom: calc(12px + env(safe-area-inset-bottom));
-  border-top: 1px solid var(--c-line);
+  display: flex;
   gap: 8px;
+  margin-top: 4px;
+  padding-top: 16px;
+  border-top: 1px solid var(--c-line);
 }
 .filter__foot .btn { flex: 1; height: 48px; }
 
@@ -2750,7 +2747,14 @@ body.drawer-open {
     background: var(--c-ink);
     z-index: 2;
   }
-  .filter__foot { display: flex; }
+  .filter__foot {
+    position: sticky;
+    bottom: 0;
+    background: var(--c-ink);
+    margin-top: 0;
+    padding: 12px 20px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  }
   .filter__chips,
   .filter-group { padding-left: 20px; padding-right: 20px; }
   .filter-overlay { display: block; }

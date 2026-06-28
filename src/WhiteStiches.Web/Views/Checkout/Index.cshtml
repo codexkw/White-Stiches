@@ -19,6 +19,7 @@
   .co-errors ul { margin: 0; padding-left: 18px; }
   .co-errors li + li { margin-top: 4px; }
   .co-note-muted { font-size: 0.8rem; opacity: 0.65; margin: 10px 0 0; }
+  .co-guest-note { font-size: 0.82rem; opacity: 0.7; margin: 0 0 16px; line-height: 1.5; }
   .express-btn[disabled] { opacity: 0.45; cursor: not-allowed; }
 </style>
 
@@ -61,17 +62,22 @@
       }
 
       <!-- ── 1 · CONTACT ───────────────────────────────────────────── -->
+      @{ var isGuest = !(User.Identity?.IsAuthenticated ?? false); }
       <section class="co-section">
         <header class="co-section__head">
           <span class="co-section__num">1</span>
-          <h2>@L["Contact"]</h2>
-          @if (!(User.Identity?.IsAuthenticated ?? false))
+          <h2>@(isGuest ? L["Continue as guest"] : L["Contact"])</h2>
+          @if (isGuest)
           {
             <a href="/account/login" class="co-section__link">@L["Already have an account?"] <strong>@L["Sign in"]</strong></a>
           }
         </header>
 
         <div class="co-section__body">
+          @if (isGuest)
+          {
+            <p class="co-guest-note">@L["No account needed — just your email & phone for order updates."]</p>
+          }
           <div class="co-field">
             <input type="email" id="email" name="email" value="@Model.Form.Email" required autocomplete="email" placeholder=" " class="@Err("Email")" />
             <label for="email">@L["Email"]</label>
