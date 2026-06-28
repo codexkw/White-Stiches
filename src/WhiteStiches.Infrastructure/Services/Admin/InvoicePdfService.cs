@@ -19,7 +19,11 @@ public sealed class InvoicePdfService : IInvoicePdfService
     private const string Hair = "#E2E2E2";
     private const string Soft = "#F6F6F4";
 
-    public byte[] Build(Order order, InvoiceBranding b)
+    public byte[] Build(Order order, InvoiceBranding b) => Render(order, b, pricing: true);
+
+    public byte[] BuildDeliveryNote(Order order, InvoiceBranding b) => Render(order, b, pricing: false);
+
+    private static byte[] Render(Order order, InvoiceBranding b, bool pricing)
     {
         var currency = string.IsNullOrWhiteSpace(order.Currency) ? "KWD" : order.Currency.Trim();
         string Money(decimal v) => v.ToString("0.000", CultureInfo.InvariantCulture) + " " + currency;
@@ -32,21 +36,21 @@ public sealed class InvoicePdfService : IInvoicePdfService
                 page.Margin(32);
                 page.DefaultTextStyle(t => t.FontSize(9.5f).FontColor(Ink).LineHeight(1.25f));
 
-                page.Header().Element(c => Header(c, order, b));
-                page.Content().PaddingVertical(16).Element(c => Body(c, order, b, Money));
+                page.Header().Element(c => Header(c, order, b, pricing));
+                page.Content().PaddingVertical(16).Element(c => Body(c, order, b, Money, pricing));
                 page.Footer().Element(c => Footer(c, b));
             });
         }).GeneratePdf();
     }
 
-    private static void Header(IContainer container, Order o, InvoiceBranding b)
+    private static void Header(IContainer container, Order o, InvoiceBranding b, bool pricing)
     {
         container.Row(row =>
         {
             row.RelativeItem().Column(col =>
             {
                 col.Item().Text(b.StoreName).FontSize(18).Bold().FontColor(Ink).LetterSpacing(0.02f);
-                col.Item().PaddingTop(2).Text("TAX INVOICE / RECEIPT").FontSize(8).FontColor(Muted).LetterSpacing(0.12f);
+                col.Item().PaddingTop(2).Text(pricing ? "TAX INVOICE / RECEIPT" : "DELIVERY NOTE").FontSize(8).FontColor(Muted).LetterSpacing(0.12f);
             });
 
             row.RelativeItem().AlignRight().Column(col =>
@@ -59,7 +63,7 @@ public sealed class InvoicePdfService : IInvoicePdfService
         });
     }
 
-    private static void Body(IContainer container, Order o, InvoiceBranding b, Func<decimal, string> money)
+    private static void Body(IContainer container, Order o, InvoiceBranding b, Func<decimal, string> money, bool pricing)
     {
         container.Column(col =>
         {
@@ -74,13 +78,26 @@ public sealed class InvoicePdfService : IInvoicePdfService
                 row.RelativeItem().Element(c => Party(c, "Ship to", ShipTo(o)));
             });
 
-            col.Item().Element(c => Items(c, o, money));
+            col.Item().Element(c => Items(c, o, money, pricing));
 
-            col.Item().Row(row =>
+            if (pricing)
             {
-                row.RelativeItem();
-                row.ConstantItem(250).Element(c => Totals(c, o, b, money));
-            });
+                col.Item().Row(row =>
+                {
+                    row.RelativeItem();
+                    row.ConstantItem(250).Element(c => Totals(c, o, b, money));
+                });
+            }
+            else
+            {
+                // Delivery note: no money, just a total piece count for the courier to verify against.
+                var pieces = o.Items.Sum(i => i.Quantity);
+                col.Item().Row(row =>
+                {
+                    row.RelativeItem();
+                    row.AutoItem().Text($"Total pieces: {pieces.ToString(CultureInfo.InvariantCulture)}").FontSize(10).Bold();
+                });
+            }
 
             if (!string.IsNullOrWhiteSpace(o.CustomerNote))
             {
@@ -90,6 +107,32 @@ public sealed class InvoicePdfService : IInvoicePdfService
                     note.Item().PaddingTop(2).Text(o.CustomerNote).FontSize(9);
                 });
             }
+
+            if (!pricing)
+            {
+                col.Item().Element(SignatureBlock);
+            }
+        });
+    }
+
+    /// <summary>Received-by + date signature area printed at the foot of a delivery note.</summary>
+    private static void SignatureBlock(IContainer container)
+    {
+        container.PaddingTop(26).Row(row =>
+        {
+            row.Spacing(24);
+            row.RelativeItem().Column(col =>
+            {
+                col.Item().Text("RECEIVED BY").FontSize(8).Bold().FontColor(Muted).LetterSpacing(0.08f);
+                col.Item().PaddingTop(20).LineHorizontal(1).LineColor(Ink);
+                col.Item().PaddingTop(2).Text("Name & signature").FontSize(7.5f).FontColor(Muted);
+            });
+            row.ConstantItem(150).Column(col =>
+            {
+                col.Item().Text("DATE").FontSize(8).Bold().FontColor(Muted).LetterSpacing(0.08f);
+                col.Item().PaddingTop(20).LineHorizontal(1).LineColor(Ink);
+                col.Item().PaddingTop(2).Text("DD / MM / YYYY").FontSize(7.5f).FontColor(Muted);
+            });
         });
     }
 
@@ -106,7 +149,7 @@ public sealed class InvoicePdfService : IInvoicePdfService
         });
     }
 
-    private static void Items(IContainer container, Order o, Func<decimal, string> money)
+    private static void Items(IContainer container, Order o, Func<decimal, string> money, bool pricing)
     {
         container.Table(table =>
         {
@@ -115,8 +158,11 @@ public sealed class InvoicePdfService : IInvoicePdfService
                 cols.ConstantColumn(20);   // #
                 cols.RelativeColumn();      // item
                 cols.ConstantColumn(34);    // qty
-                cols.ConstantColumn(80);    // unit
-                cols.ConstantColumn(84);    // amount
+                if (pricing)
+                {
+                    cols.ConstantColumn(80);    // unit
+                    cols.ConstantColumn(84);    // amount
+                }
             });
 
             table.Header(header =>
@@ -124,8 +170,11 @@ public sealed class InvoicePdfService : IInvoicePdfService
                 header.Cell().Element(HeadCell).Text("#");
                 header.Cell().Element(HeadCell).Text("Item");
                 header.Cell().Element(HeadCell).AlignRight().Text("Qty");
-                header.Cell().Element(HeadCell).AlignRight().Text("Unit");
-                header.Cell().Element(HeadCell).AlignRight().Text("Amount");
+                if (pricing)
+                {
+                    header.Cell().Element(HeadCell).AlignRight().Text("Unit");
+                    header.Cell().Element(HeadCell).AlignRight().Text("Amount");
+                }
             });
 
             var idx = 1;
@@ -142,8 +191,11 @@ public sealed class InvoicePdfService : IInvoicePdfService
                         cell.Item().Text(string.Join("   ·   ", sub)).FontSize(7.5f).FontColor(Muted);
                 });
                 table.Cell().Element(BodyCell).AlignRight().Text(it.Quantity.ToString(CultureInfo.InvariantCulture));
-                table.Cell().Element(BodyCell).AlignRight().Text(money(it.UnitPrice));
-                table.Cell().Element(BodyCell).AlignRight().Text(money(it.LineTotal));
+                if (pricing)
+                {
+                    table.Cell().Element(BodyCell).AlignRight().Text(money(it.UnitPrice));
+                    table.Cell().Element(BodyCell).AlignRight().Text(money(it.LineTotal));
+                }
                 idx++;
             }
         });

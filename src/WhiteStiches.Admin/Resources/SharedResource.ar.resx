@@ -837,6 +837,9 @@
   <data name="Download invoice" xml:space="preserve">
     <value>تحميل الفاتورة</value>
   </data>
+  <data name="Download delivery note" xml:space="preserve">
+    <value>تحميل إذن التسليم</value>
+  </data>
   <data name="Items" xml:space="preserve">
     <value>العناصر</value>
   </data>

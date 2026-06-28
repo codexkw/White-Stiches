@@ -107,6 +107,41 @@ public class OrdersController(
         return File(bytes, "application/pdf", $"invoice-{order.OrderNumber}.pdf");
     }
 
+    // ------------------------------------------------------------- delivery note (no pricing, for the courier)
+
+    [HttpGet("{id:int}/delivery-note")]
+    public async Task<IActionResult> DeliveryNote(int id, CancellationToken ct = default)
+    {
+        var order = await orderAdmin.GetDetailAsync(id, ct);
+        if (order is null)
+        {
+            TempData["Err"] = $"Order #{id} was not found.";
+            return RedirectToAction(nameof(Index));
+        }
+        if (order.IsDraft)
+        {
+            TempData["Err"] = "Delivery notes are not available for draft orders.";
+            return RedirectToAction(nameof(EditDraft), new { id });
+        }
+
+        var nameEn = await settings.GetAsync(SettingKeys.StoreNameEn, ct);
+        var nameAr = await settings.GetAsync(SettingKeys.StoreNameAr, ct);
+        var storeName = !string.IsNullOrWhiteSpace(nameEn) ? nameEn!
+            : !string.IsNullOrWhiteSpace(nameAr) ? nameAr! : "White Stitches";
+
+        // Pricing fields are unused by the delivery-note render, but the record requires them.
+        var branding = new InvoiceBranding(
+            StoreName: storeName,
+            LogoPath: null,
+            ContactEmail: await settings.GetAsync(SettingKeys.ContactEmail, ct),
+            ContactPhone: await settings.GetAsync(SettingKeys.ContactPhone, ct),
+            TotalPaid: 0m,
+            TotalRefunded: 0m);
+
+        var bytes = invoicePdf.BuildDeliveryNote(order, branding);
+        return File(bytes, "application/pdf", $"delivery-note-{order.OrderNumber}.pdf");
+    }
+
     // ------------------------------------------------------------- order actions
 
     [HttpPost("{id:int}/status")]
