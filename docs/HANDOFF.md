@@ -112,32 +112,33 @@ These are configuration/ops tasks. None are code changes.
 ### A. Storage root for uploads — REQUIRED, or all media upload fails
 
 Uploads are written by **Admin** and served by **Web** at `/media`, from a folder deliberately
-**outside** both apps' `wwwroot`. Both apps currently ship the dev default
-`"Storage:Root": "../../storage"`, which on the server resolves outside the site folder into a
-path the app pool can't write to → upload throws → (now) a clear error instead of a 500.
+**outside** both apps' `wwwroot`. The dev default is `"Storage:Root": "../../storage"`; on the
+testing server both apps now ship `appsettings.Production.json` overriding it with the absolute
+folder **`C:\inetpub\media\White-Stiches-Testing`** (committed, so it survives every redeploy).
+Because the server runs as Production (neither `IISProfile.pubxml` sets `EnvironmentName`), that
+override loads automatically — **no machine env var is needed**. The only remaining server step is
+granting the two app pools write access.
 
-Fix on the server:
+Testing server (`83.229.86.221`) — app pools: **`white-stiches-testing`** (Web) and
+**`white-stiches-testing-admin`** (Admin).
 
-1. **Create one absolute folder**, e.g. `C:\white-stiches\storage`.
-2. **Grant Modify** to **both** app-pool identities (storefront + admin). For default
-   `ApplicationPoolIdentity` pools:
+1. **Grant Modify** to **both** app-pool identities on the media folder (run elevated on the
+   server):
    ```powershell
-   $dir = 'C:\white-stiches\storage'
+   $dir = 'C:\inetpub\media\White-Stiches-Testing'
    New-Item -ItemType Directory -Force -Path $dir | Out-Null
-   icacls $dir /grant "IIS AppPool\<web-pool-name>:(OI)(CI)M"
-   icacls $dir /grant "IIS AppPool\<admin-pool-name>:(OI)(CI)M"
+   icacls $dir /grant "IIS AppPool\white-stiches-testing:(OI)(CI)M"
+   icacls $dir /grant "IIS AppPool\white-stiches-testing-admin:(OI)(CI)M"
    ```
-   (Find pool names: `Import-Module WebAdministration; Get-IISSite`. If a pool runs as
-   NetworkService or a custom user, grant that account instead.)
-3. **Point both apps at the SAME folder** via a machine env var (survives every publish, unlike
-   editing the deployed `appsettings.json`):
-   ```powershell
-   [Environment]::SetEnvironmentVariable('Storage__Root', $dir, 'Machine')
-   ```
-   (`__` maps to `Storage:Root`.) Must be identical for both apps — Admin writes, Web serves.
-4. **Restart both app pools.**
-5. **Verify:** upload an image in Admin, then confirm it renders on the storefront. If it still
-   fails, the Admin log now names the path it tried — check it matches the folder above.
+   (`(OI)(CI)M` = Modify, inherited by new sub-folders/files. If a pool runs as NetworkService or
+   a custom user instead of `ApplicationPoolIdentity`, grant that account instead.)
+2. **Redeploy both apps** (Web + Admin) so the new `appsettings.Production.json` lands on the
+   server, then **recycle both app pools**.
+3. **Verify:** upload an image in Admin, then confirm it renders on the storefront. If it still
+   fails, the Admin error now names the path it tried — it should be
+   `C:\inetpub\media\White-Stiches-Testing`. If it instead shows a `../../storage`-derived path,
+   the site isn't running as Production; set a machine env var as a fallback:
+   `[Environment]::SetEnvironmentVariable('Storage__Root', $dir, 'Machine')` then `iisreset`.
 
 ### B. Apply migrations — already done, but the procedure for the future
 
