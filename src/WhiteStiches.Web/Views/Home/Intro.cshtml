@@ -13,11 +13,11 @@
 
 <!-- Preload only what the splash itself paints with. -->
 <link rel="preload" href="~/assets/pattern-triangles.png" as="image" />
-<!-- Warm home-page assets (header logo + the document) at idle priority so the intro→home
-     hop is instant. prefetch, not preload: the splash never uses them, and a navigation
-     document has no valid preload `as` value (both warn in the browser console otherwise). -->
+<!-- Warm the header logo at idle priority so the intro→home hop paints fast.
+     prefetch, not preload: the splash never uses it. We deliberately do NOT
+     prefetch the home document: Index consumes a one-shot cookie on render, and
+     a prefetch hit would spend that pass before the visitor actually enters. -->
 <link rel="prefetch" href="~/assets/logo-full.png" />
-<link rel="prefetch" href="/" />
 
 <link rel="stylesheet" href="~/css/design-system.css?v=2.6" />
 
@@ -450,24 +450,13 @@
     function exitSplash() {
       if (exited) return;
       exited = true;
-      // Set a session flag so we don't show the splash again
-      // on subsequent navigation within the same browsing session
-      try { sessionStorage.setItem('ws_splash_seen', '1'); } catch (e) {}
+      // No "seen" flag is stored — the splash is shown on every visit by design.
       splash.classList.add('is-leaving');
       // Wait for the fade-out, then navigate
       setTimeout(function() {
         window.location.href = NEXT_PAGE;
       }, 600);
     }
-
-    // ── Skip splash if already seen this session ────────────
-    // (Comment out the next 5 lines if you want the splash on EVERY visit)
-    try {
-      if (sessionStorage.getItem('ws_splash_seen') === '1') {
-        window.location.replace(NEXT_PAGE);
-        return;
-      }
-    } catch (e) {}
 
     // ── Wire up interactions ────────────────────────────────
     splash.addEventListener('click', exitSplash);

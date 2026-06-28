@@ -8,16 +8,21 @@ namespace WhiteStiches.Web.Controllers;
 
 public class HomeController(IBannerService banners) : Controller
 {
-    // Session cookie (no expiry): the splash greets each browsing session once,
-    // then every entry point behaves normally. Deep links are never gated.
-    private const string IntroSeenCookie = "ws_intro";
+    // One-shot "intro pass" cookie: /intro sets it and the home page consumes
+    // (deletes) it on render, so the splash plays on EVERY fresh visit to the
+    // home page rather than once per session/user. Deep links are never gated.
+    private const string IntroPassCookie = "ws_intro";
 
     public async Task<IActionResult> Index(CancellationToken ct = default)
     {
-        if (!Request.Cookies.ContainsKey(IntroSeenCookie))
+        if (!Request.Cookies.ContainsKey(IntroPassCookie))
         {
             return RedirectToAction(nameof(Intro));
         }
+
+        // Consume the one-shot pass so the splash is shown again the next time
+        // the home page is opened.
+        Response.Cookies.Delete(IntroPassCookie);
 
         var hero = await banners.GetActiveHeroAsync(ct);
         return View(new HomeViewModel { Hero = hero });
@@ -27,7 +32,7 @@ public class HomeController(IBannerService banners) : Controller
     public IActionResult Intro()
     {
         // Set on serve, not on exit — the gate must open even if JS never runs.
-        Response.Cookies.Append(IntroSeenCookie, "1", new CookieOptions
+        Response.Cookies.Append(IntroPassCookie, "1", new CookieOptions
         {
             HttpOnly = true,
             IsEssential = true,
