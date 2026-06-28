@@ -42,7 +42,7 @@
                     <input id="set-whatsapp" name="store.whatsapp.number" value="@Model.Get(SettingKeys.WhatsAppNumber)" />
                 </div>
             </div>
-            <div class="adm-actions set-actions">
+            <div class="adm-actions set-actions adm-actions--savebar">
                 <button type="submit" class="adm-btn adm-btn--solid">@L["Save store details"]</button>
             </div>
         </form>
@@ -67,7 +67,7 @@
                     <input id="set-pinterest" name="store.social.pinterest" type="url" value="@Model.Get(SettingKeys.PinterestUrl)" placeholder="https://pinterest.com/..." />
                 </div>
             </div>
-            <div class="adm-actions set-actions">
+            <div class="adm-actions set-actions adm-actions--savebar">
                 <button type="submit" class="adm-btn adm-btn--solid">@L["Save social links"]</button>
             </div>
         </form>
@@ -96,7 +96,7 @@
                     <input id="set-sameday" name="shipping.same_day_rate" type="number" step="0.001" min="0" value="@Model.GetMoney(SettingKeys.SameDayShippingRate)" />
                 </div>
             </div>
-            <div class="adm-actions set-actions">
+            <div class="adm-actions set-actions adm-actions--savebar">
                 <button type="submit" class="adm-btn adm-btn--solid">@L["Save shipping rates"]</button>
             </div>
         </form>
@@ -113,7 +113,7 @@
                     <input id="set-giftwrap" name="cart.gift_wrap_fee" type="number" step="0.001" min="0" value="@Model.GetMoney(SettingKeys.GiftWrapFee)" />
                 </div>
             </div>
-            <div class="adm-actions set-actions">
+            <div class="adm-actions set-actions adm-actions--savebar">
                 <button type="submit" class="adm-btn adm-btn--solid">@L["Save cart settings"]</button>
             </div>
         </form>
@@ -157,7 +157,7 @@
                 </div>
             </div>
 
-            <div class="adm-actions set-actions">
+            <div class="adm-actions set-actions adm-actions--savebar">
                 <button type="submit" class="adm-btn adm-btn--solid">@L["Save tickers"]</button>
             </div>
         </form>
@@ -173,7 +173,7 @@
                 <input id="set-maintenance" type="checkbox" name="store.maintenance_mode" value="true" checked="@Model.GetBool(SettingKeys.MaintenanceMode)" />
                 <label for="set-maintenance">@L["Maintenance mode — storefront shows a holding page"]</label>
             </div>
-            <div class="adm-actions set-actions">
+            <div class="adm-actions set-actions adm-actions--savebar">
                 <button type="submit" class="adm-btn adm-btn--solid">@L["Save maintenance mode"]</button>
             </div>
         </form>
