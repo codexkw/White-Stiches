@@ -60,6 +60,9 @@
   <data name="About" xml:space="preserve">
     <value>عن الدار</value>
   </data>
+  <data name="About Us" xml:space="preserve">
+    <value>من نحن</value>
+  </data>
   <data name="Our Story" xml:space="preserve">
     <value>قصتنا</value>
   </data>
