@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using WhiteStiches.Core.Entities.Catalog;
 using WhiteStiches.Core.Entities.Marketing;
 using WhiteStiches.Core.Enums;
 using WhiteStiches.Core.Interfaces;
@@ -10,7 +11,7 @@ namespace WhiteStiches.Infrastructure.Services;
 public class MarketingService(WhiteStichesDbContext db) : IMarketingService
 {
     public async Task<DiscountValidationResult> ValidateDiscountCodeAsync(string code, decimal cartSubtotal,
-        int cartItemCount, Guid? userId = null, CancellationToken ct = default)
+        int cartItemCount, IReadOnlyList<DiscountLineItem>? lines = null, Guid? userId = null, CancellationToken ct = default)
     {
         var normalized = code.Trim().ToUpperInvariant();
         var discount = await db.DiscountCodes
@@ -42,10 +43,31 @@ public class MarketingService(WhiteStichesDbContext db) : IMarketingService
         if (discount.MinQuantity is not null && cartItemCount < discount.MinQuantity)
             return DiscountValidationResult.Invalid("min_quantity");
 
+        // The base the discount applies to. With product/collection eligibility, only the eligible
+        // lines count; min-purchase/min-quantity above still gate on the whole cart.
+        var discountBase = cartSubtotal;
+        var eligibility = DiscountEligibility.Parse(discount.EligibilityJson);
+        if (eligibility.HasRestrictions && lines is not null)
+        {
+            var eligibleProductIds = new HashSet<int>(eligibility.Products);
+            if (eligibility.Collections.Count > 0)
+            {
+                var fromCollections = await db.CollectionProducts
+                    .Where(cp => eligibility.Collections.Contains(cp.CollectionId))
+                    .Select(cp => cp.ProductId)
+                    .ToListAsync(ct);
+                foreach (var pid in fromCollections) eligibleProductIds.Add(pid);
+            }
+
+            discountBase = lines.Where(l => eligibleProductIds.Contains(l.ProductId)).Sum(l => l.LineTotal);
+            if (discountBase <= 0m)
+                return DiscountValidationResult.Invalid("not_eligible");
+        }
+
         var amount = discount.Type switch
         {
-            DiscountType.Percentage => Math.Round(cartSubtotal * discount.Value / 100m, 3),
-            DiscountType.FixedAmount => Math.Min(discount.Value, cartSubtotal),
+            DiscountType.Percentage => Math.Round(discountBase * discount.Value / 100m, 3),
+            DiscountType.FixedAmount => Math.Min(discount.Value, discountBase),
             DiscountType.FreeShipping => 0m,
             _ => 0m
         };
@@ -119,6 +141,98 @@ public class MarketingService(WhiteStichesDbContext db) : IMarketingService
         db.DiscountCodes.Remove(code);
         await db.SaveChangesAsync(ct);
     }
+
+    // ---------------------------------------------------------------- eligibility
+
+    public async Task<DiscountEligibility> GetEligibilityAsync(int discountId, CancellationToken ct = default)
+    {
+        var json = await db.DiscountCodes.AsNoTracking()
+            .Where(d => d.Id == discountId)
+            .Select(d => d.EligibilityJson)
+            .FirstOrDefaultAsync(ct);
+        return DiscountEligibility.Parse(json);
+    }
+
+    public async Task<bool> AddEligibleProductAsync(int discountId, int productId, CancellationToken ct = default)
+    {
+        var discount = await db.DiscountCodes.FindAsync([discountId], ct);
+        if (discount is null) return false;
+        if (!await db.Products.AnyAsync(p => p.Id == productId, ct)) return false;
+
+        var eligibility = DiscountEligibility.Parse(discount.EligibilityJson);
+        if (eligibility.Products.Contains(productId)) return false;
+
+        eligibility.Products.Add(productId);
+        discount.EligibilityJson = eligibility.ToJsonOrNull();
+        await db.SaveChangesAsync(ct);
+        return true;
+    }
+
+    public async Task<bool> RemoveEligibleProductAsync(int discountId, int productId, CancellationToken ct = default)
+    {
+        var discount = await db.DiscountCodes.FindAsync([discountId], ct);
+        if (discount is null) return false;
+
+        var eligibility = DiscountEligibility.Parse(discount.EligibilityJson);
+        if (!eligibility.Products.Remove(productId)) return false;
+
+        discount.EligibilityJson = eligibility.ToJsonOrNull();
+        await db.SaveChangesAsync(ct);
+        return true;
+    }
+
+    public async Task SetEligibleCollectionsAsync(int discountId, IReadOnlyList<int> collectionIds, CancellationToken ct = default)
+    {
+        var discount = await db.DiscountCodes.FindAsync([discountId], ct);
+        if (discount is null) return;
+
+        var valid = await db.Collections
+            .Where(c => collectionIds.Contains(c.Id))
+            .Select(c => c.Id)
+            .ToListAsync(ct);
+
+        var eligibility = DiscountEligibility.Parse(discount.EligibilityJson);
+        eligibility.Collections = valid.Distinct().ToList();
+        discount.EligibilityJson = eligibility.ToJsonOrNull();
+        await db.SaveChangesAsync(ct);
+    }
+
+    public async Task<IReadOnlyList<Product>> SearchProductsAsync(string? term, int take = 20, CancellationToken ct = default)
+    {
+        var query = db.Products.AsNoTracking()
+            .Include(p => p.Images.OrderBy(i => i.SortOrder))
+            .Include(p => p.Variants)
+            .Where(p => p.Status == ProductStatus.Active);
+
+        var t = term?.Trim();
+        if (!string.IsNullOrEmpty(t))
+        {
+            query = query.Where(p =>
+                p.TitleEn.Contains(t) ||
+                p.TitleAr.Contains(t) ||
+                p.Slug.Contains(t) ||
+                (p.Type != null && p.Type.Contains(t)) ||
+                (p.Vendor != null && p.Vendor.Contains(t)) ||
+                (p.Tags != null && p.Tags.Contains(t)));
+        }
+
+        return await query.OrderBy(p => p.TitleEn).Take(take).ToListAsync(ct);
+    }
+
+    public async Task<IReadOnlyList<Product>> GetProductsByIdsAsync(IReadOnlyList<int> ids, CancellationToken ct = default)
+    {
+        if (ids.Count == 0) return [];
+        return await db.Products.AsNoTracking()
+            .Include(p => p.Images.OrderBy(i => i.SortOrder))
+            .Include(p => p.Variants)
+            .Where(p => ids.Contains(p.Id))
+            .ToListAsync(ct);
+    }
+
+    public async Task<IReadOnlyList<Collection>> GetAllCollectionsAsync(CancellationToken ct = default) =>
+        await db.Collections.AsNoTracking()
+            .OrderBy(c => c.TitleEn)
+            .ToListAsync(ct);
 
     public async Task<bool> SubscribeToNewsletterAsync(string email, bool whatsAppOptIn,
         string languageCode = "en", string? source = null, CancellationToken ct = default)

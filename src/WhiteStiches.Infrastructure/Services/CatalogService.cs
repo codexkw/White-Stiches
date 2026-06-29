@@ -53,10 +53,14 @@ public class CatalogService(WhiteStichesDbContext db) : ICatalogService
                 v.Option1 == query.Size || v.Option2 == query.Size || v.Option3 == query.Size));
         }
 
-        if (!string.IsNullOrWhiteSpace(query.Color))
+        if (query.Colors.Count > 0)
         {
+            // Multi-select: a product matches if any active variant carries any selected colour.
+            var colors = query.Colors;
             products = products.Where(p => p.Variants.Any(v =>
-                v.Option1 == query.Color || v.Option2 == query.Color || v.Option3 == query.Color));
+                (v.Option1 != null && colors.Contains(v.Option1)) ||
+                (v.Option2 != null && colors.Contains(v.Option2)) ||
+                (v.Option3 != null && colors.Contains(v.Option3))));
         }
 
         if (query.PriceMin is not null)
@@ -219,10 +223,11 @@ public class CatalogService(WhiteStichesDbContext db) : ICatalogService
             .Include(c => c.Children.Where(ch => ch.IsActive).OrderBy(ch => ch.SortOrder))
             .FirstOrDefaultAsync(c => c.Slug == slug, ct);
 
+    // Navigation surfaces (header, drawer, footer) only — active collections flagged to show in the menu.
     public async Task<IReadOnlyList<Collection>> GetCollectionsAsync(CancellationToken ct = default) =>
         await db.Collections
             .AsNoTracking()
-            .Where(c => c.IsActive)
+            .Where(c => c.IsActive && c.ShowInMenu)
             .OrderBy(c => c.TitleEn)
             .ToListAsync(ct);
 
@@ -500,6 +505,12 @@ public class CatalogService(WhiteStichesDbContext db) : ICatalogService
             .ToListAsync(ct);
         var byId = variants.ToDictionary(v => v.Id);
 
+        // Only this product's own images may be assigned to its variants.
+        var imageIds = await db.ProductImages
+            .Where(i => i.ProductId == productId)
+            .Select(i => i.Id)
+            .ToListAsync(ct);
+
         foreach (var row in rows)
         {
             if (!byId.TryGetValue(row.Id, out var variant)) continue;
@@ -511,6 +522,7 @@ public class CatalogService(WhiteStichesDbContext db) : ICatalogService
             variant.LowStockThreshold = row.LowStockThreshold < 0 ? 0 : row.LowStockThreshold;
             variant.AllowOversell = row.AllowOversell;
             variant.IsActive = row.IsActive;
+            variant.ImageId = row.ImageId is int iid && imageIds.Contains(iid) ? iid : null;
         }
 
         await db.SaveChangesAsync(ct);

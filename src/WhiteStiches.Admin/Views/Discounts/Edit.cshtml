@@ -78,11 +78,6 @@
                 <label asp-for="IsActive">@L["Active"]</label>
             </div>
 
-            <div class="adm-field is-full">
-                <label asp-for="EligibilityJson">@L["Eligibility rules (JSON, optional)"]</label>
-                <textarea asp-for="EligibilityJson" rows="4" placeholder='{"collections":[],"products":[]}'></textarea>
-            </div>
-
             @if (!isNew)
             {
                 <div class="is-full">
@@ -95,5 +90,114 @@
                 <a href="/discounts" class="adm-btn">@L["Cancel"]</a>
             </div>
         </form>
+    </div>
+</section>
+
+<section class="adm-panel">
+    <header class="adm-panel__head">
+        <h2 class="adm-panel__title">@L["Eligibility"]</h2>
+    </header>
+    <div class="adm-panel__body">
+        <p class="adm-hint" style="margin-top:0;">
+            @L["Leave both empty to apply the discount to the whole cart. Otherwise the discount applies only to the selected products and the products inside the selected collections."]
+        </p>
+
+        @if (isNew)
+        {
+            <p style="color:#6b665c;">@L["Save the discount first, then choose the products and collections it applies to."]</p>
+        }
+        else
+        {
+            <h3 class="adm-subhead">@L["Eligible products"] (@Model.EligibleProducts.Count)</h3>
+
+            <form method="get" action="/discounts/@Model.Id/edit" class="adm-toolbar__filters" style="margin-bottom:16px;">
+                <div class="adm-field">
+                    <label for="eligSearch">@L["Find active products to add"]</label>
+                    <input id="eligSearch" name="eligSearch" value="@Model.ProductSearch" placeholder="@L["Title, slug, type, vendor or tag…"]" />
+                </div>
+                <button type="submit" class="adm-btn">@L["Search"]</button>
+            </form>
+
+            @if (Model.ShowSearchResults)
+            {
+                @if (Model.SearchResults.Count == 0)
+                {
+                    <p style="color:#6b665c;">@L["No matching active products."]</p>
+                }
+                else
+                {
+                    <table class="adm-table" style="margin-bottom:24px;">
+                        <thead>
+                            <tr><th></th><th>@L["Product"]</th><th>@L["Price"]</th><th></th></tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var p in Model.SearchResults)
+                        {
+                            <tr>
+                                <td>@if (!string.IsNullOrEmpty(p.ImageUrl)) { <img class="adm-thumb" src="@p.ImageUrl" alt="@p.Title" /> }</td>
+                                <td>@p.Title <span style="color:#6b665c;">(@p.Slug)</span></td>
+                                <td>@(p.Price.HasValue ? "KWD " + p.Price.Value.ToString("0.000") : "—")</td>
+                                <td>
+                                    <form method="post" action="/discounts/@Model.Id/eligibility/products/add">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="productId" value="@p.ProductId" />
+                                        <input type="hidden" name="eligSearch" value="@Model.ProductSearch" />
+                                        <button type="submit" class="adm-btn">@L["Add"]</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                }
+            }
+
+            @if (Model.EligibleProducts.Count == 0)
+            {
+                <p style="color:#6b665c;">@L["No product is selected — add products above, or use collections below."]</p>
+            }
+            else
+            {
+                <table class="adm-table" style="margin-bottom:24px;">
+                    <tbody>
+                    @foreach (var p in Model.EligibleProducts)
+                    {
+                        <tr>
+                            <td style="width:48px;">@if (!string.IsNullOrEmpty(p.ImageUrl)) { <img class="adm-thumb" src="@p.ImageUrl" alt="@p.Title" /> }</td>
+                            <td>@p.Title <span style="color:#6b665c;">(@p.Slug)</span></td>
+                            <td style="text-align:right;">
+                                <form method="post" action="/discounts/@Model.Id/eligibility/products/@p.ProductId/remove">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="adm-btn">@L["Remove"]</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+
+            <h3 class="adm-subhead">@L["Eligible collections"]</h3>
+            @if (Model.EligibleCollections.Count == 0)
+            {
+                <p style="color:#6b665c;">@L["No collections exist yet."]</p>
+            }
+            else
+            {
+                <form method="post" action="/discounts/@Model.Id/eligibility/collections">
+                    @Html.AntiForgeryToken()
+                    <div class="dsc-collections" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+                        @foreach (var c in Model.EligibleCollections)
+                        {
+                            <label class="adm-field--check">
+                                <input type="checkbox" name="collectionIds" value="@c.Id" checked="@(c.Selected ? "checked" : null)" />
+                                <span>@c.Title</span>
+                            </label>
+                        }
+                    </div>
+                    <button type="submit" class="adm-btn adm-btn--solid">@L["Save eligible collections"]</button>
+                </form>
+            }
+        }
     </div>
 </section>

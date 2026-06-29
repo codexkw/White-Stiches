@@ -179,7 +179,7 @@
             <div class="filter-colors">
               @foreach (var color in Model.ColorOptions)
               {
-                <label class="color-dot" title="@color"><input type="checkbox" name="color" value="@color" checked="@(string.Equals(Model.Color, color, StringComparison.OrdinalIgnoreCase))" /><span style="background:@Hex(color)"></span><em>@color</em></label>
+                <label class="color-dot" title="@color"><input type="checkbox" name="color" value="@color" checked="@(Model.Colors.Any(c => string.Equals(c, color, StringComparison.OrdinalIgnoreCase)))" /><span style="background:@Hex(color)"></span><em>@color</em></label>
               }
             </div>
           </div>
@@ -329,8 +329,9 @@
     var form = document.getElementById('filterForm');
     if (!form) return;
 
-    // Radio-like behavior: a single selection per filter group
-    ['category', 'size', 'color'].forEach(function (group) {
+    // Radio-like behavior: a single selection per filter group.
+    // Colour is intentionally excluded — it supports multi-select checkboxes.
+    ['category', 'size'].forEach(function (group) {
       var boxes = form.querySelectorAll('input[type="checkbox"][name="' + group + '"]');
       boxes.forEach(function (box) {
         box.addEventListener('change', function () {

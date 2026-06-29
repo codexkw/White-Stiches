@@ -145,6 +145,8 @@ public class WhiteStichesDbContext(DbContextOptions<WhiteStichesDbContext> optio
             e.Property(x => x.TitleAr).HasMaxLength(300);
             e.Property(x => x.Slug).HasMaxLength(160);
             e.HasIndex(x => x.Slug).IsUnique();
+            // Existing collections stay in the menu after the column is added.
+            e.Property(x => x.ShowInMenu).HasDefaultValue(true);
         });
 
         builder.Entity<CollectionProduct>(e =>

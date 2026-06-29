@@ -16,20 +16,20 @@ public class ShopController(ICatalogService catalog) : Controller
 
     [Route("collection")]
     public async Task<IActionResult> Collection(
-        string? category, string? size, string? color,
+        string? category, string? size, string[]? color,
         decimal? min, decimal? max, bool instock = false,
         string? sort = null, int page = 1, CancellationToken ct = default)
     {
         category = Normalize(category);
         size = Normalize(size);
-        color = Normalize(color);
+        var colors = NormalizeMany(color);
         var sortKey = Normalize(sort)?.ToLowerInvariant() ?? "featured";
 
         var query = new ProductQuery
         {
             CategorySlug = category,
             Size = size,
-            Color = color,
+            Colors = colors,
             PriceMin = min,
             PriceMax = max,
             InStockOnly = instock,
@@ -53,7 +53,7 @@ public class ShopController(ICatalogService catalog) : Controller
             BannerTitle = matched?.NameEn ?? "All",
             Category = category,
             Size = size,
-            Color = color,
+            Colors = colors,
             Min = min,
             Max = max,
             InStock = instock,
@@ -65,7 +65,7 @@ public class ShopController(ICatalogService catalog) : Controller
 
     [Route("collections/{slug}")]
     public async Task<IActionResult> Collections(
-        string slug, string? size, string? color,
+        string slug, string? size, string[]? color,
         decimal? min, decimal? max, bool instock = false,
         string? sort = null, int page = 1, CancellationToken ct = default)
     {
@@ -73,14 +73,14 @@ public class ShopController(ICatalogService catalog) : Controller
         if (collection is null) return NotFound();
 
         size = Normalize(size);
-        color = Normalize(color);
+        var colors = NormalizeMany(color);
         var sortKey = Normalize(sort)?.ToLowerInvariant() ?? "featured";
 
         var query = new ProductQuery
         {
             CollectionSlug = slug,
             Size = size,
-            Color = color,
+            Colors = colors,
             PriceMin = min,
             PriceMax = max,
             InStockOnly = instock,
@@ -101,7 +101,7 @@ public class ShopController(ICatalogService catalog) : Controller
             BannerTitle = collection.Title(),
             CollectionSlug = slug,
             Size = size,
-            Color = color,
+            Colors = colors,
             Min = min,
             Max = max,
             InStock = instock,
@@ -195,6 +195,16 @@ public class ShopController(ICatalogService catalog) : Controller
 
     private static string? Normalize(string? value) =>
         string.IsNullOrWhiteSpace(value) ? null : value.Trim();
+
+    /// <summary>Trim, drop blanks, and de-dupe a repeated query-string value (e.g. ?color=Black&amp;color=Sand).</summary>
+    private static IReadOnlyList<string> NormalizeMany(string[]? values) =>
+        values is null
+            ? []
+            : values.Select(v => v?.Trim())
+                    .Where(v => !string.IsNullOrEmpty(v))
+                    .Select(v => v!)
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .ToList();
 
     private static IEnumerable<Category> Flatten(IEnumerable<Category> categories) =>
         categories.SelectMany(c => new[] { c }.Concat(Flatten(c.Children)));

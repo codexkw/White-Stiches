@@ -127,8 +127,9 @@ public class CartService(WhiteStichesDbContext db, IMarketingService marketing, 
 
         var subtotal = cart.Items.Sum(i => i.ProductVariant.Price * i.Quantity);
         var itemCount = cart.Items.Sum(i => i.Quantity);
+        var lines = DiscountLines(cart);
 
-        var validation = await marketing.ValidateDiscountCodeAsync(code, subtotal, itemCount, cart.UserId, ct);
+        var validation = await marketing.ValidateDiscountCodeAsync(code, subtotal, itemCount, lines, cart.UserId, ct);
         if (!validation.IsValid || validation.Code is null)
         {
             throw new InvalidOperationException(validation.FailureReason ?? "not_found");
@@ -203,7 +204,8 @@ public class CartService(WhiteStichesDbContext db, IMarketingService marketing, 
         decimal discount = 0;
         if (cart.DiscountCode is not null)
         {
-            var validation = await marketing.ValidateDiscountCodeAsync(cart.DiscountCode.Code, subtotal, itemCount, cart.UserId, ct);
+            var lines = DiscountLines(cart);
+            var validation = await marketing.ValidateDiscountCodeAsync(cart.DiscountCode.Code, subtotal, itemCount, lines, cart.UserId, ct);
             discount = validation.IsValid ? validation.DiscountAmount : 0;
         }
 
@@ -227,4 +229,10 @@ public class CartService(WhiteStichesDbContext db, IMarketingService marketing, 
     private async Task<Cart> RequireCartAsync(int cartId, CancellationToken ct) =>
         await CartWithItems.FirstOrDefaultAsync(c => c.Id == cartId, ct)
             ?? throw new InvalidOperationException($"Cart {cartId} not found.");
+
+    /// <summary>Projects cart lines for discount eligibility: product id + that line's money total.</summary>
+    private static IReadOnlyList<DiscountLineItem> DiscountLines(Cart cart) =>
+        cart.Items
+            .Select(i => new DiscountLineItem(i.ProductVariant.ProductId, i.ProductVariant.Price * i.Quantity))
+            .ToList();
 }

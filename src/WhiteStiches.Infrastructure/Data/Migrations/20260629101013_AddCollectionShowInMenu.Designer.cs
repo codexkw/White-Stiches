@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WhiteStiches.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using WhiteStiches.Infrastructure.Data;
 namespace WhiteStiches.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(WhiteStichesDbContext))]
-    partial class WhiteStichesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260629101013_AddCollectionShowInMenu")]
+    partial class AddCollectionShowInMenu
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

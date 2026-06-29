@@ -27,6 +27,9 @@ public class CollectionFormViewModel
     public bool IsActive { get; set; }
     public bool IsSmart { get; set; }
 
+    /// <summary>Show this collection in storefront navigation (header, drawer, footer).</summary>
+    public bool ShowInMenu { get; set; } = true;
+
     public string? SeoTitleEn { get; set; }
     public string? SeoTitleAr { get; set; }
     public string? SeoDescriptionEn { get; set; }

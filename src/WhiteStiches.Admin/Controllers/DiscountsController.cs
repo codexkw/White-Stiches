@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using WhiteStiches.Admin.Models;
+using WhiteStiches.Core.Entities.Catalog;
 using WhiteStiches.Core.Entities.Marketing;
 using WhiteStiches.Core.Enums;
 using WhiteStiches.Core.Interfaces;
@@ -36,7 +37,7 @@ public class DiscountsController(IMarketingService marketing, IAuditService audi
     }
 
     [HttpGet("{id:int}/edit")]
-    public async Task<IActionResult> Edit(int id, CancellationToken ct)
+    public async Task<IActionResult> Edit(int id, string? eligSearch, CancellationToken ct)
     {
         var entity = await marketing.GetDiscountCodeAsync(id, ct);
         if (entity is null)
@@ -47,7 +48,10 @@ public class DiscountsController(IMarketingService marketing, IAuditService audi
 
         ViewData["Title"] = $"Edit {entity.Code}";
         ViewData["Nav"] = "discounts";
-        return View("Edit", DiscountEditViewModel.From(entity));
+
+        var model = DiscountEditViewModel.From(entity);
+        await PopulateEligibilityAsync(model, eligSearch, ct);
+        return View("Edit", model);
     }
 
     [HttpPost("save")]
@@ -101,6 +105,7 @@ public class DiscountsController(IMarketingService marketing, IAuditService audi
         {
             ViewData["Title"] = model.Id == 0 ? "New discount" : "Edit discount";
             ViewData["Nav"] = "discounts";
+            await PopulateEligibilityAsync(model, null, ct);
             return View("Edit", model);
         }
 
@@ -175,6 +180,67 @@ public class DiscountsController(IMarketingService marketing, IAuditService audi
 
         return RedirectToAction(nameof(Index));
     }
+
+    // ---------------------------------------------------------------- eligibility picker
+
+    [HttpPost("{id:int}/eligibility/products/add")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AddEligibleProduct(int id, int productId, string? eligSearch, CancellationToken ct)
+    {
+        await marketing.AddEligibleProductAsync(id, productId, ct);
+        return RedirectToAction(nameof(Edit), new { id, eligSearch });
+    }
+
+    [HttpPost("{id:int}/eligibility/products/{productId:int}/remove")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> RemoveEligibleProduct(int id, int productId, CancellationToken ct)
+    {
+        await marketing.RemoveEligibleProductAsync(id, productId, ct);
+        return RedirectToAction(nameof(Edit), new { id });
+    }
+
+    [HttpPost("{id:int}/eligibility/collections")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SaveEligibleCollections(int id, int[]? collectionIds, CancellationToken ct)
+    {
+        await marketing.SetEligibleCollectionsAsync(id, collectionIds ?? [], ct);
+        TempData["Ok"] = "Eligible collections updated.";
+        return RedirectToAction(nameof(Edit), new { id });
+    }
+
+    /// <summary>Loads the eligibility picker state (selected products, all collections, optional search) for an existing code.</summary>
+    private async Task PopulateEligibilityAsync(DiscountEditViewModel model, string? search, CancellationToken ct)
+    {
+        if (model.Id == 0) return; // eligibility is curated after the code is first saved
+
+        var eligibility = await marketing.GetEligibilityAsync(model.Id, ct);
+
+        var selected = await marketing.GetProductsByIdsAsync(eligibility.Products, ct);
+        model.EligibleProducts = selected.Select(ToRow).ToList();
+
+        var selectedCollectionIds = eligibility.Collections.ToHashSet();
+        var collections = await marketing.GetAllCollectionsAsync(ct);
+        model.EligibleCollections = collections
+            .Select(c => new EligibilityCollectionRow(c.Id, c.TitleEn, selectedCollectionIds.Contains(c.Id)))
+            .ToList();
+
+        var term = search?.Trim();
+        if (!string.IsNullOrEmpty(term))
+        {
+            model.ProductSearch = term;
+            model.ShowSearchResults = true;
+            var alreadyIn = eligibility.Products.ToHashSet();
+            var results = await marketing.SearchProductsAsync(term, 20, ct);
+            model.SearchResults = results.Where(p => !alreadyIn.Contains(p.Id)).Select(ToRow).ToList();
+        }
+    }
+
+    private static EligibilityProductRow ToRow(Product p) => new(
+        p.Id,
+        p.TitleEn,
+        p.Slug,
+        p.Images.OrderBy(i => i.SortOrder).FirstOrDefault()?.Url,
+        p.Variants.Count > 0 ? p.Variants.Min(v => v.Price) : null);
 
     private (Guid? UserId, string? UserName) CurrentUser()
     {

@@ -9,7 +9,7 @@ namespace WhiteStiches.Admin.Controllers;
 
 /// <summary>Hierarchical category taxonomy back office (AD-PRD-08).</summary>
 [Route("categories")]
-public class CategoriesController(ICatalogService catalog, IAuditService audit) : Controller
+public class CategoriesController(ICatalogService catalog, IAuditService audit, IFileStorage files) : Controller
 {
     private Guid? UserId =>
         Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var id) ? id : null;
@@ -37,7 +37,8 @@ public class CategoriesController(ICatalogService catalog, IAuditService audit) 
                 Slug = editing.Slug,
                 ParentId = editing.ParentId,
                 SortOrder = editing.SortOrder,
-                IsActive = editing.IsActive
+                IsActive = editing.IsActive,
+                ImageUrl = editing.ImageUrl
             };
         }
 
@@ -95,6 +96,9 @@ public class CategoriesController(ICatalogService catalog, IAuditService audit) 
                 IsActive = form.IsActive
             };
 
+            if (form.Image is { Length: > 0 })
+                category.ImageUrl = await files.SaveAsync(form.Image.OpenReadStream(), form.Image.FileName, "categories", ct);
+
             await catalog.CreateCategoryAsync(category, ct);
             await audit.LogAsync("category.create", UserId, UserName, nameof(Category), category.Id.ToString(),
                 after: Snapshot(category));
@@ -117,6 +121,10 @@ public class CategoriesController(ICatalogService catalog, IAuditService audit) 
             category.ParentId = form.ParentId;
             category.SortOrder = form.SortOrder;
             category.IsActive = form.IsActive;
+
+            // Replace the image only when a new file is uploaded; otherwise keep the existing one.
+            if (form.Image is { Length: > 0 })
+                category.ImageUrl = await files.SaveAsync(form.Image.OpenReadStream(), form.Image.FileName, "categories", ct);
 
             await catalog.UpdateCategoryAsync(category, ct);
             await audit.LogAsync("category.update", UserId, UserName, nameof(Category), category.Id.ToString(),
@@ -169,6 +177,7 @@ public class CategoriesController(ICatalogService catalog, IAuditService audit) 
         c.Slug,
         c.ParentId,
         c.SortOrder,
-        c.IsActive
+        c.IsActive,
+        c.ImageUrl
     };
 }

@@ -176,6 +176,10 @@
             <span>@variants.Count @L["variant(s)"]</span>
         </header>
         <div class="adm-panel__body">
+            @{
+                // Still photos only — a variant swatch/hero is an image, never a video clip.
+                var pickable = p.Images.Where(i => i.MediaKind == MediaKind.Image).OrderBy(i => i.SortOrder).ToList();
+            }
             <form action="/products/@p.Id/variants" method="post">
                 @Html.AntiForgeryToken()
                 <table class="adm-table">
@@ -189,6 +193,7 @@
                             <th>@L["Low at"]</th>
                             <th>@L["Oversell"]</th>
                             <th>@L["Active"]</th>
+                            <th>@L["Image"]</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -214,6 +219,24 @@
                                 <td>
                                     <input type="checkbox" name="variants[@i].IsActive" value="true" @(v.IsActive ? "checked" : "") />
                                     <input type="hidden" name="variants[@i].IsActive" value="false" />
+                                </td>
+                                <td>
+                                    @if (pickable.Count == 0)
+                                    {
+                                        <span class="adm-hint">@L["Upload images first"]</span>
+                                    }
+                                    else
+                                    {
+                                        <select name="variants[@i].ImageId" style="width:130px">
+                                            <option value="">@L["— none —"]</option>
+                                            @for (var j = 0; j < pickable.Count; j++)
+                                            {
+                                                var img = pickable[j];
+                                                var imgLabel = string.IsNullOrWhiteSpace(img.ColorName) ? $"#{j + 1}" : img.ColorName;
+                                                <option value="@img.Id" selected="@(v.ImageId == img.Id)">@imgLabel</option>
+                                            }
+                                        </select>
+                                    }
                                 </td>
                             </tr>
                         }

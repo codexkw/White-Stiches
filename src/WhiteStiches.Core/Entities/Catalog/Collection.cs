@@ -21,6 +21,9 @@ public class Collection : BaseEntity
     public CollectionSortOrder SortOrder { get; set; } = CollectionSortOrder.Manual;
     public bool IsActive { get; set; } = true;
 
+    /// <summary>When true (default), the collection is listed in storefront navigation (header, drawer, footer).</summary>
+    public bool ShowInMenu { get; set; } = true;
+
     public string? SeoTitleEn { get; set; }
     public string? SeoTitleAr { get; set; }
     public string? SeoDescriptionEn { get; set; }

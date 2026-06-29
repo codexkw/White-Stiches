@@ -71,6 +71,12 @@ public class CategoryFormModel
     public int? ParentId { get; set; }
     public int SortOrder { get; set; }
     public bool IsActive { get; set; } = true;
+
+    /// <summary>New image file to upload (optional). Replaces the existing image when present.</summary>
+    public IFormFile? Image { get; set; }
+
+    /// <summary>Existing stored image path, for display/round-trip when no new file is uploaded.</summary>
+    public string? ImageUrl { get; set; }
 }
 
 public class CategoryListViewModel

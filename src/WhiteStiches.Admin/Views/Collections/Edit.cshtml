@@ -92,6 +92,13 @@
                     <label for="IsActive">@L["Active — visible on the storefront"]</label>
                 </div>
                 <div class="adm-field adm-field--check">
+                    @* Checkbox must precede the hidden companion: a checked box posts "true,false" and the
+                       binder takes the first value. Reversing them makes a checked box bind false. *@
+                    <input type="checkbox" id="ShowInMenu" name="ShowInMenu" value="true" checked="@(Model.Form.ShowInMenu ? "checked" : null)" />
+                    <input type="hidden" name="ShowInMenu" value="false" />
+                    <label for="ShowInMenu">@L["Show in navigation menu (header, drawer, footer)"]</label>
+                </div>
+                <div class="adm-field adm-field--check">
                     <input type="checkbox" id="IsSmart" name="IsSmart" value="true" checked="@(Model.Form.IsSmart ? "checked" : null)" />
                     <label for="IsSmart">@L["Smart collection — products selected by rules"]</label>
                 </div>

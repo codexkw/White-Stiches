@@ -20,4 +20,7 @@ public class VariantUpdateRow
     public int LowStockThreshold { get; set; } = 5;
     public bool AllowOversell { get; set; }
     public bool IsActive { get; set; } = true;
+
+    /// <summary>Product image assigned to this variant (null = none). Must belong to the same product.</summary>
+    public int? ImageId { get; set; }
 }

@@ -72,7 +72,7 @@
             }
         </header>
         <div class="adm-panel__body">
-            <form asp-controller="Categories" asp-action="Save" method="post">
+            <form asp-controller="Categories" asp-action="Save" method="post" enctype="multipart/form-data">
                 <input type="hidden" asp-for="Form.Id" />
 
                 <div class="adm-field">
@@ -100,6 +100,14 @@
                 <div class="adm-field">
                     <label asp-for="Form.SortOrder">@L["Sort order"]</label>
                     <input asp-for="Form.SortOrder" type="number" />
+                </div>
+                <div class="adm-field">
+                    <label asp-for="Form.Image">@L["Image (optional)"]</label>
+                    <input asp-for="Form.Image" type="file" accept="image/*" />
+                    @if (!string.IsNullOrEmpty(Model.Form.ImageUrl))
+                    {
+                        <img class="adm-thumb" src="@Model.Form.ImageUrl" alt="@L["Current image"]" style="margin-top:8px;" />
+                    }
                 </div>
                 <div class="adm-field adm-field--check">
                     <input asp-for="Form.IsActive" />

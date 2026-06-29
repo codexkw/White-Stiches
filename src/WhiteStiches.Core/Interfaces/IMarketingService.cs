@@ -1,3 +1,4 @@
+using WhiteStiches.Core.Entities.Catalog;
 using WhiteStiches.Core.Entities.Marketing;
 using WhiteStiches.Core.Models;
 
@@ -6,8 +7,24 @@ namespace WhiteStiches.Core.Interfaces;
 /// <summary>Discount codes and newsletter (AD-MKT-01, SF-HOM-05).</summary>
 public interface IMarketingService
 {
-    /// <summary>Validates a code against schedule, limits, and minimums. Returns null with a reason when invalid.</summary>
-    Task<DiscountValidationResult> ValidateDiscountCodeAsync(string code, decimal cartSubtotal, int cartItemCount, Guid? userId = null, CancellationToken ct = default);
+    /// <summary>
+    /// Validates a code against schedule, limits, and minimums, and computes the discount amount.
+    /// When the code has product/collection eligibility, the amount applies only to eligible
+    /// <paramref name="lines"/>; an eligible-items subtotal of zero fails with "not_eligible".
+    /// </summary>
+    Task<DiscountValidationResult> ValidateDiscountCodeAsync(string code, decimal cartSubtotal, int cartItemCount,
+        IReadOnlyList<DiscountLineItem>? lines = null, Guid? userId = null, CancellationToken ct = default);
+
+    // ---- Eligibility (AD-MKT-01): products/collections a code is restricted to ----
+    Task<DiscountEligibility> GetEligibilityAsync(int discountId, CancellationToken ct = default);
+    Task<bool> AddEligibleProductAsync(int discountId, int productId, CancellationToken ct = default);
+    Task<bool> RemoveEligibleProductAsync(int discountId, int productId, CancellationToken ct = default);
+    Task SetEligibleCollectionsAsync(int discountId, IReadOnlyList<int> collectionIds, CancellationToken ct = default);
+
+    /// <summary>Active products matching the term (title/slug/type/vendor/tag) — for the eligibility picker.</summary>
+    Task<IReadOnlyList<Product>> SearchProductsAsync(string? term, int take = 20, CancellationToken ct = default);
+    Task<IReadOnlyList<Product>> GetProductsByIdsAsync(IReadOnlyList<int> ids, CancellationToken ct = default);
+    Task<IReadOnlyList<Collection>> GetAllCollectionsAsync(CancellationToken ct = default);
 
     Task<IReadOnlyList<DiscountCode>> GetDiscountCodesAsync(bool activeOnly = false, CancellationToken ct = default);
 

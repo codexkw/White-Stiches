@@ -86,6 +86,7 @@ public class CollectionsController(
             SortOrder = form.SortOrder,
             IsActive = form.IsActive,
             IsSmart = form.IsSmart,
+            ShowInMenu = form.ShowInMenu,
             SeoTitleEn = NullIfBlank(form.SeoTitleEn),
             SeoTitleAr = NullIfBlank(form.SeoTitleAr),
             SeoDescriptionEn = NullIfBlank(form.SeoDescriptionEn),
@@ -110,7 +111,7 @@ public class CollectionsController(
             : new
             {
                 existing.TitleEn, existing.TitleAr, existing.Slug, existing.IsActive, existing.IsSmart,
-                existing.SortOrder, existing.ImageUrl, existing.BannerUrl
+                existing.ShowInMenu, existing.SortOrder, existing.ImageUrl, existing.BannerUrl
             };
 
         var saved = await collections.SaveAsync(entity, ct);
@@ -118,7 +119,7 @@ public class CollectionsController(
         var after = new
         {
             saved.TitleEn, saved.TitleAr, saved.Slug, saved.IsActive, saved.IsSmart,
-            saved.SortOrder, saved.ImageUrl, saved.BannerUrl
+            saved.ShowInMenu, saved.SortOrder, saved.ImageUrl, saved.BannerUrl
         };
 
         await audit.LogAsync(existing is null ? "collection.create" : "collection.update",
@@ -352,6 +353,7 @@ public class CollectionsController(
                 SortOrder = entity.SortOrder,
                 IsActive = entity.IsActive,
                 IsSmart = entity.IsSmart,
+                ShowInMenu = entity.ShowInMenu,
                 SeoTitleEn = entity.SeoTitleEn,
                 SeoTitleAr = entity.SeoTitleAr,
                 SeoDescriptionEn = entity.SeoDescriptionEn,

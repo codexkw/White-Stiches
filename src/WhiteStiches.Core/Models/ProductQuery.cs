@@ -10,7 +10,9 @@ public class ProductQuery
     public string? CategorySlug { get; set; }
     public string? CollectionSlug { get; set; }
     public string? Size { get; set; }
-    public string? Color { get; set; }
+
+    /// <summary>Selected colours (multi-select). A product matches if any variant has any of these colours.</summary>
+    public IReadOnlyList<string> Colors { get; set; } = [];
     public decimal? PriceMin { get; set; }
     public decimal? PriceMax { get; set; }
     public string? Tag { get; set; }

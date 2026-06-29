@@ -52,14 +52,25 @@ public class ProductDetailViewModel
             .All(v => !IsPurchasable(v));
 
     /// <summary>
-    /// Still photo to use as the color swatch — prefers a color-matched photo, then any photo, then the
-    /// first product image. Videos are skipped as swatches (a clip makes a poor thumbnail).
+    /// Still photo to use as the color swatch — prefers the image explicitly assigned to a variant of
+    /// this colour (admin-managed per-variant image), then a colour-matched photo by name, then any
+    /// photo, then the first product image. Videos are skipped as swatches (a clip makes a poor thumbnail).
     /// </summary>
-    public ProductImage? ImageForColor(string color) =>
-        Images.FirstOrDefault(i => i.MediaKind == MediaKind.Image
-            && string.Equals(i.ColorName?.Trim(), color, StringComparison.OrdinalIgnoreCase))
-        ?? Images.FirstOrDefault(i => i.MediaKind == MediaKind.Image)
-        ?? Images.FirstOrDefault();
+    public ProductImage? ImageForColor(string color)
+    {
+        var assignedId = Variants
+            .Where(v => v.ImageId is not null
+                && string.Equals(v.Option2?.Trim(), color, StringComparison.OrdinalIgnoreCase))
+            .Select(v => v.ImageId)
+            .FirstOrDefault();
+        if (assignedId is int id && Images.FirstOrDefault(i => i.Id == id) is { } assigned)
+            return assigned;
+
+        return Images.FirstOrDefault(i => i.MediaKind == MediaKind.Image
+                && string.Equals(i.ColorName?.Trim(), color, StringComparison.OrdinalIgnoreCase))
+            ?? Images.FirstOrDefault(i => i.MediaKind == MediaKind.Image)
+            ?? Images.FirstOrDefault();
+    }
 
     public string SizeLabel =>
         Product.Options.FirstOrDefault(o => o.Position == 1)?.NameEn is { Length: > 0 } name ? name : "Size";

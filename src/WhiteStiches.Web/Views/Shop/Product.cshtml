@@ -43,6 +43,19 @@
 
     var alsoLike = Model.Related.Take(4).ToList();
     var completeLook = Model.Related.Skip(4).Take(4).ToList();
+
+    // Map each colour to the gallery index of its image (variant-assigned image first; see ImageForColor)
+    // so picking a colour swatch jumps the main gallery to that photo.
+    var colorImageIndex = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+    foreach (var c in Model.ColorValues)
+    {
+        var img = Model.ImageForColor(c);
+        if (img is null) continue;
+        for (var ix = 0; ix < images.Count; ix++)
+        {
+            if (images[ix].Id == img.Id) { colorImageIndex[c] = ix; break; }
+        }
+    }
 }
 
 <!-- ============================ BREADCRUMB ============================ -->
@@ -382,6 +395,7 @@
     var hasColors = @(Model.ColorValues.Count > 0 ? "true" : "false");
     var selectedSize = @Html.Raw(Json.Serialize(dv?.Option1));
     var selectedColor = @Html.Raw(Json.Serialize(dv?.Option2));
+    var colorImageIndex = @Html.Raw(Json.Serialize(colorImageIndex));
 
     var variantInput = document.getElementById('variantIdInput');
     var priceEl = document.getElementById('pdpPrice');
@@ -453,6 +467,12 @@
         if (btn.classList.contains('is-soldout')) return;
         selectedColor = btn.dataset.color;
         refresh();
+        // Jump the gallery to this colour's image (variant-assigned image when set).
+        var idx = colorImageIndex[selectedColor];
+        if (typeof idx === 'number') {
+          var thumb = document.querySelector('.pdp__thumb[data-index="' + idx + '"]');
+          if (thumb) thumb.click();
+        }
       });
     });
 

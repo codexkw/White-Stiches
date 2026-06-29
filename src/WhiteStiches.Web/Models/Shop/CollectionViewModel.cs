@@ -26,7 +26,9 @@ public class CollectionViewModel
     // Current filter state (echoes the query string)
     public string? Category { get; init; }
     public string? Size { get; init; }
-    public string? Color { get; init; }
+
+    /// <summary>Selected colours (multi-select). Echoes the repeated ?color= query values.</summary>
+    public IReadOnlyList<string> Colors { get; init; } = [];
     public decimal? Min { get; init; }
     public decimal? Max { get; init; }
     public bool InStock { get; init; }
@@ -39,7 +41,7 @@ public class CollectionViewModel
     public int ActiveFilterCount =>
         (Category is null ? 0 : 1) +
         (Size is null ? 0 : 1) +
-        (Color is null ? 0 : 1) +
+        Colors.Count +
         (Min is null && Max is null ? 0 : 1) +
         (InStock ? 1 : 0);
 
@@ -50,19 +52,22 @@ public class CollectionViewModel
             var chips = new List<FilterChip>();
             if (Category is not null) chips.Add(new FilterChip(BannerTitle, RemoveCategoryUrl()));
             if (Size is not null) chips.Add(new FilterChip(Size, RemoveSizeUrl()));
-            if (Color is not null) chips.Add(new FilterChip(Color, RemoveColorUrl()));
+            foreach (var color in Colors) chips.Add(new FilterChip(color, RemoveColorUrl(color)));
             if (Min is not null || Max is not null) chips.Add(new FilterChip(PriceChipLabel(), RemovePriceUrl()));
             if (InStock) chips.Add(new FilterChip("In stock", RemoveInStockUrl()));
             return chips;
         }
     }
 
-    public string PageUrl(int page) => BuildUrl(Category, Size, Color, Min, Max, InStock, Sort, page);
-    public string RemoveCategoryUrl() => BuildUrl(null, Size, Color, Min, Max, InStock, Sort, 1);
-    public string RemoveSizeUrl() => BuildUrl(Category, null, Color, Min, Max, InStock, Sort, 1);
-    public string RemoveColorUrl() => BuildUrl(Category, Size, null, Min, Max, InStock, Sort, 1);
-    public string RemovePriceUrl() => BuildUrl(Category, Size, Color, null, null, InStock, Sort, 1);
-    public string RemoveInStockUrl() => BuildUrl(Category, Size, Color, Min, Max, false, Sort, 1);
+    public string PageUrl(int page) => BuildUrl(Category, Size, Colors, Min, Max, InStock, Sort, page);
+    public string RemoveCategoryUrl() => BuildUrl(null, Size, Colors, Min, Max, InStock, Sort, 1);
+    public string RemoveSizeUrl() => BuildUrl(Category, null, Colors, Min, Max, InStock, Sort, 1);
+    /// <summary>Remove a single colour from the selection, keeping the rest.</summary>
+    public string RemoveColorUrl(string color) => BuildUrl(Category, Size,
+        Colors.Where(c => !string.Equals(c, color, StringComparison.OrdinalIgnoreCase)).ToList(),
+        Min, Max, InStock, Sort, 1);
+    public string RemovePriceUrl() => BuildUrl(Category, Size, Colors, null, null, InStock, Sort, 1);
+    public string RemoveInStockUrl() => BuildUrl(Category, Size, Colors, Min, Max, false, Sort, 1);
 
     private string PriceChipLabel()
     {
@@ -77,7 +82,7 @@ public class CollectionViewModel
     }
 
     private string BuildUrl(
-        string? category, string? size, string? color,
+        string? category, string? size, IReadOnlyList<string> colors,
         decimal? min, decimal? max, bool instock, string? sort, int page)
     {
         var parts = new List<string>();
@@ -88,7 +93,7 @@ public class CollectionViewModel
 
         Add("category", category);
         Add("size", size);
-        Add("color", color);
+        foreach (var color in colors) Add("color", color);
         if (min is not null) parts.Add($"min={min.Value.ToString("0.###", CultureInfo.InvariantCulture)}");
         if (max is not null) parts.Add($"max={max.Value.ToString("0.###", CultureInfo.InvariantCulture)}");
         if (instock) parts.Add("instock=true");

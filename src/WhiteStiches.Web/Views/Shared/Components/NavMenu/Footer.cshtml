@@ -1,7 +1,7 @@
 @model WhiteStiches.Web.Models.Nav.NavMenuViewModel
 @*
-    Footer "Shop" column — live root categories, then active collections,
-    then the evergreen New Arrivals / Sale links.
+    Footer "Shop" column — live root categories, then the collections that
+    are flagged to appear in navigation (Collection.ShowInMenu).
 *@
 <div class="ftr__col">
   <h5>@L["Shop"]</h5>
@@ -13,6 +13,4 @@
   {
     <a href="/collections/@collection.Slug">@collection.Title()</a>
   }
-  <a href="/collection?sort=newest">@L["New Arrivals"]</a>
-  <a href="/collection">@L["Sale"]</a>
 </div>

@@ -35,10 +35,21 @@ public class DiscountEditViewModel
 
     public bool IsActive { get; set; } = true;
 
-    public string? EligibilityJson { get; set; }
-
     /// <summary>Display only — never written back to the entity.</summary>
     public int TimesUsed { get; set; }
+
+    // ---- Eligibility picker (populated by the controller; not posted by the main form) ----
+
+    /// <summary>Products this code is restricted to (empty = no product restriction).</summary>
+    public IReadOnlyList<EligibilityProductRow> EligibleProducts { get; set; } = [];
+
+    /// <summary>All collections, each flagged whether it is currently selected for this code.</summary>
+    public IReadOnlyList<EligibilityCollectionRow> EligibleCollections { get; set; } = [];
+
+    /// <summary>Current product-search term + its results (shown only after a search).</summary>
+    public string? ProductSearch { get; set; }
+    public bool ShowSearchResults { get; set; }
+    public IReadOnlyList<EligibilityProductRow> SearchResults { get; set; } = [];
 
     public static DiscountEditViewModel From(DiscountCode d) => new()
     {
@@ -53,11 +64,13 @@ public class DiscountEditViewModel
         StartsAtUtc = d.StartsAtUtc,
         EndsAtUtc = d.EndsAtUtc,
         IsActive = d.IsActive,
-        EligibilityJson = d.EligibilityJson,
         TimesUsed = d.TimesUsed
     };
 
-    /// <summary>Copies form values onto the entity. TimesUsed is intentionally left untouched.</summary>
+    /// <summary>
+    /// Copies form values onto the entity. TimesUsed and EligibilityJson are intentionally left
+    /// untouched — eligibility is managed by its own picker endpoints, not the main form.
+    /// </summary>
     public void Apply(DiscountCode entity)
     {
         entity.Code = Code;
@@ -70,9 +83,14 @@ public class DiscountEditViewModel
         entity.StartsAtUtc = StartsAtUtc;
         entity.EndsAtUtc = EndsAtUtc;
         entity.IsActive = IsActive;
-        entity.EligibilityJson = string.IsNullOrWhiteSpace(EligibilityJson) ? null : EligibilityJson;
     }
 }
+
+/// <summary>One product row in the discount eligibility picker (selected list or search results).</summary>
+public record EligibilityProductRow(int ProductId, string Title, string Slug, string? ImageUrl, decimal? Price);
+
+/// <summary>One collection in the eligibility picker, with whether it's currently selected for the code.</summary>
+public record EligibilityCollectionRow(int Id, string Title, bool Selected);
 
 /// <summary>List screen for /newsletter.</summary>
 public class NewsletterListViewModel
