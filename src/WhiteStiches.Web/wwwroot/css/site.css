@@ -99,7 +99,10 @@ body::after {
   font-weight: 500;
   letter-spacing: var(--tr-wider);
   text-transform: uppercase;
-  border-bottom: 1px solid #1f1f1f;
+  /* Silver metallic frame (top + bottom) */
+  border-style: solid;
+  border-width: 2px 0;
+  border-image: var(--metallic-silver) 1;
 }
 .announce__track {
   display: flex;
@@ -8922,8 +8925,10 @@ body.cart-is-empty .cart-empty { display: block !important; }
 /* ── Marquee strip — between hero and category band ───────────────────── */
 .marquee {
   background: #0a0a0a;
-  border-top: 1px solid #1f1f1f;
-  border-bottom: 1px solid #1f1f1f;
+  /* Silver metallic frame (top + bottom) */
+  border-style: solid;
+  border-width: 2px 0;
+  border-image: var(--metallic-silver) 1;
   overflow: hidden;
   padding: 16px 0;
 }

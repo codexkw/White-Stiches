@@ -26,6 +26,8 @@
   /* ────────── COLOR · ACCENT & STATE ────────── */
   --c-accent:        #c0c4c8;
   --c-accent-soft:   #8a8e93;
+  /* Brushed-silver metallic sheen for decorative borders (light→dark→light bands) */
+  --metallic-silver: linear-gradient(90deg, #8c9095 0%, #e8eaec 18%, #b9bdc1 38%, #f4f5f6 52%, #b9bdc1 66%, #e8eaec 84%, #8c9095 100%);
   --c-burgundy:      #5a2a2a;
   --c-sage:          #7a8a76;
   --c-success:       #6f8a5c;
