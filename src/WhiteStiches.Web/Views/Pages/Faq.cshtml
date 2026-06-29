@@ -1,14 +1,19 @@
 @{
     ViewData["Title"] = "FAQ · White Stitches";
-    ViewData["MetaDescription"] = "Frequently asked questions — orders, shipping, returns, sizing.";
+    ViewData["MetaDescription"] = "Frequently asked questions — tailoring, orders, delivery and returns.";
+
+    // Both translations live in the view (these answers were never localized via resx, and keeping
+    // them inline avoids long, fragile resx keys for editorial copy). RTL layout follows the culture.
+    var isAr = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ar";
+    string T(string en, string ar) => isAr ? ar : en;
 }
 
 <section class="page-hero">
   <div class="page-hero__inner">
     <span class="eyebrow">@L["Help · FAQ"]</span>
     <h1 class="page-hero__title">@L["Frequently asked."]</h1>
-    <p class="page-hero__lede">@L["Quick answers to the questions we get most. Can't find what you're looking for? WhatsApp us."]</p>
-    <p class="page-hero__meta">@L["Last updated · 10 May 2026"]</p>
+    <p class="page-hero__lede">@T("Quick answers to what we’re asked most — tailoring, orders, delivery and returns.", "إجابات سريعة عن أكثر ما يُسأل عنه — التفصيل، الطلبات، التوصيل والإرجاع.")</p>
+    <p class="page-hero__meta">@T("Last updated · 29 June 2026", "آخر تحديث · 29 يونيو 2026")</p>
   </div>
 </section>
 
@@ -17,160 +22,73 @@
     <aside class="policy__toc" aria-label="@L["On this page"]">
       <span class="eyebrow">@L["On this page"]</span>
       <ol class="policy__toc-list">
-    <li><a href="#orders">@L["Orders & payment"]</a></li>
-    <li><a href="#shipping">@L["Shipping & delivery"]</a></li>
-    <li><a href="#returns">@L["Returns & exchanges"]</a></li>
-    <li><a href="#product">@L["Product & sizing"]</a></li>
-    <li><a href="#account">@L["My account & privacy"]</a></li>
+        <li><a href="#tailoring">@T("Tailoring & made-to-order", "التفصيل والطلبات الخاصة")</a></li>
+        <li><a href="#returns">@T("Returns & exchanges", "الإرجاع والاستبدال")</a></li>
+        <li><a href="#shipping">@T("Shipping & delivery", "الشحن والتوصيل")</a></li>
+        <li><a href="#contact">@T("Contact", "التواصل")</a></li>
       </ol>
     </aside>
 
     <main class="policy__main">
-      <section class="policy-section" id="orders">
-        <h2 class="policy-section__title">@L["Orders & payment"]</h2>
-        <div class="faq-item">
-          <button type="button" class="faq-item__q" aria-expanded="false">
-            <span>@L["How long does it take to process my order?"]</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg>
-          </button>
-          <div class="faq-item__a"><p>Standard orders are processed and dispatched within 24 hours during business hours (Sat–Thu). Express and same-day orders placed before 2 PM are dispatched the same day.</p></div>
-        </div>
-<div class="faq-item">
-          <button type="button" class="faq-item__q" aria-expanded="false">
-            <span>@L["What payment methods do you accept?"]</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg>
-          </button>
-          <div class="faq-item__a"><p>KNET, all major credit and debit cards (Visa, Mastercard, AmEx), Apple Pay, Google Pay, mada, BenefitPay, and buy-now-pay-later via Tabby and Tamara. Cash on delivery is also available in Kuwait for a 1.500 KWD fee.</p></div>
-        </div>
-<div class="faq-item">
-          <button type="button" class="faq-item__q" aria-expanded="false">
-            <span>@L["Can I change or cancel my order after placing it?"]</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg>
-          </button>
-          <div class="faq-item__a"><p>You have a 1-hour grace window after placing your order to make changes via the Manage Order link in your confirmation email. After that, the order is locked for production and we can&rsquo;t guarantee changes.</p></div>
-        </div>
-<div class="faq-item">
-          <button type="button" class="faq-item__q" aria-expanded="false">
-            <span>@L["Do you offer gift wrapping?"]</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg>
-          </button>
-          <div class="faq-item__a"><p>Yes — every order can be gift-wrapped in our signature tissue with the wax-marked closure for 3.500 KWD. You can add a personal note up to 250 characters.</p></div>
-        </div>
-      </section>
 
-      <section class="policy-section" id="shipping">
-        <h2 class="policy-section__title">@L["Shipping & delivery"]</h2>
+      <section class="policy-section" id="tailoring">
+        <h2 class="policy-section__title">@T("Tailoring & made-to-order", "التفصيل والطلبات الخاصة")</h2>
         <div class="faq-item">
           <button type="button" class="faq-item__q" aria-expanded="false">
-            <span>@L["Where do you ship?"]</span>
+            <span>@T("Do you offer custom tailoring services?", "هل توفرون خدمة التفصيل حسب المقاس؟")</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg>
           </button>
-          <div class="faq-item__a"><p>We currently deliver across Kuwait, Saudi Arabia, UAE, Bahrain, Qatar and Oman. Other GCC and international destinations are coming in 2026.</p></div>
-        </div>
-<div class="faq-item">
-          <button type="button" class="faq-item__q" aria-expanded="false">
-            <span>@L["How long does delivery take?"]</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg>
-          </button>
-          <div class="faq-item__a"><p>Standard 2–3 working days within Kuwait, free over 50 KWD. Express next-day available for 3.500 KWD. Same-day in Kuwait City for orders placed before 12 PM. Other GCC destinations 3–5 working days.</p></div>
-        </div>
-<div class="faq-item">
-          <button type="button" class="faq-item__q" aria-expanded="false">
-            <span>@L["Will I get tracking?"]</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg>
-          </button>
-          <div class="faq-item__a"><p>Yes — once dispatched, you&rsquo;ll receive a tracking link via WhatsApp and email. You can also track from your account dashboard.</p></div>
-        </div>
-<div class="faq-item">
-          <button type="button" class="faq-item__q" aria-expanded="false">
-            <span>@L["Do you ship to PO boxes?"]</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg>
-          </button>
-          <div class="faq-item__a"><p>No — couriers in the GCC require a physical address.</p></div>
+          <div class="faq-item__a"><p>@T("Yes, we offer selected designs that can be tailored or adjusted based on the client’s measurements and preferences.", "نعم، نوفر خدمة تنفيذ بعض التصاميم حسب المقاسات أو التعديلات الخاصة بالعميل.")</p></div>
         </div>
       </section>
 
       <section class="policy-section" id="returns">
-        <h2 class="policy-section__title">@L["Returns & exchanges"]</h2>
+        <h2 class="policy-section__title">@T("Returns & exchanges", "الإرجاع والاستبدال")</h2>
         <div class="faq-item">
           <button type="button" class="faq-item__q" aria-expanded="false">
-            <span>@L["What's your returns policy?"]</span>
+            <span>@T("Can customized orders be exchanged or returned?", "هل يمكن استبدال أو استرجاع الطلبات الخاصة؟")</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg>
           </button>
-          <div class="faq-item__a"><p>You have 14 days from the day you receive your order to return any unworn item with original tags. Refunds land in 3–5 working days to your original payment method.</p></div>
+          <div class="faq-item__a"><p>@T("Customized or tailored orders made based on the client’s request or measurements are non-returnable and non-exchangeable.", "الطلبات المصممة أو المفصلة حسب الطلب والمقاسات الخاصة لا يمكن استبدالها أو استرجاعها.")</p></div>
         </div>
-<div class="faq-item">
+        <div class="faq-item">
           <button type="button" class="faq-item__q" aria-expanded="false">
-            <span>@L["Are sale items returnable?"]</span>
+            <span>@T("Can ready-made items be exchanged or returned?", "هل يمكن استبدال أو استرجاع القطع الجاهزة؟")</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg>
           </button>
-          <div class="faq-item__a"><p>Yes, for store credit only. Final-sale items, swimwear and earrings cannot be returned.</p></div>
-        </div>
-<div class="faq-item">
-          <button type="button" class="faq-item__q" aria-expanded="false">
-            <span>@L["How do I start a return?"]</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg>
-          </button>
-          <div class="faq-item__a"><p>Go to Account → Returns and select the order you want to return. We&rsquo;ll review and email you a prepaid label within 24 hours.</p></div>
-        </div>
-<div class="faq-item">
-          <button type="button" class="faq-item__q" aria-expanded="false">
-            <span>@L["Do you cover return shipping?"]</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg>
-          </button>
-          <div class="faq-item__a"><p>Yes for items that are defective or wrong. For change-of-mind returns, a 2.000 KWD flat fee is deducted from your refund.</p></div>
+          <div class="faq-item__a"><p>@T("Yes, ready-made items may be exchanged or returned provided that they are unused, in their original condition, and returned with the original packaging. Customers are responsible for all delivery charges related to exchange or return requests.", "نعم، يمكن استبدال أو استرجاع القطع الجاهزة بشرط أن تكون غير مستخدمة، وبحالتها الأصلية، ومرفقة بالتغليف الأصلي. كما يتحمل العميل تكاليف التوصيل الخاصة بعمليات الاستبدال أو الاسترجاع.")</p></div>
         </div>
       </section>
 
-      <section class="policy-section" id="product">
-        <h2 class="policy-section__title">@L["Product & sizing"]</h2>
+      <section class="policy-section" id="shipping">
+        <h2 class="policy-section__title">@T("Shipping & delivery", "الشحن والتوصيل")</h2>
         <div class="faq-item">
           <button type="button" class="faq-item__q" aria-expanded="false">
-            <span>@L["How do your sizes run?"]</span>
+            <span>@T("How long does delivery take?", "كم تستغرق مدة التوصيل؟")</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg>
           </button>
-          <div class="faq-item__a"><p>Our pieces are drafted in Kuwait and run close to GCC body shapes. See our full <a href="/size-guide" class="link-inline">size guide</a> for measurements. If you&rsquo;re between sizes, we recommend sizing up.</p></div>
+          <div class="faq-item__a"><p>@T("Processing and delivery times vary depending on the item, and the estimated delivery time will be specified in each product’s details section.", "مدة تجهيز وتوصيل الطلب تختلف حسب نوع القطعة، ويتم توضيح المدة في تفاصيل كل منتج.")</p></div>
         </div>
-<div class="faq-item">
+        <div class="faq-item">
           <button type="button" class="faq-item__q" aria-expanded="false">
-            <span>@L["Are pieces restocked?"]</span>
+            <span>@T("Is delivery available outside Kuwait?", "هل التوصيل متوفر خارج الكويت؟")</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg>
           </button>
-          <div class="faq-item__a"><p>Some are, some aren&rsquo;t. We produce in small batches and decide season by season what to reorder. If a piece is sold out, add it to your wishlist and we&rsquo;ll notify you if it returns.</p></div>
-        </div>
-<div class="faq-item">
-          <button type="button" class="faq-item__q" aria-expanded="false">
-            <span>@L["How do I care for my pieces?"]</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg>
-          </button>
-          <div class="faq-item__a"><p>Care instructions are on each product page and on the garment label. Most of our pieces are dry-clean only — please don&rsquo;t machine-wash silk.</p></div>
+          <div class="faq-item__a"><p>@T("Currently, delivery is available within Kuwait only.", "حالياً، التوصيل متوفر داخل الكويت فقط.")</p></div>
         </div>
       </section>
 
-      <section class="policy-section" id="account">
-        <h2 class="policy-section__title">@L["My account & privacy"]</h2>
+      <section class="policy-section" id="contact">
+        <h2 class="policy-section__title">@T("Contact", "التواصل")</h2>
         <div class="faq-item">
           <button type="button" class="faq-item__q" aria-expanded="false">
-            <span>@L["Do I need an account to order?"]</span>
+            <span>@T("How can we contact you?", "كيف يمكن التواصل معكم؟")</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg>
           </button>
-          <div class="faq-item__a"><p>No — guest checkout is supported. But an account lets you track orders, save addresses and access the wishlist.</p></div>
-        </div>
-<div class="faq-item">
-          <button type="button" class="faq-item__q" aria-expanded="false">
-            <span>@L["How do you use my data?"]</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg>
-          </button>
-          <div class="faq-item__a"><p>We use your information only to process your orders and (if you opt in) to send styling notes. See our <a href="/privacy" class="link-inline">Privacy Policy</a>. We never sell your data.</p></div>
-        </div>
-<div class="faq-item">
-          <button type="button" class="faq-item__q" aria-expanded="false">
-            <span>@L["Can I delete my account?"]</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg>
-          </button>
-          <div class="faq-item__a"><p>Yes — Account → Profile → Privacy &amp; data → Delete account. Orders are kept for legal compliance.</p></div>
+          <div class="faq-item__a"><p>@T("You can contact us through our official social media accounts or via the contact page on our website.", "يمكنكم التواصل معنا عبر حساباتنا الرسمية أو من خلال صفحة التواصل بالموقع.")</p></div>
         </div>
       </section>
+
     </main>
   </div>
 </section>
